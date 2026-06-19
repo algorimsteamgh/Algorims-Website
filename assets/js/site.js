@@ -4263,7 +4263,7 @@ const NAV_LINKS = [
   { to: "/services",    label: "Services" },
   { to: "/products",    label: "Products" },
   { to: "/agentic-ai",  label: "Agentic AI" },
-  { to: "/cca-f",       label: "CCA-F" },
+  { to: "/cca-f",       label: "Claude" },
   { to: "/case-studies",label: "Case Studies" },
   { to: "/blog",        label: "Blog" },
   { to: "/about",       label: "About" },
