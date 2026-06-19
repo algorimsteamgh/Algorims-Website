@@ -3765,11 +3765,7 @@ function renderNav() {
   const path = currentPath();
   const activeKey = path.startsWith("/blog") ? "/blog" : path;
   document.getElementById("nav-links").innerHTML = NAV_LINKS.map(l => `
-    <a href="${l.to}" class="nav-link relative rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 ${activeKey === l.to ? "text-primary" : "text-foreground/80 hover:text-primary"}">
-      <span class="relative">${l.label}
-        <span class="nav-underline absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-primary transition-all duration-300 ${activeKey === l.to ? "w-full opacity-100" : "w-0 opacity-0"}"></span>
-      </span>
-    </a>
+    <a href="${l.to}" class="nav-link whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">${l.label}</a>
   `).join("");
   document.getElementById("mobile-nav-links").innerHTML = NAV_LINKS.map(l => `
     <a href="${l.to}" class="rounded-xl px-4 py-3 text-sm font-medium ${activeKey === l.to ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}">${l.label}</a>
