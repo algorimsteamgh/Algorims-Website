@@ -3366,86 +3366,471 @@ function pageProducts() {
 }
 
 function pageCCAF() {
+  const DOMAIN_COLORS = [
+    { h:"265 85% 58%", light:"265 85% 95%", name:"purple" },
+    { h:"210 85% 52%", light:"210 85% 94%", name:"blue"   },
+    { h:"155 65% 40%", light:"155 65% 93%", name:"green"  },
+    { h:"38 90% 50%",  light:"38 90% 93%",  name:"amber"  },
+    { h:"320 65% 52%", light:"320 65% 94%", name:"pink"   },
+  ];
+  const domains = [
+    {
+      num:"01", name:"Agentic Architecture & Orchestration", weight:27, tasks:7,
+      summary:"Design autonomous AI loops, orchestrate fleets of specialist agents, and build reliable multi-step workflows — the biggest topic on the certification.",
+      plain:"Like being the traffic controller for a team of AI workers, making sure every agent knows its job and hands off work correctly.",
+      taskStatements:[
+        { id:"1.1", title:"Design and implement agentic loops", topics:"Agentic loop lifecycle · stop_reason (tool_use vs end_turn) · tool result appending · loop termination anti-patterns" },
+        { id:"1.2", title:"Orchestrate multi-agent systems", topics:"Hub-and-spoke coordinator architecture · task decomposition · subagent delegation · result aggregation" },
+        { id:"1.3", title:"Configure subagent invocation and context passing", topics:"Task tool · AgentDefinition · allowedTools · explicit context injection · parallel subagent spawning" },
+        { id:"1.4", title:"Implement multi-step workflows with enforcement", topics:"Programmatic prerequisite gates · structured handoff summaries · enforcement vs prompt-based guidance" },
+        { id:"1.5", title:"Apply Agent SDK hooks", topics:"PostToolUse hooks · tool call interception · data normalisation · deterministic compliance guarantees" },
+        { id:"1.6", title:"Design task decomposition strategies", topics:"Prompt chaining vs dynamic decomposition · per-file analysis passes · open-ended investigation planning" },
+        { id:"1.7", title:"Manage session state, resumption, and forking", topics:"--resume flag · fork_session · stale context detection · structured summary injection" },
+      ]
+    },
+    {
+      num:"02", name:"Tool Design & MCP Integration", weight:18, tasks:5,
+      summary:"Write clear tool interfaces, handle failures gracefully, and wire Claude into real backend systems using the Model Context Protocol.",
+      plain:"Like writing the manual for a robot's toolbox — so the AI always picks the right tool, and knows what to do when something breaks.",
+      taskStatements:[
+        { id:"2.1", title:"Design effective tool interfaces", topics:"Tool descriptions for LLM selection · input formats · edge cases · eliminating tool overlap · boundary explanations" },
+        { id:"2.2", title:"Implement structured error responses for MCP tools", topics:"isError flag · errorCategory (transient/validation/permission) · isRetryable metadata · partial results" },
+        { id:"2.3", title:"Distribute tools across agents and configure tool choice", topics:"Scoped tool access · tool_choice (auto / any / forced) · cross-role specialisation · constrained alternatives" },
+        { id:"2.4", title:"Integrate MCP servers into Claude Code and agent workflows", topics:".mcp.json scoping · environment variable expansion · MCP resources · tool description enhancement" },
+        { id:"2.5", title:"Select and apply built-in tools effectively", topics:"Grep vs Glob distinction · Read/Write vs Edit · incremental codebase exploration patterns" },
+      ]
+    },
+    {
+      num:"03", name:"Claude Code Configuration & Workflows", weight:20, tasks:6,
+      summary:"Configure Claude Code for teams, create custom commands and skills, and integrate Claude into CI/CD pipelines.",
+      plain:"Like setting up a smart coding assistant that knows your team's rules, follows your conventions, and plugs into your build system.",
+      taskStatements:[
+        { id:"3.1", title:"Configure CLAUDE.md files with hierarchy and modular organisation", topics:"User-level vs project-level vs directory-level · @import syntax · .claude/rules/ organisation" },
+        { id:"3.2", title:"Create and configure custom slash commands and skills", topics:".claude/commands/ vs ~/.claude/commands/ · context: fork · allowed-tools · argument-hint frontmatter" },
+        { id:"3.3", title:"Apply path-specific rules for conditional convention loading", topics:".claude/rules/ YAML frontmatter · glob patterns · cross-directory convention spanning" },
+        { id:"3.4", title:"Determine when to use plan mode vs direct execution", topics:"Plan mode for architectural decisions · direct execution for well-scoped changes · Explore subagent" },
+        { id:"3.5", title:"Apply iterative refinement techniques", topics:"Concrete examples · test-driven iteration · interview pattern · interacting vs independent issue handling" },
+        { id:"3.6", title:"Integrate Claude Code into CI/CD pipelines", topics:"-p flag (non-interactive) · --output-format json · --json-schema · session isolation for code review" },
+      ]
+    },
+    {
+      num:"04", name:"Prompt Engineering & Structured Output", weight:20, tasks:6,
+      summary:"Engineer prompts that produce precise, consistent, schema-compliant output using few-shot examples, JSON schemas, and retry loops.",
+      plain:"Like teaching an AI student exactly how you want your homework done — showing examples, correcting mistakes, and checking the work.",
+      taskStatements:[
+        { id:"4.1", title:"Design prompts with explicit criteria to reduce false positives", topics:"Specific categorical criteria · severity definitions with code examples · disabling high-FP categories" },
+        { id:"4.2", title:"Apply few-shot prompting for consistency and quality", topics:"2–4 targeted examples · ambiguous-case demonstrations · hallucination reduction · format specification" },
+        { id:"4.3", title:"Enforce structured output using tool use and JSON schemas", topics:"tool_use for schema compliance · tool_choice (auto/any/forced) · optional nullable fields · enum + detail patterns" },
+        { id:"4.4", title:"Implement validation, retry, and feedback loops", topics:"Retry-with-error-feedback · retry effectiveness limits · semantic vs schema errors · detected_pattern tracking" },
+        { id:"4.5", title:"Design efficient batch processing strategies", topics:"Message Batches API · 50% cost savings · 24h window · custom_id correlation · latency-tolerant workloads" },
+        { id:"4.6", title:"Design multi-instance and multi-pass review architectures", topics:"Independent review instances · multi-pass local + cross-file analysis · self-review limitations" },
+      ]
+    },
+    {
+      num:"05", name:"Context Management & Reliability", weight:15, tasks:4,
+      summary:"Keep AI systems reliable across long conversations, large codebases, and complex multi-agent pipelines by managing what the model can see.",
+      plain:"Like keeping a detailed notebook during a very long project so nothing important gets forgotten — even as the conversation grows.",
+      taskStatements:[
+        { id:"5.1", title:"Manage conversation context across long interactions", topics:"Case facts blocks · 'lost in the middle' mitigation · tool output trimming · progressive summarisation risks" },
+        { id:"5.2", title:"Design escalation and ambiguity resolution patterns", topics:"Explicit escalation triggers · customer-requested escalation · multiple-match disambiguation · policy gap handling" },
+        { id:"5.3", title:"Implement error propagation strategies across multi-agent systems", topics:"Structured error context · access failures vs empty results · local recovery · coverage annotations" },
+        { id:"5.4", title:"Manage context in large codebase exploration", topics:"Context degradation · scratchpad files · subagent delegation · structured state persistence for crash recovery" },
+      ]
+    },
+  ];
+
+  const scenarios = [
+    { num:"01", name:"Customer Support Resolution Agent",  domains:"1 · 2 · 5", desc:"Build an agent handling returns, billing disputes, and account issues targeting 80%+ first-contact resolution." },
+    { num:"02", name:"Code Generation with Claude Code",   domains:"3 · 5",     desc:"Integrate Claude Code into dev workflows with custom commands, CLAUDE.md configs, and plan mode." },
+    { num:"03", name:"Multi-Agent Research System",        domains:"1 · 2 · 5", desc:"Coordinator delegates to web-search, document-analysis, and synthesis subagents to produce cited reports." },
+    { num:"04", name:"Developer Productivity with Claude", domains:"2 · 3 · 1", desc:"Help engineers explore unfamiliar codebases, generate boilerplate, and automate repetitive tasks." },
+    { num:"05", name:"Claude Code for CI/CD",              domains:"3 · 4",     desc:"Automated code reviews, test case generation, and PR feedback piped into a CI/CD pipeline." },
+    { num:"06", name:"Structured Data Extraction",         domains:"4 · 5",     desc:"Extract structured data from messy documents with JSON schema validation and high accuracy." },
+  ];
+
+  const roadmap = [
+    { step:"01", title:"Understand what Claude actually is", time:"30 min", desc:"Claude is Anthropic's AI model. This certification tests whether you can architect real systems with it — not just chat. Start at Anthropic Academy." },
+    { step:"02", title:"Complete the official Academy course", time:"6–8 hrs", desc:"'Building with the Claude API' covers API fundamentals, prompting, evals, tools, RAG, MCP, and agentic workflows — the course this certification is based on." },
+    { step:"03", title:"Deep-dive Domain 1 first (27%)", time:"3–4 hrs", desc:"Agentic Architecture is the biggest slice of the certification. Master agentic loops, coordinator-subagent patterns, hooks, and session management." },
+    { step:"04", title:"Study Domains 3 & 4 together (20% each)", time:"3–4 hrs", desc:"Claude Code workflows and Prompt Engineering together cover 40% of scored content. Practice CI/CD integration and structured output with JSON schemas." },
+    { step:"05", title:"Cover Domain 2 & 5 (18% + 15%)", time:"2–3 hrs", desc:"Tool design, MCP integration, context management, and reliability patterns. Study scenario 1 (Customer Support) — it covers all three." },
+    { step:"06", title:"Run through all 6 scenarios", time:"1–2 hrs", desc:"4 scenarios appear randomly on your certification. Know each one's domain mix. Build mini-projects for at least 2 scenarios before sitting the certification." },
+  ];
+
   const resources = [
-    { icon:"graduation-cap", title:"Anthropic Academy", text:"Official Anthropic learning hub for Claude courses and completion certificates.", href:"https://www.anthropic.com/learn" },
-    { icon:"book-open", title:"Building with the Claude API", text:"Official course covering Claude API fundamentals, prompting, evals, tools, RAG, MCP, and agent workflows.", href:"https://anthropic.skilljar.com/claude-with-the-anthropic-api" },
-    { icon:"clipboard-check", title:"Final assessment", text:"The official curriculum includes a final assessment, but Anthropic does not publish public domain weight percentages on the course page.", href:"https://anthropic.skilljar.com/claude-with-the-anthropic-api" },
+    { icon:"key",            badge:"Register",  title:"Request Certification Access",  text:"Exclusive for Anthropic Partners. Register here to access the CCA-F — 60 MCQ, 120 min proctored, $99/attempt. Results in 2 business days with a digital certificate.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" },
+    { icon:"award",          badge:"Official",  title:"Take the Certification",        text:"The official CCA-F on Anthropic's SkillJar platform. Curriculum: Welcome & what to expect → Terms of Service → Certification. Download CCAF-Exam-Guide.pdf and CCAF-FAQ.pdf here.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"file-text",      badge:"PDF",       title:"CCAF Exam Guide",               text:"Official certification guide — domains, weightage, task statements, and sample questions. Download from the certification page.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"help-circle",    badge:"PDF",       title:"CCAF FAQ",                      text:"Answers to eligibility, proctoring rules, scoring, retake policy, and what happens after you pass. Download from the certification page.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"graduation-cap", badge:"Academy",   title:"Anthropic Academy",             text:"Official learning hub. Start here — complete the free course before anything else.", href:"https://www.anthropic.com/learn" },
+    { icon:"book-open",      badge:"Course",    title:"Building with the Claude API",  text:"The foundational course. Covers the full curriculum that maps to all five certification domains.", href:"https://anthropic.skilljar.com/claude-with-the-anthropic-api" },
+    { icon:"code-2",         badge:"Docs",      title:"Claude API Documentation",      text:"Complete API reference for messages, tools, streaming, and model configuration.", href:"https://docs.anthropic.com" },
+    { icon:"terminal",       badge:"Docs",      title:"Claude Code Docs",              text:"CLAUDE.md, slash commands, skills, plan mode, and CI/CD integration guide.", href:"https://docs.anthropic.com/en/docs/claude-code" },
+    { icon:"network",        badge:"Spec",      title:"Model Context Protocol (MCP)",  text:"Official MCP specification — tool and resource interfaces for backend integration.", href:"https://modelcontextprotocol.io" },
+    { icon:"cpu",            badge:"SDK",       title:"Claude Agent SDK",              text:"Build multi-agent systems with coordinator-subagent patterns and lifecycle hooks.", href:"https://docs.anthropic.com/en/docs/claude-code/sdk" },
   ];
-  const syllabus = [
-    { module:"Introduction and Anthropic overview", weight:"Not published", topics:"Course welcome, Anthropic overview, Claude model overview." },
-    { module:"Accessing Claude with the API", weight:"Not published", topics:"API access, API keys, requests, multi-turn conversations, system prompts, temperature, streaming, structured data." },
-    { module:"Prompt evaluation", weight:"Not published", topics:"Typical eval workflow, test dataset generation, running evals, model-based grading, code-based grading." },
-    { module:"Prompt engineering techniques", weight:"Not published", topics:"Clear and direct instructions, specificity, XML tag structure, examples, prompting exercises." },
-    { module:"Tool use with Claude", weight:"Not published", topics:"Tool functions, schemas, message blocks, tool results, multi-turn tool use, fine-grained tool calling, text edit, web search." },
-    { module:"RAG and agentic search", weight:"Not published", topics:"Retrieval augmented generation, chunking, embeddings, full RAG flow, BM25 lexical search, multi-index RAG pipelines." },
-    { module:"Claude features", weight:"Not published", topics:"Extended thinking, image support, PDF support, citations, prompt caching, code execution, Files API." },
-    { module:"Model Context Protocol", weight:"Not published", topics:"MCP clients, project setup, tools, server inspector, resources, prompts, MCP review." },
-    { module:"Anthropic apps", weight:"Not published", topics:"Claude Code setup, Claude Code in action, computer use, MCP server enhancements." },
-    { module:"Agents and workflows", weight:"Not published", topics:"Parallelization, chaining, routing, agents and tools, environment inspection, workflows versus agents." },
-    { module:"Final assessment", weight:"Not published", topics:"Official final assessment listed in the Anthropic Academy curriculum." },
-  ];
-  const prerequisites = [
-    "Proficiency in Python programming",
-    "Basic knowledge of handling JSON data",
-    "Best fit: developers, data engineers, DevOps professionals, and technical architects building Claude-powered systems",
+
+  const examFacts = [
+    { icon:"list-checks",     label:"Format",     value:"60 MCQ" },
+    { icon:"clock",           label:"Duration",   value:"120 minutes" },
+    { icon:"shield-check",    label:"Mode",       value:"Proctored" },
+    { icon:"trophy",          label:"Pass score", value:"720 / 1,000" },
+    { icon:"dollar-sign",     label:"Price",      value:"$99 / attempt" },
+    { icon:"layers",          label:"Domains",    value:"5 domains" },
   ];
 
   return `
-  <section class="relative overflow-hidden py-12 lg:py-16">
-    <div class="pointer-events-none absolute inset-0 grid-bg opacity-60"></div>
+  <!-- ========== HERO ========== -->
+  <section class="relative overflow-hidden py-16 lg:py-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
+    <div class="pointer-events-none absolute inset-0 grid-bg opacity-40"></div>
     <div class="container-x relative">
-      <div class="max-w-3xl space-y-6">
-        ${eyebrow("CCA-F")}
-        <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Claude Certified Architect Foundations exam prep.</h1>
-        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Exam prep hub for Claude architecture foundations, grounded in the official Anthropic Academy curriculum. Public official weightage is not published, so the syllabus below keeps each module marked honestly.</p>
+      <div class="grid items-center gap-12 lg:grid-cols-[1fr_auto]">
+        <div class="max-w-2xl space-y-6">
+          ${eyebrow("CCA-F · Claude Certified Architect Foundations")}
+          <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
+            Your <span class="text-gradient">passport</span> to building production AI with Claude.
+          </h1>
+          <p class="text-pretty text-lg leading-relaxed text-muted-foreground">
+            The CCA-F certification proves you can design, build, and ship real AI systems — not just use a chatbot. Exclusive for Anthropic Partners, it covers Claude Code, the Agent SDK, MCP, and prompt engineering. 60 questions, 120 minutes, fully proctored.
+          </p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="#domains" onclick="event.preventDefault();document.getElementById('domains').scrollIntoView({behavior:'smooth',block:'start'})" class="btn btn-hero btn-xl">
+              Explore the syllabus ${icon("arrow-down","!w-4 !h-4")}
+            </a>
+            <a href="#resources" onclick="event.preventDefault();document.getElementById('resources').scrollIntoView({behavior:'smooth',block:'start'})" class="btn btn-outline btn-xl">
+              Study resources ${icon("arrow-right","!w-4 !h-4")}
+            </a>
+          </div>
+        </div>
+        <!-- Exam card visual -->
+        <div class="hidden lg:block">
+          <div class="relative w-72 rounded-3xl border border-border bg-card p-6 shadow-lg" style="box-shadow:0 0 60px hsl(265 85% 58% / 0.12)">
+            <div class="flex items-center gap-3">
+              <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" class="!w-5 !h-5"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Anthropic</p>
+                <p class="text-sm font-bold">CCA-F Certification</p>
+              </div>
+            </div>
+            <div class="my-5 h-px bg-border"></div>
+            <div class="space-y-3">
+              ${examFacts.map(f => `
+                <div class="flex items-center justify-between text-sm">
+                  <span class="flex items-center gap-2 text-muted-foreground">${icon(f.icon,"!w-3.5 !h-3.5")} ${f.label}</span>
+                  <span class="font-semibold">${f.value}</span>
+                </div>
+              `).join("")}
+            </div>
+            <div class="my-5 h-px bg-border"></div>
+            <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Certification domains</p>
+            <div class="space-y-2.5">
+              ${domains.map((d,i) => `
+                <div class="group/bar">
+                  <div class="mb-1 flex items-center justify-between">
+                    <span class="text-xs text-muted-foreground truncate pr-2">${d.name.split("&")[0].trim()}</span>
+                    <span class="shrink-0 text-xs font-bold opacity-0 group-hover/bar:opacity-100 transition-opacity duration-150" style="color:hsl(${DOMAIN_COLORS[i].h})">${d.weight}%</span>
+                  </div>
+                  <div class="relative h-2 w-full overflow-hidden rounded-full bg-secondary">
+                    <div class="h-full rounded-full transition-all duration-500" style="width:${d.weight}%;background:hsl(${DOMAIN_COLORS[i].h})"></div>
+                    <div class="absolute inset-0 rounded-full opacity-0 group-hover/bar:opacity-100 transition-opacity duration-150" style="background:linear-gradient(90deg,hsl(${DOMAIN_COLORS[i].h} / 0.15) ${d.weight}%,transparent ${d.weight}%)"></div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="py-10 lg:py-14">
-    <div class="container-x grid gap-6 lg:grid-cols-3">
-      ${resources.map(r => `
-        <a href="${r.href}" target="_blank" rel="noopener noreferrer" class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-          <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">${icon(r.icon,"!w-6 !h-6")}</div>
-          <h2 class="mt-5 text-xl font-semibold">${r.title}</h2>
-          <p class="mt-3 text-sm leading-relaxed text-muted-foreground">${r.text}</p>
-          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open source ${icon("arrow-up-right","!w-4 !h-4")}</span>
-        </a>
-      `).join("")}
+  <!-- ========== PLAIN ENGLISH ========== -->
+  <section class="py-12 lg:py-16">
+    <div class="container-x">
+      ${eyebrow("In plain English")}
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">What is the CCA-F certification, really?</h2>
+      <p class="mt-3 max-w-2xl text-muted-foreground">No jargon. If you're new to AI certifications, start here.</p>
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        <div class="rounded-3xl border border-border bg-card p-7">
+          <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">${icon("bot","!w-6 !h-6")}</div>
+          <h3 class="mt-5 text-lg font-semibold">What is Claude?</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted-foreground">Claude is Anthropic's AI model — similar to ChatGPT but built for developers who want to embed AI into real products. Think of it as a very capable digital brain you can program to do complex tasks.</p>
+        </div>
+        <div class="rounded-3xl border border-border bg-card p-7">
+          <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">${icon("shield-check","!w-6 !h-6")}</div>
+          <h3 class="mt-5 text-lg font-semibold">What does this certification prove?</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted-foreground">That you can design the systems <em>behind</em> an AI product — not just use one. Think: building a customer service agent that handles 10,000 tickets a day, or a coding tool that reviews pull requests automatically.</p>
+        </div>
+        <div class="rounded-3xl border border-border bg-card p-7">
+          <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">${icon("building-2","!w-6 !h-6")}</div>
+          <h3 class="mt-5 text-lg font-semibold">Who is this for?</h3>
+          <p class="mt-3 text-sm leading-relaxed text-muted-foreground">Practitioners at <strong>Anthropic Partner companies</strong> ready to demonstrate applied expertise. Think developers, architects, and technical leads — ~301 level, hands-on Claude experience required.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="py-10 lg:py-14">
-    <div class="container-x space-y-8">
-      <div class="rounded-3xl border border-border bg-card p-7">
-        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
-            <h2 class="text-2xl font-semibold">Exam syllabus and official weightage</h2>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Anthropic's public curriculum lists these modules. It does not publish public percentage weightage, so every module is marked as not published.</p>
-          </div>
-          <span class="inline-flex w-fit rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary">Weightage: not public</span>
-        </div>
-        <div class="mt-6 overflow-hidden rounded-2xl border border-border">
-          ${syllabus.map(item => `
-            <div class="grid gap-3 border-b border-border bg-background/60 p-5 last:border-b-0 md:grid-cols-[minmax(0,1fr)_9rem_minmax(0,1.5fr)]">
-              <h3 class="font-semibold">${item.module}</h3>
-              <p class="text-sm font-semibold text-primary">${item.weight}</p>
-              <p class="text-sm leading-relaxed text-muted-foreground">${item.topics}</p>
+  <!-- ========== EXAM AT A GLANCE ========== -->
+  <section class="py-8 lg:py-10">
+    <div class="container-x">
+      <div class="rounded-3xl border border-border bg-secondary/40 p-6 lg:p-8">
+        <p class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Certification at a glance</p>
+        <div class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          ${examFacts.map(f => `
+            <div class="text-center">
+              <div class="mx-auto grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary">${icon(f.icon,"!w-5 !h-5")}</div>
+              <p class="mt-2 text-lg font-bold tracking-tight">${f.value}</p>
+              <p class="text-xs text-muted-foreground">${f.label}</p>
             </div>
           `).join("")}
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="rounded-3xl border border-border bg-card p-7">
-        <h2 class="text-2xl font-semibold">Prerequisites</h2>
-        <ul class="mt-5 grid gap-3 text-sm leading-relaxed text-muted-foreground md:grid-cols-3">
-          ${prerequisites.map(item => `<li class="flex gap-3 rounded-2xl border border-border bg-background/60 p-4"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span><span>${item}</span></li>`).join("")}
-        </ul>
+  <!-- ========== DOMAIN WEIGHT MAP ========== -->
+  <section id="domains" class="py-12 lg:py-16">
+    <div class="container-x">
+      ${eyebrow("5 certification domains")}
+      <div class="mt-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <h2 class="text-3xl font-semibold tracking-tight md:text-4xl">Where your study time should go.</h2>
+        <p class="text-sm text-muted-foreground">Weightages published by Anthropic</p>
+      </div>
+      <!-- Weight bars -->
+      <div class="mt-10 space-y-4">
+        ${domains.map((d,i) => `
+          <button
+            data-ccaf-domain="${i}"
+            onclick="window.ccafToggle(${i})"
+            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
+            style="--dc:hsl(${DOMAIN_COLORS[i].h})"
+          >
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex items-center gap-4 min-w-0">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(${DOMAIN_COLORS[i].h})">${d.num}</span>
+                <div class="min-w-0">
+                  <p class="truncate font-semibold">${d.name}</p>
+                  <p class="text-xs text-muted-foreground mt-0.5">${d.tasks} task statements</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 sm:shrink-0">
+                <div class="w-32 lg:w-48">
+                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
+                    <div class="h-full rounded-full transition-all duration-700" style="width:${d.weight}%;background:hsl(${DOMAIN_COLORS[i].h})"></div>
+                  </div>
+                </div>
+                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(${DOMAIN_COLORS[i].h})">${d.weight}%</span>
+                <span data-ccaf-chevron="${i}" class="shrink-0 text-muted-foreground transition-transform duration-200">${icon("chevron-down","!w-5 !h-5")}</span>
+              </div>
+            </div>
+            <!-- Plain English blurb -->
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">${d.plain}</p>
+            <!-- Expandable task statements -->
+            <div data-ccaf-panel="${i}" class="ccaf-panel hidden mt-4 pl-14">
+              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(${DOMAIN_COLORS[i].h} / 0.25)">
+                ${d.taskStatements.map((ts,ti) => `
+                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(${DOMAIN_COLORS[i].h} / 0.15);background:hsl(${DOMAIN_COLORS[i].h} / 0.04)">
+                    <div class="flex items-start gap-3">
+                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(${DOMAIN_COLORS[i].h})">${ts.id}</span>
+                      <div>
+                        <p class="font-semibold">${ts.title}</p>
+                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">${ts.topics}</p>
+                      </div>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
+            </div>
+          </button>
+        `).join("")}
       </div>
     </div>
   </section>
+
+  <!-- ========== EXAM SCENARIOS ========== -->
+  <section class="py-12 lg:py-16 bg-secondary/40">
+    <div class="container-x">
+      ${eyebrow("Certification scenarios")}
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">6 scenarios exist. 4 appear on your certification.</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Each scenario is a realistic production context that frames a set of scenario-specific questions. You'll see 4 chosen at random — so prepare all 6. The domains column shows which areas each scenario tests most heavily.</p>
+      <style>
+        .ccaf-badge-wrap { position:relative; display:inline-block; }
+        .ccaf-domain-tooltip {
+          opacity:0;
+          transform:translateY(6px) scale(0.97);
+          pointer-events:none;
+          transition:opacity 0.18s ease, transform 0.18s ease;
+        }
+        .ccaf-badge-wrap:hover .ccaf-domain-tooltip {
+          opacity:1;
+          transform:translateY(0) scale(1);
+          pointer-events:auto;
+        }
+      </style>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        ${scenarios.map((s,i) => {
+          const c = DOMAIN_COLORS[i % DOMAIN_COLORS.length];
+          const domainNums = s.domains.split(' · ').map(n => parseInt(n.trim()) - 1);
+          const tooltipRows = domainNums.map(di => `
+            <div class="flex items-center gap-2.5 py-1">
+              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(${DOMAIN_COLORS[di].h})"></span>
+              <span class="shrink-0 text-xs font-bold" style="color:hsl(${DOMAIN_COLORS[di].h})">D${di+1}</span>
+              <span class="text-xs leading-snug" style="color:hsl(${DOMAIN_COLORS[di].h} / 0.85)">${domains[di].name}</span>
+            </div>
+          `).join('');
+          return `
+          <div class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
+              <span class="text-3xl font-bold tracking-tight" style="color:hsl(${c.h})">${s.num}</span>
+              <div class="ccaf-badge-wrap">
+                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(${c.h});border-color:hsl(${c.h} / 0.3);background:hsl(${c.h} / 0.07)">Domain ${s.domains}</span>
+                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(${c.h} / 0.25);box-shadow:0 8px 32px hsl(${c.h} / 0.12)">
+                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
+                  ${tooltipRows}
+                </div>
+              </div>
+            </div>
+            <h3 class="mt-3 font-semibold leading-snug">${s.name}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">${s.desc}</p>
+          </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== STUDY ROADMAP ========== -->
+  <section class="py-12 lg:py-16">
+    <div class="container-x">
+      ${eyebrow("Study roadmap")}
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">From zero to certified, step by step.</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">No matter your background — developer, tech lead, or just curious — here's a study path that prioritises the highest-weight topics first.</p>
+      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        ${roadmap.map((r,i) => `
+          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
+              <span class="text-4xl font-bold tracking-tight text-primary/20">${r.step}</span>
+              <span class="rounded-full bg-primary/8 px-2.5 py-1 text-xs font-semibold text-primary">${r.time}</span>
+            </div>
+            <h3 class="mt-2 font-semibold leading-snug">${r.title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">${r.desc}</p>
+          </div>
+        `).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== RESOURCES ========== -->
+  <section id="resources" class="py-12 lg:py-16 bg-secondary/40">
+    <div class="container-x">
+      ${eyebrow("Study resources")}
+      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Everything you need to prepare.</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">All links go to official Anthropic sources. Start with the access request, then the Academy course — everything else builds on those.</p>
+      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        ${resources.map(r => {
+          const claudeMark = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" class="!w-5 !h-5"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"/></svg>`;
+          const isOfficial = r.badge === "Register" || r.badge === "Official";
+          const iconEl = isOfficial ? claudeMark : icon(r.icon,"!w-5 !h-5");
+          const highlightClass = isOfficial ? "border-primary/40 bg-gradient-to-br from-primary/5 to-primary/10" : "border-border bg-card";
+          return `
+          <a href="${r.href}" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border ${highlightClass} p-6 transition-all hover:border-primary/40 hover:shadow-md">
+            <div class="flex items-start justify-between gap-3">
+              <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">${iconEl}</div>
+              <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">${r.badge}</span>
+            </div>
+            <h3 class="mt-4 font-semibold">${r.title}</h3>
+            <p class="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">${r.text}</p>
+            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open ${icon("arrow-up-right","!w-4 !h-4")}</span>
+          </a>
+          `;
+        }).join("")}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PREREQUISITES ========== -->
+  <section class="py-12 lg:py-16">
+    <div class="container-x">
+      <div class="rounded-3xl border border-border bg-card p-8 lg:p-10">
+        <div class="grid gap-8 lg:grid-cols-[1fr_2fr]">
+          <div>
+            ${eyebrow("Before you register")}
+            <h2 class="mt-3 text-2xl font-semibold tracking-tight">Who is this certification built for?</h2>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">The CCA-F is exclusive to practitioners at <strong>Anthropic Partner companies</strong> — a ~301 level certification for those with foundational knowledge who are ready to demonstrate deeper, applied expertise in Claude systems.</p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            ${[
+              { icon:"code-2",     title:"Python or TypeScript", desc:"The exam scenarios assume you can read and reason about code. You don't need to memorise syntax, but you need to understand it." },
+              { icon:"braces",     title:"Comfortable with JSON", desc:"Tool schemas, API payloads, and structured output all use JSON. You should be able to read and write it without looking it up." },
+              { icon:"hard-hat",   title:"Anthropic Partner company", desc:"Access is restricted to practitioners at verified Anthropic Partner organisations. Not yet a partner? Apply at anthropic.com/partners." },
+              { icon:"lightbulb",  title:"Architectural thinking", desc:"This exam is about tradeoffs and decisions, not memorisation. If you've designed systems — even small ones — you'll find this natural." },
+            ].map(p => `
+              <div class="flex gap-4 rounded-2xl border border-border bg-background/60 p-5">
+                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">${icon(p.icon,"!w-5 !h-5")}</div>
+                <div>
+                  <p class="font-semibold text-sm">${p.title}</p>
+                  <p class="mt-1 text-xs leading-relaxed text-muted-foreground">${p.desc}</p>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA BAND ========== -->
+  <section class="py-12 lg:py-16">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-14">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-20" style="background:radial-gradient(circle, hsl(var(--primary-glow)), transparent)"></div>
+        <div class="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+          <div class="max-w-lg">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="grid h-9 w-9 place-items-center rounded-lg bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor" class="!w-5 !h-5 opacity-90"><path d="m19.6 66.5 19.7-11 .3-1-.3-.5h-1l-3.3-.2-11.2-.3L14 53l-9.5-.5-2.4-.5L0 49l.2-1.5 2-1.3 2.9.2 6.3.5 9.5.6 6.9.4L38 49.1h1.6l.2-.7-.5-.4-.4-.4L29 41l-10.6-7-5.6-4.1-3-2-1.5-2-.6-4.2 2.7-3 3.7.3.9.2 3.7 2.9 8 6.1L37 36l1.5 1.2.6-.4.1-.3-.7-1.1L33 25l-6-10.4-2.7-4.3-.7-2.6c-.3-1-.4-2-.4-3l3-4.2L28 0l4.2.6L33.8 2l2.6 6 4.1 9.3L47 29.9l2 3.8 1 3.4.3 1h.7v-.5l.5-7.2 1-8.7 1-11.2.3-3.2 1.6-3.8 3-2L61 2.6l2 2.9-.3 1.8-1.1 7.7L59 27.1l-1.5 8.2h.9l1-1.1 4.1-5.4 6.9-8.6 3-3.5L77 13l2.3-1.8h4.3l3.1 4.7-1.4 4.9-4.4 5.6-3.7 4.7-5.3 7.1-3.2 5.7.3.4h.7l12-2.6 6.4-1.1 7.6-1.3 3.5 1.6.4 1.6-1.4 3.4-8.2 2-9.6 2-14.3 3.3-.2.1.2.3 6.4.6 2.8.2h6.8l12.6 1 3.3 2 1.9 2.7-.3 2-5.1 2.6-6.8-1.6-16-3.8-5.4-1.3h-.8v.4l4.6 4.5 8.3 7.5L89 80.1l.5 2.4-1.3 2-1.4-.2-9.2-7-3.6-3-8-6.8h-.5v.7l1.8 2.7 9.8 14.7.5 4.5-.7 1.4-2.6 1-2.7-.6-5.8-8-6-9-4.7-8.2-.5.4-2.9 30.2-1.3 1.5-3 1.2-2.5-2-1.4-3 1.4-6.2 1.6-8 1.3-6.4 1.2-7.9.7-2.6v-.2H49L43 72l-9 12.3-7.2 7.6-1.7.7-3-1.5.3-2.8L24 86l10-12.8 6-7.9 4-4.6-.1-.5h-.3L17.2 77.4l-4.7.6-2-2 .2-3 1-1 8-5.5Z"/></svg>
+              </div>
+              <p class="text-xs font-semibold uppercase tracking-widest opacity-60">Anthropic · Ready to certify?</p>
+            </div>
+            <h2 class="text-3xl font-semibold leading-snug md:text-4xl">Request access and take the CCA-F certification.</h2>
+            <p class="mt-3 text-sm leading-relaxed opacity-70">Exclusive for Anthropic Partners · 60 MCQ · 120 minutes · Proctored · $99 per attempt · Digital certificate on pass.</p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <a href="https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-xl whitespace-nowrap">
+              Request access ${icon("arrow-up-right","!w-4 !h-4")}
+            </a>
+            <a href="https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl whitespace-nowrap" style="color:white;border-color:rgba(255,255,255,0.3)">
+              Take the certification ${icon("award","!w-4 !h-4")}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   `;
 }
+
+// Domain accordion — defined at module level so onclick="window.ccafToggle(i)" works
+// after innerHTML injection (inline <script> tags in injected HTML don't execute).
+window.ccafOpen = new Set();
+window.ccafToggle = function(i) {
+  var panel = document.querySelector('[data-ccaf-panel="'+i+'"]');
+  var chevron = document.querySelector('[data-ccaf-chevron="'+i+'"]');
+  if (!panel) return;
+  var isOpen = !panel.classList.contains('hidden');
+  if (isOpen) {
+    panel.classList.add('hidden');
+    if (chevron) chevron.style.transform = '';
+    window.ccafOpen.delete(i);
+  } else {
+    panel.classList.remove('hidden');
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+    window.ccafOpen.add(i);
+  }
+};
 
 function pageContact() {
   return `
@@ -3800,7 +4185,7 @@ const ROUTES = {
   "/agentic-ai":  { title: "Agentic AI — Algorims",   description: "Beyond automation: Algorims builds agentic AI systems that reason, decide, and act autonomously on Amazon Nova, Kendra and S3 Vectors.", render: pageAgenticAI },
   "/case-studies":{ title: "Case Studies — Algorims", description: "Real-world results from Algorims — agentic AI, cloud, and data engineering case studies with measured business impact.", render: pageCaseStudies },
   "/blog":        { title: "Blog — Algorims",         description: "Insights on agentic AI, MLOps, AWS cloud, and DevOps engineering from the Algorims team.", render: pageBlog },
-  "/cca-f":       { title: "CCA-F — Algorims",        description: "Claude Certified Architect Foundations exam prep resources, syllabus, prerequisites, and study material.", render: pageCCAF },
+  "/cca-f":       { title: "CCA-F Exam Prep — Algorims", description: "Complete CCA-F exam guide: 5 official domains with weightage, all task statements, 6 exam scenarios, study roadmap, and official resources. From beginner to certified.", render: pageCCAF },
   "/contact":     { title: "Contact — Algorims",      description: "Get in touch with Algorims to scope your AI, cloud, or DevOps initiative. Most engagements start with a 30-minute conversation.", render: pageContact },
   "/support":     { title: "Support — Algorims",      description: "Algorims support — submit a ticket or reach our engineers for AWS, DevOps, security, and infrastructure issues.", render: pageSupport },
 };
@@ -3810,9 +4195,9 @@ const NAV_LINKS = [
   { to: "/services",    label: "Services" },
   { to: "/products",    label: "Products" },
   { to: "/agentic-ai",  label: "Agentic AI" },
+  { to: "/cca-f",       label: "CCA-F" },
   { to: "/case-studies",label: "Case Studies" },
   { to: "/blog",        label: "Blog" },
-  { to: "/cca-f",       label: "CCA-F" },
   { to: "/about",       label: "About" },
   { to: "/support",     label: "Support" },
 ];
