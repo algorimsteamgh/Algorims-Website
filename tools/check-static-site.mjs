@@ -30,7 +30,7 @@ walk(".");
 files.push("404.html");
 files.sort();
 
-for (const file of ["assets/css/site.css", "assets/js/content.js", "assets/js/site.js"]) {
+for (const file of ["assets/css/site.css", "assets/js/content.js", "assets/js/site.js", "footer.html"]) {
   if (!fs.existsSync(path.join(ROOT, file))) fail(`missing ${file}`);
 }
 
@@ -69,6 +69,12 @@ for (const file of files) {
   }
   if (count(html, '<style id="__om-edit-overrides">') !== 1) {
     fail(`${file}: expected one override style block`);
+  }
+  if (count(html, "<div data-footer></div>") !== 1) {
+    fail(`${file}: expected one shared footer placeholder`);
+  }
+  if (html.includes('<footer class="relative mt-32 border-t border-border bg-secondary/40">')) {
+    fail(`${file}: footer markup should live in footer.html`);
   }
 
   const chatCount = count(html, "window.chtlConfig");

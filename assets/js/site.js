@@ -4968,8 +4968,23 @@ function bindNavbar() {
   });
 }
 
+async function loadFooter() {
+  const target = document.querySelector("[data-footer]");
+  if (!target) return;
+
+  try {
+    const res = await fetch("/footer.html");
+    if (!res.ok) throw new Error(`footer.html ${res.status}`);
+    target.outerHTML = await res.text();
+    const year = document.getElementById("copy-year");
+    if (year) year.textContent = new Date().getFullYear();
+  } catch (error) {
+    console.error("Footer failed to load", error);
+  }
+}
+
 /* ---------- Boot ---------- */
-document.getElementById("copy-year").textContent = new Date().getFullYear();
+loadFooter();
 
 // Legacy support: redirect old hash URLs (e.g. /#/services) to real paths so
 // any previously-shared or Google-indexed hash links still land correctly.
