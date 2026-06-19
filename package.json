@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "check": "node tools/check-static-site.mjs",
+    "sync:shell": "node tools/sync-html-shell.mjs --check",
+    "sync:shell:write": "node tools/sync-html-shell.mjs --write",
+    "serve": "python3 -m http.server 4173"
+  }
+}
