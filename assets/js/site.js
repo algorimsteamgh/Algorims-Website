@@ -848,8 +848,8 @@ function pageAbout() {
         ${[
           {year:"2023", title:"Algorims founded in Singapore",        desc:"Built to be the one partner for cloud, DevOps, and agentic AI."},
           {year:"2024", title:"Global expansion",                    desc:"Expanded globally with a second office in India."},
-          {year:"2025", title:"AWS Advanced Consulting Partner",     desc:"Achieved AWS Advanced Consulting Partner status."},
-          {year:"2024", title:"Agentic AI practice launched",        desc:"Deploying autonomous systems for enterprise clients across Singapore."},
+          {year:"2024", title:"AWS Advanced Consulting Partner",     desc:"Achieved AWS Advanced Consulting Partner status."},
+          {year:"2025", title:"Agentic AI practice launched",        desc:"Deploying autonomous systems for enterprise clients across Singapore."},
           {year:"Today",title:"40+ projects. 20+ SMEs. 99.9% uptime. 24/7 support.", desc:"Growing every day."},
         ].map((m, i) => `
           <div class="journey-item relative mb-10 last:mb-0" style="--delay:${i * 140}ms; --idx:${i}">
@@ -1796,6 +1796,10 @@ function caseStudiesHeroAnim() {
   `;
 }
 
+function caseCover(slug) {
+  return `<img src="/assets/case-studies/covers/${slug}.png" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />`;
+}
+
 function pageCaseStudies() {
   const studies = CASE_STUDIES;
   return `
@@ -1822,7 +1826,7 @@ function pageCaseStudies() {
           return `
           <a href="/case-studies/${s.slug}" class="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg">
             <div class="relative aspect-[16/9] w-full overflow-hidden bg-primary/5">
-              <img src="/assets/case-studies/covers/${s.slug}.png" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+              <div class="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]">${caseCover(s.slug)}</div>
               <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/25 to-transparent"></div>
               <span class="absolute left-5 top-5 inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-white ring-1 ring-white/25 backdrop-blur-sm">${s.tag}</span>
             </div>
