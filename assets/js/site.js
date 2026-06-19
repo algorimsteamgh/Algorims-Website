@@ -3365,6 +3365,88 @@ function pageProducts() {
   `;
 }
 
+function pageCCAF() {
+  const resources = [
+    { icon:"graduation-cap", title:"Anthropic Academy", text:"Official Anthropic learning hub for Claude courses and completion certificates.", href:"https://www.anthropic.com/learn" },
+    { icon:"book-open", title:"Building with the Claude API", text:"Official course covering Claude API fundamentals, prompting, evals, tools, RAG, MCP, and agent workflows.", href:"https://anthropic.skilljar.com/claude-with-the-anthropic-api" },
+    { icon:"clipboard-check", title:"Final assessment", text:"The official curriculum includes a final assessment, but Anthropic does not publish public domain weight percentages on the course page.", href:"https://anthropic.skilljar.com/claude-with-the-anthropic-api" },
+  ];
+  const syllabus = [
+    { module:"Introduction and Anthropic overview", weight:"Not published", topics:"Course welcome, Anthropic overview, Claude model overview." },
+    { module:"Accessing Claude with the API", weight:"Not published", topics:"API access, API keys, requests, multi-turn conversations, system prompts, temperature, streaming, structured data." },
+    { module:"Prompt evaluation", weight:"Not published", topics:"Typical eval workflow, test dataset generation, running evals, model-based grading, code-based grading." },
+    { module:"Prompt engineering techniques", weight:"Not published", topics:"Clear and direct instructions, specificity, XML tag structure, examples, prompting exercises." },
+    { module:"Tool use with Claude", weight:"Not published", topics:"Tool functions, schemas, message blocks, tool results, multi-turn tool use, fine-grained tool calling, text edit, web search." },
+    { module:"RAG and agentic search", weight:"Not published", topics:"Retrieval augmented generation, chunking, embeddings, full RAG flow, BM25 lexical search, multi-index RAG pipelines." },
+    { module:"Claude features", weight:"Not published", topics:"Extended thinking, image support, PDF support, citations, prompt caching, code execution, Files API." },
+    { module:"Model Context Protocol", weight:"Not published", topics:"MCP clients, project setup, tools, server inspector, resources, prompts, MCP review." },
+    { module:"Anthropic apps", weight:"Not published", topics:"Claude Code setup, Claude Code in action, computer use, MCP server enhancements." },
+    { module:"Agents and workflows", weight:"Not published", topics:"Parallelization, chaining, routing, agents and tools, environment inspection, workflows versus agents." },
+    { module:"Final assessment", weight:"Not published", topics:"Official final assessment listed in the Anthropic Academy curriculum." },
+  ];
+  const prerequisites = [
+    "Proficiency in Python programming",
+    "Basic knowledge of handling JSON data",
+    "Best fit: developers, data engineers, DevOps professionals, and technical architects building Claude-powered systems",
+  ];
+
+  return `
+  <section class="relative overflow-hidden py-12 lg:py-16">
+    <div class="pointer-events-none absolute inset-0 grid-bg opacity-60"></div>
+    <div class="container-x relative">
+      <div class="max-w-3xl space-y-6">
+        ${eyebrow("CCA-F")}
+        <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Claude Certified Architect Foundations exam prep.</h1>
+        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Exam prep hub for Claude architecture foundations, grounded in the official Anthropic Academy curriculum. Public official weightage is not published, so the syllabus below keeps each module marked honestly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14">
+    <div class="container-x grid gap-6 lg:grid-cols-3">
+      ${resources.map(r => `
+        <a href="${r.href}" target="_blank" rel="noopener noreferrer" class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+          <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary">${icon(r.icon,"!w-6 !h-6")}</div>
+          <h2 class="mt-5 text-xl font-semibold">${r.title}</h2>
+          <p class="mt-3 text-sm leading-relaxed text-muted-foreground">${r.text}</p>
+          <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open source ${icon("arrow-up-right","!w-4 !h-4")}</span>
+        </a>
+      `).join("")}
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14">
+    <div class="container-x space-y-8">
+      <div class="rounded-3xl border border-border bg-card p-7">
+        <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h2 class="text-2xl font-semibold">Exam syllabus and official weightage</h2>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Anthropic's public curriculum lists these modules. It does not publish public percentage weightage, so every module is marked as not published.</p>
+          </div>
+          <span class="inline-flex w-fit rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-semibold text-primary">Weightage: not public</span>
+        </div>
+        <div class="mt-6 overflow-hidden rounded-2xl border border-border">
+          ${syllabus.map(item => `
+            <div class="grid gap-3 border-b border-border bg-background/60 p-5 last:border-b-0 md:grid-cols-[minmax(0,1fr)_9rem_minmax(0,1.5fr)]">
+              <h3 class="font-semibold">${item.module}</h3>
+              <p class="text-sm font-semibold text-primary">${item.weight}</p>
+              <p class="text-sm leading-relaxed text-muted-foreground">${item.topics}</p>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+
+      <div class="rounded-3xl border border-border bg-card p-7">
+        <h2 class="text-2xl font-semibold">Prerequisites</h2>
+        <ul class="mt-5 grid gap-3 text-sm leading-relaxed text-muted-foreground md:grid-cols-3">
+          ${prerequisites.map(item => `<li class="flex gap-3 rounded-2xl border border-border bg-background/60 p-4"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary"></span><span>${item}</span></li>`).join("")}
+        </ul>
+      </div>
+    </div>
+  </section>
+  `;
+}
+
 function pageContact() {
   return `
   <section class="py-10 pb-0">
@@ -3718,6 +3800,7 @@ const ROUTES = {
   "/agentic-ai":  { title: "Agentic AI — Algorims",   description: "Beyond automation: Algorims builds agentic AI systems that reason, decide, and act autonomously on Amazon Nova, Kendra and S3 Vectors.", render: pageAgenticAI },
   "/case-studies":{ title: "Case Studies — Algorims", description: "Real-world results from Algorims — agentic AI, cloud, and data engineering case studies with measured business impact.", render: pageCaseStudies },
   "/blog":        { title: "Blog — Algorims",         description: "Insights on agentic AI, MLOps, AWS cloud, and DevOps engineering from the Algorims team.", render: pageBlog },
+  "/cca-f":       { title: "CCA-F — Algorims",        description: "Claude Certified Architect Foundations exam prep resources, syllabus, prerequisites, and study material.", render: pageCCAF },
   "/contact":     { title: "Contact — Algorims",      description: "Get in touch with Algorims to scope your AI, cloud, or DevOps initiative. Most engagements start with a 30-minute conversation.", render: pageContact },
   "/support":     { title: "Support — Algorims",      description: "Algorims support — submit a ticket or reach our engineers for AWS, DevOps, security, and infrastructure issues.", render: pageSupport },
 };
@@ -3729,6 +3812,7 @@ const NAV_LINKS = [
   { to: "/agentic-ai",  label: "Agentic AI" },
   { to: "/case-studies",label: "Case Studies" },
   { to: "/blog",        label: "Blog" },
+  { to: "/cca-f",       label: "CCA-F" },
   { to: "/about",       label: "About" },
   { to: "/support",     label: "Support" },
 ];
@@ -3764,11 +3848,14 @@ function navigateTo(href) {
 function renderNav() {
   const path = currentPath();
   const activeKey = path.startsWith("/blog") ? "/blog" : path;
+  const navLabel = (l) => l.to === "/cca-f"
+    ? `${l.label}<span class="nav-new-badge" aria-label="New content">New</span>`
+    : l.label;
   document.getElementById("nav-links").innerHTML = NAV_LINKS.map(l => `
-    <a href="${l.to}" class="nav-link whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">${l.label}</a>
+    <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">${navLabel(l)}</a>
   `).join("");
   document.getElementById("mobile-nav-links").innerHTML = NAV_LINKS.map(l => `
-    <a href="${l.to}" class="rounded-xl px-4 py-3 text-sm font-medium ${activeKey === l.to ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}">${l.label}</a>
+    <a href="${l.to}" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${activeKey === l.to ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}">${navLabel(l)}</a>
   `).join("");
 }
 
