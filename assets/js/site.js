@@ -3454,16 +3454,28 @@ function pageCCAF() {
     { icon:"layout-grid",     label:"Practice",   value:"Scenario prompts" },
   ];
 
+  let showNotice = true;
+  try {
+    showNotice = localStorage.getItem("algorims-ccaf-notice-dismissed") !== "1";
+  } catch (_) {}
+
   return `
+  ${showNotice ? `
   <!-- ========== INDEPENDENCE NOTICE ========== -->
-  <section class="border-y border-primary/20 bg-primary/10">
+  <section data-ccaf-notice class="border-y border-primary/20 bg-primary/10">
     <div class="container-x">
-      <div class="flex items-start gap-3 py-3 text-sm leading-relaxed text-foreground">
+      <div class="flex items-start justify-between gap-4 py-3 text-sm leading-relaxed text-foreground">
+        <div class="flex items-start gap-3">
         <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">${icon("info","!w-3.5 !h-3.5")}</span>
         <p><strong>Independent study overview.</strong> Algorims is not affiliated with or endorsed by Anthropic; trademarks belong to their owners.</p>
+        </div>
+        <button type="button" onclick="window.ccafDismissNotice()" class="grid h-8 w-8 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-background/70 hover:text-foreground" aria-label="Dismiss notice">
+          ${icon("x","!w-4 !h-4")}
+        </button>
       </div>
     </div>
   </section>
+  ` : ""}
 
   <!-- ========== HERO ========== -->
   <section class="relative overflow-hidden py-16 lg:py-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
@@ -3838,6 +3850,14 @@ function pageCCAF() {
 
 // Domain accordion — defined at module level so onclick="window.ccafToggle(i)" works
 // after innerHTML injection (inline <script> tags in injected HTML don't execute).
+window.ccafDismissNotice = function() {
+  try {
+    localStorage.setItem("algorims-ccaf-notice-dismissed", "1");
+  } catch (_) {}
+  var notice = document.querySelector("[data-ccaf-notice]");
+  if (notice) notice.remove();
+};
+
 window.ccafOpen = new Set();
 window.ccafToggle = function(i) {
   var panel = document.querySelector('[data-ccaf-panel="'+i+'"]');

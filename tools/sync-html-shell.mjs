@@ -23,7 +23,6 @@ const walk = (dir) => {
   const out = [];
   for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
     const rel = path.join(dir, entry.name);
-    if (rel === "uploads") continue;
     if (entry.isDirectory()) out.push(...walk(rel));
     else if (entry.name === "index.html") out.push(rel);
   }

@@ -26,8 +26,6 @@ This is a static marketing website for `algorims.com`, not a framework app.
   Hand-maintained SEO files.
 - `deploy/nginx-algorims.conf`
   Static nginx config for origin hosting behind Cloudflare.
-- `uploads/`
-  Looks like working files, source docs, screenshots, and duplicate export material. Not core runtime code.
 
 ## How the site actually works
 
@@ -113,7 +111,7 @@ Two forms are wired in `index.html`.
 1. Shared layout/JS changes are likely duplicated across many route files, not just root `index.html`.
 2. SEO head tags differ per route folder, so route files are not safe to ignore.
 3. There is no obvious generation script keeping these copies in sync.
-4. `uploads/` contains clutter/backups; I would avoid touching it unless the task is explicitly about source material.
+4. Keep working files and screenshot dumps out of the published tree unless they are referenced by the site.
 
 ## Working assumption for next tasks
 

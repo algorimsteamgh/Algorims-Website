@@ -14,7 +14,6 @@ const count = (text, needle) => text.split(needle).length - 1;
 const walk = (dir) => {
   for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
     const rel = path.join(dir, entry.name);
-    if (rel === "uploads") continue;
     if (entry.isDirectory()) walk(rel);
     else if (entry.name === "index.html") files.push(rel.replace(/^\.\//, ""));
   }
