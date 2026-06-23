@@ -5050,5 +5050,12 @@ document.addEventListener("click", (e) => {
 
 // Back/forward buttons
 window.addEventListener("popstate", navigate);
-bindNavbar();
-navigate();
+
+// Boot — wrapped in DOMContentLoaded to guarantee the DOM is fully parsed
+// before bindNavbar() and navigate() run, even if defer order shifts.
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => { bindNavbar(); navigate(); });
+} else {
+  bindNavbar();
+  navigate();
+}
