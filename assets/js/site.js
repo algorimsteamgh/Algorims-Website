@@ -3379,29 +3379,69 @@ function pageCCAF() {
   ];
   const domains = [
     {
-      num:"01", name:"Agentic Architecture & Orchestration", weight:27, tasks:7,
-      summary:"Design autonomous AI loops, orchestrate fleets of specialist agents, and build reliable multi-step workflows — the biggest topic on the certification.",
-      plain:"Like being the traffic controller for a team of AI workers, making sure every agent knows its job and hands off work correctly."
+      num:"01", name:"Agentic Architecture & Orchestration", weight:27,
+      summary:"Design agentic loops, orchestrate multi-agent systems with coordinator-subagent patterns, implement task decomposition, and manage session state and workflow enforcement.",
+      plain:"Like being the traffic controller for a team of AI workers, making sure every agent knows its job and hands off work correctly.",
+      tasks:[
+        { title:"Agentic loops for autonomous task execution", detail:"Control tool_use/end_turn loops, preserve tool results in context, and avoid weak completion signals." },
+        { title:"Coordinator-subagent orchestration", detail:"Design hub-and-spoke agents that delegate, aggregate, handle errors, and refine gaps." },
+        { title:"Subagent invocation and context passing", detail:"Use Task-enabled coordinators, explicit prompts, isolated context, and parallel subagent spawning." },
+        { title:"Multi-step workflow enforcement and handoff", detail:"Apply gates, prerequisites, parallel investigation, and structured escalation summaries." },
+        { title:"Agent SDK hooks", detail:"Intercept tool calls/results for policy enforcement, data normalization, and deterministic compliance." },
+        { title:"Task decomposition strategies", detail:"Choose fixed prompt chains or adaptive decomposition based on workflow predictability." },
+        { title:"Session state, resumption, and forking", detail:"Resume, fork, or restart sessions based on stale context and changed files." },
+      ]
     },
     {
-      num:"02", name:"Tool Design & MCP Integration", weight:18, tasks:5,
-      summary:"Write clear tool interfaces, handle failures gracefully, and wire Claude into real backend systems using the Model Context Protocol.",
-      plain:"Like writing the manual for a robot's toolbox — so the AI always picks the right tool, and knows what to do when something breaks."
+      num:"02", name:"Tool Design & MCP Integration", weight:18,
+      summary:"Design effective tool interfaces with clear boundaries, implement structured error responses, integrate MCP servers, and distribute tools appropriately across agents.",
+      plain:"Like writing the manual for a robot's toolbox — so the AI always picks the right tool, and knows what to do when something breaks.",
+      tasks:[
+        { title:"Effective tool interfaces", detail:"Define clear descriptions, boundaries, inputs, outputs, examples, and differences from similar tools." },
+        { title:"Structured MCP error responses", detail:"Return retryable/non-retryable metadata for transient, validation, permission, and business errors." },
+        { title:"Tool distribution and tool_choice", detail:"Keep agent toolsets scoped, avoid generic tools, and force or require tool calls when needed." },
+        { title:"MCP server integration", detail:"Configure project/user MCP servers, protect secrets with env vars, and expose resources to reduce exploratory calls." },
+        { title:"Built-in Claude Code tools", detail:"Choose Read, Write, Edit, Bash, Grep, and Glob for the right codebase task." },
+      ]
     },
     {
-      num:"03", name:"Claude Code Configuration & Workflows", weight:20, tasks:6,
-      summary:"Configure Claude Code for teams, create custom commands and skills, and integrate Claude into CI/CD pipelines.",
-      plain:"Like setting up a smart coding assistant that knows your team's rules, follows your conventions, and plugs into your build system."
+      num:"03", name:"Claude Code Configuration & Workflows", weight:20,
+      summary:"Configure CLAUDE.md hierarchies, create custom slash commands, apply path-specific rules, know when to use plan mode, and integrate into CI/CD pipelines.",
+      plain:"Like setting up a smart coding assistant that knows your team's rules, follows your conventions, and plugs into your build system.",
+      tasks:[
+        { title:"CLAUDE.md hierarchy and scoping", detail:"Use user, project, directory, import, and rules-file patterns without loading irrelevant context." },
+        { title:"Custom slash commands and skills", detail:"Create shared commands, scoped skills, forked skill context, allowed tools, and argument hints." },
+        { title:"Path-specific rules", detail:"Apply glob-scoped conventions only when matching files are edited." },
+        { title:"Plan mode vs direct execution", detail:"Pick plan mode for complex architectural work and direct execution for simple scoped changes." },
+        { title:"Iterative refinement", detail:"Use examples, tests, interviews, and grouped feedback to improve output progressively." },
+        { title:"CI/CD integration", detail:"Run non-interactive Claude Code with JSON output, schemas, context files, and independent review passes." },
+      ]
     },
     {
-      num:"04", name:"Prompt Engineering & Structured Output", weight:20, tasks:6,
-      summary:"Engineer prompts that produce precise, consistent, schema-compliant output using few-shot examples, JSON schemas, and retry loops.",
-      plain:"Like teaching an AI student exactly how you want your homework done — showing examples, correcting mistakes, and checking the work."
+      num:"04", name:"Prompt Engineering & Structured Output", weight:20,
+      summary:"Design prompts with explicit criteria, apply few-shot techniques, enforce structured output with JSON schemas, and implement validation and retry loops.",
+      plain:"Like teaching an AI student exactly how you want your homework done — showing examples, correcting mistakes, and checking the work.",
+      tasks:[
+        { title:"Explicit prompt criteria", detail:"Use concrete report/skip rules and severity definitions instead of vague confidence instructions." },
+        { title:"Few-shot prompting", detail:"Add targeted examples for ambiguous choices, output format, acceptable patterns, and extraction cases." },
+        { title:"Structured output with tools and JSON schemas", detail:"Use tool schemas, required/optional fields, enums, and tool_choice for reliable output." },
+        { title:"Validation, retry, and feedback loops", detail:"Retry with specific validation errors and stop retrying when source data is missing." },
+        { title:"Batch processing", detail:"Use Message Batches for latency-tolerant work, correlate custom IDs, and resubmit only failed items." },
+        { title:"Multi-instance and multi-pass review", detail:"Use independent review instances and split large reviews into local and integration passes." },
+      ]
     },
     {
-      num:"05", name:"Context Management & Reliability", weight:15, tasks:4,
-      summary:"Keep AI systems reliable across long conversations, large codebases, and complex multi-agent pipelines by managing what the model can see.",
-      plain:"Like keeping a detailed notebook during a very long project so nothing important gets forgotten — even as the conversation grows."
+      num:"05", name:"Context Management & Reliability", weight:15,
+      summary:"Preserve critical information across long interactions, design escalation patterns, manage error propagation in multi-agent systems, and handle uncertainty with confidence calibration.",
+      plain:"Like keeping a detailed notebook during a very long project so nothing important gets forgotten — even as the conversation grows.",
+      tasks:[
+        { title:"Long conversation context management", detail:"Persist critical facts, trim verbose tool output, and place key findings where the model can use them." },
+        { title:"Escalation and ambiguity handling", detail:"Escalate on explicit human requests or policy gaps, and ask clarifying questions for ambiguous matches." },
+        { title:"Multi-agent error propagation", detail:"Return structured failure context, partial results, and recovery options instead of generic errors." },
+        { title:"Large codebase exploration", detail:"Use scratchpads, subagents, summaries, and compacting to prevent context degradation." },
+        { title:"Human review and confidence calibration", detail:"Sample high-confidence outputs, measure by segment, and route low-confidence work to review." },
+        { title:"Provenance and uncertainty", detail:"Preserve source mappings, dates, conflicts, and uncertainty through synthesis." },
+      ]
     },
   ];
 
@@ -3636,7 +3676,7 @@ function pageCCAF() {
                 <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(${DOMAIN_COLORS[i].h})">${d.num}</span>
                 <div class="min-w-0">
                   <p class="truncate font-semibold">${d.name}</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">${d.tasks} study areas</p>
+                  <p class="text-xs text-muted-foreground mt-0.5">${d.tasks.length} study areas</p>
                 </div>
               </div>
               <div class="flex items-center gap-4 sm:shrink-0">
@@ -3654,7 +3694,20 @@ function pageCCAF() {
             <!-- Expandable domain summary -->
             <div data-ccaf-panel="${i}" class="ccaf-panel hidden mt-4 pl-14">
               <div class="rounded-xl border border-border bg-background/60 p-4 text-sm leading-relaxed text-muted-foreground">
-                ${d.summary} See the official exam guide on Skilljar for detailed objectives.
+                <p>${d.summary}</p>
+                <p class="mt-4 text-xs font-semibold uppercase tracking-widest text-foreground">Task details</p>
+                <ol class="mt-3 space-y-3">
+                  ${d.tasks.map((task, taskIndex) => `
+                    <li class="flex gap-3">
+                      <span class="mt-0.5 shrink-0 text-xs font-bold tabular-nums" style="color:hsl(${DOMAIN_COLORS[i].h})">${taskIndex + 1}</span>
+                      <span>
+                        <span class="block font-semibold text-foreground">${task.title}</span>
+                        <span class="block text-xs leading-relaxed text-muted-foreground">${task.detail}</span>
+                      </span>
+                    </li>
+                  `).join("")}
+                </ol>
+                <p class="mt-4 text-xs text-muted-foreground">Use the official Skilljar exam guide as the source of truth before registering.</p>
               </div>
               <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
             </div>
