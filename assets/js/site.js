@@ -4990,6 +4990,7 @@ function bindSupportForm() {
 function bindNavbar() {
   const shell = document.getElementById("nav-shell");
   const bg = document.getElementById("nav-bg");
+  if (!shell || !bg) return;
   const onScroll = () => {
     const s = window.scrollY > 12;
     bg.style.opacity = s ? "1" : "0";
@@ -4999,9 +5000,11 @@ function bindNavbar() {
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  document.getElementById("mobile-toggle").addEventListener("click", () => {
-    document.getElementById("mobile-menu").classList.toggle("hidden");
-  });
+  const mobileToggle = document.getElementById("mobile-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+  }
 }
 
 async function loadFooter() {
