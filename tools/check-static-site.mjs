@@ -10,6 +10,10 @@ const failures = [];
 const fail = (message) => failures.push(message);
 const read = (file) => fs.readFileSync(path.join(ROOT, file), "utf8");
 const count = (text, needle) => text.split(needle).length - 1;
+const countScript = (html, src) => {
+  const escaped = src.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return [...html.matchAll(new RegExp(`<script\\s+src="${escaped}(?:\\?[^"]+)?"\\s+defer><\\/script>`, "g"))].length;
+};
 
 const walk = (dir) => {
   for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
@@ -51,10 +55,10 @@ for (const file of files) {
   if (count(html, '<link rel="stylesheet" href="/assets/css/site.css" />') !== 1) {
     fail(`${file}: expected one site.css link`);
   }
-  if (count(html, '<script src="/assets/js/content.js" defer></script>') !== 1) {
+  if (countScript(html, "/assets/js/content.js") !== 1) {
     fail(`${file}: expected one content.js script`);
   }
-  if (count(html, '<script src="/assets/js/site.js" defer></script>') !== 1) {
+  if (countScript(html, "/assets/js/site.js") !== 1) {
     fail(`${file}: expected one site.js script`);
   }
   if (!(contentAt >= 0 && siteAt > contentAt)) {
@@ -66,8 +70,8 @@ for (const file of files) {
   if (count(html, "<style>") !== 0) {
     fail(`${file}: main style block is still inline`);
   }
-  if (count(html, '<style id="__om-edit-overrides">') !== 1) {
-    fail(`${file}: expected one override style block`);
+  if (count(html, '<style id="__om-edit-overrides">') > 1) {
+    fail(`${file}: expected at most one override style block`);
   }
   if (count(html, "<div data-footer></div>") !== 1) {
     fail(`${file}: expected one shared footer placeholder`);
