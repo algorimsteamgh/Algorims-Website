@@ -3,18 +3,6 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<script>
-  // Pin relative asset URLs (logos, images) to this document's own directory so
-  // they keep resolving after the SPA pushState-navigates to deep routes like
-  // /products or /solutions/<slug>. Without this, "assets/…" resolves against the
-  // virtual route and 404s. Works at the site root and in nested preview paths alike.
-  (function () {
-    var dir = location.href.replace(/[?#].*$/, "").replace(/[^/]*$/, "");
-    var b = document.createElement("base");
-    b.href = dir;
-    document.head.appendChild(b);
-  })();
-</script>
 <title>Algorims — The Future of Enterprise Is Autonomous. We Build It.</title>
 
 <!-- ============================================================
