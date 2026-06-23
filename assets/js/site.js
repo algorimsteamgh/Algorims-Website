@@ -3379,68 +3379,61 @@ function pageCCAF() {
   ];
   const domains = [
     {
-      num:"01", name:"Agentic Architecture & Orchestration", weight:27,
+      num:"01", name:"Agentic Architecture & Orchestration", weight:27, tasks:7,
       summary:"Design agentic loops, orchestrate multi-agent systems with coordinator-subagent patterns, implement task decomposition, and manage session state and workflow enforcement.",
-      plain:"Like being the traffic controller for a team of AI workers, making sure every agent knows its job and hands off work correctly.",
-      tasks:[
-        { title:"Agentic loops for autonomous task execution", detail:"Control tool_use/end_turn loops, preserve tool results in context, and avoid weak completion signals." },
-        { title:"Coordinator-subagent orchestration", detail:"Design hub-and-spoke agents that delegate, aggregate, handle errors, and refine gaps." },
-        { title:"Subagent invocation and context passing", detail:"Use Task-enabled coordinators, explicit prompts, isolated context, and parallel subagent spawning." },
-        { title:"Multi-step workflow enforcement and handoff", detail:"Apply gates, prerequisites, parallel investigation, and structured escalation summaries." },
-        { title:"Agent SDK hooks", detail:"Intercept tool calls/results for policy enforcement, data normalization, and deterministic compliance." },
-        { title:"Task decomposition strategies", detail:"Choose fixed prompt chains or adaptive decomposition based on workflow predictability." },
-        { title:"Session state, resumption, and forking", detail:"Resume, fork, or restart sessions based on stale context and changed files." },
+      taskStatements:[
+        { id:"1.1", title:"Design and implement agentic loops", topics:"Agentic loop lifecycle · stop_reason (tool_use vs end_turn) · tool result appending · loop termination anti-patterns" },
+        { id:"1.2", title:"Orchestrate multi-agent systems", topics:"Hub-and-spoke coordinator architecture · task decomposition · subagent delegation · result aggregation" },
+        { id:"1.3", title:"Configure subagent invocation and context passing", topics:"Task tool · AgentDefinition · allowedTools · explicit context injection · parallel subagent spawning" },
+        { id:"1.4", title:"Implement multi-step workflows with enforcement", topics:"Programmatic prerequisite gates · structured handoff summaries · enforcement vs prompt-based guidance" },
+        { id:"1.5", title:"Apply Agent SDK hooks", topics:"PostToolUse hooks · tool call interception · data normalisation · deterministic compliance guarantees" },
+        { id:"1.6", title:"Design task decomposition strategies", topics:"Prompt chaining vs dynamic decomposition · per-file analysis passes · open-ended investigation planning" },
+        { id:"1.7", title:"Manage session state, resumption, and forking", topics:"--resume flag · fork_session · stale context detection · structured summary injection" },
       ]
     },
     {
-      num:"02", name:"Tool Design & MCP Integration", weight:18,
+      num:"02", name:"Tool Design & MCP Integration", weight:18, tasks:5,
       summary:"Design effective tool interfaces with clear boundaries, implement structured error responses, integrate MCP servers, and distribute tools appropriately across agents.",
-      plain:"Like writing the manual for a robot's toolbox — so the AI always picks the right tool, and knows what to do when something breaks.",
-      tasks:[
-        { title:"Effective tool interfaces", detail:"Define clear descriptions, boundaries, inputs, outputs, examples, and differences from similar tools." },
-        { title:"Structured MCP error responses", detail:"Return retryable/non-retryable metadata for transient, validation, permission, and business errors." },
-        { title:"Tool distribution and tool_choice", detail:"Keep agent toolsets scoped, avoid generic tools, and force or require tool calls when needed." },
-        { title:"MCP server integration", detail:"Configure project/user MCP servers, protect secrets with env vars, and expose resources to reduce exploratory calls." },
-        { title:"Built-in Claude Code tools", detail:"Choose Read, Write, Edit, Bash, Grep, and Glob for the right codebase task." },
+      taskStatements:[
+        { id:"2.1", title:"Design effective tool interfaces", topics:"Tool descriptions for LLM selection · input formats · edge cases · eliminating tool overlap · boundary explanations" },
+        { id:"2.2", title:"Implement structured error responses for MCP tools", topics:"isError flag · errorCategory (transient/validation/permission) · isRetryable metadata · partial results" },
+        { id:"2.3", title:"Distribute tools across agents and configure tool choice", topics:"Scoped tool access · tool_choice (auto / any / forced) · cross-role specialisation · constrained alternatives" },
+        { id:"2.4", title:"Integrate MCP servers into Claude Code and agent workflows", topics:".mcp.json scoping · environment variable expansion · MCP resources · tool description enhancement" },
+        { id:"2.5", title:"Select and apply built-in tools effectively", topics:"Grep vs Glob distinction · Read/Write vs Edit · incremental codebase exploration patterns" },
       ]
     },
     {
-      num:"03", name:"Claude Code Configuration & Workflows", weight:20,
+      num:"03", name:"Claude Code Configuration & Workflows", weight:20, tasks:6,
       summary:"Configure CLAUDE.md hierarchies, create custom slash commands, apply path-specific rules, know when to use plan mode, and integrate into CI/CD pipelines.",
-      plain:"Like setting up a smart coding assistant that knows your team's rules, follows your conventions, and plugs into your build system.",
-      tasks:[
-        { title:"CLAUDE.md hierarchy and scoping", detail:"Use user, project, directory, import, and rules-file patterns without loading irrelevant context." },
-        { title:"Custom slash commands and skills", detail:"Create shared commands, scoped skills, forked skill context, allowed tools, and argument hints." },
-        { title:"Path-specific rules", detail:"Apply glob-scoped conventions only when matching files are edited." },
-        { title:"Plan mode vs direct execution", detail:"Pick plan mode for complex architectural work and direct execution for simple scoped changes." },
-        { title:"Iterative refinement", detail:"Use examples, tests, interviews, and grouped feedback to improve output progressively." },
-        { title:"CI/CD integration", detail:"Run non-interactive Claude Code with JSON output, schemas, context files, and independent review passes." },
+      taskStatements:[
+        { id:"3.1", title:"Configure CLAUDE.md files with hierarchy and modular organisation", topics:"User-level vs project-level vs directory-level · @import syntax · .claude/rules/ organisation" },
+        { id:"3.2", title:"Create and configure custom slash commands and skills", topics:".claude/commands/ vs ~/.claude/commands/ · context: fork · allowed-tools · argument-hint frontmatter" },
+        { id:"3.3", title:"Apply path-specific rules for conditional convention loading", topics:".claude/rules/ YAML frontmatter · glob patterns · cross-directory convention spanning" },
+        { id:"3.4", title:"Determine when to use plan mode vs direct execution", topics:"Plan mode for architectural decisions · direct execution for well-scoped changes · Explore subagent" },
+        { id:"3.5", title:"Apply iterative refinement techniques", topics:"Concrete examples · test-driven iteration · interview pattern · interacting vs independent issue handling" },
+        { id:"3.6", title:"Integrate Claude Code into CI/CD pipelines", topics:"-p flag (non-interactive) · --output-format json · --json-schema · session isolation for code review" },
       ]
     },
     {
-      num:"04", name:"Prompt Engineering & Structured Output", weight:20,
+      num:"04", name:"Prompt Engineering & Structured Output", weight:20, tasks:6,
       summary:"Design prompts with explicit criteria, apply few-shot techniques, enforce structured output with JSON schemas, and implement validation and retry loops.",
-      plain:"Like teaching an AI student exactly how you want your homework done — showing examples, correcting mistakes, and checking the work.",
-      tasks:[
-        { title:"Explicit prompt criteria", detail:"Use concrete report/skip rules and severity definitions instead of vague confidence instructions." },
-        { title:"Few-shot prompting", detail:"Add targeted examples for ambiguous choices, output format, acceptable patterns, and extraction cases." },
-        { title:"Structured output with tools and JSON schemas", detail:"Use tool schemas, required/optional fields, enums, and tool_choice for reliable output." },
-        { title:"Validation, retry, and feedback loops", detail:"Retry with specific validation errors and stop retrying when source data is missing." },
-        { title:"Batch processing", detail:"Use Message Batches for latency-tolerant work, correlate custom IDs, and resubmit only failed items." },
-        { title:"Multi-instance and multi-pass review", detail:"Use independent review instances and split large reviews into local and integration passes." },
+      taskStatements:[
+        { id:"4.1", title:"Design prompts with explicit criteria to reduce false positives", topics:"Specific categorical criteria · severity definitions with code examples · disabling high-FP categories" },
+        { id:"4.2", title:"Apply few-shot prompting for consistency and quality", topics:"2–4 targeted examples · ambiguous-case demonstrations · hallucination reduction · format specification" },
+        { id:"4.3", title:"Enforce structured output using tool use and JSON schemas", topics:"tool_use for schema compliance · tool_choice (auto/any/forced) · optional nullable fields · enum + detail patterns" },
+        { id:"4.4", title:"Implement validation, retry, and feedback loops", topics:"Retry-with-error-feedback · retry effectiveness limits · semantic vs schema errors · detected_pattern tracking" },
+        { id:"4.5", title:"Design efficient batch processing strategies", topics:"Message Batches API · 50% cost savings · 24h window · custom_id correlation · latency-tolerant workloads" },
+        { id:"4.6", title:"Design multi-instance and multi-pass review architectures", topics:"Independent review instances · multi-pass local + cross-file analysis · self-review limitations" },
       ]
     },
     {
-      num:"05", name:"Context Management & Reliability", weight:15,
+      num:"05", name:"Context Management & Reliability", weight:15, tasks:4,
       summary:"Preserve critical information across long interactions, design escalation patterns, manage error propagation in multi-agent systems, and handle uncertainty with confidence calibration.",
-      plain:"Like keeping a detailed notebook during a very long project so nothing important gets forgotten — even as the conversation grows.",
-      tasks:[
-        { title:"Long conversation context management", detail:"Persist critical facts, trim verbose tool output, and place key findings where the model can use them." },
-        { title:"Escalation and ambiguity handling", detail:"Escalate on explicit human requests or policy gaps, and ask clarifying questions for ambiguous matches." },
-        { title:"Multi-agent error propagation", detail:"Return structured failure context, partial results, and recovery options instead of generic errors." },
-        { title:"Large codebase exploration", detail:"Use scratchpads, subagents, summaries, and compacting to prevent context degradation." },
-        { title:"Human review and confidence calibration", detail:"Sample high-confidence outputs, measure by segment, and route low-confidence work to review." },
-        { title:"Provenance and uncertainty", detail:"Preserve source mappings, dates, conflicts, and uncertainty through synthesis." },
+      taskStatements:[
+        { id:"5.1", title:"Manage conversation context across long interactions", topics:"Case facts blocks · 'lost in the middle' mitigation · tool output trimming · progressive summarisation risks" },
+        { id:"5.2", title:"Design escalation and ambiguity resolution patterns", topics:"Explicit escalation triggers · customer-requested escalation · multiple-match disambiguation · policy gap handling" },
+        { id:"5.3", title:"Implement error propagation strategies across multi-agent systems", topics:"Structured error context · access failures vs empty results · local recovery · coverage annotations" },
+        { id:"5.4", title:"Manage context in large codebase exploration", topics:"Context degradation · scratchpad files · subagent delegation · structured state persistence for crash recovery" },
       ]
     },
   ];
@@ -3465,7 +3458,7 @@ function pageCCAF() {
 
   const resources = [
     { icon:"key",            badge:"Register",  title:"Request Certification Access",  text:"Exclusive for Anthropic Partners. Register here to access the CCA-F — 60 MCQ, 120 min proctored, $99/attempt. Results in 2 business days with a digital certificate.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" },
-    { icon:"award",          badge:"Skilljar",  title:"Take the Certification",        text:"Open the official CCA-F page on Anthropic's Skilljar platform. Download the exam guide and FAQ there after signing in.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"award",          badge:"Skilljar",  title:"Take the Certification",        text:"Official CCA-F registration page on Anthropic's Skilljar platform. Use this page to register for the exam and download the exam guide and FAQ after signing in.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
     { icon:"sparkles",       badge:"L100",      title:"AI Fluency: Framework & Foundations", text:"Learn to collaborate with AI systems effectively, efficiently, ethically, and safely. For professionals and personal use.", href:"https://anthropic.skilljar.com/ai-fluency-framework-foundations" },
     { icon:"message-circle", badge:"L100",      title:"Claude 101",                    text:"Learn how to use Claude for everyday work tasks, understand core features, and explore resources for more advanced learning.", href:"https://anthropic.skilljar.com/claude-101" },
     { icon:"cloud",          badge:"L100",      title:"Claude with Amazon Bedrock",    text:"Introduction to Anthropic models on Bedrock — setup, authentication, prompt engineering and evaluations. First 4 sections.", href:"https://anthropic.skilljar.com/claude-in-amazon-bedrock" },
@@ -3502,7 +3495,7 @@ function pageCCAF() {
   return `
   ${showNotice ? `
   <!-- ========== INDEPENDENCE NOTICE ========== -->
-  <section data-ccaf-notice class="border-y border-primary/20 bg-primary/10">
+  <section data-ccaf-notice class="sticky top-0 z-40 border-y border-primary/20 bg-primary/10 backdrop-blur-md">
     <div class="container-x">
       <div class="flex items-start justify-between gap-4 py-3 text-sm leading-relaxed text-foreground">
         <div class="flex items-start gap-3">
@@ -3518,7 +3511,7 @@ function pageCCAF() {
   ` : ""}
 
   <!-- ========== HERO ========== -->
-  <section class="relative overflow-hidden py-16 lg:py-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
+  <section class="relative -mt-24 overflow-hidden pt-24 pb-16 lg:pt-28 lg:pb-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
     <div class="pointer-events-none absolute inset-0 grid-bg opacity-40"></div>
     <div class="container-x relative">
       <div class="grid items-start gap-12 lg:grid-cols-[1fr_auto]">
@@ -3676,7 +3669,7 @@ function pageCCAF() {
                 <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(${DOMAIN_COLORS[i].h})">${d.num}</span>
                 <div class="min-w-0">
                   <p class="truncate font-semibold">${d.name}</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">${d.tasks.length} study areas</p>
+                  <p class="text-xs text-muted-foreground mt-0.5">${d.tasks} task statements</p>
                 </div>
               </div>
               <div class="flex items-center gap-4 sm:shrink-0">
@@ -3689,25 +3682,21 @@ function pageCCAF() {
                 <span data-ccaf-chevron="${i}" class="shrink-0 text-muted-foreground transition-transform duration-200">${icon("chevron-down","!w-5 !h-5")}</span>
               </div>
             </div>
-            <!-- Plain English blurb -->
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">${d.plain}</p>
-            <!-- Expandable domain summary -->
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">${d.summary}</p>
+            <!-- Expandable task statements -->
             <div data-ccaf-panel="${i}" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border border-border bg-background/60 p-4 text-sm leading-relaxed text-muted-foreground">
-                <p>${d.summary}</p>
-                <p class="mt-4 text-xs font-semibold uppercase tracking-widest text-foreground">Task details</p>
-                <ol class="mt-3 space-y-3">
-                  ${d.tasks.map((task, taskIndex) => `
-                    <li class="flex gap-3">
-                      <span class="mt-0.5 shrink-0 text-xs font-bold tabular-nums" style="color:hsl(${DOMAIN_COLORS[i].h})">${taskIndex + 1}</span>
-                      <span>
-                        <span class="block font-semibold text-foreground">${task.title}</span>
-                        <span class="block text-xs leading-relaxed text-muted-foreground">${task.detail}</span>
-                      </span>
-                    </li>
-                  `).join("")}
-                </ol>
-                <p class="mt-4 text-xs text-muted-foreground">Use the official Skilljar exam guide as the source of truth before registering.</p>
+              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(${DOMAIN_COLORS[i].h} / 0.25)">
+                ${d.taskStatements.map((ts,ti) => `
+                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(${DOMAIN_COLORS[i].h} / 0.15);background:hsl(${DOMAIN_COLORS[i].h} / 0.04)">
+                    <div class="flex items-start gap-3">
+                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(${DOMAIN_COLORS[i].h})">${ts.id}</span>
+                      <div>
+                        <p class="font-semibold">${ts.title}</p>
+                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">${ts.topics}</p>
+                      </div>
+                    </div>
+                  </div>
+                `).join("")}
               </div>
               <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
             </div>
@@ -3883,7 +3872,21 @@ function pageCCAF() {
               <p class="text-xs font-semibold uppercase tracking-widest opacity-60">Certification resource</p>
             </div>
             <h2 class="text-3xl font-semibold leading-snug md:text-4xl">Use the official Skilljar pages when you register.</h2>
-            <p class="mt-3 text-sm leading-relaxed opacity-70">Exclusive for Anthropic Partners · 60 MCQ · 120 minutes · Proctored · $99 per attempt · Digital certificate on pass.</p>
+            <div class="mt-5 flex flex-wrap gap-2">
+              ${[
+                ["users", "Anthropic Partners"],
+                ["list-checks", "60 MCQ"],
+                ["clock", "120 minutes"],
+                ["shield-check", "Proctored"],
+                ["dollar-sign", "$99 per attempt"],
+                ["award", "Digital certificate"],
+              ].map(([ic, label]) => `
+                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
+                  ${icon(ic,"!w-3.5 !h-3.5")}
+                  ${label}
+                </span>
+              `).join("")}
+            </div>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
             <a href="https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-xl whitespace-nowrap">
