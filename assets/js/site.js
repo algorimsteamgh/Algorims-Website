@@ -3495,7 +3495,7 @@ function pageCCAF() {
   return `
   ${showNotice ? `
   <!-- ========== INDEPENDENCE NOTICE ========== -->
-  <section data-ccaf-notice class="sticky top-0 z-40 border-y border-primary/20 bg-primary/10 backdrop-blur-md">
+  <section data-ccaf-notice class="sticky top-16 z-30 border-y border-primary/20 bg-primary/10 backdrop-blur-md">
     <div class="container-x">
       <div class="flex items-start justify-between gap-4 py-3 text-sm leading-relaxed text-foreground">
         <div class="flex items-start gap-3">
@@ -3511,7 +3511,7 @@ function pageCCAF() {
   ` : ""}
 
   <!-- ========== HERO ========== -->
-  <section class="relative -mt-24 overflow-hidden pt-24 pb-16 lg:pt-28 lg:pb-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
+  <section class="relative ${showNotice ? "" : "-mt-24"} overflow-hidden pt-24 pb-16 lg:pt-28 lg:pb-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
     <div class="pointer-events-none absolute inset-0 grid-bg opacity-40"></div>
     <div class="container-x relative">
       <div class="grid items-start gap-12 lg:grid-cols-[1fr_auto]">
