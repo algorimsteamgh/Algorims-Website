@@ -3457,8 +3457,9 @@ function pageCCAF() {
   ];
 
   const resources = [
-    { icon:"key",            badge:"Register",  title:"Request Certification Access",  text:"Exclusive for Anthropic Partners. Register here to access the CCA-F — 60 MCQ, 120 min proctored, $99/attempt. Results in 2 business days with a digital certificate.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" },
-    { icon:"award",          badge:"Skilljar",  title:"Take the Certification",        text:"Official CCA-F registration page on Anthropic's Skilljar platform. Use this page to register for the exam and download the exam guide and FAQ after signing in.", href:"https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"key",            badge:"Register",  title:"Request Certification Access",  text:"Exclusive for Anthropic Partners. Register here to access the CCA-F — 60 MCQ, 120 min, $125/attempt.", href:"https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-access-request" },
+    { icon:"award",          badge:"Skilljar",  title:"Take the Certification",        text:"Official CCA-F page on Anthropic's Partner Skilljar platform. Register and pay here, then watch for two Pearson VUE emails (username + temporary password) to schedule your exam — the test itself is delivered by Pearson, not on Skilljar.", href:"https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification" },
+    { icon:"calendar-check", badge:"Pearson",   title:"Schedule Your Exam (Pearson VUE)", text:"After registering on Skilljar, sign in here to set your password and book online proctoring or an in-person test center slot. 60 MCQ, 120 minutes.", href:"https://pearsonvue.com/us/en/anthropic" },
     { icon:"sparkles",       badge:"L100",      title:"AI Fluency: Framework & Foundations", text:"Learn to collaborate with AI systems effectively, efficiently, ethically, and safely. For professionals and personal use.", href:"https://anthropic.skilljar.com/ai-fluency-framework-foundations" },
     { icon:"message-circle", badge:"L100",      title:"Claude 101",                    text:"Learn how to use Claude for everyday work tasks, understand core features, and explore resources for more advanced learning.", href:"https://anthropic.skilljar.com/claude-101" },
     { icon:"cloud",          badge:"L100",      title:"Claude with Amazon Bedrock",    text:"Introduction to Anthropic models on Bedrock — setup, authentication, prompt engineering and evaluations. First 4 sections.", href:"https://anthropic.skilljar.com/claude-in-amazon-bedrock" },
@@ -3480,11 +3481,10 @@ function pageCCAF() {
   const examFacts = [
     { icon:"list-checks",     label:"Format",     value:"60 MCQ" },
     { icon:"clock",           label:"Duration",   value:"120 minutes" },
-    { icon:"shield-check",    label:"Mode",       value:"Proctored" },
-    { icon:"trophy",          label:"Pass score", value:"720 / 1000" },
-    { icon:"dollar-sign",     label:"Price",      value:"$99 / attempt" },
+    { icon:"shield-check",    label:"Delivery",   value:"Pearson VUE — online or test center" },
+    { icon:"trophy",          label:"Pass score", value:"720 (scaled 100–1,000)" },
+    { icon:"dollar-sign",     label:"Price",      value:"$125 / attempt" },
     { icon:"layers",          label:"Domains",    value:"5 domains" },
-    { icon:"layout-grid",     label:"Practice",   value:"Scenario prompts" },
   ];
 
   let showNotice = true;
@@ -3877,8 +3877,8 @@ function pageCCAF() {
                 ["users", "Anthropic Partners"],
                 ["list-checks", "60 MCQ"],
                 ["clock", "120 minutes"],
-                ["shield-check", "Proctored"],
-                ["dollar-sign", "$99 per attempt"],
+                ["shield-check", "Pearson VUE — online or test center"],
+                ["dollar-sign", "$125 per attempt"],
                 ["award", "Digital certificate"],
               ].map(([ic, label]) => `
                 <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
@@ -3889,10 +3889,10 @@ function pageCCAF() {
             </div>
           </div>
           <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="https://anthropic.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-xl whitespace-nowrap">
+            <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-xl whitespace-nowrap">
               Request access ${icon("arrow-up-right","!w-4 !h-4")}
             </a>
-            <a href="https://anthropic.skilljar.com/claude-certified-architect-foundations-certification" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl whitespace-nowrap ccaf-dark-outline" style="color:white;border-color:rgba(255,255,255,0.3)">
+            <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl whitespace-nowrap ccaf-dark-outline" style="color:white;border-color:rgba(255,255,255,0.3)">
               Take the certification ${icon("award","!w-4 !h-4")}
             </a>
           </div>
