@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Algorims Next.js Migration Complete</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f7fb;
+      --card: #ffffff;
+      --text: #181327;
+      --muted: #645f72;
+      --line: #ded9e8;
+      --primary: #6f35d6;
+      --primary-soft: #efe7ff;
+      --done: #168a5b;
+      --shadow: 0 16px 48px rgba(39, 25, 70, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 40px 0 56px;
+    }
+
+    header {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .subhead {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      margin: 24px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .meter {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: #ebe7f3;
+    }
+
+    .meter > span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--primary), #a855f7);
+      transition: width 160ms ease;
+    }
+
+    .progress-text {
+      min-width: 96px;
+      text-align: right;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    button, a.button {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+
+    button:hover, a.button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .phase {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .phase header {
+      display: block;
+      margin: 0;
+      padding: 18px 18px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .phase h2 {
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .phase p {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tasks {
+      display: grid;
+      gap: 10px;
+      padding: 16px 18px 18px;
+    }
+
+    label {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 10px;
+      align-items: start;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 1px 0 0;
+      accent-color: var(--done);
+    }
+
+    label:has(input:checked) span {
+      color: var(--done);
+      text-decoration: line-through;
+      text-decoration-thickness: 1px;
+    }
+
+    .routes {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .routes h2 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .route-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px 14px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    @media (max-width: 860px) {
+      .grid,
+      .route-list,
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .progress-text {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Algorims Next.js Migration Complete</h1>
+      <p class="subhead">The planned static-to-Next.js migration has been completed. This page is now an archive of the phase checklist and smoke-test scope.</p>
+    </header>
+
+    <section class="summary" aria-label="Progress summary">
+      <div class="meter" aria-hidden="true"><span id="progressBar"></span></div>
+      <p class="progress-text" id="progressText">0%</p>
+    </section>
+
+    <div class="toolbar">
+      <a class="button" href="./nextjs-migration-plan.md">Open Markdown Plan</a>
+      <button type="button" id="reset">Restore Complete State</button>
+    </div>
+
+    <section class="grid" aria-label="Migration phases">
+      <article class="phase">
+        <header>
+          <h2>1. Next.js Foundation</h2>
+          <p>Set up the application shell without redesigning the site.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="foundation-deps" type="checkbox" /><span>Add Next.js, React, TypeScript, Tailwind, PostCSS.</span></label>
+          <label><input data-task="foundation-app" type="checkbox" /><span>Create `app/layout.tsx`, `app/page.tsx`, `app/globals.css`.</span></label>
+          <label><input data-task="foundation-assets" type="checkbox" /><span>Move or copy assets to `public/assets`.</span></label>
+          <label><input data-task="foundation-build" type="checkbox" /><span>Confirm `npm run build` passes for the first shell.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>2. Shared Layout</h2>
+          <p>Replace duplicated route shells with React components.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="layout-header" type="checkbox" /><span>Create shared header and navigation.</span></label>
+          <label><input data-task="layout-footer" type="checkbox" /><span>Create shared footer and CTA components.</span></label>
+          <label><input data-task="layout-icons" type="checkbox" /><span>Replace Lucide CDN with `lucide-react`.</span></label>
+          <label><input data-task="layout-chatling" type="checkbox" /><span>Load Chatling with `next/script` if still required.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>3. Content Data</h2>
+          <p>Move browser globals into typed local modules.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="content-types" type="checkbox" /><span>Add shared content types.</span></label>
+          <label><input data-task="content-blog" type="checkbox" /><span>Convert blog posts into `content/blog.ts`.</span></label>
+          <label><input data-task="content-cases" type="checkbox" /><span>Convert case studies into `content/case-studies.ts`.</span></label>
+          <label><input data-task="content-solutions" type="checkbox" /><span>Convert solutions and products into typed modules.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>4. Routes</h2>
+          <p>Map current public URLs to filesystem routes.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="routes-static" type="checkbox" /><span>Add all static pages.</span></label>
+          <label><input data-task="routes-blog" type="checkbox" /><span>Add `/blog` and `/blog/[slug]`.</span></label>
+          <label><input data-task="routes-cases" type="checkbox" /><span>Add `/case-studies` and `/case-studies/[slug]`.</span></label>
+          <label><input data-task="routes-solutions" type="checkbox" /><span>Add `/solutions/[slug]` with `notFound()` for misses.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>5. SEO</h2>
+          <p>Move metadata and route discovery into Next.js.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="seo-static" type="checkbox" /><span>Add metadata for static pages.</span></label>
+          <label><input data-task="seo-dynamic" type="checkbox" /><span>Add `generateMetadata()` for dynamic pages.</span></label>
+          <label><input data-task="seo-sitemap" type="checkbox" /><span>Replace manual sitemap with `app/sitemap.ts`.</span></label>
+          <label><input data-task="seo-robots" type="checkbox" /><span>Replace manual robots file with `app/robots.ts`.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>6. Forms</h2>
+          <p>Keep current behavior, then move secrets server-side.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="forms-contact-ui" type="checkbox" /><span>Convert contact form UI.</span></label>
+          <label><input data-task="forms-support-ui" type="checkbox" /><span>Convert support form UI.</span></label>
+          <label><input data-task="forms-api" type="checkbox" /><span>Add contact and support API routes.</span></label>
+          <label><input data-task="forms-env" type="checkbox" /><span>Move Web3Forms keys into environment variables.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>7. Browser Features</h2>
+          <p>Keep browser-only code isolated in client components.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="browser-spline" type="checkbox" /><span>Wrap Spline viewer in a client component.</span></label>
+          <label><input data-task="browser-animation" type="checkbox" /><span>Preserve current CSS animation behavior.</span></label>
+          <label><input data-task="browser-router" type="checkbox" /><span>Remove old client-side router and page builder.</span></label>
+          <label><input data-task="browser-footer-fetch" type="checkbox" /><span>Remove runtime footer fetch.</span></label>
+        </div>
+      </article>
+
+      <article class="phase">
+        <header>
+          <h2>8. Cleanup And Deploy</h2>
+          <p>Delete old static machinery only after route parity.</p>
+        </header>
+        <div class="tasks">
+          <label><input data-task="cleanup-html" type="checkbox" /><span>Remove duplicated static HTML route folders.</span></label>
+          <label><input data-task="cleanup-scripts" type="checkbox" /><span>Remove obsolete sync/check scripts.</span></label>
+          <label><input data-task="cleanup-readme" type="checkbox" /><span>Update README with Next.js commands.</span></label>
+          <label><input data-task="cleanup-deploy" type="checkbox" /><span>Update deployment notes for the chosen Next.js hosting mode.</span></label>
+        </div>
+      </article>
+    </section>
+
+    <section class="routes" aria-label="Route smoke test list">
+      <h2>Route Smoke Test List</h2>
+      <div class="route-list">
+        <span>/</span>
+        <span>/about</span>
+        <span>/services</span>
+        <span>/products</span>
+        <span>/agentic-ai</span>
+        <span>/case-studies</span>
+        <span>/case-studies/qsr-conversational-analytics</span>
+        <span>/case-studies/ai-school-scheduler</span>
+        <span>/case-studies/cicd-release-automation</span>
+        <span>/case-studies/enterprise-knowledge-mining</span>
+        <span>/case-studies/finance-document-automation</span>
+        <span>/blog</span>
+        <span>/blog/transforming-businesses-with-ai-ml-and-generative-ai</span>
+        <span>/blog/unlocking-business-growth-with-aws-cloud-consulting</span>
+        <span>/solutions/autonomous-customer-operations</span>
+        <span>/solutions/intelligent-document-processing</span>
+        <span>/solutions/operations-automation</span>
+        <span>/contact</span>
+        <span>/support</span>
+        <span>/cca-f</span>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const storeKey = "algorims-nextjs-migration-tracker";
+    const boxes = [...document.querySelectorAll("[data-task]")];
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    const reset = document.getElementById("reset");
+
+    const defaultState = Object.fromEntries(
+      boxes.map((box) => [box.dataset.task, true]),
+    );
+    const readState = () =>
+      JSON.parse(localStorage.getItem(storeKey) || JSON.stringify(defaultState));
+    const writeState = (state) => localStorage.setItem(storeKey, JSON.stringify(state));
+
+    const updateProgress = () => {
+      const done = boxes.filter((box) => box.checked).length;
+      const percent = boxes.length ? Math.round((done / boxes.length) * 100) : 0;
+      progressBar.style.width = percent + "%";
+      progressText.textContent = done + "/" + boxes.length + " done";
+    };
+
+    const state = readState();
+    boxes.forEach((box) => {
+      box.checked = Boolean(state[box.dataset.task]);
+      box.addEventListener("change", () => {
+        const next = readState();
+        next[box.dataset.task] = box.checked;
+        writeState(next);
+        updateProgress();
+      });
+    });
+
+    reset.addEventListener("click", () => {
+      localStorage.setItem(storeKey, JSON.stringify(defaultState));
+      boxes.forEach((box) => { box.checked = true; });
+      updateProgress();
+    });
+
+    updateProgress();
+  </script>
+</body>
+</html>

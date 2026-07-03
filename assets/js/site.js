@@ -4789,9 +4789,9 @@ function bindSplineScene() {
    visitor's mail client (the original behaviour).                         */
 const WEB3FORMS_ENDPOINT     = "https://api.web3forms.com/submit";
 // Get Started / Contact form  →  delivered to contactus@algorims.com
-const WEB3FORMS_CONTACT_KEY  = "9366535b-74bb-44f4-b639-7c8fd4378461";
+const WEB3FORMS_CONTACT_KEY  = "YOUR_WEB3FORMS_CONTACT_KEY";
 // Submit a Ticket / Support form  →  delivered to support@algorims.com
-const WEB3FORMS_SUPPORT_KEY  = "4e0799bc-f90e-4ea0-8e9c-f9d6698cd565";
+const WEB3FORMS_SUPPORT_KEY  = "YOUR_WEB3FORMS_SUPPORT_KEY";
 const web3formsReady = (key) => key && !key.startsWith("YOUR-");
 
 /* Sends the form directly via Web3Forms. Returns true on success.
@@ -5007,23 +5007,9 @@ function bindNavbar() {
   }
 }
 
-async function loadFooter() {
-  const target = document.querySelector("[data-footer]");
-  if (!target) return;
-
-  try {
-    const res = await fetch("/footer.html");
-    if (!res.ok) throw new Error(`footer.html ${res.status}`);
-    target.outerHTML = await res.text();
-    const year = document.getElementById("copy-year");
-    if (year) year.textContent = new Date().getFullYear();
-  } catch (error) {
-    console.error("Footer failed to load", error);
-  }
-}
+function loadFooter() {}
 
 /* ---------- Boot ---------- */
-loadFooter();
 
 // Legacy support: redirect old hash URLs (e.g. /#/services) to real paths so
 // any previously-shared or Google-indexed hash links still land correctly.

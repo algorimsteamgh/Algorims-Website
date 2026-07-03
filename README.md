@@ -1,36 +1,50 @@
 # Algorims Website
 
-Static marketing site served as plain HTML folders plus shared assets.
+Next.js App Router marketing site for `algorims.com`.
 
-## Files to edit
+## Main code paths
 
-- `assets/css/site.css` - shared site styling.
-- `assets/js/content.js` - editable blog, case study, and solution content.
-- `assets/js/site.js` - router, rendering, forms, and page behavior.
-- `contact/index.html` - source body shell for non-root route pages.
+- `app/` - routes, layout, metadata routes, and API handlers
+- `components/site/` - shared site UI and legacy client shims
+- `content/` - typed blog, case study, solution, and product content
+- `lib/legacy-pages.ts` - server-side bridge for pages still rendered from legacy JS
+- `assets/js/content.js` and `assets/js/site.js` - legacy render source still used by the bridge
+- `deploy/nginx-algorims.conf` - nginx reverse-proxy example for `next start`
 
-## Checks
-
-```sh
-npm run check
-npm run sync:shell
-```
-
-## Local smoke test
+## Commands
 
 ```sh
-npm run serve
-```
-
-Then open `http://localhost:4173`.
-
-## Shell sync
-
-After editing shared nav/footer/body markup in `contact/index.html`, run:
-
-```sh
-npm run sync:shell:write
+npm run dev
+npm run lint
+npm run build
+npm run start
 npm run check
 ```
 
-Root `index.html` is intentionally not synced because it has root-only favicon/base/chatbot behavior.
+`npm run check` runs lint plus a production build.
+
+## Forms
+
+Contact and support submissions go through Next API routes.
+
+Set these in `.env.local` when you want live Web3Forms delivery:
+
+```sh
+WEB3FORMS_CONTACT_KEY=...
+WEB3FORMS_SUPPORT_KEY=...
+GOOGLE_SITE_VERIFICATION=...
+```
+
+Without Web3Forms keys, the forms fall back to a prefilled `mailto:` flow.
+
+## Deployment
+
+Build and run the app on the server:
+
+```sh
+npm ci
+npm run build
+npm run start
+```
+
+The included nginx config assumes the Next server is listening on `127.0.0.1:3000` and proxies public traffic to it.

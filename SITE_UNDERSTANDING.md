@@ -2,122 +2,71 @@
 
 ## What this repo is
 
-This is a static marketing website for `algorims.com`, not a framework app.
+This is now a Next.js App Router marketing site for `algorims.com`.
 
-- No build system showed up in the repo root.
-- The site is shipped as plain HTML folders plus static assets.
-- The brand/message is enterprise AI, agentic AI, AWS, DevOps, data, and Algorims products.
+- Rendering is route-based under `app/`
+- Shared UI lives in React components under `components/site/`
+- SEO is handled through Next metadata plus `app/sitemap.ts` and `app/robots.ts`
+- Contact and support forms post to Next API routes
+
+## Transitional architecture
+
+The app is not fully migrated away from legacy page builders yet.
+
+- `app/page.tsx` is a native Next page
+- Some routes still render HTML by calling legacy render functions through `lib/legacy-pages.ts`
+- Those legacy renderers are loaded from `assets/js/content.js` and `assets/js/site.js`
+- Browser-only behavior that still matters is patched in through small client components under `components/site/`
+
+So the runtime is Next.js, but part of the page content still comes from the old JS render source.
 
 ## Structure at a glance
 
-- `index.html`
-  Main site shell. Large inline HTML/CSS/JS file.
-- `about/`, `services/`, `products/`, `agentic-ai/`, `case-studies/`, `blog/`, `contact/`, `support/`
-  Folder-per-route static pages for direct URL access.
-- `solutions/<slug>/index.html`
-  Static entry pages for solution detail routes.
-- `case-studies/<slug>/index.html`
-  Static entry pages for case-study detail routes.
-- `blog/<slug>/index.html`
-  Static entry pages for blog detail routes.
+- `app/`
+  Next routes, layout, metadata routes, and API handlers
+- `components/site/`
+  Header, footer, mobile nav, legacy enhancement shims, Spline wrapper
+- `content/`
+  Typed content modules for blog posts, case studies, products, and solutions
+- `lib/legacy-pages.ts`
+  Server-side VM bridge that executes the legacy page render functions
+- `lib/site-metadata.ts`
+  Shared page metadata builder
+- `lib/web3forms.ts`
+  Shared form helpers used by the API routes
 - `assets/`
-  Production images/logos/case-study art/product logos.
-- `robots.txt`, `sitemap.xml`
-  Hand-maintained SEO files.
+  Source assets plus the legacy JS render source still used by the bridge
+- `public/assets/`
+  Publicly served images and static files used by the Next app
 - `deploy/nginx-algorims.conf`
-  Static nginx config for origin hosting behind Cloudflare.
-
-## How the site actually works
-
-The site is mostly one big hand-authored document with inline rendering logic.
-
-- `index.html` contains:
-  - Tailwind via CDN
-  - Lucide via CDN
-  - Spline viewer for the 3D scene
-  - large inline CSS block
-  - large inline JS block
-  - client-side router
-  - embedded content/data for blog posts, case studies, solutions, products, forms
-- JS route table lives in `index.html` and maps:
-  - `/`
-  - `/about`
-  - `/services`
-  - `/products`
-  - `/agentic-ai`
-  - `/case-studies`
-  - `/blog`
-  - `/contact`
-  - `/support`
-- Dynamic detail routes are also handled in the same file:
-  - `/blog/<slug>`
-  - `/solutions/<slug>`
-  - `/case-studies/<slug>`
-
-So conceptually this is an SPA shell, but operationally it is deployed as many static route copies for SEO and direct entry.
-
-## Content model
-
-Most content is hardcoded in JS arrays/functions inside `index.html`.
-
-- `BLOG_POSTS`
-  9 posts embedded in code.
-- `CASE_STUDIES`
-  5 case studies embedded in code.
-- `SOLUTIONS`
-  3 solution detail pages embedded in code.
-- Products are also defined inline in the products page renderer.
-- Contact/support copy and validation are inline too.
-
-This means content edits are mostly code edits, not CMS edits.
-
-## Deployment model
-
-`deploy/nginx-algorims.conf` confirms a plain static deployment:
-
-- nginx serves files from `/var/www/algorims`
-- `try_files $uri $uri/ =404;`
-- custom `404.html`
-- Cloudflare sits in front
-- assets get long cache
-- HTML gets `no-cache`
-
-Important consequence:
-
-- Direct visits to `/about`, `/blog/...`, `/solutions/...` depend on the matching folder and `index.html` existing on disk.
-- This is not a single-file SPA rewrite setup.
+  Reverse-proxy example for running `next start` behind nginx
 
 ## Forms and integrations
 
-Two forms are wired in `index.html`.
-
-- Contact form
-  Sends through Web3Forms with a fallback to `mailto:contactus@algorims.com`.
-- Support form
-  Sends through Web3Forms with a fallback to `mailto:support@algorims.com`.
-- Support also links to Zoho Desk:
+- Contact form:
+  posts to `app/api/contact/route.ts`
+- Support form:
+  posts to `app/api/support/route.ts`
+- Web3Forms keys live in `.env.local`
+- If no keys are configured, the API returns a `mailto:` fallback
+- Support still links to Zoho Desk:
   `https://algorims.zohodesk.com.au/portal`
 
-## SEO state
+## Deployment model
 
-- Canonicals and social meta are present.
-- `robots.txt` is minimal and points to the sitemap.
-- `sitemap.xml` is manual/static.
-- Google verification is still a placeholder in the HTML:
-  `PASTE-YOUR-CODE-HERE`
+The site is no longer a flat static upload.
 
-## What looks important for future edits
+- Build with `npm run build`
+- Run with `npm run start`
+- Put nginx or another reverse proxy in front of the Next server
+- `deploy/nginx-algorims.conf` assumes the app listens on `127.0.0.1:3000`
 
-1. Shared layout/JS changes are likely duplicated across many route files, not just root `index.html`.
-2. SEO head tags differ per route folder, so route files are not safe to ignore.
-3. There is no obvious generation script keeping these copies in sync.
-4. Keep working files and screenshot dumps out of the published tree unless they are referenced by the site.
+## Important editing rule
 
-## Working assumption for next tasks
+Before changing a page, check whether it is:
 
-If you ask for a visual/content change, I should first decide whether:
+1. A native Next route or component change
+2. A typed content change under `content/`
+3. A legacy-rendered route that still depends on `assets/js/site.js` / `assets/js/content.js`
 
-- it belongs only in one route file, or
-- it is a shared shell change that must be propagated to multiple static copies.
-
-That duplication is the main maintenance risk in this repo.
+That distinction is the main maintenance constraint left in this repo.

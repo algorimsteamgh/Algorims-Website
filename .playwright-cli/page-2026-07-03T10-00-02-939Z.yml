@@ -1,0 +1,323 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e6]:
+      - link "Algorims" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img "Algorims" [ref=e8]
+      - navigation [ref=e9]:
+        - link "Home" [ref=e10] [cursor=pointer]:
+          - /url: /
+        - link "Services" [ref=e11] [cursor=pointer]:
+          - /url: /services
+        - link "Products" [ref=e12] [cursor=pointer]:
+          - /url: /products
+        - link "Agentic AI" [ref=e13] [cursor=pointer]:
+          - /url: /agentic-ai
+        - link "Claude New content" [ref=e14] [cursor=pointer]:
+          - /url: /cca-f
+          - text: Claude
+          - generic "New content" [ref=e15]: New
+        - link "Case Studies" [ref=e16] [cursor=pointer]:
+          - /url: /case-studies
+        - link "Blog" [ref=e17] [cursor=pointer]:
+          - /url: /blog
+        - link "About" [ref=e18] [cursor=pointer]:
+          - /url: /about
+        - link "Support" [ref=e19] [cursor=pointer]:
+          - /url: /support
+      - link "Get Started" [ref=e21] [cursor=pointer]:
+        - /url: /contact
+        - text: Get Started
+        - img [ref=e22]
+  - main [ref=e24]:
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]: AWS Advanced Consulting Partner
+          - heading "The Future of Enterprise Is Autonomous. We Build It." [level=1] [ref=e34]:
+            - text: The Future of Enterprise Is
+            - generic [ref=e35]: Autonomous.
+            - text: We Build It.
+          - paragraph [ref=e36]:
+            - text: Algorims is purpose-built for the age of agentic AI — building intelligent systems that don't just automate work, but reason through it, decide on it, and act to deliver real enterprise outcomes.
+            - text: As an AWS Advanced Consulting Partner, we engineer AI agents, autonomous workflows, and self-improving systems at enterprise scale — secure, measurable, and built to last.
+          - generic [ref=e37]:
+            - link "Get Started" [ref=e38] [cursor=pointer]:
+              - /url: /contact
+              - text: Get Started
+              - img [ref=e39]
+            - link "Explore Agentic AI" [ref=e41] [cursor=pointer]:
+              - /url: /agentic-ai
+        - generic [ref=e43]:
+          - generic [ref=e48]:
+            - img [ref=e49]:
+              - generic [ref=e76]:
+                - generic [ref=e77]: Sense
+                - generic [ref=e78]: Think
+                - generic [ref=e79]: Act
+                - generic [ref=e80]: Learn
+            - img [ref=e85]
+            - generic [ref=e88]:
+              - generic [ref=e94] [cursor=pointer]:
+                - img [ref=e97]
+                - generic [ref=e100]: Perception
+              - generic [ref=e106] [cursor=pointer]:
+                - img [ref=e109]
+                - generic [ref=e121]: Memory
+              - generic [ref=e127] [cursor=pointer]:
+                - img [ref=e130]
+                - generic [ref=e132]: Reasoning
+              - generic [ref=e138] [cursor=pointer]:
+                - img [ref=e141]
+                - generic [ref=e145]: Planning
+              - generic [ref=e151] [cursor=pointer]:
+                - img [ref=e154]
+                - generic [ref=e156]: Action
+              - generic [ref=e162] [cursor=pointer]:
+                - img [ref=e165]
+                - generic [ref=e168]: Learning
+              - generic [ref=e174] [cursor=pointer]:
+                - img [ref=e177]
+                - generic [ref=e182]: Human Oversight
+              - generic [ref=e188] [cursor=pointer]:
+                - img [ref=e191]
+                - generic [ref=e194]: Governance
+          - generic:
+            - generic:
+              - generic:
+                - img
+              - generic:
+                - paragraph: Select a node
+                - paragraph: Click any capability to learn more.
+              - button "Close":
+                - img
+      - generic [ref=e195]:
+        - paragraph [ref=e196]: Trusted by teams shipping at enterprise scale
+        - generic [ref=e198]:
+          - img "Algorims client logo" [ref=e199]
+          - img "Algorims client logo" [ref=e200]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e201]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e202]
+          - img "Algorims client logo" [ref=e203]
+          - img "Algorims client logo"
+          - img "Algorims client logo"
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e204]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e205]
+          - img "Algorims client logo" [ref=e206]
+          - img "Algorims client logo" [ref=e207]
+          - img "Algorims client logo" [ref=e208]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e209]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e210]
+          - img "Algorims client logo" [ref=e211]
+          - img "Algorims client logo"
+          - img "Algorims client logo"
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e212]
+          - img "Algorims client logo"
+          - img "Algorims client logo" [ref=e213]
+          - img "Algorims client logo" [ref=e214]
+    - generic [ref=e216]:
+      - generic [ref=e217]:
+        - generic [ref=e218]:
+          - paragraph [ref=e219]: 20+
+          - paragraph [ref=e220]: Enterprises Transformed
+        - generic [ref=e221]:
+          - paragraph [ref=e222]: 10+
+          - paragraph [ref=e223]: Certified AI & Cloud Engineers
+        - generic [ref=e224]:
+          - paragraph [ref=e225]: 7+
+          - paragraph [ref=e226]: Industries and Growing
+        - generic [ref=e227]:
+          - paragraph [ref=e228]: 99.99%
+          - paragraph [ref=e229]: Enterprise-Grade Reliability
+      - paragraph [ref=e230]: Trusted by enterprises across Singapore, SEA and beyond
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - generic [ref=e234]:
+            - img [ref=e236]
+            - paragraph [ref=e240]: What makes us different
+          - heading "Complexity Is Our Speciality" [level=3] [ref=e241]
+          - paragraph [ref=e242]: The harder the problem, the more we lean in. We are built for enterprises navigating complex transformations — bringing clarity, speed, and precision to challenges that others find too difficult to solve.
+        - generic [ref=e243]:
+          - generic [ref=e245]:
+            - img [ref=e247]
+            - paragraph [ref=e250]: How we work
+          - heading "Discover & Diagnose" [level=3] [ref=e251]
+          - paragraph [ref=e252]: We start by listening. Before writing a single line of code, we immerse ourselves in your business — understanding your goals, challenges, existing systems, and the outcomes that matter most. No assumptions. No templates. Just deep discovery.
+    - generic [ref=e254]:
+      - generic [ref=e255]:
+        - generic [ref=e256]: What we do
+        - heading "From Cloud to Agentic. End to End" [level=2] [ref=e258]
+        - paragraph [ref=e259]: "Three practices. One relentless focus: Enterprise-grade systems that drive measurable business value."
+      - generic [ref=e260]:
+        - link "Development Not just code. AI-ready applications engineered by senior developers — built to perform, scale, and integrate intelligently from day one. From enterprise web and mobile platforms to complex APIs and system integrations — we deliver production-grade software that is robust, future-proof, and designed to work seamlessly alongside your AI infrastructure. Learn more" [ref=e261] [cursor=pointer]:
+          - /url: "#/services#dev"
+          - img [ref=e263]
+          - heading "Development" [level=3] [ref=e267]
+          - paragraph [ref=e268]: Not just code. AI-ready applications engineered by senior developers — built to perform, scale, and integrate intelligently from day one. From enterprise web and mobile platforms to complex APIs and system integrations — we deliver production-grade software that is robust, future-proof, and designed to work seamlessly alongside your AI infrastructure.
+          - generic [ref=e269]:
+            - text: Learn more
+            - img [ref=e270]
+        - link "Cloud Engineering Your cloud should work smarter. We build AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic business asset. From landing zones and cloud migrations to architecture modernisation and cost optimisation — we engineer cloud environments that are secure, scalable, and purpose-built to power intelligent enterprise systems. Learn more" [ref=e272] [cursor=pointer]:
+          - /url: "#/services#cloud"
+          - img [ref=e274]
+          - heading "Cloud Engineering" [level=3] [ref=e276]
+          - paragraph [ref=e277]: Your cloud should work smarter. We build AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic business asset. From landing zones and cloud migrations to architecture modernisation and cost optimisation — we engineer cloud environments that are secure, scalable, and purpose-built to power intelligent enterprise systems.
+          - generic [ref=e278]:
+            - text: Learn more
+            - img [ref=e279]
+        - link "DevOps & Platform Ship faster. Break nothing. We engineer CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together — always. From internal developer platforms to automated testing, observability, and incident response — we build the engineering foundation that lets your teams deploy with confidence and operate at enterprise scale. Learn more" [ref=e281] [cursor=pointer]:
+          - /url: "#/services#devops"
+          - img [ref=e283]
+          - heading "DevOps & Platform" [level=3] [ref=e287]
+          - paragraph [ref=e288]: Ship faster. Break nothing. We engineer CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together — always. From internal developer platforms to automated testing, observability, and incident response — we build the engineering foundation that lets your teams deploy with confidence and operate at enterprise scale.
+          - generic [ref=e289]:
+            - text: Learn more
+            - img [ref=e290]
+    - generic [ref=e293]:
+      - generic [ref=e294]:
+        - generic [ref=e295]:
+          - generic [ref=e296]: Selected work
+          - heading "Intelligence Delivered. Impact Measured." [level=2] [ref=e298]
+        - link "View all case studies" [ref=e299] [cursor=pointer]:
+          - /url: /case-studies
+          - text: View all case studies
+          - img [ref=e300]
+      - generic [ref=e302]:
+        - article [ref=e303]:
+          - paragraph [ref=e305]: Agentic AI · Quick Service Restaurants
+          - heading "How We Turned Workforce Complexity Into Real-Time Intelligence for a Leading QSR Chain" [level=3] [ref=e306]
+          - generic [ref=e307]:
+            - paragraph [ref=e308]: A major QSR operator across Singapore was making critical workforce decisions in the dark — buried in manual reports, fragmented data, and delayed insights that left managers guessing on staffing, costs, and productivity.
+            - paragraph [ref=e309]: Algorims built a Conversational Analytics Platform on AWS — powered by GenAI — enabling business users to ask workforce questions in plain English and instantly receive real-time insights, visual analytics, and intelligent recommendations. No analysts. No waiting. No guesswork.
+          - generic [ref=e310]:
+            - paragraph [ref=e311]: Impact
+            - paragraph [ref=e312]: 490K+ transactions analysed · 46% productivity gap uncovered · Deployed in 4 weeks
+          - generic [ref=e313]:
+            - link "Read the full story" [ref=e314] [cursor=pointer]:
+              - /url: /case-studies
+              - text: Read the full story
+              - img [ref=e315]
+            - img [ref=e318]
+        - article [ref=e321]:
+          - paragraph [ref=e323]: Cloud · SaaS
+          - heading "How We Reduced Time-to-Hire by 60% with an AI-Powered Recruitment Platform" [level=3] [ref=e324]
+          - generic [ref=e325]:
+            - paragraph [ref=e326]: Hiring top talent was taking too long. Manual CV screening, disconnected recruitment workflows, and slow hiring processes were leaving critical positions unfilled for weeks — costing businesses time, money, and their best candidates to competitors.
+            - paragraph [ref=e327]: We built a Recruitment as a Service platform on AWS — underpinned by a fully automated CI/CD pipeline using GitHub Actions, Docker, and Kubernetes — eliminating manual CV screening entirely and accelerating every stage of the hiring journey from application to offer.
+          - generic [ref=e328]:
+            - paragraph [ref=e329]: Impact
+            - paragraph [ref=e330]: 60% reduction in time-to-hire · Manual CV screening eliminated · Top talent secured faster
+          - generic [ref=e331]:
+            - link "Read the full story" [ref=e332] [cursor=pointer]:
+              - /url: /case-studies
+              - text: Read the full story
+              - img [ref=e333]
+            - img [ref=e336]
+    - generic [ref=e343]:
+      - generic [ref=e344]:
+        - generic [ref=e345]: Strategic alliance
+        - heading "AWS Advanced Consulting Partner" [level=2] [ref=e347]
+        - paragraph [ref=e348]: As an AWS Advanced Consulting Partner, Algorims delivers certified, enterprise-grade expertise across AI, data, and cloud infrastructure — bringing architectural rigour, GenAI innovation, and proven AWS specialisations to every engagement.
+        - generic [ref=e349]:
+          - img "AWS Partner — Advanced Tier Services" [ref=e350]
+          - generic [ref=e351]:
+            - generic [ref=e352]: Bedrock
+            - generic [ref=e353]: SageMaker
+            - generic [ref=e354]: EKS
+            - generic [ref=e355]: Well-Architected
+            - generic [ref=e356]: GenAI Competency
+      - generic [ref=e357]:
+        - generic [ref=e358]:
+          - img [ref=e359]
+          - paragraph [ref=e362]: Well-Architected reviews
+        - generic [ref=e363]:
+          - img [ref=e364]
+          - paragraph [ref=e366]: GenAI accelerators
+        - generic [ref=e367]:
+          - img [ref=e368]
+          - paragraph [ref=e370]: Migration & modernization
+        - generic [ref=e371]:
+          - img [ref=e372]
+          - paragraph [ref=e375]: FinOps & optimization
+    - generic [ref=e382]:
+      - generic [ref=e383]:
+        - generic [ref=e384]: Ready when you are
+        - heading "Let's architect your Agentic Enterprise." [level=2] [ref=e386]
+        - paragraph [ref=e387]: Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.
+      - generic [ref=e388]:
+        - link "Book a consultation" [ref=e389] [cursor=pointer]:
+          - /url: /contact
+          - text: Book a consultation
+          - img [ref=e390]
+        - link "Explore services" [ref=e392] [cursor=pointer]:
+          - /url: /services
+  - contentinfo [ref=e393]:
+    - generic [ref=e394]:
+      - generic [ref=e395]:
+        - generic [ref=e396]:
+          - link "Algorims" [ref=e397] [cursor=pointer]:
+            - /url: /
+            - img "Algorims" [ref=e398]
+          - paragraph [ref=e399]: The Future of Enterprise Is Autonomous. We Build It. We help ambitious companies build AI-first, cloud-native systems that compound value.
+          - link "Follow Algorims on LinkedIn" [ref=e401] [cursor=pointer]:
+            - /url: https://www.linkedin.com/company/algorims/
+            - img [ref=e403]
+            - text: Follow on LinkedIn
+        - generic [ref=e405]:
+          - heading "Company" [level=4] [ref=e406]
+          - list [ref=e407]:
+            - listitem [ref=e408]:
+              - link "Claude" [ref=e409] [cursor=pointer]:
+                - /url: /cca-f
+            - listitem [ref=e410]:
+              - link "About" [ref=e411] [cursor=pointer]:
+                - /url: /about
+            - listitem [ref=e412]:
+              - link "Case Studies" [ref=e413] [cursor=pointer]:
+                - /url: /case-studies
+            - listitem [ref=e414]:
+              - link "Blog" [ref=e415] [cursor=pointer]:
+                - /url: /blog
+            - listitem [ref=e416]:
+              - link "Contact" [ref=e417] [cursor=pointer]:
+                - /url: /contact
+        - generic [ref=e418]:
+          - heading "Services" [level=4] [ref=e419]
+          - list [ref=e420]:
+            - listitem [ref=e421]:
+              - link "Cloud Engineering" [ref=e422] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e423]:
+              - link "DevOps" [ref=e424] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e425]:
+              - link "AI / Agentic AI" [ref=e426] [cursor=pointer]:
+                - /url: /services
+            - listitem [ref=e427]:
+              - link "Agentic AI" [ref=e428] [cursor=pointer]:
+                - /url: /agentic-ai
+        - generic [ref=e429]:
+          - heading "Get in touch" [level=4] [ref=e430]
+          - list [ref=e431]:
+            - listitem [ref=e432]:
+              - link "contactus@algorims.com" [ref=e433] [cursor=pointer]:
+                - /url: mailto:contactus@algorims.com
+            - listitem [ref=e434]:
+              - link "+65 8345 9599" [ref=e435] [cursor=pointer]:
+                - /url: tel:+6583459599
+      - generic [ref=e436]:
+        - paragraph [ref=e437]: © 2026 Algorims. All rights reserved.
+        - generic [ref=e438]:
+          - link "Privacy" [ref=e439] [cursor=pointer]:
+            - /url: "#"
+          - link "Terms" [ref=e440] [cursor=pointer]:
+            - /url: "#"
+          - link "Security" [ref=e441] [cursor=pointer]:
+            - /url: "#"

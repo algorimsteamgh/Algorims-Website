@@ -1,9 +1,27 @@
 {
   "private": true,
   "scripts": {
-    "check": "node tools/check-static-site.mjs",
-    "sync:shell": "node tools/sync-html-shell.mjs --check",
-    "sync:shell:write": "node tools/sync-html-shell.mjs --write",
-    "serve": "python3 -m http.server 4173"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "check": "npm run lint && npm run build"
+  },
+  "dependencies": {
+    "lucide-react": "^1.23.0",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.5.2",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.10",
+    "postcss": "^8.5.16",
+    "tailwindcss": "^3.4.17"
   }
 }
