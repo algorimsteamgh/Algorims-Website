@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
+import Script from "next/script";
 
 import { Footer } from "../components/site/Footer";
 import { Header } from "../components/site/Header";
@@ -24,6 +25,9 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
+  icons: {
+    icon: "/assets/algorims-favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -37,6 +41,16 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Script id="chtl-config" strategy="afterInteractive">
+          {`window.chtlConfig = { chatbotId: "6125825243" };`}
+        </Script>
+        <Script
+          async
+          data-id="6125825243"
+          id="chtl-script"
+          src="https://chatling.ai/js/embed.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
