@@ -33,17 +33,6 @@ export function MobileNav() {
       {open ? (
         <div className="mt-2 rounded-2xl glass p-4 shadow-lg animate-fade-in">
           <nav className="flex flex-col gap-1">
-            <Link
-              href="/"
-              className={`nav-link rounded-2xl px-4 py-3 text-sm font-semibold transition-colors ${
-                activeHref === "/"
-                  ? "nav-link-active"
-                  : "text-foreground/80 hover:bg-primary/10 hover:text-primary"
-              }`}
-              onClick={() => setOpen(false)}
-            >
-              Home
-            </Link>
             {navItems.map((item) => (
               <Link
                 key={item.href}

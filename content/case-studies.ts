@@ -1,4 +1,4 @@
-import type { CaseScene, NarrativeEntry } from "./types";
+import type { NarrativeEntry } from "./types";
 
 export const caseStudies = [
   {
@@ -618,28 +618,5 @@ export const caseStudies = [
     ]
   }
 ] satisfies NarrativeEntry[];
-
-export const caseScenes = {
-  "qsr-conversational-analytics": {
-    "alt": "Labour analytics dashboard with KPI tiles, a productivity bar chart and an Amazon Q natural-language query panel",
-    "caption": "The conversational analytics platform — managers ask workforce questions in plain English through Amazon Q and monitor live labour KPIs in QuickSight dashboards."
-  },
-  "ai-school-scheduler": {
-    "alt": "Weekly school timetable grid with colour-coded class blocks, a flagged scheduling conflict, and an AI substitute-assignment notification",
-    "caption": "The scheduling platform — a live weekly timetable with real-time conflict detection and AI-driven substitute assignment powered by GPT-4o."
-  },
-  "cicd-release-automation": {
-    "alt": "CI/CD pipeline view with Build, Scan, Deploy and Release stages, a build log terminal and Slack deploy notifications",
-    "caption": "The RaaS pipeline — code flows from commit through automated build, security scanning, staged deployment and release, with real-time Slack visibility at every gate."
-  },
-  "enterprise-knowledge-mining": {
-    "alt": "Semantic search interface with a natural-language query, a knowledge graph of connected document nodes, and a cited AI answer panel",
-    "caption": "Semantic search across SOPs, policies and contracts — natural-language questions answered in seconds, with the source documents cited."
-  },
-  "finance-document-automation": {
-    "alt": "Document extraction view with an invoice on the left and a structured fields panel on the right showing validated values and confidence scores",
-    "caption": "Documents in, structured data out — fields extracted, validated against Singapore UEN/GST rules, and GL-coded with per-field confidence scoring."
-  }
-} satisfies Record<string, CaseScene>;
 
 export const caseStudiesBySlug = Object.fromEntries(caseStudies.map((study) => [study.slug, study])) as Record<string, NarrativeEntry>;

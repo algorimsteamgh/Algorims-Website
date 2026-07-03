@@ -258,7 +258,7 @@ function aiHeroVisual() {
           <div class="relative">
             <span class="absolute inset-0 rounded-full bg-primary/40 blur-2xl animate-pulse"></span>
             <div class="relative grid place-items-center rounded-full bg-gradient-primary shadow-glow border border-white/25" style="width:${CORE*2}px;height:${CORE*2}px">
-              ${icon("bot", "!w-9 !h-9 text-white")}
+              ${icon("bot-message-square", "!w-9 !h-9 text-white")}
             </div>
           </div>
         </div>
@@ -273,7 +273,7 @@ function aiHeroVisual() {
       <div data-node-detail class="rounded-2xl border border-primary/30 bg-white/95 p-5 text-left shadow-glow backdrop-blur-xl">
         <div class="flex items-start gap-3">
           <div data-detail-icon class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-primary text-white shadow-md">
-            ${icon("bot", "!w-5 !h-5")}
+            ${icon("bot-message-square", "!w-5 !h-5")}
           </div>
           <div class="min-w-0 flex-1">
             <p data-detail-label class="text-base font-semibold leading-tight tracking-tight text-foreground">Select a node</p>
@@ -1383,7 +1383,7 @@ function pageAgenticAI() {
       <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         ${useCases.map(u => `
           <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow">${icon("bot","!w-5 !h-5")}</div>
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow">${icon("bot-message-square","!w-5 !h-5")}</div>
             <h3 class="mt-5 text-xl font-semibold tracking-tight">${u.title}</h3>
             <p class="mt-2 text-sm leading-relaxed text-muted-foreground">${u.desc}</p>
             ${u.slug ? `<a href="/solutions/${u.slug}" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all hover:gap-2.5">Read more ${icon("arrow-right","!w-4 !h-4")}</a>` : ""}
@@ -4295,7 +4295,6 @@ const ROUTES = {
 };
 
 const NAV_LINKS = [
-  { to: "/",            label: "Home" },
   { to: "/services",    label: "Services" },
   { to: "/products",    label: "Products" },
   { to: "/agentic-ai",  label: "Agentic AI" },

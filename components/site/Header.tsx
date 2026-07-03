@@ -63,16 +63,6 @@ export function Header() {
             </Link>
 
             <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex">
-              <Link
-                href="/"
-                className={`nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${
-                  activeHref === "/"
-                    ? "nav-link-active"
-                    : "text-foreground/80 hover:bg-primary/10 hover:text-primary"
-                }`}
-              >
-                Home
-              </Link>
               {navItems.map((item) => (
                 <Link
                   key={item.href}

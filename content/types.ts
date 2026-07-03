@@ -1,4 +1,4 @@
-export type RichTextBlock =
+type RichTextBlock =
   | {
       type: "p" | "h";
       text: string;
@@ -8,33 +8,33 @@ export type RichTextBlock =
       items: string[];
     };
 
-export type LinkRef = {
+type LinkRef = {
   href: string;
   label: string;
 };
 
-export type LabelValue = {
+type LabelValue = {
   label: string;
   value: string;
 };
 
-export type FAQ = {
+type FAQ = {
   q: string;
   a: string;
 };
 
-export type Metric = {
+type Metric = {
   value: string;
   label: string;
 };
 
-export type ArchitectureAsset = {
+type ArchitectureAsset = {
   src: string;
   alt: string;
   caption: string;
 };
 
-export type SectionPair = {
+type SectionPair = {
   h: string;
   p: string;
 };
@@ -50,11 +50,6 @@ export type BlogPost = {
   art: string;
   featured?: boolean;
   body: RichTextBlock[];
-};
-
-export type CaseScene = {
-  alt: string;
-  caption: string;
 };
 
 export type NarrativeEntry = {
@@ -86,47 +81,4 @@ export type NarrativeEntry = {
   metrics: Metric[];
   faqs?: FAQ[];
   related: string[];
-};
-
-export type ProductFeature = {
-  icon: string;
-  label: string;
-  desc: string;
-};
-
-export type ProductMode = {
-  icon: string;
-  title: string;
-  desc: string;
-};
-
-export type ProductSafetyItem = {
-  icon: string;
-  label: string;
-};
-
-export type ProductCTA = {
-  label: string;
-  href: string;
-};
-
-export type Product = {
-  id: string;
-  name: string;
-  status: string;
-  live: boolean;
-  tagline: string;
-  body: string;
-  bgFrom: string;
-  bgTo: string;
-  accent: string;
-  logoBg: string;
-  glyph?: string;
-  logo?: string;
-  features?: ProductFeature[];
-  modes?: ProductMode[];
-  safety?: ProductSafetyItem[];
-  readMore?: string;
-  cta?: ProductCTA;
-  comingSoon?: boolean;
 };
