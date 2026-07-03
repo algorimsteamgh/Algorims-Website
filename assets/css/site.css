@@ -73,9 +73,9 @@
   }
   .btn-hero:hover { box-shadow: var(--shadow-glow); transform: translateY(-1px); }
   .btn-outline { background: transparent; color: hsl(var(--foreground)); border: 1px solid hsl(var(--border)); }
-  .btn-outline:hover { background: hsl(var(--secondary)); border-color: hsl(var(--primary) / 0.4); }
+  .btn-outline:hover { background: hsl(var(--secondary)); border-color: hsl(var(--primary) / 0.4); color: hsl(var(--secondary-foreground)) !important; }
   .btn-ghost { background: transparent; color: hsl(var(--foreground)); }
-  .btn-ghost:hover { background: hsl(var(--secondary)); }
+  .btn-ghost:hover { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)) !important; }
   .btn-lg { padding: .75rem 1.25rem; font-size: .95rem; }
   .btn-xl { padding: .9rem 1.6rem; font-size: 1rem; border-radius: 9999px; }
   .btn-default { padding: .55rem 1rem; font-size: .875rem; }
