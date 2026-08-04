@@ -834,6 +834,223 @@ const SOLUTIONS = [
   },
 ];
 
+const PRODUCTS = [
+  {
+    slug: "cxiq",
+    source: { href: "/products", label: "Products" },
+    kind: "Product",
+    tag: "Conversational Admin Automation · WhatsApp & Email",
+    title: "Every conversation handled. Every dollar approved.",
+    subtitle: "An AI layer on top of the WhatsApp and email you already use — no migration — that answers routine questions automatically, and always puts a human in the loop the moment a conversation touches money.",
+    glyph: "message-square-text",
+    accent: "hsl(345 60% 48%)",
+    meta: [
+      { label: "Built for",   value: "Community & association · SME commerce · Enterprise contact center" },
+      { label: "Region",      value: "APJ Commercial — Singapore/SEA · India · ANZ" },
+      { label: "Platform",    value: "Amazon Bedrock (Claude)" },
+      { label: "Onboarding",  value: "2–4 weeks for the core build" },
+    ],
+    intro: [
+      "Your team fields the same questions over and over — RSVPs, order status, opening hours, fee reminders — on WhatsApp and email, one conversation at a time. The obvious fix is a chatbot.",
+      "That's fine for \u201Cwhat time do you open.\u201D It's not fine for \u201Ccan I get a refund\u201D or \u201Cwaive my late fee.\u201D The moment a conversation touches money, a wrong automated reply isn't a minor bug — it's how a community org or SME loses a member's trust.",
+    ],
+    challenge: {
+      lead: "Generic chatbots answer confidently. That's the problem.",
+      items: [
+        "Repeat questions — RSVPs, order status, hours, fee reminders — consume hours of staff time on WhatsApp and email every week.",
+        "A wrong automated reply is fine for routine questions and dangerous the moment it touches a refund or a fee waiver.",
+        "Without a defined approval path, automation itself becomes the thing that costs a community org or SME real trust — and real money.",
+      ],
+    },
+    solutionLead: "Most conversations resolve instantly. The moment money is involved, CXIQ deliberately slows down.",
+    solution: [
+      { h: "Message arrives on WhatsApp or email", p: "No new app for your customer or member to install — CXIQ works inside the channels already in use." },
+      { h: "Bedrock Claude extracts intent", p: "Matched against a per-intent, confidence-scored FAQ knowledge base — no ML training pipeline to maintain." },
+      { h: "High confidence, no money involved", p: "Order status, hours, bookings, and general questions are answered automatically and logged to an append-only audit trail." },
+      { h: "Money or account action detected", p: "The conversation always routes to a human for approval — a rule that never bends until a client explicitly promotes it to auto-run." },
+    ],
+    awsLead: "Understand what's being asked. Approve what involves money. Connect to the channels you run. Audit everything, always.",
+    aws: [
+      { name: "Amazon Bedrock (Claude)", desc: "Intent extraction against a confidence-scored FAQ knowledge base — no custom ML training pipeline." },
+      { name: "Config-not-code rules engine", desc: "Your team edits what's automated without engineering tickets." },
+      { name: "Amazon Connect", desc: "Voice escalation for complex queries, with full conversational context carried over." },
+    ],
+    metrics: [
+      { value: "10–15 hrs/wk", label: "Admin time recovered — proven community/association case" },
+      { value: "100%", label: "Money actions human-approved until explicitly promoted" },
+      { value: "No migration", label: "Runs on the WhatsApp and email you already use" },
+      { value: "2–4 wks", label: "Typical onboarding for the core build" },
+    ],
+    faqs: [
+      { q: "Does CXIQ ever auto-approve a money action?", a: "No. Refunds, fee waivers, and other money actions are always routed to a human, until a client explicitly promotes a specific rule to auto-run." },
+      { q: "Do customers need to install a new app?", a: "No. CXIQ works inside the WhatsApp and email channels already in use — there's no migration." },
+      { q: "Who is CXIQ built for today?", a: "Community and association groups and SME commerce/service businesses are the proven and validating tracks; enterprise contact centers with an existing CRM are supported as a dedicated engagement." },
+    ],
+    related: ["dociq", "opsiq", "payiq"],
+  },
+  {
+    slug: "dociq",
+    source: { href: "/products", label: "Products" },
+    kind: "Product",
+    tag: "Intelligent Document Processing · Textract + Bedrock",
+    title: "Documents in. Decisions out.",
+    subtitle: "A cost-tiered AI pipeline on AWS that replaces manual document keying with confidence-routed extraction — cutting document processing cost by up to 97%, hosted entirely in your own AWS region.",
+    glyph: "scan-text",
+    accent: "hsl(219 80% 52%)",
+    meta: [
+      { label: "Built for",  value: "Finance, HR, and operations document intake" },
+      { label: "Region",     value: "Singapore/SEA · ANZ · India — in-region by default" },
+      { label: "Platform",   value: "Amazon Textract → Bedrock Claude" },
+      { label: "Processing", value: "<45s p95, ≤20-page document" },
+    ],
+    intro: [
+      "Invoices, contracts, claims, and forms arrive as PDFs, scans, and photos — and someone still has to open each one and type the fields into a system of record. It's slow, it's expensive, and it doesn't scale.",
+      "Some teams have started pasting documents into ChatGPT to speed things up. That solves the speed problem and creates a bigger one: no audit trail, no confidence scoring, no data-residency guarantee.",
+    ],
+    challenge: {
+      lead: "Your team keys data your AI could read.",
+      items: [
+        "Manual keying is slow, expensive, and error-prone across invoices, claims, and forms.",
+        "Ad-hoc use of consumer AI tools solves speed but breaks audit trail, confidence scoring, and data residency.",
+        "Nothing tells you which extracted fields are trustworthy and which need a human look — until it's too late.",
+      ],
+    },
+    solutionLead: "Every document moves through the same confidence-gated pipeline. Most resolve automatically in under a minute. The ones that shouldn't be automated never are.",
+    solution: [
+      { h: "Textract extracts", p: "The cheapest tier that reliably reads the document runs first — most pages resolve here." },
+      { h: "Bedrock Claude normalizes and classifies", p: "Fields are normalized, documents classified, and each field confidence-scored." },
+      { h: "Confidence routing", p: "High-confidence documents flow straight through; anything below threshold escalates to a costlier, more capable tier before it ever reaches a human." },
+      { h: "Human boundary", p: "Documents that stay below threshold — even after escalation — always route to a reviewer. AI extracts, humans own exceptions." },
+      { h: "ERP delivery", p: "Approved data posts via an HMAC-signed webhook into SAP, Oracle, or NetSuite." },
+    ],
+    awsLead: "Extract fast. Verify what matters. Deliver into the systems you already run. Keep control the whole way through.",
+    aws: [
+      { name: "Amazon Textract", desc: "First-pass extraction across invoices, forms, and scans." },
+      { name: "Amazon Bedrock (Claude)", desc: "Field normalization, classification, and confidence scoring." },
+      { name: "HMAC-signed webhooks", desc: "Delivers approved data straight into SAP, Oracle, or NetSuite." },
+    ],
+    metrics: [
+      { value: "−99.5%", label: "Cost per document vs. manual + shadow ChatGPT" },
+      { value: "−97.4%", label: "12-month total cost of ownership" },
+      { value: "1–2 wks", label: "Payback period on one-time deployment fee" },
+      { value: "<45s", label: "p95 end-to-end processing, ≤20-page document" },
+    ],
+    faqs: [
+      { q: "Does any document leave our AWS region?", a: "No. Every deployment — Singapore/SEA, ANZ, or India — keeps documents and extracted data inside the client's own AWS account and region." },
+      { q: "What happens to low-confidence documents?", a: "They escalate to a more capable model tier first; if still below threshold, they always route to a human reviewer." },
+      { q: "How is the cost reduction measured?", a: "From a live 50,000-document/month reference deployment, not a model — against fully manual processing." },
+    ],
+    related: ["cxiq", "opsiq", "payiq"],
+  },
+  {
+    slug: "opsiq",
+    source: { href: "/products", label: "Products" },
+    kind: "Product",
+    tag: "Autonomous L1 Service Desk · ServiceNow / Freshservice",
+    title: "Tickets in. Resolutions out.",
+    subtitle: "An agentic AIOps layer on Amazon Bedrock that classifies, resolves, and closes the majority of L1 service-desk tickets directly in your existing ITSM platform — with every Active Directory, firewall, or bulk-impact action gated behind a human decision.",
+    glyph: "server-cog",
+    accent: "hsl(191 80% 34%)",
+    meta: [
+      { label: "Built for",  value: "IT & BPO service desks" },
+      { label: "Region",     value: "Singapore/SEA · ANZ · India" },
+      { label: "Platform",   value: "Amazon Bedrock (agentic AIOps)" },
+      { label: "Result",     value: "78% auto-resolution at month 6" },
+    ],
+    intro: [
+      "Password resets, access requests, software installs — the same tickets, every day, while your team's actual expertise sits in a backlog. The obvious fix is automation.",
+      "OpsIQ resolves the routine tickets end-to-end, and treats anything touching identity, network, or bulk scope as a decision for a human — every time, by design.",
+    ],
+    challenge: {
+      lead: "Your L1 desk is stuck between two bad options.",
+      items: [
+        "L1 desks burn expert time on repetitive password-reset, access-request, and install tickets.",
+        "Most AIOps tools ask for more access than they should — a shared admin login becomes the biggest single point of failure in the environment.",
+        "Without a scoped, auditable execution path, automation itself becomes the risk.",
+      ],
+    },
+    solutionLead: "Most tickets resolve in minutes. The moment a change touches identity, network, or more than one user, OpsIQ deliberately slows down.",
+    solution: [
+      { h: "Ticket lands in your ITSM", p: "OpsIQ works inside ServiceNow or Freshservice — no new system for your team to learn." },
+      { h: "Classification against your playbooks", p: "Output is validated against retrieved playbook content before any action fires." },
+      { h: "Tier 1/2 resolve automatically", p: "Routine, low-risk categories close end-to-end, logged to an immutable audit trail." },
+      { h: "Tier 3 pauses for a human", p: "Active Directory, firewall, and bulk-impact actions always wait for a person — run under a service account scoped to specific cmdlets, never domain-admin." },
+      { h: "Automatic rollback", p: "Multi-step runbooks roll back automatically if a later step fails." },
+    ],
+    awsLead: "Classify what's being asked. Execute what's safe to execute. Escalate what needs a person. Control what's logged and where data lives.",
+    aws: [
+      { name: "Amazon Bedrock", desc: "Ticket classification and playbook-grounded reasoning." },
+      { name: "Scoped service account", desc: "Active Directory actions run least-privilege, federated via SAML — never domain-admin." },
+      { name: "Immutable audit log", desc: "Every automation run records inputs, outputs, and status." },
+    ],
+    metrics: [
+      { value: "−85%", label: "Monthly run-rate vs. a fully manual L1 desk" },
+      { value: "78%", label: "Auto-resolution rate at month 6 (71% at go-live)" },
+      { value: "91%", label: "Classification accuracy after tuning (from 86%)" },
+      { value: "1.8%", label: "Tier-3 false-positive escalation rate at month 6" },
+    ],
+    faqs: [
+      { q: "Does OpsIQ ever get domain-admin access?", a: "No. Active Directory operations run under a service account scoped to specific cmdlets — least privilege at the command level, federated via SAML." },
+      { q: "What happens if a runbook fails partway through?", a: "Multi-step runbooks roll back automatically, and every run is recorded to an immutable audit log." },
+      { q: "Where does this data come from?", a: "A live 6-month deployment at a 200-employee IT & BPO firm, measured — not modeled." },
+    ],
+    related: ["cxiq", "dociq", "payiq"],
+  },
+  {
+    slug: "payiq",
+    source: { href: "/products", label: "Products" },
+    kind: "Product",
+    tag: "AI-Native Accounts Payable · Xero + Zoho Books",
+    title: "Your invoices post themselves. Safely.",
+    subtitle: "AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.",
+    glyph: "receipt",
+    accent: "hsl(158 65% 28%)",
+    meta: [
+      { label: "Built for",  value: "Accounts payable and finance ops teams" },
+      { label: "Region",     value: "ANZ · Singapore/SEA · India" },
+      { label: "Platform",   value: "Amazon Bedrock + Xero/Zoho connectors" },
+      { label: "Onboarding", value: "<2 weeks to first touchless post" },
+    ],
+    intro: [
+      "Someone on your team is still opening every invoice, typing it into Xero or Zoho, and hoping they catch the one that's off. That's slow on a good week — and on a bad one, it's how a business loses real money.",
+      "PayIQ takes the typing off your team's plate for the invoices it's sure about, and puts a hard stop in front of the one thing that actually causes AP fraud losses: a vendor's bank details changing.",
+    ],
+    challenge: {
+      lead: "AP toil is annoying. AP fraud is dangerous. You're carrying both.",
+      items: [
+        "Manual invoice entry is slow, and the busy weeks are exactly when mistakes slip through.",
+        "Vendor bank-detail changes are the single most common way accounts payable fraud actually happens.",
+        "Teams need touchless processing without losing a human check on the one thing that matters most.",
+      ],
+    },
+    solutionLead: "Most invoices move fast. The moment something touches a vendor's payment details, PayIQ deliberately slows down.",
+    solution: [
+      { h: "Invoice arrives", p: "Captured from email or upload, with nothing lost if AI is briefly unavailable — invoices are always queued." },
+      { h: "AI reads and codes it", p: "Confident invoices are coded and queued to post automatically." },
+      { h: "Bank-detail change = hard stop", p: "Always human-verified, regardless of confidence score — this rule has no configurable-off switch." },
+      { h: "Posts to your ledger", p: "Approved invoices post straight into Xero or Zoho Books, with a defined reversal workflow if something was wrongly auto-posted." },
+    ],
+    awsLead: "Capture the paperwork. Guard the payment. Post where you already work. Stay in control the whole way through.",
+    aws: [
+      { name: "Amazon Bedrock", desc: "Invoice reading, coding, and confidence scoring." },
+      { name: "Xero connector", desc: "Live posting integration, native from day one." },
+      { name: "Zoho Books connector", desc: "Deepest integration in India, through to bank reconciliation." },
+    ],
+    metrics: [
+      { value: "100%", label: "Bank-detail changes human-verified, no exceptions" },
+      { value: "2 ERPs", label: "Xero and Zoho Books, live from day one" },
+      { value: "<2 wks", label: "Typical onboarding to first touchless post" },
+      { value: "0", label: "Invoices lost if AI is briefly unavailable — always queued" },
+    ],
+    faqs: [
+      { q: "Can PayIQ auto-approve a change to a vendor's bank details?", a: "No. That action is always human-verified, regardless of confidence score — a headline commitment with no configurable-off switch." },
+      { q: "Which accounting systems does PayIQ post into?", a: "Xero and Zoho Books are both live from day one, via native connectors." },
+      { q: "What if an invoice was wrongly auto-posted?", a: "There's a defined reversal workflow — PayIQ sells the safety net, not just the gate." },
+    ],
+    related: ["cxiq", "dociq", "opsiq"],
+  },
+];
+
 /* Content-relevant product visuals shown on each case-study detail page.
    Swap the PNGs in /assets/case-studies/scenes/ for real product screenshots anytime. */
 const CASE_SCENES = {

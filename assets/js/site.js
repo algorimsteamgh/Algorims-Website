@@ -1,4 +1,10 @@
 /* ---------- tiny helpers ---------- */
+// Compute a relative base path from this script's own <script src>, so it works regardless of how the page itself is hosted
+const BASE_PATH = (() => {
+  const src = document.currentScript && document.currentScript.src;
+  if (src) return src.replace(/assets\/js\/site\.js(?:\?.*)?$/, "").replace(/\/$/, "") || ".";
+  return ".";
+})();
 const h = (tag, attrs = {}, ...kids) => {
   const el = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs || {})) {
@@ -337,7 +343,7 @@ function pageHome() {
             ${[1,2].map(() => Array.from({length: 14}, (_, i) => {
               const n = String(i+1).padStart(2,'0');
               const ext = i === 10 ? 'svg' : 'png';
-              return `<img src="/assets/trusted/logo-${n}.${ext}" alt="Algorims client logo" class="trusted-logo h-10 w-auto max-w-[140px] object-contain md:h-12" loading="lazy" />`;
+              return `<img src="${BASE_PATH}/assets/trusted/logo-${n}.${ext}" alt="Algorims client logo" class="trusted-logo h-10 w-auto max-w-[140px] object-contain md:h-12" loading="lazy" />`;
             }).join("")).join("")}
           </div>
         </div>
@@ -481,7 +487,7 @@ function pageHome() {
             <h2 class="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">AWS <span class="text-gradient">Advanced Consulting Partner</span></h2>
             <p class="text-base leading-relaxed text-muted-foreground">As an AWS Advanced Consulting Partner, Algorims delivers certified, enterprise-grade expertise across AI, data, and cloud infrastructure — bringing architectural rigour, GenAI innovation, and proven AWS specialisations to every engagement.</p>
             <div class="flex items-center gap-5 pt-2">
-              <img src="/assets/aws-partner-badge.png" alt="AWS Partner — Advanced Tier Services" class="h-28 w-28 shrink-0 object-contain" />
+              <img src="${BASE_PATH}/assets/aws-partner-badge.png" alt="AWS Partner — Advanced Tier Services" class="h-28 w-28 shrink-0 object-contain" />
               <div class="flex flex-wrap gap-2">
                 ${["Bedrock","SageMaker","EKS","Well-Architected","GenAI Competency"].map(b => `<span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">${b}</span>`).join("")}
               </div>
@@ -1797,7 +1803,7 @@ function caseStudiesHeroAnim() {
 }
 
 function caseCover(slug) {
-  return `<img src="/assets/case-studies/covers/${slug}.png" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />`;
+  return `<img src="${BASE_PATH}/assets/case-studies/covers/${slug}.png" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />`;
 }
 
 function pageCaseStudies() {
@@ -2747,11 +2753,13 @@ function pageBlogPost(slug) {
 function findDetail(slug) {
   return (typeof CASE_STUDIES !== "undefined" ? CASE_STUDIES.find(x => x.slug === slug) : null)
       || (typeof SOLUTIONS !== "undefined" ? SOLUTIONS.find(x => x.slug === slug) : null)
+      || (typeof PRODUCTS !== "undefined" ? PRODUCTS.find(x => x.slug === slug) : null)
       || null;
 }
 function detailHref(slug) {
   const isCase = (typeof CASE_STUDIES !== "undefined") && CASE_STUDIES.some(x => x.slug === slug);
-  return `${isCase ? "/case-studies" : "/solutions"}/${slug}`;
+  const isProduct = (typeof PRODUCTS !== "undefined") && PRODUCTS.some(x => x.slug === slug);
+  return `${isCase ? "/case-studies" : isProduct ? "/products" : "/solutions"}/${slug}`;
 }
 function detailNotFound() {
   return `
@@ -2764,6 +2772,10 @@ function detailNotFound() {
     </section>
     ${ctaBlock()}
   `;
+}
+function pageProductDetail(slug) {
+  const rec = (typeof PRODUCTS !== "undefined") ? PRODUCTS.find(p => p.slug === slug) : null;
+  return rec ? renderDetailPage(rec) : detailNotFound();
 }
 function pageSolution(slug) {
   const rec = (typeof SOLUTIONS !== "undefined") ? SOLUTIONS.find(s => s.slug === slug) : null;
@@ -2856,7 +2868,7 @@ function renderDetailPage(sol) {
   <section class="pt-2 pb-6">
     <div class="container-x">
       <figure>
-        <img src="/assets/case-studies/scenes/${sol.slug}.png" alt="${CASE_SCENES[sol.slug].alt}" loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" />
+        <img src="${BASE_PATH}/assets/case-studies/scenes/${sol.slug}.png" alt="${CASE_SCENES[sol.slug].alt}" loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" />
         <figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">${CASE_SCENES[sol.slug].caption}</figcaption>
       </figure>
     </div>
@@ -3109,7 +3121,7 @@ function radialOrbital() {
 
   return `
     <div class="rot-stage" data-rot-stage aria-label="Algorims orbital timeline">
-      <img class="rot-center-icon" src="/assets/algorims-icon-transparent.png" alt="Algorims" />
+      <img class="rot-center-icon" src="${BASE_PATH}/assets/algorims-icon-transparent.png" alt="Algorims" />
       ${nodes.map(nodeHtml).join("")}
     </div>
   `;
@@ -3117,6 +3129,82 @@ function radialOrbital() {
 
 function pageProducts() {
   const products = [
+    {
+      id: "cxiq",
+      name: "CXIQ",
+      status: "Conversational admin automation · AWS-native",
+      live: true,
+      tagline: "Every conversation handled. Every dollar approved.",
+      body: "An AI layer on top of the WhatsApp and email you already use — no migration — that answers routine questions automatically, and always puts a human in the loop the moment a conversation touches money.",
+      glyph: "message-square-text",
+      bgFrom: "hsl(345 60% 55% / 0.18)",
+      bgTo:   "hsl(345 40% 40% / 0.16)",
+      accent: "hsl(345 60% 48%)",
+      logoBg: "linear-gradient(135deg, hsl(345 60% 96%), hsl(345 40% 96%))",
+      features: [
+        { icon: "message-square-text", label: "Conversational AI",  desc: "Bedrock + Lex v2 answer routine questions on WhatsApp and email." },
+        { icon: "lock",                label: "Approval-gated",     desc: "Every money action routes to a human before it moves." },
+        { icon: "headset",             label: "Voice escalation",   desc: "Complex queries hand off to Amazon Connect with full context." },
+      ],
+      readMore: "/products/cxiq",
+    },
+    {
+      id: "dociq",
+      name: "DocIQ",
+      status: "Intelligent document processing · AWS-native",
+      live: true,
+      tagline: "Documents in. Decisions out.",
+      body: "A cost-tiered AI pipeline on AWS that replaces manual document keying with confidence-routed extraction — cutting document processing cost by up to 97%, hosted entirely in your own region.",
+      glyph: "scan-text",
+      bgFrom: "hsl(219 85% 60% / 0.18)",
+      bgTo:   "hsl(262 70% 58% / 0.16)",
+      accent: "hsl(219 85% 55%)",
+      logoBg: "linear-gradient(135deg, hsl(219 70% 96%), hsl(262 60% 96%))",
+      features: [
+        { icon: "scan-text",  label: "Textract → Bedrock", desc: "Cheapest tier that meets the accuracy bar, escalating only when needed." },
+        { icon: "shield-check", label: "Human boundary",   desc: "Below-threshold documents always route to a reviewer." },
+        { icon: "webhook",    label: "ERP delivery",       desc: "HMAC-signed webhook into SAP, Oracle, or NetSuite." },
+      ],
+      readMore: "/products/dociq",
+    },
+    {
+      id: "opsiq",
+      name: "OpsIQ",
+      status: "Autonomous L1 service desk · AWS-native",
+      live: true,
+      tagline: "Tickets in. Resolutions out.",
+      body: "An agentic AIOps layer on Amazon Bedrock that classifies, resolves, and closes the majority of L1 service-desk tickets directly in your existing ITSM platform — with every Active Directory, firewall, or bulk-impact action gated behind a human decision.",
+      glyph: "server-cog",
+      bgFrom: "hsl(191 85% 40% / 0.18)",
+      bgTo:   "hsl(199 60% 25% / 0.16)",
+      accent: "hsl(191 85% 35%)",
+      logoBg: "linear-gradient(135deg, hsl(191 60% 95%), hsl(199 40% 95%))",
+      features: [
+        { icon: "server-cog", label: "3-tier autonomy",  desc: "Tier 1/2 resolve automatically; Tier 3 pauses for approval." },
+        { icon: "key",        label: "No domain-admin",  desc: "A scoped service account only — least privilege throughout." },
+        { icon: "rotate-ccw", label: "Auto-rollback",    desc: "Multi-step runbooks roll back automatically on failure." },
+      ],
+      readMore: "/products/opsiq",
+    },
+    {
+      id: "payiq",
+      name: "PayIQ",
+      status: "AI-native accounts payable · AWS-native",
+      live: true,
+      tagline: "Your invoices post themselves. Safely.",
+      body: "AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.",
+      glyph: "receipt",
+      bgFrom: "hsl(158 75% 35% / 0.18)",
+      bgTo:   "hsl(158 50% 22% / 0.16)",
+      accent: "hsl(158 75% 30%)",
+      logoBg: "linear-gradient(135deg, hsl(158 60% 95%), hsl(158 40% 95%))",
+      features: [
+        { icon: "receipt",      label: "Touchless posting", desc: "Confident invoices post straight into Xero or Zoho Books." },
+        { icon: "shield-alert", label: "Fraud hard-stop",   desc: "A vendor bank-detail change always requires human sign-off." },
+        { icon: "link-2",       label: "Xero + Zoho",       desc: "Both connectors live from day one." },
+      ],
+      readMore: "/products/payiq",
+    },
     {
       id: "operations-automation",
       name: "GenAI Operations Automation",
@@ -3136,6 +3224,9 @@ function pageProducts() {
       ],
       readMore: "/solutions/operations-automation",
     },
+  ];
+
+  const moreProducts = [
     {
       id: "algokisan",
       name: "Algokisan",
@@ -3143,7 +3234,7 @@ function pageProducts() {
       live: true,
       tagline: "A direct line from farm to buyer.",
       body: "Farmers list their produce. Buyers reach out directly — no middlemen, no markup. When either side needs it, transport is built right into the app.",
-      logo: "/assets/products/algokisan.png",
+      logo: `${BASE_PATH}/assets/products/algokisan.png`,
       bgFrom: "hsl(140 60% 55% / 0.18)",
       bgTo:   "hsl(215 80% 55% / 0.18)",
       accent: "hsl(140 50% 38%)",
@@ -3162,7 +3253,7 @@ function pageProducts() {
       live: true,
       tagline: "Intercity travel, two ways.",
       body: "Carpool with people heading the same way, or hire a full vehicle and driver for the trip. Built for the long haul between cities — not for hopping across town.",
-      logo: "/assets/products/algoride.png",
+      logo: `${BASE_PATH}/assets/products/algoride.png`,
       bgFrom: "hsl(212 90% 60% / 0.18)",
       bgTo:   "hsl(195 90% 60% / 0.18)",
       accent: "hsl(212 90% 48%)",
@@ -3185,7 +3276,7 @@ function pageProducts() {
       live: false,
       tagline: "Something's taking flight.",
       body: "We're not ready to talk about this one yet — but it's moving fast and it's almost here. Drop your email and we'll tell you the moment it lands.",
-      logo: "/assets/products/algomart.png",
+      logo: `${BASE_PATH}/assets/products/algomart.png`,
       bgFrom: "hsl(140 70% 55% / 0.15)",
       bgTo:   "hsl(30 95% 60% / 0.15)",
       accent: "hsl(140 50% 40%)",
@@ -3362,6 +3453,16 @@ function pageProducts() {
   <section class="py-8 lg:py-12">
     <div class="container-x space-y-10 lg:space-y-14">
       ${products.map((p, i) => productCard(p, i)).join("")}
+
+      <div id="pp-more" class="hidden space-y-10 lg:space-y-14">
+        ${moreProducts.map((p, i) => productCard(p, products.length + i)).join("")}
+      </div>
+
+      <div id="pp-more-trigger" class="flex justify-center pt-4">
+        <button type="button" class="btn btn-outline btn-lg" onclick="document.getElementById('pp-more').classList.remove('hidden'); document.getElementById('pp-more-trigger').remove(); if(window.lucide) lucide.createIcons();">
+          Load more products ${icon("chevron-down")}
+        </button>
+      </div>
     </div>
   </section>
 
@@ -4313,11 +4414,23 @@ function currentPath() {
   if (path === "") path = "/";
   if (ROUTES[path]) return path;
   // Dynamic blog post route: /blog/<slug>
-  if (path.startsWith("/blog/")) return path;
+  const blogIdx = path.indexOf("/blog/");
+  if (blogIdx !== -1) return path.slice(blogIdx).replace(/\/index\.html$/, "").replace(/\/+$/, "");
   // Dynamic solution detail route: /solutions/<slug>
-  if (path.startsWith("/solutions/")) return path;
+  const solIdx = path.indexOf("/solutions/");
+  if (solIdx !== -1) return path.slice(solIdx).replace(/\/index\.html$/, "").replace(/\/+$/, "");
+  // Dynamic product detail route: /products/<slug>
+  const prodIdx = path.indexOf("/products/");
+  if (prodIdx !== -1) return path.slice(prodIdx).replace(/\/index\.html$/, "").replace(/\/+$/, "");
   // Dynamic case study detail route: /case-studies/<slug>
-  if (path.startsWith("/case-studies/")) return path;
+  const csIdx = path.indexOf("/case-studies/");
+  if (csIdx !== -1) return path.slice(csIdx).replace(/\/index\.html$/, "").replace(/\/+$/, "");
+  // When served from a sandboxed/nested origin (preview), pathname carries a
+  // prefix before the real site path — match by suffix against known routes.
+  for (const route of Object.keys(ROUTES)) {
+    if (route === "/") continue;
+    if (path.endsWith(route) || path.endsWith(route + "/index.html") || path.endsWith(route + "/")) return route;
+  }
   return "/";
 }
 
@@ -4389,6 +4502,12 @@ function navigate() {
     title = sol ? `${sol.title} — Algorims` : "Solution — Algorims";
     description = sol ? (sol.subtitle || DEFAULT_DESC) : DEFAULT_DESC;
     renderFn = () => pageSolution(slug);
+  } else if (path.startsWith("/products/")) {
+    const slug = path.slice("/products/".length);
+    const prod = (typeof PRODUCTS !== "undefined") ? PRODUCTS.find(p => p.slug === slug) : null;
+    title = prod ? `${prod.title} — Algorims ${prod.slug.toUpperCase()}` : "Product — Algorims";
+    description = prod ? (prod.subtitle || DEFAULT_DESC) : DEFAULT_DESC;
+    renderFn = () => pageProductDetail(slug);
   } else if (path.startsWith("/case-studies/")) {
     const slug = path.slice("/case-studies/".length);
     const cs = (typeof CASE_STUDIES !== "undefined") ? CASE_STUDIES.find(s => s.slug === slug) : null;
@@ -5012,9 +5131,10 @@ async function loadFooter() {
   if (!target) return;
 
   try {
-    const res = await fetch("/footer.html");
+    const res = await fetch(`${BASE_PATH}/footer.html`);
     if (!res.ok) throw new Error(`footer.html ${res.status}`);
-    target.outerHTML = await res.text();
+    const footerHtml = (await res.text()).replace(/src="\.\/assets\//g, `src="${BASE_PATH}/assets/`);
+    target.outerHTML = footerHtml;
     const year = document.getElementById("copy-year");
     if (year) year.textContent = new Date().getFullYear();
   } catch (error) {
