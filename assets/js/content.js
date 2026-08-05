@@ -907,6 +907,31 @@ const PRODUCTS = [
       "Invoices, contracts, claims, and forms arrive as PDFs, scans, and photos — and someone still has to open each one and type the fields into a system of record. It's slow, it's expensive, and it doesn't scale.",
       "Some teams have started pasting documents into ChatGPT to speed things up. That solves the speed problem and creates a bigger one: no audit trail, no confidence scoring, no data-residency guarantee.",
     ],
+    flow: {
+      title: "One layer between your documents and your systems",
+      desc: "DocIQ sits inside your existing intake and ERP workflow — it doesn't replace SAP, Oracle, or NetSuite, and nothing leaves your AWS region without a defined, auditable path.",
+      stages: [
+        {
+          icon: "file-text",
+          title: "Documents & Sources",
+          subtitle: "Wherever a document arrives",
+          items: ["Email", "Upload Portal", "S3 Drop"],
+        },
+        {
+          icon: "scan-text",
+          title: "Algorims DocIQ",
+          subtitle: "Amazon Textract · Amazon Bedrock",
+          items: ["Classify", "Extract", "Escalate if Needed"],
+        },
+        {
+          icon: "monitor",
+          title: "ERP & Systems of Record",
+          subtitle: "Where the data actually lands",
+          items: ["SAP / Oracle / NetSuite", "HMAC-Signed Webhook", "Audit Trail"],
+        },
+      ],
+      footer: "Every step is scoped, logged, and reversible — nothing leaves your AWS region without a defined path.",
+    },
     challenge: {
       lead: "Your team keys data your AI could read.",
       items: [

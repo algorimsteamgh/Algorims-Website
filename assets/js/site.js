@@ -2787,6 +2787,7 @@ function pageCaseStudy(slug) {
 }
 function renderDetailPage(sol) {
   const related = (sol.related || []).map(s => findDetail(s)).filter(Boolean);
+  const menuItem = (sol.slug && typeof PRODUCT_MENU !== "undefined") ? PRODUCT_MENU.find(p => p.slug === sol.slug) : null;
 
   const metricCard = (m) => `
     <div class="rounded-2xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md">
@@ -2814,6 +2815,16 @@ function renderDetailPage(sol) {
             ${eyebrow(sol.kind)}
             <span class="text-xs font-medium uppercase tracking-widest text-muted-foreground">${sol.tag}</span>
           </div>
+          ${menuItem ? `<div class="flex items-center gap-3 pt-4">
+            <div class="relative h-14 w-14 rounded-2xl flex items-center justify-center" style="background:${sol.accent}15;border:1px solid ${sol.accent}30">
+              <div class="absolute inset-0 rounded-2xl animate-pulse" style="background:${sol.accent}10"></div>
+              <div class="relative grid place-items-center" style="color:${sol.accent}">${icon(sol.glyph,"!w-7 !h-7")}</div>
+            </div>
+            <div>
+              <p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Product</p>
+              <p class="text-xl font-semibold text-foreground">Algorims ${menuItem.name}</p>
+            </div>
+          </div>` : ""}
           <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">${sol.title}</h1>
           <p class="text-pretty text-lg leading-relaxed text-muted-foreground">${sol.subtitle}</p>
           <div class="flex flex-wrap gap-3 pt-1">
@@ -2859,6 +2870,32 @@ function renderDetailPage(sol) {
       ${eyebrow("Overview")}
       <div class="mt-5 space-y-5">
         ${sol.intro.map(p => `<p class="text-[17px] leading-[1.75] text-foreground/85">${p}</p>`).join("")}
+      </div>
+    </div>
+  </section>` : ""}
+
+  <!-- How it fits flow diagram -->
+  ${sol.flow ? `
+  <section class="py-12">
+    <div class="container-x">
+      ${eyebrow("How it fits")}
+      <h2 class="mt-6 text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl text-balance">${sol.flow.title}</h2>
+      <p class="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">${sol.flow.desc}</p>
+      <div class="mt-10 rounded-3xl p-8 md:p-10" style="background:linear-gradient(135deg, hsl(220 30% 10%), hsl(220 40% 8%));border:1px solid hsl(220 50% 25%)">
+        <div class="grid gap-20 md:grid-cols-3 md:gap-32">
+          ${sol.flow.stages.map((stage, i) => `
+            <div class="relative">
+              <div class="rounded-2xl p-6" style="background:hsl(220 30% 15%);border:1px solid hsl(220 40% 30%)">
+                <div class="grid h-12 w-12 place-items-center rounded-xl mb-4" style="background:hsl(220 60% 40%);color:white">${icon(stage.icon,"!w-6 !h-6")}</div>
+                <h3 class="text-lg font-semibold text-white">${stage.title}</h3>
+                <p class="mt-2 text-sm text-blue-200">${stage.subtitle}</p>
+                ${stage.items ? `<ul class="mt-4 space-y-2">${stage.items.map(item => `<li class="text-sm text-white/80 border-t border-blue-500/20 pt-2 first:border-0 first:pt-0">${item}</li>`).join("")}</ul>` : ""}
+              </div>
+              ${i === 0 ? `<div class="hidden md:absolute md:flex md:-right-20 md:top-1/2 md:-translate-y-1/2 z-10 flex-col items-center gap-1"><div class="text-xs font-medium text-center whitespace-nowrap" style="color:hsl(220 60% 55%)">Document<br>Submitted</div><div style="color:hsl(220 60% 55%)">${icon("arrow-right","!w-8 !h-8")}</div></div>` : i === 1 ? `<div class="hidden md:absolute md:flex md:-right-20 md:top-1/2 md:-translate-y-1/2 z-10 flex-col items-center gap-2" style="left: 350px"><div class="text-xs font-medium text-center whitespace-nowrap" style="color:hsl(220 60% 55%)">Auto-Approved<br>or Routed to<br>Reviewer</div><div style="color:hsl(220 60% 55%)">${icon("arrow-right","!w-8 !h-8")}</div></div>` : ""}
+            </div>
+          `).join("")}
+        </div>
+        ${sol.flow.footer ? `<p class="mt-8 text-center text-sm text-white/70">${sol.flow.footer}</p>` : ""}
       </div>
     </div>
   </section>` : ""}
@@ -3451,10 +3488,10 @@ function pageProducts() {
   </section>
 
   <section class="py-8 lg:py-12">
-    <div class="container-x space-y-10 lg:space-y-14">
+    <div class="container-x space-y-8 lg:space-y-10">
       ${products.map((p, i) => productCard(p, i)).join("")}
 
-      <div id="pp-more" class="hidden space-y-10 lg:space-y-14">
+      <div id="pp-more" class="hidden space-y-8 lg:space-y-10">
         ${moreProducts.map((p, i) => productCard(p, products.length + i)).join("")}
       </div>
 
@@ -4398,13 +4435,20 @@ const ROUTES = {
 const NAV_LINKS = [
   { to: "/",            label: "Home" },
   { to: "/services",    label: "Services" },
-  { to: "/products",    label: "Products" },
+  { to: "/products",    label: "Products", hasDropdown: true },
   { to: "/agentic-ai",  label: "Agentic AI" },
   { to: "/cca-f",       label: "Claude" },
   { to: "/case-studies",label: "Case Studies" },
   { to: "/blog",        label: "Blog" },
   { to: "/about",       label: "About" },
   { to: "/support",     label: "Support" },
+];
+
+const PRODUCT_MENU = [
+  { name: "CXIQ", slug: "cxiq", desc: "Conversational admin automation on WhatsApp & email" },
+  { name: "DocIQ", slug: "dociq", desc: "Intelligent document processing with confidence routing" },
+  { name: "OpsIQ", slug: "opsiq", desc: "Autonomous L1 service desk and IT operations" },
+  { name: "PayIQ", slug: "payiq", desc: "AI-native accounts payable for Xero & Zoho Books" },
 ];
 
 function currentPath() {
@@ -4453,9 +4497,34 @@ function renderNav() {
   const navLabel = (l) => l.to === "/cca-f"
     ? `${l.label}<span class="nav-new-badge" aria-label="New content">New</span>`
     : l.label;
-  document.getElementById("nav-links").innerHTML = NAV_LINKS.map(l => `
-    <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">${navLabel(l)}</a>
-  `).join("");
+  document.getElementById("nav-links").innerHTML = NAV_LINKS.map(l => {
+    if (l.hasDropdown) {
+      const menuItems = PRODUCT_MENU.map(pm => {
+        const prod = (typeof PRODUCTS !== "undefined") ? PRODUCTS.find(p => p.slug === pm.slug) : null;
+        return `<a href="/products/${pm.slug}" class="block px-2 py-2 hover:bg-secondary/50 transition-colors border-b border-border/50 last:border-b-0">
+          <div class="flex items-center gap-2">
+            ${prod && prod.logo ? `<img src="${prod.logo}" alt="" class="h-4 w-4 object-contain" />` : prod ? `<span class="grid h-4 w-4 place-items-center text-xs" style="color:${prod.accent}">${icon(prod.glyph,"!w-3 !h-3")}</span>` : ""}
+            <div class="font-medium text-sm text-foreground">${pm.name}</div>
+          </div>
+        </a>`;
+      }).join("");
+      return `
+        <div class="group relative">
+          <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">
+            ${navLabel(l)} <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+          </a>
+          <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="rounded-lg border border-border bg-card shadow-lg overflow-hidden min-w-64">
+              ${menuItems}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    return `
+      <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">${navLabel(l)}</a>
+    `;
+  }).join("");
   document.getElementById("mobile-nav-links").innerHTML = NAV_LINKS.map(l => `
     <a href="${l.to}" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium ${activeKey === l.to ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}">${navLabel(l)}</a>
   `).join("");
