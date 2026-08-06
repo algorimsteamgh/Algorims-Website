@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algorims PayIQ — Invoices That Post Themselves, Safely</title>
+<meta name="description" content="AI reads every invoice, posts the confident ones straight into Xero or Zoho Books, and always stops for a human the moment a vendor's bank details change. Your AP team, freed from keying and fraud risk.">
+<meta property="og:title" content="Algorims PayIQ — Your invoices post themselves. Safely.">
+<meta property="og:description" content="AI-native accounts payable for Xero and Zoho. Touchless posting for the invoices you trust, a hard stop for the one that could cost you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.algorims.com/products/payiq">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  .piq-scope{
+    /* Shared Algorims parent tokens */
+    --navy:#0D1B40; --navy-2:#162252;
+    --ink:#111827; --muted:#5B6A66; --muted-lt:#8FA39C;
+    --border:#DFEAE4;
+    /* PayIQ product brand — emerald (trust / money-safe / "goes through") */
+    --brand:#0E9F6E; --brand-dark:#0A7E57; --brand-deep:#065F43; --brand-lt:#E3F6EC;
+    /* Shared semantics, reused so meaning stays consistent across the portfolio */
+    --guard:#DC2626; --guard-lt:#FEE2E2; --amber:#B45309; --amber-lt:#FEF3C7;
+    --page:#FFFFFF; --alt:#F6FAF8;
+    --font-d:'Sora',system-ui,sans-serif; --font-b:'Inter',system-ui,sans-serif; --font-m:'JetBrains Mono',monospace;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+  .piq-scope{padding-top:96px;margin:0;font-family:var(--font-b);color:var(--ink);background:var(--page);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  img{max-width:100%;display:block;}
+  .piq-scope a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px;}
+  .piq-scope h1,.piq-scope h2,.piq-scope h3,.piq-scope h4{font-family:var(--font-d);color:var(--navy);margin:0;letter-spacing:-0.02em;text-wrap:balance;}
+  .mono{font-family:var(--font-m);font-variant-numeric:tabular-nums;}
+  section{position:relative;}
+  ::selection{background:var(--brand-lt);color:var(--brand-deep);}
+  :focus-visible{outline:2.5px solid var(--brand);outline-offset:2px;}
+
+  /* reveal-on-scroll */
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+  /* ---- Nav ---- */
+  header.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+  .nav-inner{max-width:var(--max);margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;}
+  .brand-lockup{display:flex;align-items:center;gap:12px;}
+  .brand-lockup img{height:24px;width:auto;}
+  .lockup-div{width:1px;height:22px;background:var(--border);}
+  .product-mark{display:flex;align-items:center;gap:8px;}
+  .mark-badge{width:24px;height:24px;border-radius:7px;background:linear-gradient(150deg,var(--brand),var(--brand-deep));display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .mark-badge svg{width:13px;height:13px;}
+  .product-name{font-family:var(--font-d);font-weight:800;font-size:1.02rem;color:var(--brand-deep);letter-spacing:-0.01em;}
+  .nav-links{display:flex;align-items:center;gap:36px;}
+  .nav-links > a, .nav-drop > summary{font-size:0.86rem;font-weight:600;color:var(--ink);cursor:pointer;list-style:none;display:flex;align-items:center;gap:5px;}
+  .nav-links > a:hover, .nav-drop > summary:hover{color:var(--brand-dark);}
+  .nav-drop{position:relative;}
+  .nav-drop > summary::-webkit-details-marker{display:none;}
+  .nav-drop[open] > summary::after{transform:rotate(180deg);}
+  .nav-drop > summary::after{content:'';width:7px;height:7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);margin-top:-3px;transition:transform .15s;}
+  .drop-menu{position:absolute;top:calc(100% + 14px);left:-16px;background:#fff;border:1px solid var(--border);border-radius:14px;box-shadow:0 20px 48px rgba(13,27,64,0.14);padding:10px;width:260px;}
+  .drop-item{display:block;padding:11px 14px;border-radius:9px;font-size:0.82rem;}
+  .drop-item:hover{background:var(--alt);}
+  .drop-item b{display:block;font-family:var(--font-d);font-size:0.86rem;color:var(--navy);margin-bottom:2px;}
+  .drop-item span{color:var(--muted);font-size:0.76rem;}
+  .drop-item.current{background:var(--brand-lt);}
+  .drop-item.current b{color:var(--brand-dark);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:9px;font-size:0.84rem;font-weight:700;letter-spacing:0.01em;border:none;cursor:pointer;transition:all .15s;}
+  .btn-primary{background:var(--brand);color:#fff;}
+  .btn-primary:hover{background:var(--brand-dark);}
+  .btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--border);}
+  .btn-outline:hover{border-color:var(--navy);}
+  .btn-light{background:#fff;color:var(--brand-deep);}
+  .btn-light:hover{background:#eafbf3;}
+
+  /* ---- Hero (two-column, richer) — light ---- */
+  .hero{background:linear-gradient(180deg,#EAF9F2 0%,#FDFEFC 60%,#FFFFFF 100%);position:relative;overflow:hidden;padding:88px 0 72px;}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 55% at 88% 8%,rgba(14,159,110,0.12) 0%,transparent 60%);}
+  .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--brand-lt);border:1px solid #B7E9D3;color:var(--brand-deep);font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:24px;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brand);}
+  .hero h1{color:var(--navy);font-size:clamp(2.2rem,4.2vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:20px;}
+  .hero h1 .accent{background:linear-gradient(90deg,var(--brand),var(--brand-deep));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p{color:var(--muted);font-size:1.06rem;line-height:1.65;margin-bottom:32px;max-width:480px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;}
+  .hero .btn{padding:14px 26px;font-size:0.9rem;}
+  .hero-trust{display:flex;gap:24px;flex-wrap:wrap;}
+  .hero-trust div{display:flex;flex-direction:column;gap:2px;}
+  .hero-trust .v{font-family:var(--font-d);font-weight:800;font-size:1.15rem;color:var(--navy);}
+  .hero-trust .l{font-size:0.7rem;color:var(--muted-lt);font-weight:600;}
+
+  /* ---- Ledger visual ---- */
+  .ledger{background:#fff;border:1px solid var(--border);border-radius:20px;padding:6px;box-shadow:0 24px 56px rgba(13,27,64,0.12);}
+  .ledger-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 12px;}
+  .ledger-head .lh-title{font-size:0.72rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted-lt);}
+  .live-pill{display:flex;align-items:center;gap:6px;font-size:0.68rem;font-weight:700;color:var(--brand-dark);}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--brand);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(14,159,110,0.35);}50%{opacity:0.55;box-shadow:0 0 0 5px rgba(14,159,110,0);}}
+  @media (prefers-reduced-motion:reduce){.live-dot{animation:none;}}
+  .lrow{display:flex;align-items:center;gap:12px;background:var(--alt);margin:0 8px 6px;padding:12px 14px;border-radius:12px;border:1px solid var(--border);}
+  .lrow-icon{width:32px;height:32px;border-radius:9px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0;}
+  .lrow-body{flex:1;min-width:0;}
+  .lrow-vendor{font-size:0.82rem;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .lrow-id{font-size:0.68rem;color:var(--muted-lt);}
+  .lrow-amt{font-size:0.75rem;color:var(--muted);flex-shrink:0;}
+  .lrow-status{flex-shrink:0;font-size:0.62rem;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;padding:4px 9px;border-radius:6px;}
+  .lrow-status.posted{background:var(--brand-lt);color:var(--brand-dark);}
+  .lrow-status.hold{background:var(--guard-lt);color:var(--guard);}
+  .lrow.flag{background:var(--guard-lt);border-color:#F8C9C9;}
+  .lrow.flag .lrow-icon{background:#fff;border-color:#F8C9C9;}
+  .lflag-note{margin:0 8px 8px;padding:10px 14px;background:#FDF0F0;border:1px dashed #F8C9C9;border-radius:10px;font-size:0.72rem;color:#8A1F1F;line-height:1.5;}
+  .lflag-note b{color:var(--guard);}
+
+  /* ---- Proof strip (non-monetary) — light ---- */
+  .proof{background:var(--alt);padding:40px 0 64px;}
+  .proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:18px;overflow:hidden;border:1px solid var(--border);}
+  .proof-cell{background:#fff;padding:30px 22px;text-align:center;}
+  .proof-val{font-family:var(--font-d);font-size:1.9rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;margin-bottom:6px;}
+  .proof-val span{color:var(--brand-dark);}
+  .proof-label{font-size:0.72rem;color:var(--muted);font-weight:600;line-height:1.4;}
+
+  /* ---- Section shared ---- */
+  .section{padding:96px 0;}
+  .section.alt{background:var(--alt);}
+  .section.dark{background:linear-gradient(180deg,#0D1B40,#0A3B2E);}
+  .section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+  .section-head.on-dark h2{color:#fff;}
+  .section-head.on-dark p{color:rgba(255,255,255,0.6);}
+  .tag{display:inline-block;padding:5px 13px;border-radius:6px;background:var(--brand-lt);color:var(--brand-dark);font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;}
+  .tag.on-dark{background:rgba(255,255,255,0.1);color:#9CEBC8;}
+  .section-head h2{font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:14px;}
+  .section-head p{color:var(--muted);font-size:1.02rem;line-height:1.7;}
+
+  /* ---- Flow diagrams (business process + architecture) ---- */
+  .flow-card{background:linear-gradient(165deg,#0D1B40 0%,#0F3A46 60%,#0A3B2E 100%);border-radius:24px;padding:48px 36px;overflow:hidden;position:relative;}
+  .flow-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(14,159,110,0.24),transparent 70%);}
+  .flow-row{position:relative;z-index:1;display:grid;align-items:center;gap:8px;}
+  .flow-row.n3{grid-template-columns:1fr auto 1fr auto 1fr;}
+  .flow-row.n4{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;}
+  .flow-box{background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.14);border-radius:18px;padding:22px 16px;text-align:center;}
+  .flow-box.highlight{background:linear-gradient(160deg,rgba(14,159,110,0.42),rgba(14,159,110,0.16));border-color:rgba(156,235,200,0.4);}
+  .flow-icon{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto 12px;}
+  .flow-box.highlight .flow-icon{background:rgba(255,255,255,0.16);}
+  .flow-title{font-family:var(--font-d);font-weight:800;font-size:0.88rem;color:#fff;margin-bottom:3px;}
+  .flow-sub{font-size:0.66rem;color:rgba(255,255,255,0.5);margin-bottom:10px;line-height:1.4;}
+  .flow-tags{display:flex;flex-direction:column;gap:5px;}
+  .flow-tags span{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.75);font-size:0.64rem;font-weight:600;padding:4px 8px;border-radius:6px;}
+  .flow-arrow-col{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 2px;}
+  .flow-arrow-label{font-size:0.58rem;font-weight:700;color:rgba(255,255,255,0.55);text-align:center;letter-spacing:0.01em;max-width:80px;line-height:1.3;}
+  .flow-arrow-line{width:100%;min-width:20px;height:0;border-top:2px dashed rgba(255,255,255,0.28);position:relative;}
+  .flow-arrow-line::after{content:'';position:absolute;right:-1px;top:-4px;width:0;height:0;border-left:7px solid rgba(255,255,255,0.45);border-top:4px solid transparent;border-bottom:4px solid transparent;}
+  .flow-note{position:relative;z-index:1;text-align:center;color:rgba(255,255,255,0.5);font-size:0.78rem;margin-top:28px;}
+
+  /* ---- Problem two-col ---- */
+  .value-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:start;}
+  .value-grid h2{font-size:clamp(1.8rem,3vw,2.4rem);margin-bottom:20px;}
+  .value-grid p{color:var(--muted);font-size:1.02rem;margin-bottom:18px;}
+  .fraud-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:28px;position:relative;overflow:hidden;box-shadow:0 20px 50px rgba(13,27,64,0.08);}
+  .fraud-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--guard),var(--brand));}
+  .fraud-card-inner{position:relative;z-index:1;}
+  .fraud-tag{display:inline-block;background:var(--guard-lt);color:var(--guard);font-size:0.66rem;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;padding:4px 11px;border-radius:6px;margin-bottom:14px;}
+  .fraud-card h4{color:var(--navy);font-size:1.15rem;margin-bottom:10px;}
+  .fraud-card p{color:var(--muted);font-size:0.86rem;line-height:1.7;margin:0 0 18px;}
+  .fraud-stat{display:flex;gap:24px;border-top:1px solid var(--border);padding-top:16px;flex-wrap:wrap;}
+  .fraud-stat div .v{font-family:var(--font-d);font-weight:800;font-size:1.1rem;color:var(--navy);}
+  .fraud-stat div .l{font-size:0.68rem;color:var(--muted-lt);}
+
+  /* ---- Two-track workflow ---- */
+  .tracks{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+  .track{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;}
+  .track-head{padding:18px 22px;display:flex;align-items:center;gap:10px;}
+  .track.fast .track-head{background:var(--brand-lt);}
+  .track.hold .track-head{background:var(--guard-lt);}
+  .track-head b{font-family:var(--font-d);font-size:0.92rem;}
+  .track.fast .track-head b{color:var(--brand-deep);}
+  .track.hold .track-head b{color:var(--guard);}
+  .track-steps{padding:8px 22px 22px;}
+  .tk-step{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--alt);}
+  .tk-step:last-child{border-bottom:none;}
+  .tk-num{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:800;font-family:var(--font-d);margin-top:1px;}
+  .track.fast .tk-num{background:var(--brand-lt);color:var(--brand-dark);}
+  .track.hold .tk-num{background:var(--guard-lt);color:var(--guard);}
+  .tk-step p{margin:0;font-size:0.84rem;color:var(--ink);line-height:1.55;}
+  .tk-step .sub{color:var(--muted);font-size:0.78rem;display:block;margin-top:2px;}
+
+  /* ---- Pillars ---- */
+  .pillars{display:flex;flex-direction:column;gap:6px;}
+  .pillar{display:grid;grid-template-columns:320px 1fr;gap:56px;align-items:center;padding:52px 0;border-top:1px solid var(--border);}
+  .pillar:first-child{border-top:none;}
+  .pillar-icon{width:100%;aspect-ratio:1.25/1;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:2.4rem;position:relative;overflow:hidden;}
+  .pillar-icon::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,0.3),transparent 60%);}
+  .pillar-icon.p1{background:linear-gradient(150deg,#0E9F6E,#0A7E57);}
+  .pillar-icon.p2{background:linear-gradient(150deg,#DC2626,#991b1b);}
+  .pillar-icon.p3{background:linear-gradient(150deg,#0D1B40,#1a2d6b);}
+  .pillar-icon.p4{background:linear-gradient(150deg,#065F43,#0D1B40);}
+  .pillar-num{font-family:var(--font-d);font-size:0.72rem;font-weight:800;color:var(--brand-dark);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;}
+  .pillar h3{font-size:1.42rem;margin-bottom:14px;}
+  .pillar-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+  .pillar-list li{display:flex;gap:10px;font-size:0.9rem;color:var(--muted);line-height:1.6;}
+  .pillar-list li b{color:var(--ink);font-weight:600;}
+  .pillar-list li::before{content:'—';color:var(--brand-dark);flex-shrink:0;font-weight:700;}
+
+  /* ---- Connectors ---- */
+  .conn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .conn-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:28px;transition:transform .2s ease,box-shadow .2s ease;}
+  .conn-card:hover{transform:translateY(-3px);box-shadow:0 16px 32px rgba(13,27,64,0.08);}
+  .conn-badges{display:flex;gap:8px;margin-bottom:16px;}
+  .conn-chip{font-family:var(--font-d);font-weight:800;font-size:0.7rem;padding:5px 11px;border-radius:7px;}
+  .conn-chip.xero{background:#EAF6FF;color:#1B5F9E;}
+  .conn-chip.zoho{background:#FFF1E5;color:#C2560A;}
+  .conn-card h4{font-size:1.05rem;margin-bottom:8px;}
+  .conn-card p{color:var(--muted);font-size:0.84rem;line-height:1.65;margin:0;}
+
+  /* ---- Trust grid ---- */
+  .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .trust-card{background:var(--alt);border:1px solid var(--border);border-radius:16px;padding:26px;}
+  .trust-icon{width:38px;height:38px;border-radius:10px;background:linear-gradient(150deg,var(--brand),var(--brand-deep));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:14px;}
+  .trust-card.warn .trust-icon{background:var(--guard);}
+  .trust-card h4{font-size:0.98rem;margin-bottom:8px;}
+  .trust-card p{color:var(--muted);font-size:0.83rem;line-height:1.6;margin:0;}
+
+  /* ---- AWS partner strip (on dark flow-card) ---- */
+  .aws-strip{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;padding:32px 40px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:18px;margin-top:24px;position:relative;z-index:1;}
+  .aws-credential{display:flex;align-items:center;gap:18px;background:#fff;border-radius:14px;padding:14px 22px;box-shadow:0 10px 28px rgba(0,0,0,0.18);flex-shrink:0;}
+  .aws-credential img.cred-logo{height:24px;width:auto;}
+  .aws-credential .cred-div{width:1px;height:34px;background:var(--border);}
+  .aws-credential img.cred-badge{height:88px;width:auto;}
+  .tech-pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .tech-pills span{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.75);font-size:0.74rem;font-weight:600;padding:6px 13px;border-radius:999px;}
+
+  /* ---- Final CTA ---- */
+  .cta-band{background:linear-gradient(135deg,var(--brand),var(--brand-deep));border-radius:28px;margin:0 32px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;}
+  .cta-band::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 100%,rgba(255,255,255,0.16),transparent 70%);}
+  .cta-band-inner{position:relative;z-index:1;}
+  .cta-band h2{color:#fff;font-size:clamp(1.7rem,3vw,2.3rem);margin-bottom:14px;}
+  .cta-band p{color:rgba(255,255,255,0.85);font-size:1rem;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto;}
+  .cta-band-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---- Contact ---- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;max-width:900px;margin:0 auto;}
+  .contact-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:30px;}
+  .contact-card h4{font-size:0.7rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted-lt);margin-bottom:10px;}
+  .contact-card .big{font-family:var(--font-d);font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .contact-card p{color:var(--muted);font-size:0.85rem;margin:0;}
+
+  /* ---- Footer ---- */
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.1);}
+  .foot-brand img{height:26px;margin-bottom:14px;filter:brightness(0) invert(1);}
+  .foot-brand p{font-size:0.82rem;line-height:1.7;color:rgba(255,255,255,0.45);max-width:260px;}
+  .foot-col h5{font-size:0.68rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px;}
+  .foot-col a{display:block;font-size:0.84rem;color:rgba(255,255,255,0.68);margin-bottom:11px;}
+  .foot-col a:hover{color:#fff;}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:28px;flex-wrap:wrap;gap:12px;font-size:0.76rem;color:rgba(255,255,255,0.35);}
+  .foot-bottom .compliance{display:flex;gap:8px;flex-wrap:wrap;}
+  .foot-bottom .compliance span{border:1px solid rgba(255,255,255,0.15);padding:3px 10px;border-radius:999px;font-size:0.68rem;}
+
+  @media (max-width:920px){
+    .nav-links{display:none;}
+    .hero-grid,.value-grid,.pillar,.contact-grid,.tracks{grid-template-columns:1fr;}
+    .proof-grid{grid-template-columns:repeat(2,1fr);}
+    .conn-grid,.trust-grid{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+    .cta-band{margin:0 16px;padding:48px 24px;}
+    .pillar-icon{max-width:200px;margin:0 auto;}
+    .aws-strip{flex-direction:column;}
+    .flow-card{padding:32px 20px;}
+    .flow-row.n3,.flow-row.n4{grid-template-columns:1fr;}
+    .flow-arrow-col{flex-direction:row;justify-content:center;padding:10px 0;gap:8px;}
+    .flow-arrow-line{display:none;}
+    .flow-arrow-col::before{content:'↓';font-size:1rem;color:rgba(255,255,255,0.4);}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<!-- Warm the connection to the Spline CDN early so the agentic-AI robot scene loads fast -->
+<link rel="preconnect" href="https://prod.spline.design" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" crossorigin />
+<link rel="dns-prefetch" href="https://prod.spline.design" />
+<!-- Prefetch the 3D scene in the background so it is already cached by the time the user opens the page -->
+<link rel="prefetch" as="fetch" href="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" crossorigin />
+<script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+<script>
+  // Tailwind config — mirrors tailwind.config.ts
+  tailwind.config = {
+    darkMode: ["class"],
+    theme: {
+      container: { center: true, padding: "1.5rem", screens: { "2xl": "1400px" } },
+      extend: {
+        fontFamily: {
+          sans: ['"DM Sans"', "system-ui", "sans-serif"],
+          display: ['"DM Sans"', "system-ui", "sans-serif"],
+        },
+        colors: {
+          border: "hsl(var(--border))",
+          input: "hsl(var(--input))",
+          ring: "hsl(var(--ring))",
+          background: "hsl(var(--background))",
+          foreground: "hsl(var(--foreground))",
+          primary: {
+            DEFAULT: "hsl(var(--primary))",
+            foreground: "hsl(var(--primary-foreground))",
+            glow: "hsl(var(--primary-glow))",
+            deep: "hsl(var(--primary-deep))",
+          },
+          secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
+          destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" },
+          muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+          accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+          card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+        },
+        backgroundImage: {
+          "gradient-primary": "var(--gradient-primary)",
+          "gradient-hero": "var(--gradient-hero)",
+          "gradient-dark": "var(--gradient-dark)",
+          "gradient-mesh": "var(--gradient-mesh)",
+        },
+        boxShadow: {
+          sm: "var(--shadow-sm)",
+          md: "var(--shadow-md)",
+          lg: "var(--shadow-lg)",
+          glow: "var(--shadow-glow)",
+        },
+        borderRadius: {
+          lg: "var(--radius)",
+          md: "calc(var(--radius) - 4px)",
+          sm: "calc(var(--radius) - 8px)",
+        },
+        keyframes: {
+          "fade-up": {
+            "0%": { opacity: "0", transform: "translateY(20px)" },
+            "100%": { opacity: "1", transform: "translateY(0)" },
+          },
+          "fade-in": { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
+          float: { "0%,100%": { transform: "translateY(0)" }, "50%": { transform: "translateY(-10px)" } },
+          "spin-slow": { "0%": { transform: "rotate(0deg)" }, "100%": { transform: "rotate(360deg)" } },
+          "pulse-ring": {
+            "0%": { transform: "scale(0.6)", opacity: "0.7" },
+            "100%": { transform: "scale(2)", opacity: "0" },
+          },
+          "data-flow": {
+            "0%": { strokeDashoffset: "200", opacity: "0" },
+            "20%": { opacity: "1" },
+            "80%": { opacity: "1" },
+            "100%": { strokeDashoffset: "0", opacity: "0" },
+          },
+          drift: {
+            "0%,100%": { transform: "translate(0,0)" },
+            "33%": { transform: "translate(30px,-20px)" },
+            "66%": { transform: "translate(-20px,20px)" },
+          },
+        },
+        animation: {
+          "fade-up": "fade-up 0.7s cubic-bezier(0.22,1,0.36,1) both",
+          "fade-in": "fade-in 0.6s ease-out both",
+          float: "float 6s ease-in-out infinite",
+          "spin-slow": "spin-slow 30s linear infinite",
+          "pulse-ring": "pulse-ring 3s ease-out infinite",
+          "data-flow": "data-flow 2.4s ease-in-out infinite",
+          drift: "drift 14s ease-in-out infinite",
+        },
+      },
+    },
+  };
+</script>
+<link rel="stylesheet" href="../../assets/css/site.css" />
+</head><body class="min-h-screen flex flex-col">
+
+<header id="navbar" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
+  <div class="container-x">
+    <div class="relative">
+      <div id="nav-bg" class="absolute inset-0 rounded-2xl opacity-0 transition-all duration-500"
+           style="background:hsl(0 0% 100% / 0.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid hsl(var(--border) / 0.6);box-shadow:0 12px 32px -16px hsl(265 60% 30% / 0.22)"></div>
+      <div id="nav-shell" class="relative flex items-center justify-between px-4 py-4 transition-all duration-500">
+        <!-- Logo -->
+        <a href="/" class="group inline-flex items-center">
+          <img src="../../assets/algorims-logo.png" alt="Algorims" class="h-8 w-auto transition-transform duration-500 group-hover:scale-[1.03]" style="filter:drop-shadow(0 1px 0 hsl(0 0% 100% / 0.4))" />
+        </a>
+
+        <!-- Desktop nav (centered) -->
+        <nav class="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" id="nav-links">
+          <!-- links injected by JS -->
+        </nav>
+
+        <div class="hidden lg:flex items-center gap-2">
+          <a href="/contact" class="btn btn-hero btn-default">
+            Get Started <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button id="mobile-toggle" class="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-border bg-white/40 backdrop-blur" aria-label="Toggle menu">
+          <i data-lucide="menu" class="!w-5 !h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden mt-2 rounded-2xl glass p-4 shadow-lg lg:hidden animate-fade-in">
+      <nav class="flex flex-col gap-1" id="mobile-nav-links"></nav>
+      <a href="/contact" class="btn btn-hero btn-default mt-2 w-full">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main id="main" hidden style="display:none"></main>
+
+<div class="piq-scope">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>ALGORIMS PAYIQ · AI-NATIVE ACCOUNTS PAYABLE</span>
+      <h1>Your invoices post<br>themselves. <span class="accent">Safely.</span></h1>
+      <p>AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.</p>
+      <div class="hero-ctas">
+        <a href="/contact" class="btn btn-primary">Contact Us</a>
+        <a href="#workflow" class="btn btn-outline">See how it works</a>
+      </div>
+      <div class="hero-trust">
+        <div><span class="v">Xero + Zoho</span><span class="l">Both connectors, day one</span></div>
+        <div><span class="v">Always-on</span><span class="l">Bank-detail change verification</span></div>
+        <div><span class="v">Never lost</span><span class="l">Queued, not dropped, if AI is down</span></div>
+      </div>
+    </div>
+    <div class="ledger reveal">
+      <div class="ledger-head">
+        <span class="lh-title">Posting Feed</span>
+        <span class="live-pill"><span class="live-dot"></span>Live</span>
+      </div>
+      <div class="lrow">
+        <div class="lrow-icon">📄</div>
+        <div class="lrow-body"><div class="lrow-vendor">Straits Logistics Pte Ltd</div><div class="lrow-id mono">INV-22841</div></div>
+        <div class="lrow-amt mono">SGD 1,240.00</div>
+        <div class="lrow-status posted">Posted</div>
+      </div>
+      <div class="lrow">
+        <div class="lrow-icon">📄</div>
+        <div class="lrow-body"><div class="lrow-vendor">Golden Harvest Traders</div><div class="lrow-id mono">INV-22842</div></div>
+        <div class="lrow-amt mono">SGD 386.50</div>
+        <div class="lrow-status posted">Posted</div>
+      </div>
+      <div class="lrow flag">
+        <div class="lrow-icon">⚠️</div>
+        <div class="lrow-body"><div class="lrow-vendor">Meridian Supplies Co.</div><div class="lrow-id mono">INV-22843</div></div>
+        <div class="lrow-amt mono">SGD 2,910.00</div>
+        <div class="lrow-status hold">Held</div>
+      </div>
+      <div class="lflag-note"><b>Bank details changed since last invoice.</b> Routed to onboarding review — never auto-posted, regardless of confidence score.</div>
+      <div class="lrow">
+        <div class="lrow-icon">📄</div>
+        <div class="lrow-body"><div class="lrow-vendor">Pacific Rim Distributors</div><div class="lrow-id mono">INV-22844</div></div>
+        <div class="lrow-amt mono">SGD 764.20</div>
+        <div class="lrow-status posted">Posted</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <div class="proof-grid">
+      <div class="proof-cell">
+        <div class="proof-val"><span>100%</span></div>
+        <div class="proof-label">Bank-detail changes human-verified, no exceptions</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-val"><span>2</span> ERPs</div>
+        <div class="proof-label">Xero and Zoho Books, live from day one</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-val">&lt;2 <span>wks</span></div>
+        <div class="proof-label">Typical onboarding to first touchless post</div>
+      </div>
+      <div class="proof-cell">
+        <div class="proof-val"><span>0</span></div>
+        <div class="proof-label">Invoices lost if AI is briefly unavailable — always queued</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="fit">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">How It Fits</span>
+      <h2>One layer between your invoices and your books</h2>
+      <p>PayIQ sits inside your existing AP workflow — it doesn't replace Xero or Zoho, and it never posts a payment-detail change without a defined, auditable path back to a human.</p>
+    </div>
+    <div class="flow-card reveal">
+      <div class="flow-row n3">
+        <div class="flow-box">
+          <div class="flow-icon">📥</div>
+          <div class="flow-title">Vendors &amp; Invoices</div>
+          <div class="flow-sub">Wherever an invoice arrives</div>
+          <div class="flow-tags">
+            <span>Email</span>
+            <span>Upload</span>
+            <span>Vendor Portal</span>
+          </div>
+        </div>
+        <div class="flow-arrow-col">
+          <span class="flow-arrow-label">Invoice Received</span>
+          <div class="flow-arrow-line"></div>
+        </div>
+        <div class="flow-box highlight">
+          <div class="flow-icon">🛡️</div>
+          <div class="flow-title">Algorims PayIQ</div>
+          <div class="flow-sub">Amazon Textract · Amazon Bedrock</div>
+          <div class="flow-tags">
+            <span>Capture</span>
+            <span>Guard</span>
+            <span>Post</span>
+          </div>
+        </div>
+        <div class="flow-arrow-col">
+          <span class="flow-arrow-label">Auto-Posted or Held for Review</span>
+          <div class="flow-arrow-line"></div>
+        </div>
+        <div class="flow-box">
+          <div class="flow-icon">🏦</div>
+          <div class="flow-title">Xero, Zoho &amp; Bank</div>
+          <div class="flow-sub">Where the entry actually lands</div>
+          <div class="flow-tags">
+            <span>Xero</span>
+            <span>Zoho Books</span>
+            <span>Bank Reconciliation</span>
+          </div>
+        </div>
+      </div>
+      <p class="flow-note">Every step is scoped, logged, and reversible — a vendor bank-detail change never posts without a human.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="problem">
+  <div class="wrap">
+    <div class="value-grid">
+      <div>
+        <span class="tag">The Problem</span>
+        <h2>AP toil is annoying. AP fraud is dangerous. You're carrying both.</h2>
+        <p>Someone on your team is still opening every invoice, typing it into Xero or Zoho, and hoping they catch the one that's off. That's slow on a good week — and on a bad one, it's how a business email compromise scam gets a real payment out the door.</p>
+        <p>PayIQ takes the typing off your team's plate for the invoices it's sure about, and puts a hard stop in front of the one thing that actually causes AP fraud losses: a vendor's bank details changing without anyone noticing.</p>
+      </div>
+      <div class="fraud-card reveal">
+        <div class="fraud-card-inner">
+          <span class="fraud-tag">#1 AP Fraud Vector</span>
+          <h4>Vendor bank-detail changes are how businesses lose real money</h4>
+          <p>A convincing email, a "updated payment details" PDF, one distracted approval — and a payment goes to an account that isn't your vendor's. It's the single most common way accounts payable teams get defrauded, and it's rarely caught by looking harder at the invoice itself.</p>
+          <div class="fraud-stat">
+            <div><div class="v" style="color:var(--guard)">Hard stop</div><div class="l">Every time, regardless of confidence score</div></div>
+            <div><div class="v">Never configurable off</div><div class="l">Not a setting a busy admin can disable</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="workflow">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">How It Works</span>
+      <h2>Two paths. One rule that never bends.</h2>
+      <p>Most invoices move fast. The moment something touches a vendor's payment details, PayIQ deliberately slows down.</p>
+    </div>
+    <div class="tracks">
+      <div class="track fast reveal">
+        <div class="track-head"><b>🟢 The everyday invoice</b></div>
+        <div class="track-steps">
+          <div class="tk-step"><div class="tk-num">1</div><p>Invoice arrives by email or upload<span class="sub">Captured automatically, no manual entry</span></p></div>
+          <div class="tk-step"><div class="tk-num">2</div><p>AI reads vendor, amount, line items, PO match<span class="sub">Checked against known vendor records</span></p></div>
+          <div class="tk-step"><div class="tk-num">3</div><p>Confidence is high, nothing has changed<span class="sub">No new vendor, no changed bank details</span></p></div>
+          <div class="tk-step"><div class="tk-num">4</div><p>Posted straight into Xero or Zoho<span class="sub">Your team never opens this one</span></p></div>
+        </div>
+      </div>
+      <div class="track hold reveal">
+        <div class="track-head"><b>🔴 The one that needs a human</b></div>
+        <div class="track-steps">
+          <div class="tk-step"><div class="tk-num">1</div><p>Invoice arrives from a known vendor<span class="sub">Looks completely normal on its face</span></p></div>
+          <div class="tk-step"><div class="tk-num">2</div><p>AI detects bank details differ from last time<span class="sub">Or the vendor is new / unrecognized</span></p></div>
+          <div class="tk-step"><div class="tk-num">3</div><p>Auto-posting is blocked — full stop<span class="sub">Regardless of how confident the extraction is</span></p></div>
+          <div class="tk-step"><div class="tk-num">4</div><p>Routed to a reviewer with the change highlighted<span class="sub">Verified out-of-band before anything posts</span></p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="pillars">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">The Platform</span>
+      <h2>What PayIQ actually does for your AP desk</h2>
+      <p>Capture the paperwork. Guard the payment. Post where you already work. Stay in control the whole way through.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon p1">📥</div>
+        <div>
+          <div class="pillar-num">Capture</div>
+          <h3>Every invoice read, no matter how it arrives</h3>
+          <ul class="pillar-list">
+            <li><b>Email, upload, or forwarded inbox</b> — invoices are captured the moment they land, no portal habit to build.</li>
+            <li><b>Line items, taxes, PO references</b> extracted and matched automatically.</li>
+            <li><b>New or unrecognized vendors</b> route to an onboarding review — never a silent first post.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon p2">🛡️</div>
+        <div>
+          <div class="pillar-num">Guard</div>
+          <h3>The fraud stop that's never optional</h3>
+          <ul class="pillar-list">
+            <li><b>Vendor bank-detail change = hard stop</b>, always human-verified — the single most common AP fraud vector, closed by design.</li>
+            <li><b>Reversal workflow</b> exists for anything wrongly auto-posted — a safety net, not just a gate.</li>
+            <li><b>Degraded-mode queuing</b> — if the AI is briefly unavailable, invoices wait in line. They're never skipped or lost.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon p3">🔗</div>
+        <div>
+          <div class="pillar-num">Post</div>
+          <h3>Straight into the ledger you already run</h3>
+          <ul class="pillar-list">
+            <li><b>Xero and Zoho Books</b>, both live from day one — no waiting on a roadmap for your ERP.</li>
+            <li><b>Zoho markets</b> get the deeper play: capture → post → bank reconciliation in one flow.</li>
+            <li><b>Reviewer SLA</b> agreed at onboarding, so approvals never sit past an invoice due date.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon p4">⚙️</div>
+        <div>
+          <div class="pillar-num">Control</div>
+          <h3>Deployed into your own AWS environment</h3>
+          <ul class="pillar-list">
+            <li><b>Runs inside your AWS account</b> — your data stays in your environment, not a shared multi-tenant pool.</li>
+            <li><b>AI spend capped by design</b>, enforced in the stack — predictable by default, not a bill that can run away.</li>
+            <li><b>Human boundary throughout</b> — AI posts below the risk line, people approve above it, and that threshold is a decision your team makes at onboarding.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="connectors">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Where It Fits</span>
+      <h2>Built around the ledger and the market you're already in</h2>
+      <p>The connector and the angle change by market. The fraud stop doesn't.</p>
+    </div>
+    <div class="conn-grid">
+      <div class="conn-card reveal">
+        <div class="conn-badges"><span class="conn-chip xero">Xero</span></div>
+        <h4>🇦🇺 ANZ</h4>
+        <p>Highest labor cost of the three markets means the strongest per-invoice time savings — and business email compromise is front-page news here, so the fraud stop leads the conversation.</p>
+      </div>
+      <div class="conn-card reveal">
+        <div class="conn-badges"><span class="conn-chip xero">Xero</span><span class="conn-chip zoho">Zoho</span></div>
+        <h4>🇸🇬 Singapore / SEA</h4>
+        <p>Xero for Singapore entities, Zoho across the wider region. Built for lean finance teams who need to grow headcount-free, hosted and compliant in-region.</p>
+      </div>
+      <div class="conn-card reveal">
+        <div class="conn-badges"><span class="conn-chip zoho">Zoho</span></div>
+        <h4>🇮🇳 India</h4>
+        <p>Zoho's home turf — and the connector's deepest integration, taking invoices all the way from capture through posting to bank reconciliation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="tag">Why PayIQ</span>
+      <h2>The trust rules, not negotiable</h2>
+      <p>This is what "safely" means in practice — baked into the platform, not a setting to turn off under pressure.</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card warn">
+        <div class="trust-icon">🚫</div>
+        <h4>Bank-detail change = hard stop</h4>
+        <p>Always human-verified, regardless of confidence score. Our headline commitment, and it never gets a configurable-off switch.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">👤</div>
+        <h4>Human boundary by design</h4>
+        <p>AI posts below the risk line, humans approve above it. The threshold is your team's decision at onboarding — not a default you discover later.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">↩️</div>
+        <h4>Reversal workflow included</h4>
+        <p>If something was wrongly auto-posted, there's a defined way back — we sell the safety net, not just the gate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark" id="architecture">
+  <div class="wrap">
+    <div class="section-head on-dark">
+      <span class="tag on-dark">The Architecture</span>
+      <h2>One pipeline, four steps, every dollar accounted for</h2>
+      <p>This is the actual pipeline behind the posting feed above — not a simplified diagram for the pitch deck.</p>
+    </div>
+    <div class="flow-card reveal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);">
+      <div class="flow-row n4">
+        <div class="flow-box">
+          <div class="flow-icon">📥</div>
+          <div class="flow-title">Ingest</div>
+          <div class="flow-sub">Email / Upload / Scan</div>
+        </div>
+        <div class="flow-arrow-col"><div class="flow-arrow-line"></div></div>
+        <div class="flow-box">
+          <div class="flow-icon">🔎</div>
+          <div class="flow-title">Extract &amp; Score</div>
+          <div class="flow-sub">Amazon Textract + Bedrock</div>
+        </div>
+        <div class="flow-arrow-col"><div class="flow-arrow-line"></div></div>
+        <div class="flow-box highlight">
+          <div class="flow-icon">🛡️</div>
+          <div class="flow-title">Guard</div>
+          <div class="flow-sub">Vendor &amp; Bank-Detail Check</div>
+        </div>
+        <div class="flow-arrow-col"><div class="flow-arrow-line"></div></div>
+        <div class="flow-box">
+          <div class="flow-icon">✅</div>
+          <div class="flow-title">Post &amp; Reconcile</div>
+          <div class="flow-sub">Xero / Zoho + Bank Feed</div>
+        </div>
+      </div>
+      <p class="flow-note">The Guard step is not configurable off — any flag on vendor identity, bank details, or duplicates is a hard stop for human review, regardless of confidence.</p>
+      <div class="aws-strip">
+        <div class="aws-credential">
+          <img class="cred-logo" src="../../assets/algorims-logo.png" alt="Algorims">
+          <div class="cred-div"></div>
+          <img class="cred-badge" src="../../assets/aws-partner-badge.png" alt="AWS Partner — Advanced Tier Services">
+        </div>
+        <div class="tech-pills">
+          <span>Amazon Textract</span>
+          <span>Amazon Bedrock</span>
+          <span>AWS Lambda</span>
+          <span>Amazon DynamoDB</span>
+          <span>AWS Secrets Manager</span>
+          <span>Amazon CloudWatch</span>
+          <span>Xero API</span>
+          <span>Zoho Books API</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="cta-band">
+      <div class="cta-band-inner">
+        <h2>Let your team review exceptions, not type invoices.</h2>
+        <p>Tell us which ERP you run and what your invoice volume looks like — we'll walk you through exactly how PayIQ would handle it.</p>
+        <div class="cta-band-btns">
+          <a href="/contact" class="btn btn-light">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div data-footer></div>
+
+<script src="../../assets/js/content.js" defer></script>
+<script src="../../assets/js/site.js" defer></script>
+<script>
+  // These product pages render their own static content (not through the
+  // sitewide SPA router), but site.js still attaches a document-level click
+  // interceptor that hijacks same-origin "/..." link clicks for client-side
+  // routing. On this page that swap happens into a hidden #main, so the URL
+  // bar changes but nothing visible updates until a manual refresh. Stop
+  // those clicks during the capture phase (before site.js sees them) so
+  // internal links do a normal, real navigation instead.
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('a[href^="/"]');
+    if (a) e.stopPropagation();
+  }, true);
+</script>
+
+
+
+<script>
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
