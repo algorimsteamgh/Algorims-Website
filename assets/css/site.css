@@ -62,6 +62,10 @@
   }
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
+  main section:not(:first-of-type) {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 760px;
+  }
 
   /* Button */
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; font-weight: 500; transition: all .3s cubic-bezier(.22,1,.36,1); white-space: nowrap; cursor: pointer; }
@@ -1416,6 +1420,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
     .bha-card-front, .bha-card-mid, .bha-card-back,
     .bha-chip, .bha-tok, .bha-shimmer, .bha-title, .bha-line,
     .bha-caret, .bha-progress, .bha-sig-dot, .bha-sig-arc, .bha-spark

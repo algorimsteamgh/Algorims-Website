@@ -49,7 +49,7 @@ export default function RootLayout({
           data-id="6125825243"
           id="chtl-script"
           src="https://chatling.ai/js/embed.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

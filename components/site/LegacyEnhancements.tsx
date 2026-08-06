@@ -276,9 +276,10 @@ const bindJourneyTimeline = () => {
     return;
   }
 
-  for (const journey of journeys) {
-    journey.style.setProperty("--journey-h", `${journey.offsetHeight}px`);
-  }
+  const heights = journeys.map((journey) => journey.offsetHeight);
+  journeys.forEach((journey, index) => {
+    journey.style.setProperty("--journey-h", `${heights[index]}px`);
+  });
 
   const observer = new IntersectionObserver(
     (entries) => {
@@ -288,7 +289,6 @@ const bindJourneyTimeline = () => {
         }
 
         const target = entry.target as HTMLElement;
-        target.style.setProperty("--journey-h", `${target.offsetHeight}px`);
         target.classList.add("is-visible");
         observer.unobserve(target);
       }
@@ -387,9 +387,11 @@ const bindProductsPage = () => {
 
   const logos = Array.from(document.querySelectorAll<HTMLElement>(".pp-logo"));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let scrollRaf = 0;
 
   if (logos.length && !reduceMotion) {
-    const onScroll = () => {
+    const updateLogos = () => {
+      scrollRaf = 0;
       for (const logo of logos) {
         const card = logo.closest<HTMLElement>(".pp-card");
         if (!card) {
@@ -408,8 +410,13 @@ const bindProductsPage = () => {
         logo.style.transform = `translateY(${offset.toFixed(2)}px)`;
       }
     };
+    const onScroll = () => {
+      if (!scrollRaf) {
+        scrollRaf = window.requestAnimationFrame(updateLogos);
+      }
+    };
 
-    onScroll();
+    updateLogos();
     if (window.__ppScrollHandler) {
       window.removeEventListener("scroll", window.__ppScrollHandler);
     }
@@ -426,6 +433,9 @@ const bindProductsPage = () => {
     if (window.__ppScrollHandler) {
       window.removeEventListener("scroll", window.__ppScrollHandler);
       window.__ppScrollHandler = null;
+    }
+    if (scrollRaf) {
+      window.cancelAnimationFrame(scrollRaf);
     }
   };
 };
@@ -459,6 +469,7 @@ const bindRadialOrbital = () => {
   let autoRotate = true;
   let activeId: string | null = null;
   let raf = 0;
+  let visible = true;
 
   const place = () => {
     nodes.forEach((node, index) => {
@@ -478,12 +489,28 @@ const bindRadialOrbital = () => {
     });
   };
 
-  const tick = () => {
-    if (autoRotate && !reduceMotion) {
-      rotation = (rotation + 0.16) % 360;
-      place();
+  const stopTick = () => {
+    if (raf) {
+      window.cancelAnimationFrame(raf);
+      raf = 0;
     }
-    raf = window.requestAnimationFrame(tick);
+  };
+
+  const startTick = () => {
+    if (!raf && visible && autoRotate && !reduceMotion) {
+      raf = window.requestAnimationFrame(tick);
+    }
+  };
+
+  const tick = () => {
+    raf = 0;
+    if (!visible || !autoRotate || reduceMotion) {
+      return;
+    }
+
+    rotation = (rotation + 0.16) % 360;
+    place();
+    startTick();
   };
 
   const setActive = (id: string) => {
@@ -495,6 +522,7 @@ const bindRadialOrbital = () => {
     activeId = id;
     autoRotate = false;
     stage.dataset.paused = "true";
+    stopTick();
 
     const related = (node.dataset.relatedIds || "").split(",").filter(Boolean);
     for (const entry of nodes) {
@@ -522,6 +550,7 @@ const bindRadialOrbital = () => {
       node.removeAttribute("data-active");
       node.removeAttribute("data-related");
     }
+    startTick();
   };
 
   const nodeCleanups: Array<() => void> = [];
@@ -607,11 +636,25 @@ const bindRadialOrbital = () => {
   stage.addEventListener("click", onJumpClick);
   window.addEventListener("resize", onResize);
 
+  const visibilityObserver = new IntersectionObserver(
+    ([entry]) => {
+      visible = Boolean(entry?.isIntersecting);
+      if (visible) {
+        startTick();
+      } else {
+        stopTick();
+      }
+    },
+    { rootMargin: "160px 0px" },
+  );
+  visibilityObserver.observe(stage);
+
   place();
-  raf = window.requestAnimationFrame(tick);
+  startTick();
 
   return () => {
-    window.cancelAnimationFrame(raf);
+    stopTick();
+    visibilityObserver.disconnect();
     stage.removeEventListener("click", onStageClick);
     stage.removeEventListener("click", onJumpClick);
     window.removeEventListener("resize", onResize);

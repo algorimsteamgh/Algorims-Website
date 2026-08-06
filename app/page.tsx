@@ -1,4 +1,4 @@
-import { LegacyEnhancements } from "../components/site/LegacyEnhancements";
+import { LegacyEnhancementsLoader as LegacyEnhancements } from "../components/site/LegacyEnhancementsLoader";
 import { LegacyMarkup } from "../components/site/LegacyMarkup";
 import { renderLegacyPage } from "../lib/legacy-pages";
 import { buildPageMetadata } from "../lib/site-metadata";
