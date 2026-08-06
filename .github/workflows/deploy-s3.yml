@@ -1,0 +1,39 @@
+name: Deploy website to S3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::561580620525:role/AlgorimsWebsiteGitHubDeploy
+          aws-region: ap-south-1
+
+      - name: Upload website
+        run: >-
+          aws s3 sync . s3://algorims-website-561580620525
+          --delete
+          --exclude "*"
+          --include "*.html"
+          --include "*.xml"
+          --include "*.txt"
+          --include "assets/*"
+          --exclude "uploads/*"
+
+      - name: Refresh CloudFront
+        run: aws cloudfront create-invalidation --distribution-id ESYSC15E546OI --paths "/*"
