@@ -4435,13 +4435,11 @@ const ROUTES = {
 const NAV_LINKS = [
   { to: "/",            label: "Home" },
   { to: "/services",    label: "Services" },
-  { to: "/products",    label: "Products", hasDropdown: true },
+  { to: "/products",    label: "Products", hasDropdown: "products" },
   { to: "/agentic-ai",  label: "Agentic AI" },
   { to: "/cca-f",       label: "Claude" },
-  { to: "/case-studies",label: "Case Studies" },
-  { to: "/blog",        label: "Blog" },
-  { to: "/about",       label: "About" },
-  { to: "/support",     label: "Support" },
+  { to: "/case-studies",label: "Resources", hasDropdown: "resources" },
+  { to: "/about",       label: "Company", hasDropdown: "company" },
 ];
 
 const PRODUCT_MENU = [
@@ -4449,6 +4447,16 @@ const PRODUCT_MENU = [
   { name: "DocIQ", slug: "dociq", desc: "Intelligent document processing with confidence routing" },
   { name: "OpsIQ", slug: "opsiq", desc: "Autonomous L1 service desk and IT operations" },
   { name: "PayIQ", slug: "payiq", desc: "AI-native accounts payable for Xero & Zoho Books" },
+];
+
+const RESOURCES_MENU = [
+  { name: "Case Studies", href: "/case-studies", desc: "Real deployments, real outcomes", icon: "layout-grid" },
+  { name: "Blog", href: "/blog", desc: "Ideas, guides, and updates", icon: "newspaper" },
+];
+
+const COMPANY_MENU = [
+  { name: "About", href: "/about", desc: "Who we are and what we build", icon: "building-2" },
+  { name: "Support", href: "/support", desc: "Get help or open a ticket", icon: "life-buoy" },
 ];
 
 function currentPath() {
@@ -4493,19 +4501,23 @@ function navigateTo(href) {
 
 function renderNav() {
   const path = currentPath();
-  const activeKey = path.startsWith("/blog") ? "/blog" : path;
+  const activeKey = path.startsWith("/blog") || path.startsWith("/case-studies") ? "/case-studies"
+    : path.startsWith("/support") ? "/about"
+    : path;
   const navLabel = (l) => l.to === "/cca-f"
     ? `${l.label}<span class="nav-new-badge" aria-label="New content">New</span>`
     : l.label;
   document.getElementById("nav-links").innerHTML = NAV_LINKS.map(l => {
-    if (l.hasDropdown) {
+    if (l.hasDropdown === "products") {
       const menuItems = PRODUCT_MENU.map(pm => {
         const prod = (typeof PRODUCTS !== "undefined") ? PRODUCTS.find(p => p.slug === pm.slug) : null;
-        return `<a href="/products/${pm.slug}" class="block px-2 py-2 hover:bg-secondary/50 transition-colors border-b border-border/50 last:border-b-0">
-          <div class="flex items-center gap-2">
-            ${prod && prod.logo ? `<img src="${prod.logo}" alt="" class="h-4 w-4 object-contain" />` : prod ? `<span class="grid h-4 w-4 place-items-center text-xs" style="color:${prod.accent}">${icon(prod.glyph,"!w-3 !h-3")}</span>` : ""}
-            <div class="font-medium text-sm text-foreground">${pm.name}</div>
-          </div>
+        const accent = prod ? prod.accent : "hsl(var(--primary))";
+        return `<a href="/products/${pm.slug}" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+          <span class="grid h-8 w-8 place-items-center rounded-lg" style="background:${accent}1a;color:${accent}">
+            ${prod && prod.logo ? `<img src="${prod.logo}" alt="" class="h-4 w-4 object-contain" />` : prod ? icon(prod.glyph, "!w-4 !h-4") : ""}
+          </span>
+          <div class="font-medium text-sm text-foreground">${pm.name}</div>
+          <div class="text-xs leading-snug text-muted-foreground">${pm.desc}</div>
         </a>`;
       }).join("");
       return `
@@ -4514,7 +4526,49 @@ function renderNav() {
             ${navLabel(l)} <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
           </a>
           <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-            <div class="rounded-lg border border-border bg-card shadow-lg overflow-hidden min-w-64">
+            <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-96">
+              ${menuItems}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    if (l.hasDropdown === "resources") {
+      const menuItems = RESOURCES_MENU.map(rm => `
+        <a href="${rm.href}" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary">${icon(rm.icon, "!w-4 !h-4")}</span>
+          <div class="font-medium text-sm text-foreground">${rm.name}</div>
+          <div class="text-xs leading-snug text-muted-foreground">${rm.desc}</div>
+        </a>
+      `).join("");
+      return `
+        <div class="group relative">
+          <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">
+            ${navLabel(l)} <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+          </a>
+          <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-72">
+              ${menuItems}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    if (l.hasDropdown === "company") {
+      const menuItems = COMPANY_MENU.map(cm => `
+        <a href="${cm.href}" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+          <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary">${icon(cm.icon, "!w-4 !h-4")}</span>
+          <div class="font-medium text-sm text-foreground">${cm.name}</div>
+          <div class="text-xs leading-snug text-muted-foreground">${cm.desc}</div>
+        </a>
+      `).join("");
+      return `
+        <div class="group relative">
+          <a href="${l.to}" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 ${activeKey === l.to ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"}">
+            ${navLabel(l)} <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+          </a>
+          <div class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-72">
               ${menuItems}
             </div>
           </div>
@@ -5223,6 +5277,14 @@ loadFooter();
   }
 })();
 
+// A handful of product pages are hand-built static HTML (their own header/
+// footer swapped for the shared ones) rather than rendered by the router's
+// PRODUCTS/pageProductDetail() data. Client-side routing into them would just
+// re-render the old generic product template into #main instead of actually
+// loading their file, so these paths must always go through a real
+// navigation instead of the History API shortcut below.
+const STATIC_ROUTES = ["/products/cxiq", "/products/dociq", "/products/opsiq", "/products/payiq"];
+
 // Intercept clicks on internal links and route them through the History API
 // (no full page reload), while letting external links, new-tab clicks,
 // downloads, and modified clicks behave normally.
@@ -5236,6 +5298,8 @@ document.addEventListener("click", (e) => {
   if (a.hasAttribute("download")) return;
   // Only handle same-origin, path-based links (start with "/" but not "//")
   if (!href.startsWith("/") || href.startsWith("//")) return;
+  // Let these fall through to a normal browser navigation
+  if (STATIC_ROUTES.includes(href.replace(/\/+$/, ""))) return;
   e.preventDefault();
   navigateTo(href);
 });
