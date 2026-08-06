@@ -80,7 +80,8 @@
   .hero{background:linear-gradient(180deg,#EAF9F2 0%,#FDFEFC 60%,#FFFFFF 100%);position:relative;overflow:hidden;padding:88px 0 72px;}
   .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 55% at 88% 8%,rgba(14,159,110,0.12) 0%,transparent 60%);}
   .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center;}
-  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--brand-lt);border:1px solid #B7E9D3;color:var(--brand-deep);font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:6px 14px;border-radius:999px;margin-bottom:24px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--brand-lt);border:1px solid #B7E9D3;color:var(--brand-deep);font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:10px 18px;border-radius:999px;margin-bottom:24px;}
+  .eyebrow strong{font-weight:800;font-size:0.9rem;letter-spacing:normal;}
   .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--brand);}
   .hero h1{color:var(--navy);font-size:clamp(2.2rem,4.2vw,3.2rem);font-weight:800;line-height:1.1;margin-bottom:20px;}
   .hero h1 .accent{background:linear-gradient(90deg,var(--brand),var(--brand-deep));-webkit-background-clip:text;background-clip:text;color:transparent;}
@@ -389,13 +390,13 @@
 
         <div class="hidden lg:flex items-center gap-2">
           <a href="/contact" class="btn btn-hero btn-default">
-            Get Started <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
+            Get Started <i data-lucide="arrow-right" class="!w-[30px] !h-[30px]"></i>
           </a>
         </div>
 
         <!-- Mobile toggle -->
         <button id="mobile-toggle" class="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-border bg-white/40 backdrop-blur" aria-label="Toggle menu">
-          <i data-lucide="menu" class="!w-5 !h-5"></i>
+          <i data-lucide="menu" class="!w-[30px] !h-[30px]"></i>
         </button>
       </div>
     </div>
@@ -414,7 +415,7 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span>ALGORIMS PAYIQ · AI-NATIVE ACCOUNTS PAYABLE</span>
+      <span class="eyebrow"><i data-lucide="receipt" class="!w-[30px] !h-[30px]"></i><strong>PayIQ</strong></span>
       <h1>Your invoices post<br>themselves. <span class="accent">Safely.</span></h1>
       <p>AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.</p>
       <div class="hero-ctas">
