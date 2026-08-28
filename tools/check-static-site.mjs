@@ -100,7 +100,7 @@ const contentCounts = vm.runInContext(
   "[BLOG_POSTS.length, CASE_STUDIES.length, SOLUTIONS.length, Object.keys(CASE_SCENES).length]",
   contentContext,
 );
-if (contentCounts.join(",") !== "9,5,3,5") {
+if (contentCounts.join(",") !== "9,7,3,5") {
   fail(`assets/js/content.js: unexpected content counts ${contentCounts.join(",")}`);
 }
 

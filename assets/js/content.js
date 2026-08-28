@@ -584,6 +584,109 @@ const CASE_STUDIES = [
     ],
     related: ["qsr-conversational-analytics", "enterprise-knowledge-mining"],
   },
+
+  {
+    slug: "syslatech-intelligent-document-processing",
+    source: { href: "/case-studies", label: "Case Studies" },
+    kind: "Case Study",
+    tag: "Agentic AI · Finance · Document Processing",
+    title: "From Manual Paperwork to AI-Powered Precision: How Syslatech Automated Document Processing with AWS",
+    subtitle: "Algorims built a generative AI document-processing pipeline on Amazon Bedrock that cuts manual review to a fraction of Syslatech's finance workload — with a human always in the loop for anything the AI isn't confident about.",
+    glyph: "receipt",
+    accent: "hsl(265 85% 58%)",
+    clientLogo: { src: "/assets/case-studies/clients/syslatech-logo.png", alt: "Syslatech", name: "Syslatech" },
+    meta: [
+      { label: "Client",   value: "Syslatech" },
+      { label: "Industry", value: "Finance · Document Processing" },
+      { label: "Platform", value: "Amazon Bedrock" },
+      { label: "Status",   value: "Live in production since July 2026" },
+    ],
+    intro: [
+      "Syslatech's finance team was processing incoming documents by hand — reading, keying, and cross-checking every invoice, receipt, and form before it could move into their systems. It was slow, it didn't scale, and small errors were easy to miss under volume.",
+      "Algorims designed and delivered a generative AI-powered document processing pipeline built entirely on AWS, giving Syslatech a faster, more consistent way to process documents — without losing the accuracy or oversight a finance team depends on.",
+    ],
+    challenge: {
+      lead: "Syslatech's finance team needed a faster way to process high volumes of documents without losing the accuracy or oversight the job demands:",
+      items: [
+        "Every invoice, receipt, and form was read, keyed, and cross-checked by hand before it could move into Syslatech's systems.",
+        "Manual review didn't scale — volume grew faster than the team's capacity to keep up.",
+        "Small errors were easy to miss under volume, with no consistent way to catch them.",
+        "Ad hoc use of consumer AI tools sped some work up, but created its own data-handling concerns.",
+      ],
+    },
+    solutionTitle: "What Algorims built",
+    solutionLead: "A generative AI-powered document processing pipeline built entirely on AWS, using a tiered extraction model on Amazon Bedrock so a fast, cost-efficient model handles most documents automatically — and only the ones it's unsure about get escalated.",
+    solution: [
+      { h: "Tiered extraction on Bedrock", p: "Most documents are read and structured automatically by a fast, cost-efficient model. Anything the system is less confident about is automatically escalated to a more powerful model." },
+      { h: "Human in the loop", p: "If confidence still isn't high enough after escalation, the document is routed to a human reviewer before it ever reaches Syslatech's records — the AI never guesses on the finance team's behalf." },
+      { h: "Full audit trail", p: "Every decision, every escalation, and every human correction is logged, giving Syslatech a complete, reviewable record of exactly how each document was handled." },
+    ],
+    tech: ["Amazon Bedrock", "AWS Step Functions", "AWS Lambda", "Amazon S3", "Infrastructure as Code"],
+    results: [
+      "<strong>~77% straight-through processing</strong> — documents processed automatically with no human touch at all.",
+      "<strong>99.6% modelled cost reduction</strong> — in monthly document-processing cost compared to the prior manual/ad hoc process, at current production volume.",
+      "<strong>100% audit coverage</strong> — every document's processing history, confidence score, and any human correction is recorded and reviewable.",
+      "<strong>Live in production</strong> since July 2026, continuing to process Syslatech's day-to-day document volume.",
+    ],
+    metrics: [
+      { value: "~77%", label: "Documents processed straight through, no human touch" },
+      { value: "99.6%", label: "Modelled reduction in monthly processing cost" },
+      { value: "100%", label: "Audit coverage across every document processed" },
+      { value: "✓", label: "Human reviewer in the loop for low-confidence documents" },
+    ],
+    related: ["finance-document-automation", "enterprise-knowledge-mining"],
+  },
+
+  {
+    slug: "smac-tech-labs-ai-support",
+    source: { href: "/case-studies", label: "Case Studies" },
+    kind: "Case Study",
+    tag: "Agentic AI · Customer Support",
+    title: "Built the AI-Powered Support Platform Running SMAC Tech Labs' Own Customer Service",
+    subtitle: "Algorims designed and built SMAC Support — a Bedrock Claude-powered AI support platform that answers customer questions from SMAC Tech Labs' own knowledge base, with a seamless handoff to a human agent when it can't help.",
+    glyph: "message-circle",
+    accent: "hsl(265 85% 58%)",
+    clientLogo: { src: "/assets/case-studies/clients/smac-tech-labs-logo.png", alt: "SMAC Tech Labs", name: "SMAC Tech Labs" },
+    meta: [
+      { label: "Client",   value: "SMAC Tech Labs" },
+      { label: "Industry", value: "Digital Engineering & IT Services" },
+      { label: "Platform", value: "Amazon Bedrock (Claude)" },
+      { label: "Status",   value: "Live in production" },
+    ],
+    intro: [
+      "SMAC Tech Labs — a digital engineering company delivering cloud, mobile, web, and AI/ML services out of Singapore and India — needed a support experience for its own customers that matched the AI-native systems it builds for its clients.",
+      "Algorims designed and built SMAC Support end-to-end: a dedicated AI support platform where an AI agent answers customer questions directly from SMAC Tech Labs' own knowledge base, and hands off to a human agent the moment it can't help.",
+    ],
+    challenge: {
+      lead: "SMAC Tech Labs needed a support channel that could scale without scaling headcount, while staying grounded in accurate, SMAC-specific answers:",
+      items: [
+        "Customer questions needed answers grounded in SMAC Tech Labs' own knowledge base — not generic AI responses that risk being wrong.",
+        "Support needed to be available continuously, without a growing team watching every channel manually.",
+        "When the AI couldn't help, the handoff to a human agent needed to be seamless, with conversation history carried over rather than lost.",
+        "The platform needed to be built specifically around SMAC Tech Labs' own workflow, not a generic third-party chatbot bolted on top.",
+      ],
+    },
+    solutionTitle: "What Algorims built",
+    solutionLead: "SMAC Support — a purpose-built AI support platform on Amazon Bedrock, combining a knowledge-grounded AI agent, an embeddable chat widget, and a full agent dashboard.",
+    solution: [
+      { h: "Knowledge-grounded AI agent", p: "An AI agent built on Amazon Bedrock (Claude) answers customer questions from SMAC Tech Labs' own knowledge base rather than general training data, so answers stay accurate and on-brand." },
+      { h: "Embeddable web chat widget", p: "A lightweight, embeddable chat widget puts the AI agent directly on SMAC Tech Labs' site, answering questions in real time without a support agent needing to be online." },
+      { h: "Seamless human handoff", p: "When a question needs a human, the conversation escalates to SMAC Tech Labs' support team with the full history intact — customers never have to repeat themselves." },
+      { h: "Agent dashboard", p: "A dedicated dashboard gives SMAC Tech Labs' team a live inbox, ticketing, and knowledge-base management, built specifically around how their support team works." },
+    ],
+    tech: ["Amazon Bedrock", "Claude (Anthropic)", "NestJS", "Next.js", "PostgreSQL"],
+    results: [
+      "<strong>Live in production</strong> at SMAC Tech Labs' support platform, handling real customer conversations today.",
+      "<strong>AI-first, human-backed</strong> — questions are answered instantly by the AI agent where possible, with a clean handoff to a human for anything it can't resolve.",
+      "<strong>Purpose-built for SMAC Tech Labs</strong> — a dedicated platform reflecting their own knowledge base and support workflow, not a shared generic tool.",
+    ],
+    metrics: [
+      { value: "✓", label: "Live in production, handling real customer conversations" },
+      { value: "✓", label: "AI agent grounded in SMAC Tech Labs' own knowledge base" },
+      { value: "✓", label: "Seamless AI-to-human handoff with full conversation context" },
+    ],
+    related: ["enterprise-knowledge-mining", "autonomous-customer-operations"],
+  },
 ];
 
 /* ============================================================
