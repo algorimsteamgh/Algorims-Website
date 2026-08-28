@@ -340,7 +340,7 @@ function pageHome() {
         <div class="mt-8 relative overflow-hidden"
              style="-webkit-mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);">
           <div class="flex w-max items-center gap-12 md:gap-16" style="animation:trusted-marquee 50s linear infinite">
-            ${[1,2].map(() => Array.from({length: 14}, (_, i) => {
+            ${[1,2].map(() => Array.from({length: 16}, (_, i) => {
               const n = String(i+1).padStart(2,'0');
               const ext = i === 10 ? 'svg' : 'png';
               return `<img src="${BASE_PATH}/assets/trusted/logo-${n}.${ext}" alt="Algorims client logo" class="trusted-logo h-10 w-auto max-w-[140px] object-contain md:h-12" loading="lazy" />`;
@@ -499,6 +499,41 @@ function pageHome() {
               {icon:"zap",          label:"GenAI accelerators"},
               {icon:"cloud",        label:"Migration & modernization"},
               {icon:"line-chart",   label:"FinOps & optimization"},
+            ].map(f => `
+              <div class="rounded-2xl border border-border bg-background/60 p-5 backdrop-blur">
+                ${icon(f.icon, "!w-5 !h-5 text-primary")}
+                <p class="mt-3 text-sm font-medium">${f.label}</p>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partner highlight: Xero -->
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-3xl border border-border bg-card p-10 md:p-14">
+        <div class="absolute inset-0 surface-mesh opacity-40"></div>
+        <div class="relative grid gap-10 md:grid-cols-2 md:items-center">
+          <div class="space-y-5">
+            ${eyebrow("Strategic alliance")}
+            <h2 class="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">Xero <span class="text-gradient">Partner</span></h2>
+            <p class="text-base leading-relaxed text-muted-foreground">As a Xero Partner, we help businesses simplify their accounting, automate financial processes, and gain better visibility into their finances — configuring Xero around your workflow instead of the other way around.</p>
+            <div class="flex items-center gap-5 pt-2">
+              <img src="${BASE_PATH}/assets/partners/xero-blue-partner-badge.svg" alt="Xero Partner" class="h-28 w-28 shrink-0 object-contain" />
+              <div class="flex flex-wrap gap-2">
+                ${["Invoicing","Bank Reconciliation","GST & IRAS","InvoiceNow","Reporting"].map(b => `<span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">${b}</span>`).join("")}
+              </div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            ${[
+              {icon:"file-text",  label:"Setup & implementation"},
+              {icon:"database",   label:"Data migration"},
+              {icon:"workflow",   label:"Automation & integrations"},
+              {icon:"graduation-cap", label:"Training & support"},
             ].map(f => `
               <div class="rounded-2xl border border-border bg-background/60 p-5 backdrop-blur">
                 ${icon(f.icon, "!w-5 !h-5 text-primary")}
@@ -1106,6 +1141,28 @@ function pageServices() {
       caseLabel:"View development case studies",
       accent:true,
     },
+    {
+      id:"xero",   icon:"calculator", name:"Xero Solutions",
+      partnerLogo:"/assets/partners/xero-blue-partner-badge.svg",
+      paragraphs:[
+        "Xero is a cloud-based accounting platform that brings your essential financial processes together in one place. From invoicing and expenses to bank reconciliation, GST and reporting, Xero helps businesses reduce manual work and manage their finances more efficiently.",
+        "We don't just help you set up Xero — we help you make it work for your business. We understand your existing processes, configure Xero around your requirements, and help you build a more connected accounting workflow — moving from manual processes to connected workflows to better financial visibility.",
+      ],
+      who:"Businesses looking to simplify accounting, automate financial processes, and gain real-time visibility into their finances with Xero.",
+      tagsLabel:"Our Xero Services",
+      tags:"End-to-end Xero services — Setup & Implementation, Data Migration, Automation, InvoiceNow, GST Workflows, Integrations, and Training & Support.",
+      offerings:[
+        "Invoicing",
+        "Bank Reconciliation",
+        "Bills & Expenses",
+        "GST & IRAS",
+        "InvoiceNow",
+        "Reports & Insights",
+      ],
+      metrics:["Xero Partner","InvoiceNow-ready","GST & IRAS support"],
+      ctaLabel:"Contact Us",
+      ctaHref:"/contact",
+    },
   ];
   return `
   <section class="py-10 pb-12">
@@ -1114,7 +1171,7 @@ function pageServices() {
         <div class="space-y-6 lg:col-span-7">
           ${eyebrow("Our Services")}
           <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">From Cloud Foundations to <span class="text-gradient">Autonomous Intelligence</span></h1>
-          <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Three&nbsp;&nbsp;practices. One relentless focus: production-grade systems that drive measurable business value.</p>
+          <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Four&nbsp;&nbsp;practices. One relentless focus: production-grade systems that drive measurable business value.</p>
 
           <div class="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
             ${[
@@ -1143,9 +1200,10 @@ function pageServices() {
         <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div class="space-y-6 lg:col-span-8">
             <p class="text-xs font-semibold uppercase tracking-[0.22em] text-primary">Practice ${String(idx + 1).padStart(2, "0")}</p>
-            <div class="flex items-center gap-4">
+            <div class="flex flex-wrap items-center gap-4">
               <div class="grid h-12 w-12 place-items-center rounded-2xl ${s.accent ? "bg-gradient-primary text-white shadow-glow" : "bg-primary/10 text-primary"}">${icon(s.icon, "!w-6 !h-6")}</div>
               <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">${s.name}</h2>
+              ${s.partnerLogo ? `<img src="${s.partnerLogo}" alt="${s.name} partner badge" class="h-11 w-auto md:h-12" />` : ""}
             </div>
             <div class="max-w-2xl space-y-4 text-base leading-relaxed text-muted-foreground md:text-lg">
               ${s.paragraphs.map(p => `<p>${p}</p>`).join("")}
@@ -1165,8 +1223,8 @@ function pageServices() {
             </div>
 
             <div class="pt-1">
-              <a href="/case-studies" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
-                ${s.caseLabel} ${icon("arrow-right", "!w-4 !h-4")}
+              <a href="${s.ctaHref || "/case-studies"}" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
+                ${s.ctaLabel || s.caseLabel} ${icon("arrow-right", "!w-4 !h-4")}
               </a>
             </div>
           </div>
@@ -2823,6 +2881,15 @@ function renderDetailPage(sol) {
             <div>
               <p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Product</p>
               <p class="text-xl font-semibold text-foreground">Algorims ${menuItem.name}</p>
+            </div>
+          </div>` : ""}
+          ${sol.clientLogo ? `<div class="flex items-center gap-3 pt-4">
+            <div class="relative flex h-14 items-center rounded-2xl border border-border bg-white px-3">
+              <img src="${sol.clientLogo.src}" alt="${sol.clientLogo.alt}" class="h-7 w-auto object-contain" />
+            </div>
+            <div>
+              <p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Deployed for</p>
+              <p class="text-xl font-semibold text-foreground">${sol.clientLogo.name}</p>
             </div>
           </div>` : ""}
           <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">${sol.title}</h1>
