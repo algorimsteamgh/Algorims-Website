@@ -12,14 +12,7 @@
 // Footer markup ported 1:1 from footer.html (previously fetched at runtime
 // via loadFooter() in site.js).
 //
-// Explicitly NOT ported here (Phase 5 / interactivity-porter owns these):
-//   - bindNavbar() scroll-based nav background/padding state
-//   - the History-API client router (navigateTo/navigate/currentPath)
-//   - active-link highlighting driven by currentPath() (would need per-page
-//     knowledge of the current route; can be added as an Astro.url check
-//     once real pages exist in Phase 3)
-// A minimal inline scoped <script> is included only for the mobile menu
-// toggle, since without it the mobile nav button would be visually dead.
+// Each Astro page renders its own HTML; links use native browser navigation.
 
 import "../styles/global.css";
 
@@ -28,6 +21,7 @@ export interface Props {
   description?: string;
   ogImage?: string;
   canonical?: string;
+  robots?: string;
 }
 
 const {
@@ -35,7 +29,14 @@ const {
   description = "Algorims builds autonomous, agentic AI systems for the enterprise — AI & Generative AI, Data & Analytics, AWS cloud, DevOps, and managed services that unlock the value buried in your data.",
   ogImage = "https://www.algorims.com/assets/algorims-icon-transparent.png",
   canonical = new URL(Astro.url.pathname, Astro.site).toString(),
+  robots = "index, follow",
 } = Astro.props;
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const activeNav = /^\/(blog|case-studies)(\/|$)/.test(path) ? "/case-studies"
+  : path === "/support" ? "/about"
+  : path.startsWith("/products/") ? "/products"
+  : path;
 ---
 
 <!doctype html>
@@ -45,11 +46,11 @@ const {
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>{title}</title>
 
-<meta name="google-site-verification" content="PASTE-YOUR-CODE-HERE" />
+{googleVerification && <meta name="google-site-verification" content={googleVerification} />}
 
 <!-- SEO -->
 <meta name="description" content={description} />
-<meta name="robots" content="index, follow" />
+<meta name="robots" content={robots} />
 <meta name="author" content="Algorims" />
 <link rel="canonical" href={canonical} />
 
@@ -104,11 +105,11 @@ const {
 
         <!-- Desktop nav (centered) -->
         <nav class="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" id="nav-links">
-          <a href="/" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">Home</a>
-          <a href="/services" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">Services</a>
+          <a href="/" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/" ? "page" : undefined}>Home</a>
+          <a href="/services" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/services" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/services" ? "page" : undefined}>Services</a>
 
           <div class="group relative">
-            <a href="/products" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">
+            <a href="/products" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/products" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/products" ? "page" : undefined}>
               Products <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
             </a>
             <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -137,14 +138,14 @@ const {
             </div>
           </div>
 
-          <a href="/agentic-ai" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">Agentic AI</a>
+          <a href="/agentic-ai" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/agentic-ai" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/agentic-ai" ? "page" : undefined}>Agentic AI</a>
 
-          <a href="/cca-f" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">
+          <a href="/cca-f" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/cca-f" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/cca-f" ? "page" : undefined}>
             Claude<span class="nav-new-badge" aria-label="New content">New</span>
           </a>
 
           <div class="group relative">
-            <a href="/case-studies" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">
+            <a href="/case-studies" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/case-studies" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/case-studies" ? "page" : undefined}>
               Resources <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
             </a>
             <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -164,7 +165,7 @@ const {
           </div>
 
           <div class="group relative">
-            <a href="/about" class="nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200 text-foreground/80 hover:bg-primary/10 hover:text-primary">
+            <a href="/about" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/about" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/about" ? "page" : undefined}>
               Company <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
             </a>
             <div class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
@@ -191,7 +192,7 @@ const {
         </div>
 
         <!-- Mobile toggle -->
-        <button id="mobile-toggle" class="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-border bg-white/40 backdrop-blur" aria-label="Toggle menu">
+        <button id="mobile-toggle" class="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-border bg-white/40 backdrop-blur" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
           <i data-lucide="menu" class="!w-5 !h-5"></i>
         </button>
       </div>
@@ -200,13 +201,13 @@ const {
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden mt-2 rounded-2xl glass p-4 shadow-lg lg:hidden animate-fade-in">
       <nav class="flex flex-col gap-1" id="mobile-nav-links">
-        <a href="/" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Home</a>
-        <a href="/services" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Services</a>
-        <a href="/products" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Products</a>
-        <a href="/agentic-ai" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Agentic AI</a>
-        <a href="/cca-f" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Claude<span class="nav-new-badge" aria-label="New content">New</span></a>
-        <a href="/case-studies" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Resources</a>
-        <a href="/about" class="inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">Company</a>
+        <a href="/" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/" ? "page" : undefined}>Home</a>
+        <a href="/services" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/services" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/services" ? "page" : undefined}>Services</a>
+        <a href="/products" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/products" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/products" ? "page" : undefined}>Products</a>
+        <a href="/agentic-ai" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/agentic-ai" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/agentic-ai" ? "page" : undefined}>Agentic AI</a>
+        <a href="/cca-f" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/cca-f" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/cca-f" ? "page" : undefined}>Claude<span class="nav-new-badge" aria-label="New content">New</span></a>
+        <a href="/case-studies" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/case-studies" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/case-studies" ? "page" : undefined}>Resources</a>
+        <a href="/about" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/about" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/about" ? "page" : undefined}>Company</a>
       </nav>
       <a href="/contact" class="btn btn-hero btn-default mt-2 w-full">Get Started</a>
     </div>
@@ -281,22 +282,34 @@ const {
 <script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>
 <script is:inline async data-id="6125825243" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 
-<!--
-  Minimal mobile-menu toggle only — kept intentionally small so the mobile
-  nav button isn't visually dead. Full nav JS (bindNavbar scroll state,
-  active-link highlighting, client router) is ported in Phase 5.
--->
-<script is:inline>
-  var mobileToggle = document.getElementById("mobile-toggle");
-  var mobileMenu = document.getElementById("mobile-menu");
+<script>
+  // Previously shared hash routes now load the matching static page.
+  if (location.pathname === "/" && /^#\/(?!\/)/.test(location.hash)) {
+    location.replace(location.hash.slice(1));
+  }
+
+  const shell = document.getElementById("nav-shell");
+  const bg = document.getElementById("nav-bg");
+  if (shell && bg) {
+    const updateNavbar = () => {
+      const scrolled = scrollY > 12;
+      bg.style.opacity = scrolled ? "1" : "0";
+      shell.classList.toggle("py-2", scrolled);
+      shell.classList.toggle("py-4", !scrolled);
+    };
+    updateNavbar();
+    addEventListener("scroll", updateNavbar, { passive: true });
+  }
+
+  const mobileToggle = document.getElementById("mobile-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
   if (mobileToggle && mobileMenu) {
-    mobileToggle.addEventListener("click", function () {
-      mobileMenu.classList.toggle("hidden");
+    mobileToggle.addEventListener("click", () => {
+      const opened = mobileMenu.classList.toggle("hidden") === false;
+      mobileToggle.setAttribute("aria-expanded", String(opened));
     });
   }
-  if (typeof window.lucide !== "undefined") {
-    window.lucide.createIcons();
-  }
+  (window as Window & { lucide?: { createIcons(): void } }).lucide?.createIcons();
 </script>
 </body>
 </html>

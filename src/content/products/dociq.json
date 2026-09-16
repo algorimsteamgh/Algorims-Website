@@ -1,0 +1,154 @@
+{
+  "source": {
+    "href": "/products",
+    "label": "Products"
+  },
+  "kind": "Product",
+  "tag": "Intelligent Document Processing · Textract + Bedrock",
+  "title": "Documents in. Decisions out.",
+  "subtitle": "A cost-tiered AI pipeline on AWS that replaces manual document keying with confidence-routed extraction — cutting document processing cost by up to 97%, hosted entirely in your own AWS region.",
+  "glyph": "scan-text",
+  "accent": "hsl(219 80% 52%)",
+  "meta": [
+    {
+      "label": "Built for",
+      "value": "Finance, HR, and operations document intake"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore/SEA · ANZ · India — in-region by default"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Textract → Bedrock Claude"
+    },
+    {
+      "label": "Processing",
+      "value": "<45s p95, ≤20-page document"
+    }
+  ],
+  "intro": [
+    "Invoices, contracts, claims, and forms arrive as PDFs, scans, and photos — and someone still has to open each one and type the fields into a system of record. It's slow, it's expensive, and it doesn't scale with volume.",
+    "Some teams have started pasting documents into ChatGPT to speed things up. That solves the speed problem and creates a bigger one: no audit trail, no confidence scoring, no data residency guarantee, and no way to prove compliance to an auditor."
+  ],
+  "flow": {
+    "title": "One layer between your documents and your systems",
+    "desc": "DocIQ sits inside your existing intake and ERP workflow — it doesn't replace SAP, Oracle, or NetSuite, and nothing leaves your AWS region without a defined, auditable path.",
+    "stages": [
+      {
+        "icon": "file-text",
+        "title": "Documents & Sources",
+        "subtitle": "Wherever a document arrives",
+        "items": [
+          "Email",
+          "Upload Portal",
+          "S3 Drop"
+        ]
+      },
+      {
+        "icon": "scan-text",
+        "title": "Algorims DocIQ",
+        "subtitle": "Amazon Textract · Amazon Bedrock",
+        "items": [
+          "Classify",
+          "Extract",
+          "Escalate if Needed"
+        ]
+      },
+      {
+        "icon": "monitor",
+        "title": "ERP & Systems of Record",
+        "subtitle": "Where the data actually lands",
+        "items": [
+          "SAP / Oracle / NetSuite",
+          "HMAC-Signed Webhook",
+          "Audit Trail"
+        ]
+      }
+    ],
+    "footer": "Every step is scoped, logged, and reversible — nothing leaves your AWS region without a defined path."
+  },
+  "challenge": {
+    "lead": "Your team keys data your AI could read.",
+    "items": [
+      "Manual keying is slow, expensive, and error-prone across invoices, claims, and forms.",
+      "Ad-hoc use of consumer AI tools solves speed but breaks audit trail, confidence scoring, and data residency.",
+      "Nothing tells you which extracted fields are trustworthy and which need a human look — until it's too late."
+    ]
+  },
+  "solutionLead": "Every document moves through the same confidence-gated pipeline. Most resolve automatically in under a minute. The ones that shouldn't be automated never are.",
+  "solution": [
+    {
+      "h": "Textract extracts",
+      "p": "The cheapest tier that reliably reads the document runs first — most pages resolve here."
+    },
+    {
+      "h": "Bedrock Claude normalizes and classifies",
+      "p": "Fields are normalized, documents classified, and each field confidence-scored."
+    },
+    {
+      "h": "Confidence routing",
+      "p": "High-confidence documents flow straight through; anything below threshold escalates to a costlier, more capable tier before it ever reaches a human."
+    },
+    {
+      "h": "Human boundary",
+      "p": "Documents that stay below threshold — even after escalation — always route to a reviewer. AI extracts, humans own exceptions."
+    },
+    {
+      "h": "ERP delivery",
+      "p": "Approved data posts via an HMAC-signed webhook into SAP, Oracle, or NetSuite."
+    }
+  ],
+  "awsLead": "Extract fast. Verify what matters. Deliver into the systems you already run. Keep control the whole way through.",
+  "aws": [
+    {
+      "name": "Amazon Textract",
+      "desc": "First-pass extraction across invoices, forms, and scans."
+    },
+    {
+      "name": "Amazon Bedrock (Claude)",
+      "desc": "Field normalization, classification, and confidence scoring."
+    },
+    {
+      "name": "HMAC-signed webhooks",
+      "desc": "Delivers approved data straight into SAP, Oracle, or NetSuite."
+    }
+  ],
+  "metrics": [
+    {
+      "value": "−99.5%",
+      "label": "Cost per document vs. manual + shadow ChatGPT"
+    },
+    {
+      "value": "−97.4%",
+      "label": "12-month total cost of ownership"
+    },
+    {
+      "value": "1–2 wks",
+      "label": "Payback period on one-time deployment fee"
+    },
+    {
+      "value": "<45s",
+      "label": "p95 end-to-end processing, ≤20-page document"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does any document leave our AWS region?",
+      "a": "No. Every deployment — Singapore/SEA, ANZ, or India — keeps documents and extracted data inside the client's own AWS account and region."
+    },
+    {
+      "q": "What happens to low-confidence documents?",
+      "a": "They escalate to a more capable model tier first; if still below threshold, they always route to a human reviewer."
+    },
+    {
+      "q": "How is the cost reduction measured?",
+      "a": "From a live 50,000-document/month reference deployment, not a model — against fully manual processing."
+    }
+  ],
+  "related": [
+    "cxiq",
+    "opsiq",
+    "payiq"
+  ]
+}

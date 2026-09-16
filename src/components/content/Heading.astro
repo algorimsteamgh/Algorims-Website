@@ -1,0 +1,11 @@
+---
+// Renders a `{ type: "h" }` block from a blog post's `body[]`. Matches
+// assets/js/site.js `pageBlogPost()` `renderBlock()` for `type === "h"`.
+// Legacy output is always an <h2> regardless of nesting — body blocks are a
+// flat list, not a heading tree — so this stays an <h2> to match exactly.
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<h2 class="mt-12 mb-4 text-2xl font-semibold tracking-tight md:text-3xl" set:html={text} />

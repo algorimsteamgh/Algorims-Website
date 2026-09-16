@@ -1,0 +1,182 @@
+{
+  "source": {
+    "href": "/products",
+    "label": "Products"
+  },
+  "kind": "Solution",
+  "tag": "GenAI Operations Automation · Finance · HR · Ops",
+  "title": "Cutting manual operations work by 40–70% for Singapore SMBs",
+  "subtitle": "An AWS-native platform that automates the end-to-end document lifecycle across finance, HR, and operations — with UEN validation, GST checks, and PayNow matching built in, all inside the client's own account.",
+  "glyph": "workflow",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Financial Services · SMB · HR · Operations"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore (ap-southeast-1) · ASEAN"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Bedrock Claude + Textract"
+    },
+    {
+      "label": "Compliance",
+      "value": "PDPA · MAS TRM"
+    }
+  ],
+  "intro": [
+    "Singapore SMBs processing hundreds of invoices, staff claims, purchase orders, and HR documents every week face a common bottleneck — skilled finance and operations staff spending the majority of their time on manual data entry, document chasing, and exception handling rather than strategic work.",
+    "Algorims GenAI Operations Automation eliminates that bottleneck. Built specifically for Singapore's business context — with UEN validation, GST checks, PayNow reference matching, and PDPA-conscious controls — it automates the full document lifecycle across finance, HR, and operations, and integrates with the tools SMBs already use: Xero, QuickBooks, Microsoft 365, and Google Drive."
+  ],
+  "challenge": {
+    "lead": "At growth stage, manual processes that worked at 20 employees cannot scale to 100. The patterns are consistent across finance, HR, and operations:",
+    "items": [
+      "Finance staff spend 60–80% of their time keying invoice data, checking GST arithmetic, and chasing approvals.",
+      "Staff claims and POs pile up in shared inboxes with no visibility into status or bottleneck location.",
+      "Duplicate payments, GST errors, and mismatched vendor names surface only during audits — weeks too late.",
+      "AR/AP reconciliation against bank statements is a spreadsheet exercise taking 3–5 days every month.",
+      "HR teams draft job descriptions from scratch and read CVs without a consistent scoring framework.",
+      "Operations managers have no real-time view of queue depth, SLA compliance, or automation performance.",
+      "No audit trail exists to demonstrate PDPA-compliant handling of candidate, claims, and vendor data."
+    ]
+  },
+  "solutionLead": "Algorims deployed a modular, AWS-native platform covering the full operations lifecycle — configured for Singapore business rules out of the box and organised around six production-ready modules, each deployable independently or together as a unified hub.",
+  "solution": [
+    {
+      "h": "Intelligent Document Processing",
+      "p": "Invoices, claims, receipts, and POs are uploaded in batches; Textract extracts content and Bedrock Claude normalises fields, classifies types, and scores confidence. A Singapore-specific validation engine checks UEN, GST registration and arithmetic, vendor similarity, PO matching, duplicate history, and PayNow format — before a reviewer sees anything. A side-by-side reviewer surfaces only genuine exceptions; clean documents move straight through."
+    },
+    {
+      "h": "AR/AP Coding and Reconciliation",
+      "p": "Bedrock Claude recommends GL codes for every line item from vendor history, description, and prior treatment — an accountant reviews only exceptions while clean items flow to the posting queue. Bank statements are matched against invoices, receipts, and PayNow references, and approved batches post to Xero, QuickBooks, or SAP Business One via signed REST connectors."
+    },
+    {
+      "h": "AI HR Assistant",
+      "p": "HR managers generate structured job descriptions from a few bullet points with TAFEP-aware language checks. Uploaded CVs are scored against the JD on skill fit, experience, and seniority; ranked scorecards surface the top candidates with supporting evidence. Interview transcripts are summarised into structured assessments, and every hiring decision is logged for explainability."
+    },
+    {
+      "h": "Conversational Operations Assistant",
+      "p": "A chat interface in both portals lets users query operational status, finance records, HR policies, and SOPs in natural language. Bedrock Knowledge Bases grounds every answer in the client's approved corpus with source citations — handling questions like “Show invoices pending GST validation this week” or “Why was claim CR-0042 flagged?” — with role-based retrieval access."
+    },
+    {
+      "h": "Workflow, Approval, and HITL",
+      "p": "Step Functions orchestrates the end-to-end state machine — ingestion, OCR, extraction, validation, confidence routing, review, approval, and ERP posting — with parallel fan-out and dead-letter handling. Approval routing is configurable by amount, department, vendor risk, and exception reason, with SLA-ageing SNS escalations and an immutable audit log of every action."
+    },
+    {
+      "h": "Admin, Security, and PDPA Controls",
+      "p": "Multi-tenant management with Cognito supports RBAC across finance, HR, approver, admin, and customer roles. Singapore-region deployment ensures data residency, KMS customer-managed keys provide per-client isolation, and retention and deletion policies for personal data are configurable by the DPO without code changes."
+    }
+  ],
+  "awsLead": "Built entirely on AWS managed services — no proprietary middleware, no vendor lock-in, all processing within the client's account:",
+  "aws": [
+    {
+      "name": "Bedrock Claude Haiku",
+      "desc": "Fast classification, field normalisation, and GL code suggestion."
+    },
+    {
+      "name": "Bedrock Claude Sonnet",
+      "desc": "Reasoning, validation explanation, RAG answers, and CV scoring."
+    },
+    {
+      "name": "Bedrock Knowledge Bases",
+      "desc": "RAG over finance SOPs, HR policies, and vendor contracts."
+    },
+    {
+      "name": "Bedrock Guardrails",
+      "desc": "Hallucination mitigation, prompt-injection filtering, output safety."
+    },
+    {
+      "name": "Amazon Textract",
+      "desc": "Invoice, receipt, and form extraction across four document types."
+    },
+    {
+      "name": "AWS Step Functions",
+      "desc": "End-to-end workflow orchestration with parallel fan-out."
+    },
+    {
+      "name": "AWS Lambda (Graviton3)",
+      "desc": "Serverless workers — 20% more cost-efficient than x86."
+    },
+    {
+      "name": "Aurora PostgreSQL + pgvector",
+      "desc": "Extracted fields, GL history, and vector search."
+    },
+    {
+      "name": "OpenSearch Serverless",
+      "desc": "Full-text document search and RAG vector retrieval."
+    },
+    {
+      "name": "Cognito · KMS",
+      "desc": "RBAC, enterprise SSO, and per-client encryption isolation."
+    },
+    {
+      "name": "GuardDuty · Macie",
+      "desc": "Threat detection and sensitive-data discovery."
+    },
+    {
+      "name": "QuickSight",
+      "desc": "Automation rate, exception rate, SLA, and cost-savings dashboards."
+    }
+  ],
+  "results": [
+    "Reduced manual document processing effort by <strong>40–70%</strong> across finance and operations.",
+    "Achieved <strong>85–95%+ field extraction accuracy</strong> after prompt tuning.",
+    "Straight-through processing rate of <strong>50–80%</strong> for mature workflows.",
+    "Month-end close accelerated by <strong>25–45%</strong> via automated AR/AP reconciliation.",
+    "HR job-description drafting time reduced by <strong>50–70%</strong> — hours to minutes.",
+    "Candidate screening time cut by <strong>40–60%</strong> through AI scorecards.",
+    "Exception-handling cost reduced by <strong>20–35%</strong> by routing only genuine ambiguity.",
+    "PDPA audit documentation for personal-data handling accepted without revision."
+  ],
+  "metrics": [
+    {
+      "value": "40–70%",
+      "label": "Reduction in manual document processing effort"
+    },
+    {
+      "value": "50–80%",
+      "label": "Straight-through processing for mature workflows"
+    },
+    {
+      "value": "85–95%+",
+      "label": "Field extraction accuracy after prompt tuning"
+    },
+    {
+      "value": "25–45%",
+      "label": "Faster month-end close via automated AR/AP"
+    },
+    {
+      "value": "✓",
+      "label": "PDPA & MAS TRM compliant — KMS CMK per client"
+    },
+    {
+      "value": "✓",
+      "label": "Integrates with Xero, QuickBooks, M365, Google Drive"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does client data leave their AWS account during processing?",
+      "a": "No. All AI inference via Bedrock, storage in S3, and workflow processing via Step Functions run entirely within the client's own AWS account and region."
+    },
+    {
+      "q": "Which accounting systems does the platform integrate with?",
+      "a": "Out-of-the-box REST connectors for Xero, QuickBooks, and SAP Business One; Microsoft 365, SharePoint, and Google Drive for ingestion and knowledge-base sync. Additional systems integrate via configurable REST/webhook endpoints."
+    },
+    {
+      "q": "How are PDPA requirements handled for candidate CVs and staff claims?",
+      "a": "Personal data is handled under configurable retention and deletion policies set by the DPO. RBAC limits access, Macie scans storage for sensitive patterns, and audit logs capture every access, extraction, and deletion event."
+    },
+    {
+      "q": "How long does implementation take?",
+      "a": "A focused MVP covering IDP, AR/AP reconciliation, and the conversational assistant typically reaches production in 10–14 weeks, with further modules layered on in subsequent phases."
+    }
+  ],
+  "related": [
+    "intelligent-document-processing",
+    "autonomous-customer-operations"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "source": {
+    "href": "/products",
+    "label": "Products"
+  },
+  "kind": "Product",
+  "tag": "Autonomous L1 Service Desk · ServiceNow / Freshservice",
+  "title": "Tickets in. Resolutions out.",
+  "subtitle": "An agentic AIOps layer on Amazon Bedrock that classifies, resolves, and closes the majority of L1 service-desk tickets directly in your existing ITSM platform — with every Active Directory, firewall, or bulk-impact action gated behind a human decision.",
+  "glyph": "server-cog",
+  "accent": "hsl(191 80% 34%)",
+  "meta": [
+    {
+      "label": "Built for",
+      "value": "IT & BPO service desks"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore/SEA · ANZ · India"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Bedrock (agentic AIOps)"
+    },
+    {
+      "label": "Result",
+      "value": "78% auto-resolution at month 6"
+    }
+  ],
+  "intro": [
+    "Password resets, access requests, software installs — the same tickets, every day, while your team's actual expertise sits in a backlog. The obvious fix is automation. The trouble is most \"IT chatbots\" either can't really do anything beyond triage, or they execute changes through a shared admin account with no rollback — which is a bigger risk than the ticket backlog.",
+    "OpsIQ resolves the routine tickets end-to-end, and treats anything touching identity, network, or bulk scope as a decision for a human — every time, by design."
+  ],
+  "flow": {
+    "title": "One layer between your tickets and your systems",
+    "desc": "OpsIQ works inside ServiceNow or Freshservice and uses a scoped, auditable path for Active Directory and network actions.",
+    "stages": [
+      { "icon": "users", "title": "Employees & Tickets", "subtitle": "Where requests start", "items": ["ServiceNow portal", "Freshservice", "Email / chat"] },
+      { "icon": "server-cog", "title": "Algorims OpsIQ", "subtitle": "Amazon Bedrock · AWS Systems Manager", "items": ["Classify", "Retrieve playbook", "Execute runbook"] },
+      { "icon": "monitor", "title": "ITSM, AD & Systems", "subtitle": "Where the fix lands", "items": ["Ticket write-back", "Active Directory", "Firewall / network"] }
+    ],
+    "footer": "Tier 1/2 can resolve automatically. Tier 3 waits for human approval. Every action is scoped, logged, and reversible."
+  },
+  "challenge": {
+    "lead": "Your L1 desk is stuck between two bad options.",
+    "items": [
+      "L1 desks burn expert time on repetitive password-reset, access-request, and install tickets.",
+      "Most AIOps tools ask for more access than they should — a shared admin login becomes the biggest single point of failure in the environment.",
+      "Without a scoped, auditable execution path, automation itself becomes the risk."
+    ]
+  },
+  "solutionLead": "Most tickets resolve in minutes. The moment a change touches identity, network, or more than one user, OpsIQ deliberately slows down.",
+  "solution": [
+    {
+      "h": "Ticket lands in your ITSM",
+      "p": "OpsIQ works inside ServiceNow or Freshservice — no new system for your team to learn."
+    },
+    {
+      "h": "Classification against your playbooks",
+      "p": "Output is validated against retrieved playbook content before any action fires."
+    },
+    {
+      "h": "Tier 1/2 resolve automatically",
+      "p": "Routine, low-risk categories close end-to-end, logged to an immutable audit trail."
+    },
+    {
+      "h": "Tier 3 pauses for a human",
+      "p": "Active Directory, firewall, and bulk-impact actions always wait for a person — run under a service account scoped to specific cmdlets, never domain-admin."
+    },
+    {
+      "h": "Automatic rollback",
+      "p": "Multi-step runbooks roll back automatically if a later step fails."
+    }
+  ],
+  "awsLead": "Classify what's being asked. Execute what's safe to execute. Escalate what needs a person. Control what's logged and where data lives.",
+  "aws": [
+    {
+      "name": "Amazon Bedrock",
+      "desc": "Ticket classification and playbook-grounded reasoning."
+    },
+    {
+      "name": "Scoped service account",
+      "desc": "Active Directory actions run least-privilege, federated via SAML — never domain-admin."
+    },
+    {
+      "name": "Immutable audit log",
+      "desc": "Every automation run records inputs, outputs, and status."
+    }
+  ],
+  "metrics": [
+    {
+      "value": "−85%",
+      "label": "Monthly run-rate vs. a fully manual L1 desk"
+    },
+    {
+      "value": "78%",
+      "label": "Auto-resolution rate at month 6 (71% at go-live)"
+    },
+    {
+      "value": "91%",
+      "label": "Classification accuracy after tuning (from 86%)"
+    },
+    {
+      "value": "1.8%",
+      "label": "Tier-3 false-positive escalation rate at month 6"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does OpsIQ ever get domain-admin access?",
+      "a": "No. Active Directory operations run under a service account scoped to specific cmdlets — least privilege at the command level, federated via SAML."
+    },
+    {
+      "q": "What happens if a runbook fails partway through?",
+      "a": "Multi-step runbooks roll back automatically, and every run is recorded to an immutable audit log."
+    },
+    {
+      "q": "Where does this data come from?",
+      "a": "A live 6-month deployment at a 200-employee IT & BPO firm, measured — not modeled."
+    }
+  ],
+  "related": [
+    "cxiq",
+    "dociq",
+    "payiq"
+  ]
+}

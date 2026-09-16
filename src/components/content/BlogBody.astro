@@ -1,0 +1,24 @@
+---
+// Renders a full blog post body — the `<article class="blog-prose">` wrapper
+// plus each block, matching assets/js/site.js `pageBlogPost()`:
+//   `<article class="blog-prose">${post.body.map(renderBlock).join("")}</article>`
+//
+// NOTE (data-fidelity flag, not fixed here — see ASTRO_MIGRATION_PLAN.md):
+// `.blog-prose` is emitted by the legacy renderer but is NOT defined anywhere
+// in assets/css/site.css or the ported src/styles/global.css — it's a dead
+// class in production today (no visual effect, relies entirely on the
+// utility classes each block already carries). Kept as-is for visual parity;
+// flagging here rather than inventing prose styling that doesn't exist live.
+import type { ContentBlock } from "../../content.config";
+import Block from "./Block.astro";
+
+interface Props {
+  body: ContentBlock[];
+}
+const { body } = Astro.props;
+---
+<article class="blog-prose">
+  {body.map((block) => (
+    <Block block={block} />
+  ))}
+</article>

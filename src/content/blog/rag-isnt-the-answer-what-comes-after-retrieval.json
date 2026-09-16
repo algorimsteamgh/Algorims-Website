@@ -1,0 +1,67 @@
+{
+  "category": "AI & ML",
+  "title": "RAG isn't the answer — what comes after retrieval",
+  "excerpt": "Retrieval-augmented generation was the first chapter. The next chapter is knowledge orchestration.",
+  "date": "",
+  "read": "7 min read",
+  "author": "Algorims AI Practice",
+  "art": "rag",
+  "body": [
+    {
+      "type": "p",
+      "text": "Two years ago, retrieval-augmented generation felt like the answer to everything. Today, almost every team we work with has a RAG pipeline in production — and almost every one of those teams is asking the same question: why is it still not <em>quite</em> good enough?"
+    },
+    {
+      "type": "h",
+      "text": "What RAG actually solved"
+    },
+    {
+      "type": "p",
+      "text": "RAG solved a single, important problem: grounding a generative model in your data. Done well, it cuts hallucinations dramatically and lets you reason over corpora that wouldn't fit in any context window. That's a real win, and most enterprise AI today still depends on it."
+    },
+    {
+      "type": "h",
+      "text": "What RAG didn't solve"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Multi-hop reasoning.</strong> Vector similarity finds documents that look like the question. It rarely finds the chain of three documents you actually need to answer it.",
+        "<strong>Structured questions.</strong> Many enterprise queries are filter-and-aggregate questions in disguise. Vector search is the wrong tool for those.",
+        "<strong>Freshness.</strong> A RAG pipeline answers as well as its last sync. For real-time data, you need a different shape.",
+        "<strong>Authorisation.</strong> 'Show me what I have access to' is a per-user query. Most early RAG systems quietly ignored this and got away with it.",
+        "<strong>Quality drift.</strong> Embeddings move. Documents move. Without re-evaluation, retrieval quality silently degrades."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "What comes next: knowledge orchestration"
+    },
+    {
+      "type": "p",
+      "text": "The pattern we keep landing on with clients is no longer 'RAG'. It's an orchestrated layer that combines retrieval with structured queries, tool calls, freshness guarantees, and access controls — choosing the right move per question rather than running everything through the same pipe. Vector search becomes one tool among many."
+    },
+    {
+      "type": "h",
+      "text": "Concretely, that looks like"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Hybrid retrieval (vector + BM25 + metadata filters) with a learned reranker.",
+        "Query routing: classify the question, then pick retrieval, SQL, or a tool call.",
+        "Per-user authorisation baked into the retrieval contract — not bolted on after.",
+        "Continuous offline evaluation against a fixed golden set, plus live trace sampling.",
+        "Caching and freshness policies that make economic sense for <em>your</em> usage pattern."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "The honest take"
+    },
+    {
+      "type": "p",
+      "text": "RAG was a stepping stone, and a useful one. The teams pulling ahead now are the ones treating retrieval as a single capability inside a larger knowledge system — and engineering that system with the same rigour they'd apply to any other piece of production infrastructure."
+    }
+  ]
+}

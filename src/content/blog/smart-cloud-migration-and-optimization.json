@@ -1,0 +1,52 @@
+{
+  "category": "Cloud",
+  "title": "Cutting your cloud bill is easy. Cutting it while improving performance is the actual job.",
+  "excerpt": "A migration is a single event. Optimisation is a discipline. What the best cloud programmes do differently — and why most leave value on the table.",
+  "date": "Sep 1, 2025",
+  "read": "6 min read",
+  "author": "Algorims Cloud Practice",
+  "art": "migration",
+  "body": [
+    {
+      "type": "p",
+      "text": "A migration is a single event. Optimisation is a discipline. The organisations that get the most out of the cloud are the ones who treat the post-migration phase as the real beginning of the work — not the end of a project."
+    },
+    {
+      "type": "h",
+      "text": "Migration done well"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Portfolio rationalisation first.</strong> Decommission what shouldn't have been migrated in the first place. Most estates have 10–20% of workloads that quietly cost more than they're worth.",
+        "<strong>Right-size before you move.</strong> The cloud is elastic, but only if you ask it to be. Defaulted instance sizes are how organisations pay 3× for capacity they don't use.",
+        "<strong>Pick the right 'R'.</strong> Rehost, replatform, refactor, repurchase, retire. The mix matters far more than the headline 'we moved to cloud'.",
+        "<strong>Build the FinOps muscle on day one.</strong> Tagging, allocation, showback — not a Q4 panic when the bill arrives."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "Where the real savings live"
+    },
+    {
+      "type": "p",
+      "text": "Reserved instances and savings plans are the obvious lever — and most organisations leave a third of the available discount on the table. The less obvious wins are architectural: managed services instead of self-run databases, serverless where workloads are spiky, storage tiering, and ruthless attention to data egress."
+    },
+    {
+      "type": "h",
+      "text": "Hybrid is not a dirty word"
+    },
+    {
+      "type": "p",
+      "text": "For regulated workloads, latency-sensitive operations, or specific data residency requirements, hybrid is still the right answer. The mistake is treating hybrid as a permanent state of indecision rather than a deliberate architecture."
+    },
+    {
+      "type": "h",
+      "text": "How we help"
+    },
+    {
+      "type": "p",
+      "text": "Workload assessment, migration design, FinOps installation, and the unglamorous but high-value work of continuous optimisation. Most of our clients see the bill come down within a quarter — and performance improve at the same time."
+    }
+  ]
+}

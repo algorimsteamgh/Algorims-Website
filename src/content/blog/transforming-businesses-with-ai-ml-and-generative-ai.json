@@ -1,0 +1,83 @@
+{
+  "category": "AI & ML",
+  "title": "Why your AI pilot worked — and your production system didn't",
+  "excerpt": "The gap between promising AI experiments and reliable enterprise systems isn't closed by bigger models. It's closed by MLOps.",
+  "date": "Sep 1, 2025",
+  "read": "8 min read",
+  "author": "Algorims AI Practice",
+  "art": "ai",
+  "featured": true,
+  "body": [
+    {
+      "type": "p",
+      "text": "Artificial intelligence has stopped being a forecast and started being a force. Boards are no longer asking <em>whether</em> to invest — they are asking how to translate a year of experimentation into systems their business can actually rely on. The challenge isn't picking a model. It's getting AI into production, with the same rigour we apply to any other piece of mission-critical software."
+    },
+    {
+      "type": "h",
+      "text": "From insight to engine"
+    },
+    {
+      "type": "p",
+      "text": "Machine learning gave us prediction. Generative AI gave us creation. Combined, they're rewriting how enterprises operate — drafting contracts, designing campaigns, triaging tickets, surfacing risk, writing code. The companies pulling ahead aren't the ones with the most experiments. They're the ones who have <strong>industrialised</strong> the path from idea to deployed model."
+    },
+    {
+      "type": "h",
+      "text": "Why most AI programmes stall"
+    },
+    {
+      "type": "p",
+      "text": "We see the same four blockers, almost everywhere we engage:"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Data silos.</strong> The signal is real, but it lives in twelve different systems, none of which talk to each other.",
+        "<strong>Deployment gravity.</strong> The notebook works. The production version takes six months and never quite ships.",
+        "<strong>Scale fragility.</strong> A model that's wonderful on 10,000 records becomes unpredictable on 10 million.",
+        "<strong>Governance debt.</strong> No clear story for evaluation, lineage, security, or who gets paged at 3am when an agent goes off the rails."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "MLOps is the answer — and it's not optional"
+    },
+    {
+      "type": "p",
+      "text": "MLOps is what lets you treat models like products instead of artefacts. Versioned. Tested. Monitored. Re-trainable. With clear ownership, automated pipelines, and continuous evaluation against the metrics that matter to <em>the business</em> — not just the validation set."
+    },
+    {
+      "type": "p",
+      "text": "Done well, MLOps shortens the distance between a working prototype and a deployed system from quarters to weeks. Done poorly, it becomes another set of dashboards no one trusts."
+    },
+    {
+      "type": "h",
+      "text": "Where it's already paying off"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Financial services</strong> — fraud detection systems that retrain themselves nightly and catch novel attack patterns within hours.",
+        "<strong>Healthcare</strong> — diagnostic copilots that read imaging studies and triage them before a radiologist opens the queue.",
+        "<strong>Retail</strong> — demand forecasts that adapt to weather, social signal, and supply disruption in near real time.",
+        "<strong>Manufacturing</strong> — predictive maintenance that reduces unplanned downtime by double-digit percentages.",
+        "<strong>Marketing</strong> — generative campaigns produced, A/B tested, and personalised at a scale that was simply impossible two years ago."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "How Algorims engineers it"
+    },
+    {
+      "type": "p",
+      "text": "We don't sell models. We engineer the system around them — data pipelines, evaluation harnesses, deployment infrastructure, governance, and the operational discipline that keeps it all running. From data strategy to production-grade MLOps, our work is judged by one thing: whether the AI is still earning its keep six months after launch."
+    },
+    {
+      "type": "h",
+      "text": "The next chapter is operational"
+    },
+    {
+      "type": "p",
+      "text": "The pilot era is closing. The next decade belongs to organisations that have made AI <em>operational</em> — not impressive in a demo, but dependable in production. That shift is an engineering problem more than a research one. And it's the problem we're built to solve."
+    }
+  ]
+}

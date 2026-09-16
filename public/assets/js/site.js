@@ -5098,9 +5098,9 @@ function bindSplineScene() {
    visitor's mail client (the original behaviour).                         */
 const WEB3FORMS_ENDPOINT     = "https://api.web3forms.com/submit";
 // Get Started / Contact form  →  delivered to contactus@algorims.com
-const WEB3FORMS_CONTACT_KEY  = "9366535b-74bb-44f4-b639-7c8fd4378461";
+const WEB3FORMS_CONTACT_KEY  = "YOUR-CONTACT-KEY";
 // Submit a Ticket / Support form  →  delivered to support@algorims.com
-const WEB3FORMS_SUPPORT_KEY  = "4e0799bc-f90e-4ea0-8e9c-f9d6698cd565";
+const WEB3FORMS_SUPPORT_KEY  = "YOUR-SUPPORT-KEY";
 const web3formsReady = (key) => key && !key.startsWith("YOUR-");
 
 /* Sends the form directly via Web3Forms. Returns true on success.

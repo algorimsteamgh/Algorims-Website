@@ -58,10 +58,10 @@ Goal: content.js data → typed Astro content collections. Unblocks all page mig
 
 | Task | Agent | Status | Notes |
 |---|---|---|---|
-| Define content collection schemas (zod) for blog, case-studies, solutions, products | content-modeler | Todo | Body block schema (p/h/ul/etc from content.js) — model as union type or convert to MDX |
-| Convert BLOG_POSTS array → `src/content/blog/*.md` or `*.json` entries | content-modeler | Todo | 8 posts |
-| Convert CASE_STUDIES, SOLUTIONS, PRODUCTS arrays → respective collections | content-modeler | Todo | Cross-check against `src/data/` (currently empty scaffold) — decide collections vs plain data module per type |
-| Write shared render components for content blocks (Paragraph, Heading, List) used across blog/case-study/solution detail pages | component-builder | Todo | Replaces `renderDetailPage()` / `pageBlogPost()` logic |
+| Define content collection schemas (zod) for blog, case-studies, solutions, products | content-modeler | Done | Used Astro 5's Content Layer API (`defineCollection({ loader, schema })` in `src/content/config.ts`, imported from `astro:content`/`astro/loaders`) rather than the older glob-loader-implicit `type: "content"` pattern — this is the correct, current API for pinned `astro@5.18.2`. Kept the config at `src/content/config.ts` (not the newer `src/content.config.ts` root convention) since `src/content/{blog,case-studies,solutions,products}` was already scaffolded there in Phase 1. Body block schema modeled as a proper Zod `discriminatedUnion("type", [...])` over `p`/`h`/`ul` (exported as `ContentBlock`), not `any` or loose objects — matches `renderBlock()` in `pageBlogPost()` in `assets/js/site.js` exactly. Case-studies/solutions/products share sub-schemas (`meta`, `challenge`, `solution` steps, `aws`, `architecture`, `metrics`, `faqs`, etc.) reflecting that all three render through the same legacy `renderDetailPage()`. `related` kept as `z.array(z.string())` (bare slugs) rather than a single-collection `reference()`, since legacy `findDetail()` resolves a related slug across all three detail collections, not one. |
+| Convert BLOG_POSTS array → `src/content/blog/*.md` or `*.json` entries | content-modeler | Done | **Data-fidelity finding:** the live array actually has **9** posts, not the 8 estimated in the Phase-0 inventory row above — verified by counting `BLOG_POSTS` entries at runtime. Chose `*.json` over Markdown: bodies are pure structured `p`/`h`/`ul` blocks with inline HTML (`<strong>`/`<em>`) and no prose-authoring need, so JSON is a lossless 1:1 mirror of the source array (one file per post, `slug` becomes the filename/`id`, loaded via `glob({ pattern: "**/*.json", base: "./src/content/blog" })`). Converted programmatically (executed `content.js` in a Node `vm` context and serialized each array element to `JSON.stringify`) rather than hand-transcribed, to eliminate transcription risk across ~1200 lines of source. 3 of 9 posts have `date: ""` in the source (empty string, not missing) — preserved verbatim as an optional string rather than invented or coerced to `z.date()`. |
+| Convert CASE_STUDIES, SOLUTIONS, PRODUCTS arrays → respective collections | content-modeler | Done | 7 case studies, 3 solutions, 4 products — all converted 1:1 as JSON entries via the same scripted extraction, all fields preserved (including HTML-bearing `results[]`/`challenge.items[]`/list-item strings, `clientLogo`, `architecture`, `flow`, `faqs`). **Data-fidelity note:** in `SOLUTIONS`, 2 of 3 entries carry `kind: "Case Study"` and one (`operations-automation`) carries `kind: "Solution"` — both already routed through the identical `renderDetailPage()` in the legacy renderer, so the `solutions` collection schema keeps `kind: z.enum(["Case Study", "Solution"])` rather than normalizing it, to avoid silently changing displayed copy. `CASE_SCENES` (the slug-keyed supplementary-visual lookup at the bottom of `content.js`) is not a list of entries, so it was kept out of the content-collections system entirely and moved to `src/data/caseScenes.json` as a plain data module, per the Phase-0 row's suggestion to decide collections vs. plain data module per type. All four collections validated cleanly against their Zod schemas via `astro sync` on first pass — no coercion or shape mismatches found. |
+| Write shared render components for content blocks (Paragraph, Heading, List) used across blog/case-study/solution detail pages | component-builder | Done | Built under `src/components/content/`: `Paragraph.astro`, `Heading.astro`, `List.astro` for the blog `p`/`h`/`ul` union, dispatched by `Block.astro` (switches on `block.type`) and wrapped by `BlogBody.astro` (reproduces `<article class="blog-prose">...</article>`). Also ported every other block type `renderDetailPage()` renders, since case-studies/solutions/products share that one legacy function: `Eyebrow`, `MetricCard`, `ChallengeList`, `SolutionSteps`, `AwsServices` (+ `awsIcon.ts`, the keyword→Lucide-icon mapper ported 1:1), `ArchitectureFigure`, `TechStack`, `ResultsGrid`, `Faqs`, `FlowDiagram` (DocIQ's "how it fits" diagram — reproduces the legacy hardcoded stage-index-0/1 connector captions verbatim rather than silently fixing that data/render coupling), and `RelatedWork`. All markup/Tailwind classes copied verbatim from `assets/js/site.js` for pixel parity; icons emit the same `<i data-lucide="...">` tags the legacy `icon()` helper produces, unchanged from how `BaseLayout.astro` already hydrates them. **Flagged, not fixed:** `blog-prose` (emitted by both the legacy renderer and the new `BlogBody.astro`) is not defined anywhere in `assets/css/site.css` or `src/styles/global.css` — it's a dead/unstyled class in production today; left as-is for exact visual parity rather than inventing prose styling that doesn't exist live. `astro check` (26 files) and `npm run build` both pass with 0 errors/warnings after adding all schemas, data, and components. |
 
 ## Phase 3 — Static Page Migration (batch 1, no dynamic routing)
 
@@ -69,14 +69,16 @@ Goal: home, about, services, agentic-ai, contact, support, cca-f, 404 — one-of
 
 | Task | Agent | Status | Notes |
 |---|---|---|---|
-| `index.html` (pageHome) → `src/pages/index.astro` | page-migrator-a | Todo | Includes `aiHeroVisual()` — inline SVG, no JS needed at runtime |
-| `about/` (pageAbout) → `src/pages/about.astro` | page-migrator-a | Todo | `aboutHeroAnim()` → scoped script |
-| `services/` (pageServices) → `src/pages/services.astro` | page-migrator-a | Todo | `servicesHeroAnim()` → scoped script |
-| `agentic-ai/` (pageAgenticAI) → `src/pages/agentic-ai.astro` | page-migrator-b | Todo | Largest single-page function (~430 lines) — may need sub-components |
-| `contact/` (pageContact) → `src/pages/contact.astro` | page-migrator-b | Todo | `bindContactForm` → scoped script; check Web3Forms API key handling — keys belong in env, not inline (prior incident: keys were found hardcoded in git history) |
-| `support/` (pageSupport) → `src/pages/support.astro` | page-migrator-b | Todo | `bindSupportForm` → scoped script |
-| `cca-f/` (pageCCAF) → `src/pages/cca-f.astro` | page-migrator-c | Todo | |
-| `404.html` → `src/pages/404.astro` | page-migrator-c | Todo | |
+| `index.html` (pageHome) → `src/pages/index.astro` | page-migrator-a | Done | Static SVG and scoped node-inspection script; keyboard access added. |
+| `about/` (pageAbout) → `src/pages/about.astro` | page-migrator-a | Done | Static hero animation and scoped journey reveal script. |
+| `services/` (pageServices) → `src/pages/services.astro` | page-migrator-a | Done | Static hero animation; home service anchors target real section IDs. |
+| `agentic-ai/` (pageAgenticAI) → `src/pages/agentic-ai.astro` | page-migrator-b | Done | Static page with scoped Spline loader behavior. |
+| `contact/` (pageContact) → `src/pages/contact.astro` | page-migrator-b | Done | Scoped form validation/submission; `PUBLIC_WEB3FORMS_CONTACT_KEY` enables direct sending, otherwise mailto fallback. No key copied into new source. |
+| `support/` (pageSupport) → `src/pages/support.astro` | page-migrator-b | Done | Scoped form behavior and attachment label; `PUBLIC_WEB3FORMS_SUPPORT_KEY` enables direct sending, otherwise mailto fallback. |
+| `cca-f/` (pageCCAF) → `src/pages/cca-f.astro` | page-migrator-c | Done | Scoped notice dismissal, domain accordions, and scenario jumps; removed inline event handlers. |
+| `404.html` → `src/pages/404.astro` | page-migrator-c | Done | Dedicated not-found page with links to home, services, and contact. |
+
+Phase 3 verified: `npx astro check` reports 0 diagnostics; `npm run build` emits all 8 routes; focused form and static-page checks pass. The copied legacy `public/assets/js/site.js` has placeholder Web3Forms keys so the Astro build does not expose the old values.
 
 ## Phase 4 — Dynamic Route Migration (batch 2, slug-based)
 
@@ -84,13 +86,15 @@ Goal: collection-backed listing + detail pages using `getStaticPaths`.
 
 | Task | Agent | Status | Notes |
 |---|---|---|---|
-| blog/ index (pageBlog) → `src/pages/blog/index.astro` | page-migrator-d | Todo | `blogCard()`, `blogHeroAnim()` |
-| blog/[slug] (pageBlogPost) → `src/pages/blog/[slug].astro` + `getStaticPaths` from collection | page-migrator-d | Todo | 7 posts currently pre-rendered as individual index.html — becomes one dynamic template |
-| case-studies/ index (pageCaseStudies) → `src/pages/case-studies/index.astro` | page-migrator-e | Todo | `caseStudiesHeroAnim()`, `caseCover()` |
-| case-studies/[slug] (pageCaseStudy → renderDetailPage) → `src/pages/case-studies/[slug].astro` | page-migrator-e | Todo | 7 case studies |
-| products/ index (pageProducts) → `src/pages/products/index.astro` | page-migrator-f | Todo | `radialOrbital()`, `bindRadialOrbital()`, `bindProductsPage()` — heaviest interactivity, plan the scoped script carefully |
-| products/[slug] (pageProductDetail) → `src/pages/products/[slug].astro` | page-migrator-f | Todo | cxiq, dociq, opsiq, payiq |
-| solutions/[slug] (pageSolution → renderDetailPage) → `src/pages/solutions/[slug].astro` | page-migrator-f | Todo | 3 solutions, shares `renderDetailPage()` with case-studies — one shared Astro layout |
+| blog/ index (pageBlog) → `src/pages/blog/index.astro` | page-migrator-d | Done | Preserves featured post, editorial order, card art, and hero SVG. |
+| blog/[slug] (pageBlogPost) → `src/pages/blog/[slug].astro` + `getStaticPaths` from collection | page-migrator-d | Done | All 9 collected posts rendered through one template with article body and related links. |
+| case-studies/ index (pageCaseStudies) → `src/pages/case-studies/index.astro` | page-migrator-e | Done | Preserves hero SVG, covers, cards, and ordering. |
+| case-studies/[slug] (pageCaseStudy → renderDetailPage) → `src/pages/case-studies/[slug].astro` | page-migrator-e | Done | All 7 case studies use shared `DetailPage.astro`, including scenes and related work. |
+| products/ index (pageProducts) → `src/pages/products/index.astro` | page-migrator-f | Done | Preserves 8 cards, brand rail, load-more control, and interactive radial orbital. |
+| products/[slug] (pageProductDetail) → `src/pages/products/[slug].astro` | page-migrator-f | Done | All 4 products use the shared collection-backed detail template. |
+| solutions/[slug] (pageSolution → renderDetailPage) → `src/pages/solutions/[slug].astro` | page-migrator-f | Done | All 3 solutions use the same detail template. |
+
+Phase 4 verified: `npx astro check` reports 0 diagnostics; `npm run build` emits 34 routes; `tools/check-migrated-dynamic-pages.mjs` confirms every collection entry has a built page, every listing links to its entries, and the product controls are present. The four legacy standalone product detail HTML pages contain additional custom marketing copy and layout beyond the collection data; compare these in Phase 6 visual/content parity before cutover.
 
 ## Phase 5 — Navigation, Routing & Cross-Cutting JS
 
@@ -98,11 +102,13 @@ Goal: retire the hand-rolled client router; verify no behavior regresses.
 
 | Task | Agent | Status | Notes |
 |---|---|---|---|
-| Replace `navigateTo()`/`currentPath()`/`renderNav()` client router with native Astro multi-page navigation | router-retirer | Todo | Biggest architectural change — confirm no SPA transition behavior is load-bearing (optionally adopt Astro View Transitions for the fade/slide feel, still zero-framework) |
-| `bindNavbar()` (scroll-based nav state) → plain scoped script in BaseLayout.astro | router-retirer | Todo | |
-| `bindJourneyTimeline()`, `bindHeroNodes()`, `bindSplineScene()`, radial orbital bind logic → scoped `<script>` per page | interactivity-porter | Todo | No framework state needed — direct DOM port from site.js |
-| Chatling chatbot script → verify still injected site-wide | interactivity-porter | Todo | Prior session confirmed it's in `app/layout.tsx` from an earlier Next.js attempt — needs re-adding to `BaseLayout.astro` |
-| CloudFront Function fix for broken sub-route direct loads (recent commit `d237078`) — confirm still needed under Astro's real static output | router-retirer | Todo | Astro SSG emits real per-route HTML files, may make this CloudFront workaround unnecessary — verify then possibly remove |
+| Replace `navigateTo()`/`currentPath()`/`renderNav()` client router with native Astro multi-page navigation | router-retirer | Done | Astro pages and `BaseLayout.astro` use ordinary links and build-time active nav state; none loads legacy `site.js`. Browser navigation replaces the old History API router. A small redirect preserves old root hash URLs (`/#/services`). No view transitions added: no page behavior depends on SPA transitions. |
+| `bindNavbar()` (scroll-based nav state) → plain scoped script in BaseLayout.astro | router-retirer | Done | Layout script updates nav background/padding on scroll and keeps the mobile menu's `aria-expanded` in sync. |
+| `bindJourneyTimeline()`, `bindHeroNodes()`, `bindSplineScene()`, radial orbital bind logic → scoped `<script>` per page | interactivity-porter | Done | Journey, hero nodes, and Spline done in Phase 3; radial orbital and product page controls done in Phase 4. |
+| Chatling chatbot script → verify still injected site-wide | interactivity-porter | Done | Already included in `BaseLayout.astro` in Phase 1. |
+| CloudFront Function fix for broken sub-route direct loads (recent commit `d237078`) — confirm still needed under Astro's real static output | router-retirer | Done | Retain `deploy/cloudfront-function.js`: Astro emits `/route/index.html`, while the S3 REST origin requires an exact object key. The function maps `/route` and `/route/` to that key. Confirm the function is attached before Phase 6 cutover; the original commit said the attachment script had not yet run. |
+
+Phase 5 verified: `npx astro check` reports 0 diagnostics; `npm run build` emits 34 routes; static and dynamic page checks pass. Built pages contain active nav state and no reference to legacy `site.js`.
 
 ## Phase 6 — QA, SEO Parity & Cutover
 
@@ -110,13 +116,25 @@ Goal: byte-for-byte confidence before DNS/deploy switch.
 
 | Task | Agent | Status | Notes |
 |---|---|---|---|
-| Visual regression: diff every route (Astro build vs live site) — reuse existing Playwright baseline setup if present | qa-verifier | Todo | Prior session noted a Playwright visual baseline was committed at some point — check if reusable |
-| SEO metadata parity check (title/description/OG tags per route) vs current per-page hardcoded meta | qa-verifier | Todo | |
-| robots.txt + sitemap.xml regenerate (`@astrojs/sitemap` integration) | qa-verifier | Todo | |
-| Env var / secrets check for build (Web3Forms keys, Google verification placeholder) — confirm `.env` wiring survives move to Astro's `import.meta.env` | qa-verifier | Todo | Prior incident: Web3Forms keys were found hardcoded in git history — do not repeat in Astro build |
-| Lighthouse / perf pass — confirm Astro output beats current CDN-Tailwind + CSR baseline | qa-verifier | Todo | |
-| Deploy cutover plan (staging URL → swap prod), rollback path documented | cutover-lead | Todo | Coordinate with CloudFront config from recent commits |
+| Visual regression: diff every route (Astro build vs live site) — reuse existing Playwright baseline setup if present | qa-verifier | In progress | No prior baseline found. Product pages now restore their unique feeds, diagrams, market claims, and CTAs; final browser comparison pending. |
+| SEO metadata parity check (title/description/OG tags per route) vs current per-page hardcoded meta | qa-verifier | Done | Titles/descriptions match legacy on the 33 indexable routes; OG tags and canonicals checked in the built output. The 404 is intentionally noindex. |
+| robots.txt + sitemap.xml regenerate (`@astrojs/sitemap` integration) | qa-verifier | Done | Astro generates `sitemap-index.xml` and `sitemap-0.xml`; generated `robots.txt` points to the index. |
+| Env var / secrets check for build (Web3Forms keys, Google verification placeholder) — confirm `.env` wiring survives move to Astro's `import.meta.env` | qa-verifier | Done locally | `.env.example` contains only empty placeholders. Workflow maps GitHub Secrets to build variables; secret presence and live form delivery still need verification. Legacy root `assets/js/site.js` still contains hardcoded keys but is excluded by the new `dist/` upload. |
+| Lighthouse / perf pass — confirm Astro output beats current CDN-Tailwind + CSR baseline | qa-verifier | In progress | Lighthouse binary unavailable; browser and asset-level comparison underway. |
+| Deploy cutover plan (staging URL → swap prod), rollback path documented | cutover-lead | Drafted | Workflow builds/checks `dist/`, guards on CloudFront rewrite, retains old S3 objects. No staging URL identified; AWS CLI session expired. |
 | Delete legacy: `site.js`, `content.js`, `tools/sync-html-shell.mjs`, per-page index.html files, `uploads/` dir | cutover-lead | Todo | Only after cutover confirmed stable — keep on a branch for one release cycle before deleting |
+
+Local Phase 6 checks pass: `npx astro check` (0 diagnostics), `npm run build` (34 pages), and the migrated static, dynamic, SEO, and form checks. `npm audit --omit=dev` reports 2 low, 1 high, and 1 critical finding in the pinned Astro 5 dependency tree. The [critical AVIF advisory](https://github.com/advisories/GHSA-26w7-cxv4-gfx2) requires processing an untrusted AVIF image; this repository has no AVIF files or Astro image optimization calls. Upgrading Astro and replacing the Tailwind integration is separate follow-up work.
+
+### Cutover and rollback
+
+The deployment workflow on this branch now builds Astro and uploads `dist/` only. It retains existing S3 objects for the first release. No staging distribution or URL is configured in this repository, and the local AWS session is expired, so CloudFront attachment and a hosted preview still need verification before production cutover.
+
+1. Reauthenticate AWS. Confirm the distribution's default behavior has the published `algorims-spa-index-rewrite` viewer-request function attached; attach it with `deploy/attach-cloudfront-function.sh` if absent. Confirm the deploy role can read the distribution config for the workflow preflight.
+2. Configure the GitHub Actions `WEB3FORMS_CONTACT_KEY` and `WEB3FORMS_SUPPORT_KEY` secrets if direct form delivery is required. Without them, both forms use the existing mailto fallback. Add a real Google verification token only if one exists.
+3. Run the Astro build and checks, then inspect the built site with `npm run preview`. A hosted staging check requires a staging bucket/distribution or equivalent infrastructure; none is currently identified. Do not treat the local preview as a CloudFront routing test.
+4. After approval, merge the migration branch to `main`. The workflow uploads `dist/` and invalidates CloudFront. Smoke-check `/`, one nested blog route, one product route, `robots.txt`, `sitemap.xml`, and contact/support submission behavior through the production URL.
+5. If the new site fails, revert the migration merge on `main` and rerun the previous root-sync deployment workflow. Legacy source and S3 objects are retained for this release; do not delete them before the rollback window closes.
 
 ---
 

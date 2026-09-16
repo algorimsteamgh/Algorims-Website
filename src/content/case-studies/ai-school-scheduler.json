@@ -1,0 +1,133 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Agentic AI · Education",
+  "title": "Eliminating scheduling chaos for a school — replacing manual coordination with intelligent automation",
+  "subtitle": "From error-prone manual timetables to an AI-powered scheduling platform delivering complete operational visibility and instant decision-making.",
+  "glyph": "calendar-clock",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Education"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore"
+    },
+    {
+      "label": "AI engine",
+      "value": "GPT-4o"
+    },
+    {
+      "label": "Architecture",
+      "value": "Cloud-native · serverless"
+    }
+  ],
+  "intro": [
+    "Managing a school's daily operations is more complex than it looks from the outside. Every day, administrators juggle teacher absences, last-minute substitute assignments, room conflicts, and timetable changes — all manually, across disconnected spreadsheets and paper-based systems.",
+    "The result was predictable: scheduling errors, operational bottlenecks, and administrators spending hours on coordination instead of leadership. The answer was an AI-powered platform that automates the entire scheduling lifecycle."
+  ],
+  "challenge": {
+    "lead": "Three critical problems demanded an intelligent solution:",
+    "items": [
+      "Teacher absences created cascading disruptions with no fast, reliable way to assign the right substitute.",
+      "Manual timetable management was error-prone — double bookings, room clashes, and workload imbalances went undetected until they caused real disruption.",
+      "Decision-makers had no real-time visibility into operations — acting on instinct rather than data."
+    ]
+  },
+  "solutionTitle": "What Algorims built",
+  "solutionLead": "An AI-Powered School Scheduler — a fully cloud-native, modular platform that automates the entire scheduling lifecycle from timetable management to absence resolution, powered by natural language AI.",
+  "solution": [
+    {
+      "h": "Core web application",
+      "p": "A secure, responsive platform with role-based access for administrators, teachers, and staff — seamlessly accessible across all devices."
+    },
+    {
+      "h": "Schedule management",
+      "p": "Daily and weekly timetable views with real-time conflict detection — automatically identifying teacher clashes, room double-bookings, and workload imbalances before they cause disruption."
+    },
+    {
+      "h": "Absence management",
+      "p": "End-to-end absence tracking with automated approval workflows and complete historical records — giving administrators full visibility and control."
+    },
+    {
+      "h": "AI substitute assignment engine",
+      "p": "Intelligent automatic substitute allocation based on subject expertise, availability, and workload balancing — ensuring the right teacher is assigned instantly, every time."
+    },
+    {
+      "h": "What-if simulation engine",
+      "p": "Scenario-based planning that lets administrators test the impact of absences, departmental changes, and room unavailability without touching live schedules."
+    },
+    {
+      "h": "AI analyst module",
+      "p": "Powered by GPT-4o — administrators ask operational questions in plain English and instantly receive AI-generated insights, SQL-driven analytics, and decision support. No technical skills required."
+    },
+    {
+      "h": "Real-time dashboard",
+      "p": "Live metrics covering teacher distribution, room utilisation, absence trends, and workload — giving every decision-maker a complete operational picture at a glance."
+    },
+    {
+      "h": "Conflict detection engine",
+      "p": "Automated alerts for double-booking, room clashes, and workload violations — with intelligent resolution suggestions served immediately."
+    },
+    {
+      "h": "Reporting & export",
+      "p": "Automated schedule reports, absence summaries, and substitute utilisation exports — ready when needed, without manual compilation."
+    }
+  ],
+  "tech": [
+    "GPT-4o",
+    "Cloud-Native Architecture",
+    "Role-Based Access Control",
+    "Real-Time Conflict Detection",
+    "Serverless Infrastructure",
+    "Automated Reporting"
+  ],
+  "architecture": {
+    "src": "/assets/case-studies/school-scheduler-architecture.png",
+    "alt": "AI school scheduler architecture — user access portal, web application core, AI analyst engine and conflict detection",
+    "caption": "A role-based access portal feeds the web application core — authentication, schedule, and absence managers — with a GPT-4o AI analyst engine and conflict-detection layer reading and writing against a shared relational database, then generating reports and dashboards."
+  },
+  "results": [
+    "<strong>Scheduling chaos eliminated</strong> — manual timetable management replaced with real-time updates and instant conflict resolution.",
+    "<strong>AI-powered decision-making</strong> — administrators ask questions in plain English and receive instant, accurate answers.",
+    "<strong>Smarter substitute management</strong> — the right substitute auto-assigned by expertise, availability, and workload.",
+    "<strong>Proactive planning</strong> — administrators test scenarios before implementation, eliminating disruption.",
+    "<strong>Real-time operational visibility</strong> — one platform across schedules, absences, staff, rooms, and analytics.",
+    "<strong>Secure & scalable</strong> — built to grow with the institution, with enterprise-grade access controls."
+  ],
+  "metrics": [
+    {
+      "value": "✓",
+      "label": "Manual scheduling eliminated end-to-end"
+    },
+    {
+      "value": "✓",
+      "label": "Substitute assignment fully automated by AI"
+    },
+    {
+      "value": "✓",
+      "label": "What-if simulation before any live change"
+    },
+    {
+      "value": "✓",
+      "label": "Plain-English analytics powered by GPT-4o"
+    },
+    {
+      "value": "✓",
+      "label": "Real-time conflict detection across rooms & staff"
+    },
+    {
+      "value": "✓",
+      "label": "Single source of truth across all operations"
+    }
+  ],
+  "related": [
+    "qsr-conversational-analytics",
+    "enterprise-knowledge-mining"
+  ]
+}

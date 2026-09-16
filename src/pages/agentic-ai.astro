@@ -1,0 +1,744 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Agentic AI — Algorims" description="Beyond automation: Algorims builds agentic AI systems that reason, decide, and act autonomously on Amazon Nova, Kendra and S3 Vectors.">
+<section class="relative overflow-hidden surface-hero pt-10 pb-20 lg:pt-16 lg:pb-28">
+    <div class="absolute inset-0 grid-bg opacity-40"></div>
+    <div class="container-x relative">
+      <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+        <div class="space-y-6 animate-fade-up">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Agentic AI Practice
+  </div>
+          <h1 class="text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">Beyond automation. <span class="text-gradient">Toward Intelligent autonomy.</span></h1>
+          <p class="text-lg leading-relaxed text-muted-foreground md:text-xl">Agentic AI is the shift from systems that store information to systems that mine it, reason through it, and act on it — autonomously. We help enterprises unlock the value buried in their data, eliminate costly operational workload, and deploy cost-effective AI agents built on Amazon Nova, Kendra, and S3 Vectors.</p>
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="/contact" class="btn btn-hero btn-lg">Talk to our AI team <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
+            <a href="/case-studies" class="btn btn-outline btn-lg">See agentic case studies</a>
+          </div>
+        </div>
+
+        <!-- Interactive 3D Spline scene -->
+        <div class="relative h-[480px] w-full overflow-hidden rounded-3xl border border-primary/20 shadow-2xl animate-fade-up"
+             style="background:var(--gradient-dark);animation-delay:200ms">
+          <!-- Soft brand-tinted spotlight wash -->
+          <svg class="animate-spotlight pointer-events-none absolute z-[1] h-[169%] w-[138%] lg:w-[100%] opacity-0 -top-40 left-0 md:left-40 md:-top-20"
+               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none" aria-hidden="true">
+            <g filter="url(#hero-spotlight)">
+              <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
+                       transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
+                       fill="hsl(280 95% 70%)" fill-opacity="0.28"></ellipse>
+            </g>
+            <defs>
+              <filter id="hero-spotlight" x="0.86" y="0.84" width="3785.16" height="2840.26"
+                      filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
+                <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"></feGaussianBlur>
+              </filter>
+            </defs>
+          </svg>
+
+          <!-- Brand-mesh overlay for color cohesion -->
+          <div class="absolute inset-0 pointer-events-none opacity-50" style="background:var(--gradient-mesh)"></div>
+
+          <!-- Loading state: lightweight animated robot (instant, no network).
+               Crossfades out when the real 3D scene finishes loading. -->
+          <div id="spline-loader" class="absolute inset-0 z-[2] grid place-items-center transition-opacity duration-700">
+            <div class="flex flex-col items-center gap-5">
+              <svg width="240" height="260" viewBox="0 0 240 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="drop-shadow-[0_20px_40px_rgba(168,85,247,0.35)]">
+                <defs>
+                  <linearGradient id="rb-body" x1="60" y1="40" x2="180" y2="230" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="hsl(265 40% 22%)"></stop>
+                    <stop offset="1" stop-color="hsl(265 45% 13%)"></stop>
+                  </linearGradient>
+                  <radialGradient id="rb-screen" cx="0.5" cy="0.45" r="0.7">
+                    <stop offset="0" stop-color="hsl(270 50% 16%)"></stop>
+                    <stop offset="1" stop-color="hsl(270 55% 9%)"></stop>
+                  </radialGradient>
+                  <radialGradient id="rb-coreg" cx="0.5" cy="0.5" r="0.5">
+                    <stop offset="0" stop-color="hsl(280 95% 80%)"></stop>
+                    <stop offset="1" stop-color="hsl(280 95% 62%)"></stop>
+                  </radialGradient>
+                </defs>
+
+                <!-- soft ground glow -->
+                <ellipse class="rb-glow" cx="120" cy="238" rx="74" ry="12" fill="hsl(280 95% 65%)" opacity="0.5" filter="blur(2px)"></ellipse>
+
+                <!-- orbiting particles -->
+                <g class="rb-orbit">
+                  <circle cx="120" cy="46" r="4" fill="hsl(280 95% 72%)"></circle>
+                  <circle cx="120" cy="230" r="3" fill="hsl(265 90% 68%)" opacity="0.8"></circle>
+                </g>
+                <g class="rb-orbit rb-orbit-rev">
+                  <circle cx="26" cy="138" r="3.5" fill="hsl(290 90% 72%)" opacity="0.9"></circle>
+                  <circle cx="214" cy="138" r="3" fill="hsl(280 95% 72%)" opacity="0.7"></circle>
+                </g>
+
+                <g class="rb-stage">
+                  <!-- antenna -->
+                  <line x1="120" y1="40" x2="120" y2="20" stroke="hsl(280 60% 55%)" stroke-width="3" stroke-linecap="round"></line>
+                  <circle class="rb-antenna-tip" cx="120" cy="15" r="5" fill="hsl(280 95% 75%)"></circle>
+
+                  <!-- head -->
+                  <rect x="58" y="40" width="124" height="98" rx="28" fill="url(#rb-body)" stroke="hsl(280 70% 60%)" stroke-opacity="0.5" stroke-width="2"></rect>
+                  <!-- face screen -->
+                  <rect x="74" y="58" width="92" height="62" rx="18" fill="url(#rb-screen)" stroke="hsl(280 80% 65%)" stroke-opacity="0.35"></rect>
+                  <!-- eyes -->
+                  <circle class="rb-eye" cx="100" cy="86" r="9" fill="url(#rb-coreg)"></circle>
+                  <circle class="rb-eye rb-eye-r" cx="140" cy="86" r="9" fill="url(#rb-coreg)"></circle>
+                  <!-- mouth -->
+                  <rect class="rb-mouth" x="104" y="104" width="32" height="6" rx="3" fill="hsl(280 90% 70%)"></rect>
+
+                  <!-- ears -->
+                  <rect x="48" y="78" width="10" height="24" rx="5" fill="hsl(265 40% 26%)"></rect>
+                  <rect x="182" y="78" width="10" height="24" rx="5" fill="hsl(265 40% 26%)"></rect>
+
+                  <!-- neck -->
+                  <rect x="104" y="138" width="32" height="12" rx="5" fill="hsl(265 40% 24%)"></rect>
+
+                  <!-- body -->
+                  <rect x="72" y="150" width="96" height="72" rx="22" fill="url(#rb-body)" stroke="hsl(280 70% 60%)" stroke-opacity="0.4" stroke-width="2"></rect>
+                  <!-- arms -->
+                  <rect x="52" y="158" width="14" height="46" rx="7" fill="hsl(265 40% 24%)"></rect>
+                  <rect x="174" y="158" width="14" height="46" rx="7" fill="hsl(265 40% 24%)"></rect>
+                  <!-- chest core -->
+                  <circle class="rb-core-ring" cx="120" cy="186" r="16" fill="none" stroke="hsl(280 95% 72%)" stroke-width="2"></circle>
+                  <circle class="rb-core" cx="120" cy="186" r="14" fill="url(#rb-coreg)"></circle>
+                </g>
+              </svg>
+              <span class="text-[10px] uppercase tracking-[0.3em] text-white/60">Initializing agent…</span>
+            </div>
+          </div>
+
+          <spline-viewer
+            id="hero-spline"
+            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+            events-target="global"
+            class="relative z-10"
+            style="background:transparent"></spline-viewer>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 lg:py-16">
+    <div class="container-x">
+      <div class="mx-auto max-w-4xl space-y-6 text-center">
+        <h2 class="text-balance text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">Your Enterprise Is Sitting On A <span class="text-gradient">Goldmine</span>. But Can't Access It.</h2>
+        <p class="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">Most enterprises are drowning in data, documents, and operational complexity — yet the intelligence locked inside remains out of reach. Teams spend hours manually searching for information, processing documents, and executing repetitive tasks that drain resources and slow decision-making.</p>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-4xl divide-y divide-border overflow-hidden rounded-3xl border border-border bg-card">
+
+          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
+            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="database" class="!w-5 !h-5"></i></div>
+            <div class="min-w-0">
+              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Knowledge is buried</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Critical insights locked inside siloed systems and disconnected data sources — invisible to the people who need them most.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
+            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="banknote" class="!w-5 !h-5"></i></div>
+            <div class="min-w-0">
+              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Operations are expensive</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Manual workflows and repetitive tasks consuming time, budget, and talent that should be focused on higher-value work.</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
+            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="clock-alert" class="!w-5 !h-5"></i></div>
+            <div class="min-w-0">
+              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Decisions are delayed</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Without real-time intelligence, leaders make critical decisions on outdated information — slowing growth and increasing risk.</p>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="mx-auto mt-10 max-w-3xl text-center">
+        <p class="text-lg font-medium text-foreground md:text-xl">This is not a data problem. It is not a talent problem.</p>
+        <p class="mt-3 text-lg leading-relaxed text-muted-foreground md:text-xl">It is an <span class="text-gradient font-semibold">intelligence problem</span> — and agentic AI is the answer.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+
+  <div class="max-w-3xl space-y-5 mx-auto text-center">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>What is Agentic AI
+  </div>
+    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Solution that <span class="text-gradient">mines, decides, and acts for your business</span></h2>
+    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Agentic AI pairs a powerful reasoning engine with your enterprise knowledge — continuously mining insights, reducing operational workload, and taking autonomous action to drive measurable business outcomes.</p>
+  </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-4">
+
+          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="brain" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-lg font-semibold">Reason</h3>
+            <p class="mt-2 text-sm text-muted-foreground">Mines your enterprise knowledge, decomposes complex operational problems, and plans multi-step actions — all without human prompting.</p>
+          </div>
+
+          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="workflow" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-lg font-semibold">Act</h3>
+            <p class="mt-2 text-sm text-muted-foreground">Connects to your APIs, tools, and enterprise systems to execute tasks, reduce manual workload, and deliver outcomes autonomously.</p>
+          </div>
+
+          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="layers" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-lg font-semibold">Remember</h3>
+            <p class="mt-2 text-sm text-muted-foreground">Retains organisational knowledge, learned behaviours, and operational context across every session — getting smarter with every interaction.</p>
+          </div>
+
+          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-lg font-semibold">Govern</h3>
+            <p class="mt-2 text-sm text-muted-foreground">Enterprise-grade guardrails, cost controls, evaluation frameworks, and full observability — built in from day one.</p>
+          </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14 bg-secondary/40">
+    <div class="container-x">
+
+  <div class="max-w-3xl space-y-5 mx-auto text-center">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Use cases
+  </div>
+    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Where agentic <span class="text-gradient">Transforms Enterprise Operations</span></h2>
+    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Real-world deployments where intelligent agents have eliminated operational bottlenecks, unlocked hidden knowledge, and delivered measurable cost savings across industries.</p>
+  </div>
+      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">Autonomous customer operations</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agents that triage, resolve, and escalate across channels with full auditability.</p>
+            <a href="/solutions/autonomous-customer-operations" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all hover:gap-2.5">Read more <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
+          </div>
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">Intelligent document processing</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Reasoning agents that extract, validate, and act on enterprise documents end-to-end.</p>
+            <a href="/solutions/intelligent-document-processing" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all hover:gap-2.5">Read more <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
+          </div>
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">Sales & revenue copilots</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agentic copilots that research accounts, draft outreach, and update CRM — autonomously.</p>
+
+          </div>
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">DevOps & SRE agents</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Self-healing systems: agents that detect, diagnose, and remediate production incidents.</p>
+
+          </div>
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">Knowledge agents</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Enterprise RAG plus tool use — answers grounded in your systems of record.</p>
+
+          </div>
+
+          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
+            <h3 class="mt-5 text-xl font-semibold tracking-tight">Supply chain orchestration</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agents that monitor signals, forecast demand, and coordinate across partners.</p>
+
+          </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Our AWS AI Stack ============ -->
+  <section class="relative py-12 lg:py-20 overflow-hidden">
+    <!-- ambient mesh -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 surface-mesh opacity-40"></div>
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.18), transparent 70%)"></div>
+
+    <div class="container-x relative">
+      <div class="grid items-end gap-8 md:grid-cols-12">
+        <div class="md:col-span-7 space-y-5">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Our AWS AI Stack
+  </div>
+          <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">
+            Built on the most advanced <span class="text-gradient">AWS AI services</span>.
+          </h2>
+        </div>
+        <div class="md:col-span-5">
+          <p class="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+            As an AWS Advanced Consulting Partner, we build on the most powerful and trusted AWS AI services — purpose-selected for knowledge mining, reasoning, and enterprise-scale autonomous operations.
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg lg:row-span-1">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="sparkles" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">01</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">Amazon Nova</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Foundation model family</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Frontier multimodal reasoning — purpose-built for fast, cost-effective agentic workloads at enterprise scale.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="search" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">02</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">Amazon Kendra</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Intelligent enterprise search</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Natural-language retrieval across every system of record — turning siloed documents into instant, governed answers.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="database-zap" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">03</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">Amazon S3 Vectors</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Native vector storage</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Massive-scale embeddings on durable S3 storage — semantic memory for agents without the cost of a separate database.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="layers" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">04</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">AWS Bedrock</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Managed model platform</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Model-agnostic by design. Anthropic, Nova, Llama, Mistral and more — orchestrated through a single, secure API.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="brain-circuit" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">05</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">Amazon SageMaker</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Custom ML & fine-tuning</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Train, tune, and host domain-specific models — closing the gap between generic intelligence and your unique data.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
+            <!-- corner glow on hover -->
+            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
+
+            <div class="flex items-start justify-between">
+              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <i data-lucide="scan-text" class="!w-5 !h-5"></i>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">06</span>
+                <span class="h-3 w-px bg-border"></span>
+                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
+              </div>
+            </div>
+
+            <div class="mt-7">
+              <h3 class="text-xl font-semibold tracking-tight">Amazon Textract</h3>
+              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Document AI</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Extract structured signal from contracts, forms and scans — the connective tissue between paperwork and autonomous workflows.</p>
+            </div>
+
+            <!-- bottom accent line that grows on hover -->
+            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
+          </div>
+
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 text-xs text-muted-foreground">
+        <span class="inline-flex items-center gap-2">
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-3 !h-3"></i></span>
+          AWS Well-Architected
+        </span>
+        <span class="h-1 w-1 rounded-full bg-border"></span>
+        <span class="inline-flex items-center gap-2">
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-3 !h-3"></i></span>
+          Secure by default
+        </span>
+        <span class="h-1 w-1 rounded-full bg-border"></span>
+        <span class="inline-flex items-center gap-2">
+          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="globe" class="!w-3 !h-3"></i></span>
+          Region-flexible deployment
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ How We Deliver It ============ -->
+  <section class="relative bg-secondary/40 py-12 lg:py-20 overflow-hidden">
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-bg opacity-50"></div>
+    <div class="container-x relative">
+
+  <div class="max-w-3xl space-y-5 mx-auto text-center">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>How We Deliver It
+  </div>
+    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">From first conversation to <span class="text-gradient">autonomous operation</span>.</h2>
+    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">A senior, hands-on delivery model — measured in weeks, not quarters — purpose-built to take agentic AI from blueprint to production with minimal disruption to your teams.</p>
+  </div>
+
+      <!-- desktop: 4 steps with connecting flow line -->
+      <div class="relative mt-16">
+        <!-- connector line (desktop only) -->
+        <div aria-hidden="true" class="absolute left-[12.5%] right-[12.5%] top-[58px] hidden h-px lg:block">
+          <div class="relative h-full w-full overflow-hidden rounded-full bg-border">
+            <div class="hwd-flow absolute inset-y-0 left-0 w-1/3 rounded-full bg-gradient-primary opacity-70"></div>
+          </div>
+        </div>
+
+        <ol class="relative grid gap-8 lg:grid-cols-4 lg:gap-6">
+
+            <li class="relative">
+              <!-- step card -->
+              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
+                <!-- numbered node sitting on the connector -->
+                <div class="relative z-10">
+                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
+                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
+                    <i data-lucide="search-check" class="!w-6 !h-6"></i>
+                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">01</span>
+                  </div>
+                </div>
+
+                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold tracking-tight">Discover</h3>
+                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Week 1</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We immerse in your business — understanding goals, challenges, and where AI can create the most value.</p>
+
+
+                    <!-- mobile chevron between steps -->
+                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
+                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
+                    </div>
+
+                </div>
+              </div>
+            </li>
+
+            <li class="relative">
+              <!-- step card -->
+              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
+                <!-- numbered node sitting on the connector -->
+                <div class="relative z-10">
+                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
+                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
+                    <i data-lucide="pencil-ruler" class="!w-6 !h-6"></i>
+                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">02</span>
+                  </div>
+                </div>
+
+                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold tracking-tight">Architect</h3>
+                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Week 2</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We design your agentic AI blueprint — selecting the right AWS services, agents, and workflows for your needs.</p>
+
+
+                    <!-- mobile chevron between steps -->
+                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
+                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
+                    </div>
+
+                </div>
+              </div>
+            </li>
+
+            <li class="relative">
+              <!-- step card -->
+              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
+                <!-- numbered node sitting on the connector -->
+                <div class="relative z-10">
+                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
+                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
+                    <i data-lucide="rocket" class="!w-6 !h-6"></i>
+                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">03</span>
+                  </div>
+                </div>
+
+                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold tracking-tight">Build & Deploy</h3>
+                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Weeks 3–8</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">Our engineers build, test, and deploy production-grade AI agents — fast, precise, and built to last.</p>
+
+
+                    <!-- mobile chevron between steps -->
+                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
+                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
+                    </div>
+
+                </div>
+              </div>
+            </li>
+
+            <li class="relative">
+              <!-- step card -->
+              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
+                <!-- numbered node sitting on the connector -->
+                <div class="relative z-10">
+                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
+                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
+                    <i data-lucide="line-chart" class="!w-6 !h-6"></i>
+                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">04</span>
+                  </div>
+                </div>
+
+                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-xl font-semibold tracking-tight">Optimise</h3>
+                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Ongoing</span>
+                  </div>
+                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We continuously monitor and improve your systems — ensuring they get smarter and more valuable over time.</p>
+
+
+                </div>
+              </div>
+            </li>
+
+        </ol>
+      </div>
+
+      <!-- bottom summary strip -->
+      <div class="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-full border border-border bg-card px-6 py-3 text-sm shadow-sm">
+        <span class="inline-flex items-center gap-2 text-foreground">
+          <i data-lucide="zap" class="!w-4 !h-4 text-primary"></i>
+          <span class="font-semibold">First agent in production</span>
+        </span>
+        <span class="font-mono text-xs text-muted-foreground">in as little as 6 weeks</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+      <div class="grid gap-12 md:grid-cols-12 md:items-center">
+        <div class="md:col-span-5 space-y-5">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Enterprise value
+  </div>
+          <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Compounding <span class="text-gradient">capability</span>, not just productivity.</h2>
+          <p class="text-base leading-relaxed text-muted-foreground">Agentic AI doesn't just speed up existing workflows — it lets you redesign them. The result: lower cost-to-serve, higher quality, and new categories of customer experience.</p>
+        </div>
+        <div class="md:col-span-7 grid grid-cols-2 gap-4">
+
+            <div class="rounded-2xl border border-border bg-card p-6">
+              <p class="text-3xl font-semibold text-gradient">40–80%</p>
+              <p class="mt-1 text-sm text-muted-foreground">Reduction in handling time</p>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-card p-6">
+              <p class="text-3xl font-semibold text-gradient">3–10×</p>
+              <p class="mt-1 text-sm text-muted-foreground">Throughput on knowledge work</p>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-card p-6">
+              <p class="text-3xl font-semibold text-gradient">24/7</p>
+              <p class="mt-1 text-sm text-muted-foreground">Always-on operations</p>
+            </div>
+
+            <div class="rounded-2xl border border-border bg-card p-6">
+              <p class="text-3xl font-semibold text-gradient">100%</p>
+              <p class="mt-1 text-sm text-muted-foreground">Auditable decision trails</p>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-20 lg:pb-28">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark p-10 text-white md:p-14">
+        <div class="absolute inset-0 surface-mesh opacity-60"></div>
+        <div class="relative grid gap-10 md:grid-cols-2 md:items-center">
+          <div class="space-y-5">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
+              <i data-lucide="sparkles" class="!w-3 !h-3"></i> <span style="color:hsl(var(--primary-glow))">Future-ready architecture</span>
+            </div>
+            <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Built on a reference architecture for <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">production agents</span>.</h2>
+            <p class="text-base leading-relaxed text-white/75">Model-agnostic. Tool-rich. Observable by default. Our reference architecture brings together planning, memory, evaluation, and governance — so you ship agents you can trust.</p>
+          </div>
+          <div class="grid gap-4">
+
+              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
+                <i data-lucide="network" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
+                <p class="mt-3 font-semibold">Model & vendor agnostic</p>
+                <p class="mt-1 text-sm text-white/70">Bedrock, OpenAI, Anthropic, open-source — composable by design.</p>
+              </div>
+
+              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
+                <i data-lucide="shield-check" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
+                <p class="mt-3 font-semibold">Safety & governance</p>
+                <p class="mt-1 text-sm text-white/70">Policy guardrails, evaluation, and red-teaming workflows.</p>
+              </div>
+
+              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
+                <i data-lucide="workflow" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
+                <p class="mt-3 font-semibold">Tool & API orchestration</p>
+                <p class="mt-1 text-sm text-white/70">Plug agents into your existing systems of record and APIs.</p>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI page CTA ============ -->
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
+        <div class="absolute inset-0 surface-mesh opacity-60"></div>
+        <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)"></div>
+        <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)"></div>
+
+        <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
+          <div class="md:col-span-3 space-y-5">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
+              <span class="h-1.5 w-1.5 rounded-full animate-pulse" style="background:hsl(var(--primary-glow))"></span>
+              Ready when you are
+            </div>
+            <h2 class="text-balance text-4xl font-semibold leading-[1.05] md:text-5xl">
+              Ready to <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">unlock the intelligence</span> inside your enterprise?
+            </h2>
+            <p class="max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
+              Let's build your agentic AI system together — cost-effective, production-grade, and built to last.
+            </p>
+          </div>
+          <div class="md:col-span-2 flex flex-col gap-3 md:items-end">
+            <a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">
+              Let's build together <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
+            </a>
+            <a href="/case-studies" class="btn btn-ghost btn-lg rounded-full" style="color:white">See all case studies</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<script>
+  const viewer = document.getElementById('hero-spline');
+  const loader = document.getElementById('spline-loader');
+  if (viewer && loader) {
+    const hideLoader = () => {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 700);
+    };
+    const stripWatermark = () => {
+      const root = viewer.shadowRoot;
+      if (!root) return;
+      root.querySelectorAll("#logo, a[href*='spline'], #spline-logo, .spline-logo").forEach(item => item.remove());
+    };
+    const onLoad = () => { hideLoader(); stripWatermark(); };
+    viewer.addEventListener('load', onLoad, { once: true });
+    viewer.addEventListener('load-complete', onLoad, { once: true });
+    const poll = setInterval(stripWatermark, 200);
+    setTimeout(() => clearInterval(poll), 12000);
+    setTimeout(hideLoader, 8000);
+  }
+</script>
+</BaseLayout>

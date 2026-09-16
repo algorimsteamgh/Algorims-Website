@@ -1,0 +1,110 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "DevOps & Platform · SaaS",
+  "title": "Engineering a production-ready CI/CD pipeline that ships secure, high-quality software automatically",
+  "subtitle": "From manual deployments to a fully automated, security-first delivery pipeline — built on GitHub Actions, Kubernetes, and AWS.",
+  "glyph": "git-branch",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Domain",
+      "value": "DevOps & Platform Engineering"
+    },
+    {
+      "label": "Workload",
+      "value": "SaaS application delivery"
+    },
+    {
+      "label": "Runtime",
+      "value": "Kubernetes on AWS EKS"
+    },
+    {
+      "label": "Provisioning",
+      "value": "Terraform · Infrastructure as Code"
+    }
+  ],
+  "intro": [
+    "In modern software development, speed without quality is a liability — and quality without speed is a competitive disadvantage. Most engineering teams face the same painful reality: manual deployments are slow, error-prone, and inconsistent.",
+    "Security vulnerabilities slip through undetected, testing is rushed under delivery pressure, and by the time a bug reaches production the cost of fixing it has multiplied many times over."
+  ],
+  "challenge": {
+    "lead": "Three critical problems demanded an intelligent solution:",
+    "items": [
+      "Manual deployment processes were slowing release cycles and creating inconsistent, unreliable delivery.",
+      "Security and code-quality checks were disconnected from the delivery workflow — catching problems too late.",
+      "Teams lacked real-time visibility into the pipeline — blind spots created risk and reduced confidence."
+    ]
+  },
+  "solutionTitle": "What Algorims built",
+  "solutionLead": "RaaS — Release Automation as a Service — a fully automated, security-first CI/CD pipeline that takes code from commit to production with zero manual intervention, engineered across four precision-designed stages.",
+  "solution": [
+    {
+      "h": "Stage 1 — Code & build",
+      "p": "The moment a developer commits, the pipeline activates automatically. Source code is compiled, validated, and built into an optimised container image — ready for the next stage within minutes, not hours."
+    },
+    {
+      "h": "Stage 2 — Scan & package",
+      "p": "SonarQube performs deep static analysis and Trivy scans for vulnerabilities across the image and dependencies. Only clean, secure, quality-verified code advances — eliminating the risk of security debt reaching production."
+    },
+    {
+      "h": "Stage 3 — Deploy & test",
+      "p": "The verified app deploys to a dedicated AWS EKS staging environment provisioned automatically via Terraform. Unit, end-to-end, and UI tests run in parallel, delivering fast, reliable feedback before anything reaches production."
+    },
+    {
+      "h": "Stage 4 — Notify & release",
+      "p": "Stakeholders receive real-time Slack notifications at every stage. Once all gates clear, the verified release ships to production seamlessly, automatically, and with full confidence."
+    }
+  ],
+  "tech": [
+    "GitHub Actions",
+    "Docker",
+    "SonarQube",
+    "Trivy",
+    "Kubernetes",
+    "AWS EKS",
+    "Terraform",
+    "Slack"
+  ],
+  "results": [
+    "<strong>Deployment speed dramatically increased</strong> — commit to production in a fraction of the time, zero manual intervention.",
+    "<strong>Security built into every release</strong> — automated SonarQube and Trivy scans ensure only vulnerability-free code ships.",
+    "<strong>Quality assured at every stage</strong> — unit, end-to-end, and UI tests run automatically on every candidate.",
+    "<strong>Infrastructure as code</strong> — Terraform-provisioned EKS environments are consistent, repeatable, and cost-effective.",
+    "<strong>Complete pipeline visibility</strong> — real-time Slack notifications keep every stakeholder informed.",
+    "<strong>Engineering teams unblocked</strong> — developers focus on features, not deployments."
+  ],
+  "metrics": [
+    {
+      "value": "0",
+      "label": "Manual steps from commit to production"
+    },
+    {
+      "value": "4",
+      "label": "Automated stages — build, scan, deploy, release"
+    },
+    {
+      "value": "✓",
+      "label": "Security gates on every release (SonarQube + Trivy)"
+    },
+    {
+      "value": "✓",
+      "label": "Parallel unit, E2E & UI testing on each candidate"
+    },
+    {
+      "value": "✓",
+      "label": "Terraform-provisioned, drift-free EKS environments"
+    },
+    {
+      "value": "✓",
+      "label": "Real-time Slack visibility across the pipeline"
+    }
+  ],
+  "related": [
+    "finance-document-automation",
+    "qsr-conversational-analytics"
+  ]
+}

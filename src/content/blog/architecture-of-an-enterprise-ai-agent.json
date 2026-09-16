@@ -1,0 +1,63 @@
+{
+  "category": "Agentic AI",
+  "title": "The model is the easy part. Here's what actually makes an enterprise AI agent work.",
+  "excerpt": "What actually goes into a production agent — beyond the prompt, beyond the model, beyond the demo.",
+  "date": "",
+  "read": "9 min read",
+  "author": "Algorims AI Practice",
+  "art": "agent",
+  "body": [
+    {
+      "type": "p",
+      "text": "Demos are easy. A working agent in production — one your CFO will sign off on and your security team won't escalate — is a different category of problem. The model is the smallest part of the answer. Everything around it is where the engineering happens."
+    },
+    {
+      "type": "h",
+      "text": "What an agent actually is"
+    },
+    {
+      "type": "p",
+      "text": "Strip away the marketing and an agent is a fairly small set of moving parts: a planner that decides what to do next, a memory that remembers what it's already learned, a set of tools it can call, and a runtime that wraps the whole thing in observability, guardrails, and recovery. Each part fails in different ways. The art is in making them fail gracefully."
+    },
+    {
+      "type": "h",
+      "text": "The seven layers we always ship"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Orchestration.</strong> The planner, the policy, and the decision logic that keeps an agent from going off-script.",
+        "<strong>Reasoning.</strong> Model selection, prompt strategy, structured output — chosen per task, not picked once and reused for everything. Amazon Nova for enterprise reasoning; Bedrock for managed model access.",
+        "<strong>Memory.</strong> Short-term scratchpad, long-term semantic store, and structured state. Three layers, not one.",
+        "<strong>Tooling.</strong> The catalogue of capabilities the agent can call — APIs, databases, internal services. Versioned, typed, and gated. An ungated tool is an unsecured attack surface.",
+        "<strong>Retrieval.</strong> Hybrid vector + keyword + structured queries, with intelligent reranking — built on Amazon Kendra and S3 Vectors. Not a single vector lookup.",
+        "<strong>Evaluation.</strong> Offline eval suites, online traces, and human review queues. The bar is regression detection, not headline accuracy.",
+        "<strong>Governance.</strong> Authn/authz, audit, content policy, cost controls, and the kill-switch you hope you never need."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "Where teams underinvest"
+    },
+    {
+      "type": "p",
+      "text": "Almost universally: <em>evaluation</em>. Teams ship the agent, watch a handful of conversations, and call it good. Then six weeks later a model update changes behaviour, or a tool returns a malformed response, or someone phrases a question slightly differently — and there's no way to know without re-litigating each case by hand. Build the eval harness on day one. Pay yourself back forever."
+    },
+    {
+      "type": "h",
+      "text": "Boring is a feature"
+    },
+    {
+      "type": "p",
+      "text": "The best agents we've shipped are the ones that look the least exciting in a screenshot. They do one job, they do it reliably, they cost what they should cost, and they stay out of trouble. That's the bar."
+    },
+    {
+      "type": "h",
+      "text": "How we engage"
+    },
+    {
+      "type": "p",
+      "text": "We design and build agentic systems end-to-end on AWS — Bedrock, Nova, Kendra, SageMaker, S3 Vectors — and operate them with our clients until they're truly steady-state. The win condition is the agent quietly earning its keep six months in, not lighting up the keynote."
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ProductDetails from "./ProductDetails.astro";
+
+interface Props { entry: CollectionEntry<"products"> }
+const { entry } = Astro.props;
+const themes = {
+  cxiq: { name: "CXIQ", first: "Every conversation handled.", middle: "", second: "Every dollar approved.", titleWidth: "410px", color: "#D6455F", deep: "#7A1F35", tint: "#FDEFF2", surface: "#FBF5F6", border: "#EFE1E4", chips: [["No migration", "Works on WhatsApp + email you run today"], ["100% gated", "Every money action, until explicitly promoted"], ["2–4 wks", "Typical onboarding, core build"]] },
+  dociq: { name: "DocIQ", first: "Documents in.", middle: "", second: "Decisions out.", titleWidth: "520px", color: "#2F6FED", deep: "#5B21B6", tint: "#EEF3FF", surface: "#F7F8FC", border: "#E4E7F0", chips: [["Textract → Bedrock", "Escalates only when needed"], ["<45s p95", "Non-HIL, ≤20-page document"], ["Always enforced", "Human boundary below threshold"]] },
+  opsiq: { name: "OpsIQ", first: "Tickets in.", middle: "", second: "Resolutions out.", titleWidth: "520px", color: "#0891B2", deep: "#164E63", tint: "#E6F7FA", surface: "#F5FAFB", border: "#DCEBEE", chips: [["78% at month 6", "Auto-resolution rate, rising monthly"], ["3-tier autonomy", "Never a single AI-does-IT switch"], ["Zero domain-admin", "Scoped service account only"]] },
+  payiq: { name: "PayIQ", first: "Your invoices post", middle: "themselves.", second: "Safely.", titleWidth: "560px", color: "#0E9F6E", deep: "#065F43", tint: "#EAF9F2", surface: "#F6FAF8", border: "#DFEAE4", chips: [["Xero + Zoho", "Both connectors, day one"], ["Always-on", "Bank-detail change verification"], ["Never lost", "Queued, not dropped, if AI is down"]] },
+};
+const theme = themes[entry.id as keyof typeof themes];
+---
+
+<div class="product-page" style={`--product-color:${theme.color};--product-deep:${theme.deep};--product-tint:${theme.tint};--product-surface:${theme.surface};--product-border:${theme.border};--title-max:${theme.titleWidth}`}>
+  <section class="product-hero">
+    <div class="product-wrap product-grid">
+      <div>
+        <span class="product-badge"><i data-lucide={entry.data.glyph} class="!w-5 !h-5" /><strong>{theme.name}</strong></span>
+        <h1>{theme.first}<br />{theme.middle && <>{theme.middle} </>}<span>{theme.second}</span></h1>
+        <p class="product-subtitle">{entry.data.subtitle}</p>
+        <div class="product-actions"><a href="/contact" class="product-primary">Contact Us</a><a href="#workflow" class="product-secondary">See how it works</a></div>
+        <dl class="product-chips">{theme.chips.map(([value, label]) => <div><dt>{value}</dt><dd>{label}</dd></div>)}</dl>
+      </div>
+      <ProductDetails slug={entry.id} part="feed" />
+    </div>
+  </section>
+  <section class="product-proof"><div class="product-wrap"><div class="product-proof-grid">{entry.data.metrics.map((metric) => <div><strong>{metric.value}</strong><span>{metric.label}</span></div>)}</div></div></section>
+</div>
+
+<style>
+  .product-page { color: #0D1B40; }
+  .product-wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .product-hero { position: relative; overflow: hidden; padding: 88px 0 72px; background: linear-gradient(180deg, var(--product-tint) 0%, #fdfdff 60%, #fff 100%); }
+  .product-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 50% 55% at 88% 8%, color-mix(in srgb, var(--product-color) 12%, transparent), transparent 60%); pointer-events: none; }
+  .product-grid { position: relative; display: grid; grid-template-columns: 1.05fr .95fr; gap: 64px; align-items: center; }
+  .product-badge { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; padding: 10px 18px; border: 1px solid color-mix(in srgb, var(--product-color) 32%, white); border-radius: 999px; background: color-mix(in srgb, var(--product-color) 12%, white); color: var(--product-deep); font-size: .9rem; font-weight: 800; }
+  h1 { max-width: var(--title-max); margin: 0 0 20px; color: #0D1B40; font-size: clamp(2.15rem, 4.1vw, 3.2rem); font-weight: 800; line-height: 1.1; letter-spacing: -.02em; }
+  h1 span { color: transparent; background: linear-gradient(90deg, var(--product-color), var(--product-deep)); background-clip: text; -webkit-background-clip: text; }
+  .product-subtitle { max-width: 480px; margin: 0 0 32px; color: #5B6478; font-size: 1.06rem; line-height: 1.65; }
+  .product-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 40px; }
+  .product-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 12px 26px; border-radius: 9px; font-size: .9rem; font-weight: 700; }
+  .product-primary { background: var(--product-color); color: white; }
+  .product-primary:hover { background: var(--product-deep); }
+  .product-secondary { color: #0D1B40; border: 1px solid var(--product-border); }
+  .product-secondary:hover { border-color: var(--product-deep); }
+  .product-chips { display: flex; flex-wrap: wrap; gap: 22px; margin: 0; }
+  .product-chips div { max-width: 145px; }
+  .product-chips dt { color: #0D1B40; font-size: 1.02rem; font-weight: 800; line-height: 1.25; }
+  .product-chips dd { margin: 4px 0 0; color: #8C98A9; font-size: .7rem; font-weight: 600; line-height: 1.35; }
+  .product-proof { padding: 40px 0 64px; background: var(--product-surface); }
+  .product-proof-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; overflow: hidden; border: 1px solid var(--product-border); border-radius: 18px; background: var(--product-border); }
+  .product-proof-grid > div { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 30px 22px; background: #fff; text-align: center; }
+  .product-proof-grid strong { color: var(--product-deep); font-size: clamp(1.35rem, 2vw, 1.85rem); font-weight: 800; line-height: 1.2; }
+  .product-proof-grid span { color: #667085; font-size: .72rem; font-weight: 600; line-height: 1.4; }
+  @media (max-width: 900px) { .product-grid { grid-template-columns: 1fr; gap: 40px; } .product-proof-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .product-wrap { padding: 0 20px; } .product-hero { padding: 56px 0; } .product-proof-grid { grid-template-columns: 1fr 1fr; } .product-proof-grid > div { padding: 20px 12px; } .product-chips { gap: 18px; } }
+</style>

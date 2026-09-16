@@ -1,0 +1,127 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Eyebrow from "./Eyebrow.astro";
+import MetricCard from "./MetricCard.astro";
+import ChallengeList from "./ChallengeList.astro";
+import SolutionSteps from "./SolutionSteps.astro";
+import AwsServices from "./AwsServices.astro";
+import ArchitectureFigure from "./ArchitectureFigure.astro";
+import TechStack from "./TechStack.astro";
+import ResultsGrid from "./ResultsGrid.astro";
+import Faqs from "./Faqs.astro";
+import FlowDiagram from "./FlowDiagram.astro";
+import RelatedWork from "./RelatedWork.astro";
+import ProductDetails from "./ProductDetails.astro";
+import ProductHero from "./ProductHero.astro";
+import caseScenes from "../../data/caseScenes.json";
+
+type DetailEntry = CollectionEntry<"case-studies"> | CollectionEntry<"solutions"> | CollectionEntry<"products">;
+interface Props { entry: DetailEntry }
+
+const { entry } = Astro.props;
+const data = entry.data;
+const flow = "flow" in data ? data.flow : undefined;
+const aws = "aws" in data ? data.aws : undefined;
+const awsTitle = "awsTitle" in data ? data.awsTitle : undefined;
+const awsLead = "awsLead" in data ? data.awsLead : undefined;
+const tech = "tech" in data ? data.tech : undefined;
+const architecture = "architecture" in data ? data.architecture : undefined;
+const results = "results" in data ? data.results : undefined;
+const faqs = "faqs" in data ? data.faqs : undefined;
+const clientLogo = "clientLogo" in data ? data.clientLogo : undefined;
+const scene = entry.id in caseScenes ? caseScenes[entry.id as keyof typeof caseScenes] : undefined;
+const collections = await Promise.all([
+  getCollection("case-studies"), getCollection("solutions"), getCollection("products"),
+]);
+const related = data.related.flatMap((slug) => {
+  for (const [index, collection] of collections.entries()) {
+    const found = collection.find((item) => item.id === slug);
+    if (found) return [{ slug, href: `/${["case-studies", "solutions", "products"][index]}/${slug}`, glyph: found.data.glyph, kind: found.data.kind, title: found.data.title }];
+  }
+  return [];
+});
+---
+{entry.collection === "products" ? <ProductHero entry={entry} /> : <>
+<section class="pt-8 pb-4">
+  <div class="container-x">
+    <a href={data.source.href} class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+      <i data-lucide="arrow-left" class="!w-4 !h-4" /> {data.source.label}
+    </a>
+  </div>
+</section>
+
+<section class="pt-6 pb-10">
+  <div class="container-x">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+      <div class="space-y-6 lg:col-span-7">
+        <div class="flex flex-wrap items-center gap-3">
+          <Eyebrow text={data.kind} />
+          <span class="text-xs font-medium uppercase tracking-widest text-muted-foreground">{data.tag}</span>
+        </div>
+        {clientLogo && <div class="flex items-center gap-3 pt-4">
+          <div class="relative flex h-14 items-center rounded-2xl border border-border bg-white px-3"><img src={clientLogo.src} alt={clientLogo.alt} class="h-7 w-auto object-contain" /></div>
+          <div><p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Deployed for</p><p class="text-xl font-semibold text-foreground">{clientLogo.name}</p></div>
+        </div>}
+        <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">{data.title}</h1>
+        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">{data.subtitle}</p>
+        <div class="flex flex-wrap gap-3 pt-1">
+          <a href="/contact" class="btn btn-hero btn-lg">Talk to an architect <i data-lucide="arrow-right" /></a>
+          <a href={data.source.href} class="btn btn-outline btn-lg">{data.source.label}</a>
+        </div>
+      </div>
+      <div class="lg:col-span-5">
+        <div class="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark p-8 text-white shadow-lg">
+          <div class="absolute inset-0 surface-mesh opacity-50" />
+          <div class="absolute -right-16 -top-16 h-56 w-56 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)" />
+          <div class="relative">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-white/10 text-white"><i data-lucide={data.glyph} class="!w-6 !h-6" /></div>
+            <dl class="mt-6 divide-y divide-white/10">
+              {data.meta.map((item) => <div class="flex items-start justify-between gap-4 py-3"><dt class="text-xs uppercase tracking-widest text-white/55">{item.label}</dt><dd class="text-right text-sm font-medium text-white/90">{item.value}</dd></div>)}
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{data.metrics.length > 0 && <section class="pb-12"><div class="container-x"><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{data.metrics.map((metric) => <MetricCard value={metric.value!} label={metric.label!} />)}</div></div></section>}
+</>}
+
+{data.intro.length > 0 && <section class="pb-4"><div class="container-x max-w-3xl"><Eyebrow text="Overview" /><div class="mt-5 space-y-5">{data.intro.map((paragraph) => <p class="text-[17px] leading-[1.75] text-foreground/85" set:html={paragraph} />)}</div></div></section>}
+
+{flow && <section class="py-12"><div class="container-x"><FlowDiagram title={flow.title!} desc={flow.desc!} stages={flow.stages! as { icon: string; title: string; subtitle: string; items?: string[] }[]} footer={flow.footer} /></div></section>}
+
+{scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={`/assets/case-studies/scenes/${entry.id}.png`} alt={scene.alt} loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
+
+<section class="py-12"><div class="container-x max-w-3xl"><ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
+
+{data.solution.length > 0 && <section id={entry.collection === "products" ? "workflow" : undefined} class="py-12 bg-secondary/40"><div class="container-x"><SolutionSteps title={data.solutionTitle} lead={data.solutionLead} steps={data.solution as { h: string; p: string }[]} /></div></section>}
+
+{aws && aws.length > 0 && <section class="py-12"><div class="container-x"><AwsServices title={awsTitle} lead={awsLead} services={aws as { name: string; desc: string }[]} /></div></section>}
+
+{architecture && <section class="py-12"><div class="container-x"><ArchitectureFigure src={architecture.src!} alt={architecture.alt!} caption={architecture.caption} /></div></section>}
+
+{tech && tech.length > 0 && <section class="py-12"><div class="container-x max-w-4xl"><TechStack items={tech} /></div></section>}
+
+{results && results.length > 0 && <section class="py-12 bg-secondary/40"><div class="container-x"><ResultsGrid items={results} /></div></section>}
+
+{faqs && faqs.length > 0 && <section class="py-12"><div class="container-x max-w-3xl"><Faqs items={faqs as { q: string; a: string }[]} /></div></section>}
+
+{entry.collection === "products" && <ProductDetails slug={entry.id} part="more" />}
+
+{related.length > 0 && <section class="pb-16"><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4"><h3 class="text-2xl font-semibold tracking-tight">Related work</h3></div><RelatedWork items={related} /></div></section>}
+
+{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : <section class="py-10 lg:py-14">
+  <div class="container-x">
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
+      <div class="absolute inset-0 surface-mesh opacity-60" />
+      <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)" />
+      <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)" />
+      <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
+        <div class="md:col-span-3 space-y-5"><div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))" />Ready when you are</div><h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2><p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p></div>
+        <div class="md:col-span-2 flex flex-col gap-3 md:items-end"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right" /></a><a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a></div>
+      </div>
+    </div>
+  </div>
+</section>}

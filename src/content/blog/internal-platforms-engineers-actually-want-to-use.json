@@ -1,0 +1,58 @@
+{
+  "category": "Development",
+  "title": "There's a graveyard at every large company. It's full of internal platforms nobody used.",
+  "excerpt": "Most internal platforms fail. The ones that don't share a small number of stubborn principles — and they all start with the same uncomfortable truth.",
+  "date": "",
+  "read": "7 min read",
+  "author": "Algorims Platform Practice",
+  "art": "platform",
+  "body": [
+    {
+      "type": "p",
+      "text": "There's a graveyard at every large company. It's full of internal platforms that were going to fix everything — until the engineers they were built for quietly went back to writing their own infrastructure. We've been on both sides of this story, and the failure modes are remarkably consistent."
+    },
+    {
+      "type": "h",
+      "text": "Why most platforms fail"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>They're built for managers, not engineers.</strong> Dashboards, reports, approval flows — none of which an engineer needed.",
+        "<strong>They optimise for control, not flow.</strong> Adding friction is easy. Removing it without losing safety is the hard problem.",
+        "<strong>They have no users on the team building them.</strong> A platform team without product-engineer empathy ships features nobody asked for.",
+        "<strong>They never delete anything.</strong> Every feature stays forever, and the surface area becomes its own debt."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "Principles that actually work"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>Golden paths, not gates.</strong> Make the right way the easy way. Keep the escape hatch.",
+        "<strong>Treat the platform as a product.</strong> Real PM, real research, real shipped milestones — not a roadmap doc.",
+        "<strong>Measure adoption, not coverage.</strong> 'We have a service' is meaningless. 'Eighty per cent of new services start here' is everything.",
+        "<strong>Self-service or it doesn't exist.</strong> If an engineer has to file a ticket, the platform failed.",
+        "<strong>Documentation is part of the product.</strong> Not a wiki, not a Confluence page nobody opens. A first-class artefact, owned and maintained."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "The shape that's winning right now"
+    },
+    {
+      "type": "p",
+      "text": "Internal Developer Platform on top of Kubernetes or serverless, with a thin Backstage-style portal, golden paths for the five or six common service shapes, security and compliance gates that run inline rather than as quarterly audits, and — increasingly — agentic copilots that automate the operational toil that used to consume your platform team's afternoons."
+    },
+    {
+      "type": "h",
+      "text": "What we bring"
+    },
+    {
+      "type": "p",
+      "text": "We've built platforms for fast-growing scale-ups and for global enterprises modernising thousand-service estates. The bar is the same in both cases: developers using the platform by choice within six months, and the platform team scaling sub-linearly with the org."
+    }
+  ]
+}

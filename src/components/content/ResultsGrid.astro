@@ -1,0 +1,25 @@
+---
+// Renders `results: string[]` — the "Results & benefits" section of
+// renderDetailPage() in assets/js/site.js. Entries carry inline <strong>
+// HTML from the legacy data, preserved verbatim via set:html.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  title?: string;
+  items: string[];
+}
+const { title = "Results & benefits", items } = Astro.props;
+---
+<div class="max-w-3xl">
+  <Eyebrow text={title} />
+</div>
+<div class="mt-8 grid gap-4 md:grid-cols-2">
+  {items.map((item) => (
+    <div class="flex gap-3 rounded-2xl border border-border bg-card p-5">
+      <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary/10 text-primary">
+        <i data-lucide="check" class="!w-3.5 !h-3.5" />
+      </span>
+      <span class="text-[15px] leading-relaxed text-foreground/85" set:html={item} />
+    </div>
+  ))}
+</div>

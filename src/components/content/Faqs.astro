@@ -1,0 +1,25 @@
+---
+// Renders `faqs: [{ q, a }]` as native <details>/<summary> accordions —
+// matches renderDetailPage()'s FAQ section in assets/js/site.js exactly,
+// including the rotate-on-open plus icon (no JS needed, native disclosure).
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  items: { q: string; a: string }[];
+}
+const { items } = Astro.props;
+---
+<Eyebrow text="Frequently asked questions" />
+<div class="mt-8 divide-y divide-border overflow-hidden rounded-3xl border border-border bg-card">
+  {items.map((faq) => (
+    <details class="group">
+      <summary class="flex cursor-pointer items-center justify-between gap-4 p-6 text-left font-semibold transition-colors hover:bg-secondary/40">
+        <span>{faq.q}</span>
+        <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-border text-muted-foreground transition-transform duration-300 group-open:rotate-45">
+          <i data-lucide="plus" class="!w-4 !h-4" />
+        </span>
+      </summary>
+      <p class="px-6 pb-6 text-[15px] leading-relaxed text-muted-foreground" set:html={faq.a} />
+    </details>
+  ))}
+</div>

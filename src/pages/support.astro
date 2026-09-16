@@ -1,0 +1,348 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Support — Algorims" description="Algorims support — submit a ticket or reach our engineers for AWS, DevOps, security, and infrastructure issues.">
+<!-- Hero -->
+  <section class="relative overflow-hidden py-12 lg:py-16">
+    <div class="pointer-events-none absolute inset-0 grid-bg opacity-60"></div>
+    <div class="container-x relative">
+      <div class="max-w-3xl space-y-6">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Support
+  </div>
+        <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Need technical <span class="text-gradient">support</span>?</h1>
+        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Reach the Algorims support team for AWS, DevOps, Kubernetes, security, backup, cloud migration, and infrastructure issues.</p>
+        <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
+          <a href="/support#support-form" class="btn btn-hero btn-xl">Raise a Support Ticket <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
+          <a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl"><i data-lucide="log-in" class="!w-4 !h-4"></i> Client Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support options -->
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+      <div class="grid gap-6 md:grid-cols-3">
+
+          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="mail" class="!w-6 !h-6"></i></div>
+            <h3 class="mt-5 text-xl font-semibold">Email Support</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">For technical issues and service requests.</p>
+            <div class="mt-5 pt-1"><a href="mailto:support@algorims.com" class="inline-flex items-center gap-1.5 font-medium text-primary hover:underline">support@algorims.com</a></div>
+          </div>
+
+          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="log-in" class="!w-6 !h-6"></i></div>
+            <h3 class="mt-5 text-xl font-semibold">Customer Portal</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">Track tickets, reply to engineers, and view ticket status.</p>
+            <div class="mt-5 pt-1"><a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-default rounded-full">Client Login <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a></div>
+          </div>
+
+          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="ticket" class="!w-6 !h-6"></i></div>
+            <h3 class="mt-5 text-xl font-semibold">Submit a Ticket</h3>
+            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">Create a support request directly from the website.</p>
+            <div class="mt-5 pt-1"><a href="/support#support-form" class="btn btn-hero btn-default">Create Ticket <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a></div>
+          </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Support request form -->
+  <section id="support-form" class="scroll-mt-28 py-10 lg:py-14">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-12">
+        <div class="lg:col-span-5 space-y-6">
+
+  <div class="max-w-3xl space-y-5 text-left">
+
+  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Submit a ticket
+  </div>
+    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Tell us what's going on</h2>
+    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Fill out the form and our engineers will get back to you within the SLA for the priority you select.</p>
+  </div>
+          <ul class="space-y-4">
+
+              <li class="flex gap-3.5">
+                <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-5 !h-5"></i></span>
+                <div><p class="font-medium">Secure handling</p><p class="text-sm leading-relaxed text-muted-foreground">Your request is routed straight to the Algorims support queue.</p></div>
+              </li>
+
+              <li class="flex gap-3.5">
+                <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="users" class="!w-5 !h-5"></i></span>
+                <div><p class="font-medium">Real engineers</p><p class="text-sm leading-relaxed text-muted-foreground">Tickets are triaged and answered by the team that runs your infrastructure.</p></div>
+              </li>
+
+              <li class="flex gap-3.5">
+                <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="clock" class="!w-5 !h-5"></i></span>
+                <div><p class="font-medium">Tracked end-to-end</p><p class="text-sm leading-relaxed text-muted-foreground">Follow status, replies, and resolution in the customer portal.</p></div>
+              </li>
+
+          </ul>
+        </div>
+
+        <div class="lg:col-span-7">
+          <form id="support-form-el" class="rounded-3xl border border-border bg-card p-7 md:p-9" novalidate>
+            <div id="support-success" class="hidden py-10 text-center">
+              <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-7 !h-7"></i></div>
+              <h3 class="mt-5 text-2xl font-semibold">Ticket details ready</h3>
+              <p class="mx-auto mt-2 max-w-md text-muted-foreground">We've prepared your request for <span class="font-medium text-foreground">support@algorims.com</span>. You can also track everything in the customer portal.</p>
+              <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+                <a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-default">Open customer portal <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a>
+                <button type="button" id="support-reset" class="btn btn-outline btn-default rounded-full">Submit another ticket</button>
+              </div>
+            </div>
+
+            <div id="support-fields" class="space-y-5">
+              <div class="grid gap-5 md:grid-cols-2">
+                <div class="space-y-2">
+                  <label for="s-name" class="text-sm font-medium">Full name <span class="text-destructive">*</span></label>
+                  <input id="s-name" name="name" class="field" placeholder="Your full name" maxlength="100" />
+                  <p data-error="name" class="text-xs text-destructive hidden"></p>
+                </div>
+                <div class="space-y-2">
+                  <label for="s-company" class="text-sm font-medium">Company name <span class="text-destructive">*</span></label>
+                  <input id="s-company" name="company" class="field" placeholder="Company name" maxlength="120" />
+                  <p data-error="company" class="text-xs text-destructive hidden"></p>
+                </div>
+              </div>
+
+              <div class="grid gap-5 md:grid-cols-2">
+                <div class="space-y-2">
+                  <label for="s-email" class="text-sm font-medium">Email address <span class="text-destructive">*</span></label>
+                  <input id="s-email" name="email" type="email" class="field" placeholder="you@company.com" maxlength="255" />
+                  <p data-error="email" class="text-xs text-destructive hidden"></p>
+                </div>
+                <div class="space-y-2">
+                  <label for="s-phone" class="text-sm font-medium">Phone number</label>
+                  <input id="s-phone" name="phone" type="tel" class="field" placeholder="+1 555 000 0000" maxlength="40" />
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="s-subject" class="text-sm font-medium">Subject <span class="text-destructive">*</span></label>
+                <input id="s-subject" name="subject" class="field" placeholder="Short summary of the issue" maxlength="160" />
+                <p data-error="subject" class="text-xs text-destructive hidden"></p>
+              </div>
+
+              <div class="grid gap-5 md:grid-cols-2">
+                <div class="space-y-2">
+                  <label for="s-category" class="text-sm font-medium">Category <span class="text-destructive">*</span></label>
+                  <select id="s-category" name="category" class="field">
+                    <option value="">Select a category…</option>
+                    <option value="AlgoRide">AlgoRide</option><option value="AlgoKisan">AlgoKisan</option><option value="AI & Generative AI">AI & Generative AI</option><option value="Data & Analytics">Data & Analytics</option><option value="AWS Cloud Services">AWS Cloud Services</option><option value="DevOps & Platform Engineering">DevOps & Platform Engineering</option><option value="Application Development">Application Development</option><option value="Managed Services">Managed Services</option><option value="Security & Compliance">Security & Compliance</option><option value="Billing & Subscription">Billing & Subscription</option><option value="Sales Inquiry">Sales Inquiry</option><option value="General Inquiry">General Inquiry</option>
+                  </select>
+                  <p data-error="category" class="text-xs text-destructive hidden"></p>
+                </div>
+                <div class="space-y-2">
+                  <label for="s-priority" class="text-sm font-medium">Priority <span class="text-destructive">*</span></label>
+                  <select id="s-priority" name="priority" class="field">
+                    <option value="">Select a priority…</option>
+                    <option value="Low">Low</option><option value="Medium">Medium</option><option value="High">High</option><option value="Critical">Critical</option>
+                  </select>
+                  <p data-error="priority" class="text-xs text-destructive hidden"></p>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label for="s-description" class="text-sm font-medium">Description <span class="text-destructive">*</span></label>
+                <textarea id="s-description" name="description" rows="7" maxlength="2000" class="field" placeholder="Describe the issue, when it started, affected systems, and any error messages."></textarea>
+                <p data-error="description" class="text-xs text-destructive hidden"></p>
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-sm font-medium">Attachment</label>
+                <label for="s-attachment" class="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-border bg-background px-4 py-3.5 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground">
+                  <i data-lucide="paperclip" class="!w-4 !h-4"></i>
+                  <span id="s-attachment-label">Attach a screenshot, log, or document (optional)</span>
+                  <input id="s-attachment" name="attachment" type="file" class="hidden" />
+                </label>
+              </div>
+
+              <p id="support-status" class="hidden text-sm text-destructive" role="alert"></p>
+              <button type="submit" class="btn btn-hero btn-lg w-full md:w-auto">Create Support Ticket <i data-lucide="send" class="!w-4 !h-4"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Support hours + SLA -->
+  <section class="py-10 lg:py-14">
+    <div class="container-x">
+      <div class="grid gap-6 lg:grid-cols-12">
+        <!-- Hours -->
+        <div class="lg:col-span-4">
+          <div class="h-full rounded-3xl border border-border bg-card p-7">
+            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="clock" class="!w-6 !h-6"></i></div>
+            <h3 class="mt-5 text-xl font-semibold">Support hours</h3>
+            <dl class="mt-5 space-y-4 text-sm">
+              <div class="flex items-center justify-between border-b border-border pb-4">
+                <dt class="text-muted-foreground">Monday – Friday</dt>
+                <dd class="font-medium">9:00 AM – 6:00 PM IST</dd>
+              </div>
+              <div class="flex items-start gap-2.5 text-muted-foreground">
+                <i data-lucide="zap" class="!w-4 !h-4 mt-0.5 text-primary"></i>
+                <span class="text-pretty">Emergency support available around the clock for active support customers.</span>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <!-- SLA / priority -->
+        <div class="lg:col-span-8">
+          <div class="h-full rounded-3xl border border-border bg-card p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h3 class="text-xl font-semibold">Priority &amp; response</h3>
+                <p class="mt-1 text-sm text-muted-foreground">How we classify and respond to incoming tickets.</p>
+              </div>
+              <span class="hidden shrink-0 rounded-xl bg-primary/10 p-2.5 text-primary sm:grid sm:place-items-center"><i data-lucide="gauge" class="!w-5 !h-5"></i></span>
+            </div>
+            <div class="mt-5 divide-y divide-border overflow-hidden rounded-2xl border border-border">
+
+                <div class="flex items-center gap-4 px-5 py-4">
+                  <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
+                    <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(0 84% 60%)"></span>Critical
+                  </span>
+                  <span class="text-sm leading-relaxed text-muted-foreground">Production outage or direct business impact.</span>
+                </div>
+
+                <div class="flex items-center gap-4 px-5 py-4">
+                  <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
+                    <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(30 95% 55%)"></span>High
+                  </span>
+                  <span class="text-sm leading-relaxed text-muted-foreground">A major function is affected.</span>
+                </div>
+
+                <div class="flex items-center gap-4 px-5 py-4">
+                  <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
+                    <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(265 85% 58%)"></span>Medium
+                  </span>
+                  <span class="text-sm leading-relaxed text-muted-foreground">Partial issue with a workaround available.</span>
+                </div>
+
+                <div class="flex items-center gap-4 px-5 py-4">
+                  <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
+                    <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(260 10% 55%)"></span>Low
+                  </span>
+                  <span class="text-sm leading-relaxed text-muted-foreground">General query or information request.</span>
+                </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact strip -->
+  <section class="py-10 lg:py-16">
+    <div class="container-x">
+      <div class="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark p-8 md:p-12">
+        <div class="pointer-events-none absolute inset-0 surface-mesh opacity-40"></div>
+        <div class="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+          <div class="space-y-3 text-white">
+            <h3 class="text-balance text-3xl font-semibold leading-tight md:text-4xl">Still need a hand?</h3>
+            <p class="max-w-xl text-pretty leading-relaxed text-white/70">Email us directly or visit the Algorims website to learn more about what we do.</p>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <a href="mailto:support@algorims.com" class="btn btn-hero btn-lg"><i data-lucide="mail" class="!w-4 !h-4"></i> support@algorims.com</a>
+            <a href="https://algorims.com" target="_blank" rel="noopener noreferrer" class="btn btn-lg rounded-full border border-white/25 text-white transition-colors hover:bg-white/10">algorims.com <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { sendForm, setButtonLoading } from "../scripts/formSubmission";
+
+  const form = document.querySelector<HTMLFormElement>("#support-form-el");
+  if (form) {
+    const fields = form.querySelector<HTMLElement>("#support-fields")!;
+    const success = form.querySelector<HTMLElement>("#support-success")!;
+    const status = form.querySelector<HTMLElement>("#support-status")!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const attachment = form.querySelector<HTMLInputElement>("#s-attachment")!;
+    const attachmentLabel = form.querySelector<HTMLElement>("#s-attachment-label")!;
+    const emptyAttachmentLabel = attachmentLabel.textContent ?? "";
+    const key = import.meta.env.PUBLIC_WEB3FORMS_SUPPORT_KEY;
+    const supportEmail = "support@algorims.com";
+
+    attachment.addEventListener("change", () => {
+      attachmentLabel.textContent = attachment.files?.[0]?.name ?? emptyAttachmentLabel;
+    });
+
+    function setError(name: string, message: string) {
+      const error = form!.querySelector<HTMLElement>(`[data-error="${name}"]`)!;
+      error.textContent = message;
+      error.classList.toggle("hidden", !message);
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) ?? "");
+      const name = value("name");
+      const company = value("company");
+      const email = value("email");
+      const phone = value("phone");
+      const subjectText = value("subject");
+      const category = value("category");
+      const priority = value("priority");
+      const description = value("description");
+      setError("name", name.trim().length < 2 ? "Please enter your full name" : "");
+      setError("company", company.trim().length < 2 ? "Please enter your company name" : "");
+      setError("email", !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? "Please enter a valid email" : "");
+      setError("subject", subjectText.trim().length < 3 ? "Please add a subject" : "");
+      setError("category", !category ? "Please select a category" : "");
+      setError("priority", !priority ? "Please select a priority" : "");
+      setError("description", description.trim().length < 10 ? "Please describe the issue in a little more detail" : "");
+      const firstError = form.querySelector<HTMLElement>('[data-error]:not(.hidden)');
+      if (firstError) {
+        window.scrollTo({ top: firstError.getBoundingClientRect().top + window.scrollY - 140, behavior: "smooth" });
+        return;
+      }
+      status.classList.add("hidden");
+
+      const subject = `[${priority}] ${category} — ${subjectText}`;
+      const body = [
+        `Full name: ${name}`, `Company: ${company}`, `Email: ${email}`,
+        phone ? `Phone: ${phone}` : null, `Category: ${category}`, `Priority: ${priority}`,
+        "", "Description:", description, "",
+        attachment.files?.[0] ? `Attachment to follow: ${attachment.files[0].name}` : null,
+      ].filter(Boolean).join("\n");
+      setButtonLoading(button, true);
+      try {
+        await sendForm(form, key, subject, supportEmail, body);
+        fields.classList.add("hidden");
+        success.classList.remove("hidden");
+      } catch {
+        status.textContent = `Sorry — we couldn't submit your ticket just now. Please email ${supportEmail} directly.`;
+        status.classList.remove("hidden");
+      } finally {
+        setButtonLoading(button, false);
+      }
+    });
+
+    form.querySelector("#support-reset")?.addEventListener("click", () => {
+      form.reset();
+      attachmentLabel.textContent = emptyAttachmentLabel;
+      form.querySelectorAll<HTMLElement>("[data-error]").forEach((error) => {
+        error.textContent = "";
+        error.classList.add("hidden");
+      });
+      status.classList.add("hidden");
+      success.classList.add("hidden");
+      fields.classList.remove("hidden");
+    });
+  }
+</script>

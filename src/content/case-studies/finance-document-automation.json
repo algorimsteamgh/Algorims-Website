@@ -1,0 +1,125 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Agentic AI · Finance · Singapore SMB",
+  "title": "An AI-native finance document platform that takes invoices to ERP in minutes",
+  "subtitle": "A fully automated, compliance-ready finance automation platform built on AWS Bedrock and Claude — designed specifically for Singapore SMBs.",
+  "glyph": "receipt",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Finance · Singapore SMB"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore"
+    },
+    {
+      "label": "Platform",
+      "value": "AWS Bedrock + Claude"
+    },
+    {
+      "label": "Status",
+      "value": "POC complete — ready to deploy"
+    }
+  ],
+  "intro": [
+    "Singapore SMBs process hundreds of finance documents every month — invoices, purchase orders, GST returns, financial statements, and tax documents. Almost all of it manually, at enormous hidden cost.",
+    "We built an AI-native finance automation platform on AWS Bedrock and Claude that takes finance documents from ingestion to ERP export autonomously — with full compliance validation, role-based approvals, and a complete audit trail."
+  ],
+  "challenge": {
+    "lead": "For Singapore SMBs navigating ACRA compliance and GST requirements, the stakes are high and the margin for error is zero:",
+    "items": [
+      "Finance teams spend hours manually extracting and keying figures that should never require human input.",
+      "Validation errors slip through — incorrect UEN numbers, invalid GST registrations, and reconciliation mismatches create compliance risk.",
+      "Approval workflows live in email chains — no visibility, no audit trail, no accountability.",
+      "ERP data entry is done by hand — slow, error-prone, and impossible to scale.",
+      "Exception handling consumes disproportionate time — finance teams firefighting instead of adding value."
+    ]
+  },
+  "solutionTitle": "What Algorims is building",
+  "solutionLead": "An AI-Native Finance Automation Platform on AWS Bedrock and Claude that takes finance documents from ingestion to ERP export autonomously, engineered across seven integrated capabilities.",
+  "solution": [
+    {
+      "h": "Intelligent document processing",
+      "p": "Claude on AWS Bedrock extracts structured data from every finance document type — invoices, POs, GST returns, financial statements, and tax documents — with human-level accuracy and zero manual keying."
+    },
+    {
+      "h": "Singapore compliance validation",
+      "p": "Built-in ACRA UEN and GST validation rules automatically verify every document against Singapore regulatory requirements — catching compliance errors before they become costly problems."
+    },
+    {
+      "h": "Retrieval-augmented generation",
+      "p": "A Claude-powered RAG layer lets finance teams query their entire document history in plain English — instantly surfacing contract terms, payment histories, and vendor records without manual searching."
+    },
+    {
+      "h": "Automated approval workflows",
+      "p": "Real-time exception and approval queues route documents intelligently by value threshold, document type, and business rules — giving finance managers complete visibility without email chains."
+    },
+    {
+      "h": "Automated reconciliation",
+      "p": "AI-driven reconciliation matches invoices against purchase orders, delivery notes, and payment records automatically — identifying discrepancies instantly and flagging exceptions for human review."
+    },
+    {
+      "h": "ERP export",
+      "p": "Validated, reconciled data exported directly to ERP systems — eliminating manual data entry and ensuring financial records are always accurate, current, and audit-ready."
+    },
+    {
+      "h": "Role-based access & full audit trail",
+      "p": "Every action, approval, and exception logged with a complete, tamper-proof audit trail — giving finance teams, auditors, and compliance officers the visibility they need."
+    }
+  ],
+  "tech": [
+    "AWS Bedrock",
+    "Claude (Anthropic)",
+    "Amazon S3",
+    "Amazon Textract",
+    "AWS Lambda",
+    "Amazon DynamoDB",
+    "AWS IAM",
+    "ACRA UEN Validation",
+    "GST Compliance Rules"
+  ],
+  "results": [
+    "<strong>Finance processing automated end-to-end</strong> — from ingestion to ERP export; processing time reduced from hours to minutes.",
+    "<strong>Singapore compliance built in</strong> — ACRA UEN and GST validation enforced automatically on every document.",
+    "<strong>Claude-powered extraction accuracy</strong> — human-level accuracy across all finance document types.",
+    "<strong>Complete approval visibility</strong> — real-time queues replace chaotic email chains; every decision logged.",
+    "<strong>Instant document intelligence</strong> — query entire document history in plain English via Claude-powered RAG.",
+    "<strong>Enterprise-grade security</strong> — role-based access and a full audit trail, audit-ready from day one."
+  ],
+  "metrics": [
+    {
+      "value": "Hours→min",
+      "label": "Invoice-to-ERP processing time"
+    },
+    {
+      "value": "100%",
+      "label": "ACRA UEN & GST validation on every document"
+    },
+    {
+      "value": "POC ✓",
+      "label": "Built, tested, and production-ready"
+    },
+    {
+      "value": "✓",
+      "label": "Claude-powered extraction across all document types"
+    },
+    {
+      "value": "✓",
+      "label": "Automated reconciliation against POs & payments"
+    },
+    {
+      "value": "✓",
+      "label": "Tamper-proof audit trail with role-based access"
+    }
+  ],
+  "related": [
+    "qsr-conversational-analytics",
+    "enterprise-knowledge-mining"
+  ]
+}

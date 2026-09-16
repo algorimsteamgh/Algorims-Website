@@ -19,21 +19,35 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npx astro check
+      - run: npm run build
+        env:
+          PUBLIC_WEB3FORMS_CONTACT_KEY: ${{ secrets.WEB3FORMS_CONTACT_KEY }}
+          PUBLIC_WEB3FORMS_SUPPORT_KEY: ${{ secrets.WEB3FORMS_SUPPORT_KEY }}
+          PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
+      - run: node tools/check-migrated-static-pages.mjs
+      - run: node tools/check-migrated-dynamic-pages.mjs
+      - run: node tools/check-seo.mjs
+      - run: node --experimental-strip-types tools/check-form-submission.mjs
+
       - uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::561580620525:role/AlgorimsWebsiteGitHubDeploy
           aws-region: ap-south-1
 
+      - name: Verify directory route rewrite
+        run: |
+          function_arn=$(aws cloudfront get-distribution-config --id ESYSC15E546OI --query "DistributionConfig.DefaultCacheBehavior.FunctionAssociations.Items[?EventType=='viewer-request'].FunctionARN" --output text)
+          [[ "$function_arn" == */algorims-spa-index-rewrite ]]
+
       - name: Upload website
-        run: >-
-          aws s3 sync . s3://algorims-website-561580620525
-          --delete
-          --exclude "*"
-          --include "*.html"
-          --include "*.xml"
-          --include "*.txt"
-          --include "assets/*"
-          --exclude "uploads/*"
+        run: aws s3 sync dist/ s3://algorims-website-561580620525
 
       - name: Refresh CloudFront
         run: aws cloudfront create-invalidation --distribution-id ESYSC15E546OI --paths "/*"

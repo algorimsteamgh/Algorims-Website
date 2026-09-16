@@ -1,0 +1,20 @@
+---
+// Renders `architecture: { src, alt, caption }` — the "Solution architecture"
+// diagram figure in renderDetailPage() in assets/js/site.js.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  title?: string;
+}
+const { src, alt, caption, title = "Solution architecture" } = Astro.props;
+---
+<div class="max-w-3xl">
+  <Eyebrow text={title} />
+  {caption && <p class="mt-5 text-[17px] leading-[1.75] text-foreground/85">{caption}</p>}
+</div>
+<figure class="mt-8 overflow-hidden rounded-3xl border border-border bg-white p-4 shadow-sm md:p-8">
+  <img src={src} alt={alt} class="mx-auto h-auto w-full max-w-4xl" loading="lazy" />
+</figure>

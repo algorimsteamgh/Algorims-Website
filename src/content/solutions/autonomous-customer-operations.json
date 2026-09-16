@@ -1,0 +1,174 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Autonomous Customer Operations · Insurance",
+  "title": "Deflecting 68% of customer queries to AI self-service with Amazon Connect",
+  "subtitle": "An AI-native contact centre layer built on Amazon Connect — conversational self-service, real-time agent assist, and event-driven outbound — deployed entirely inside a regional insurer's AWS account.",
+  "glyph": "headset",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Insurance · Financial Services"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore · Malaysia · Australia"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Connect + Bedrock Claude 4.5"
+    },
+    {
+      "label": "Compliance",
+      "value": "PDPA · MAS TRM · Privacy Act 1988"
+    }
+  ],
+  "intro": [
+    "A regional insurance group operating across Singapore, Malaysia, and Australia handled over 1.2 million customer interactions a year through a traditional contact centre — policy enquiries, claims status checks, renewal reminders, and complaints, all handled by human agents working across disconnected systems. With rising call volumes, agent attrition above 35%, and CSAT stuck at 58%, the client needed to fundamentally reimagine how customer operations were delivered.",
+    "The goal: resolve the majority of queries autonomously, surface the right information to agents in real time during live calls, and eliminate the manual effort behind routine outreach — without sacrificing service quality or MAS TRM and PDPA compliance. The answer was an AI-native contact centre layer on Amazon Connect, powered by Amazon Bedrock Claude 4.5, running entirely within the client's AWS environment."
+  ],
+  "challenge": {
+    "lead": "At this scale, traditional contact-centre operations surface compounding failures that no amount of additional headcount can sustainably solve:",
+    "items": [
+      "Agents spent 40% of every call searching across 4–5 disconnected systems — inflating average handle time to 18 minutes.",
+      "68% of inbound calls were routine enquiries that required no human judgment but consumed full agent capacity.",
+      "DTMF-only IVR with no natural-language understanding drove a 38% abandonment rate before customers reached an agent.",
+      "No real-time guidance during live calls — decisions relied on memory, static scripts, and supervisor interruptions.",
+      "Outbound renewal and payment reminders were batch-processed weekly by hand, causing missed contacts and preventable lapses.",
+      "Sentiment was never monitored mid-call — frustrated customers were only identified after a complaint had already escalated.",
+      "Post-call notes took 8–12 minutes per agent, consuming 15% of productive capacity across the centre."
+    ]
+  },
+  "solutionLead": "Algorims built its Autonomous Customer Operations Platform inside the client's AWS account — combining conversational AI self-service, real-time agent assistance, intelligent outbound, and live analytics into one platform across voice, web chat, WhatsApp, and mobile.",
+  "solution": [
+    {
+      "h": "Conversational self-service layer",
+      "p": "Amazon Lex powers a natural-language IVR across English, Mandarin, Bahasa Malaysia, and Tamil. Customers check policy status, get claims updates, make payments, and request callbacks — all without an agent. When a human is needed, the AI gathers full context before transfer so the agent begins already informed. Contact Lens streams live transcription with sentiment monitoring that alerts supervisors before frustration escalates."
+    },
+    {
+      "h": "Real-time agent assist desktop",
+      "p": "A unified AI Agent Desktop inside the Amazon Connect CCP surfaces a complete customer view — policies, claims, billing, and prior interactions — within 800ms of connect via an intelligent screen pop. Bedrock Claude 4.5 generates contextual next-action prompts that update as the conversation moves, and a Kendra-backed knowledge search answers coverage questions in under 5 seconds. Post-call, Bedrock auto-generates a structured summary — removing manual note-taking from 120+ agents."
+    },
+    {
+      "h": "Event-driven outbound engine",
+      "p": "An intelligent outbound engine uses Amazon Pinpoint and SES to orchestrate personalised renewal reminders, payment nudges, and claims notifications — triggered by real-time policy events via EventBridge, not weekly batches. Every state change automatically initiates the right touchpoint through the customer's preferred channel, while QuickSight dashboards give managers a live view of queue depth, sentiment, and deflection refreshed every 30 seconds."
+    }
+  ],
+  "awsLead": "Built entirely on AWS managed services, deployed within the client's account — no data leaves their environment:",
+  "aws": [
+    {
+      "name": "Amazon Connect",
+      "desc": "Omnichannel contact centre — voice, chat, and outbound across three markets."
+    },
+    {
+      "name": "Amazon Lex",
+      "desc": "Conversational IVR with NLU across four languages."
+    },
+    {
+      "name": "Contact Lens",
+      "desc": "Real-time transcription, sentiment, and post-call analytics."
+    },
+    {
+      "name": "Amazon Bedrock (Claude 4.5)",
+      "desc": "Agent guidance, knowledge answers, and post-call summarisation."
+    },
+    {
+      "name": "Amazon Kendra",
+      "desc": "Policy and knowledge-base search returning answers in under 5 seconds."
+    },
+    {
+      "name": "AWS Step Functions",
+      "desc": "Outbound campaign and multi-step journey orchestration."
+    },
+    {
+      "name": "Amazon EventBridge",
+      "desc": "Event-driven outbound triggers from policy and claims state changes."
+    },
+    {
+      "name": "Amazon Pinpoint + SES",
+      "desc": "Personalised SMS, push, WhatsApp, and email delivery."
+    },
+    {
+      "name": "Amazon DynamoDB",
+      "desc": "Unified interaction history, session state, and configuration."
+    },
+    {
+      "name": "Amazon QuickSight",
+      "desc": "Real-time queue, sentiment, deflection, and SLA dashboards."
+    },
+    {
+      "name": "Amazon S3 + KMS",
+      "desc": "Encrypted call-recording storage with per-client CMK."
+    },
+    {
+      "name": "Cognito · WAF · VPC · CloudTrail",
+      "desc": "Authentication, network security, and audit logging."
+    }
+  ],
+  "results": [
+    "Deflected <strong>68% of inbound calls</strong> to AI self-service within 90 days of go-live.",
+    "Average handle time cut from 18 minutes to <strong>8.6 minutes</strong> — a 52% reduction.",
+    "First-call resolution rose from 34% to <strong>71%</strong> with unified customer context.",
+    "Post-call note-writing <strong>eliminated</strong> — summaries auto-generated within 60 seconds.",
+    "Outbound renewal contact rate improved from 41% to <strong>79%</strong>.",
+    "Policy lapse rate reduced by <strong>28%</strong> via real-time payment-nudge workflows.",
+    "Agent onboarding cut from 6 weeks to <strong>2.5 weeks</strong>.",
+    "CSAT improved from 58% to <strong>81%</strong> within 6 months."
+  ],
+  "metrics": [
+    {
+      "value": "68%",
+      "label": "Inbound queries deflected to AI — no agent required"
+    },
+    {
+      "value": "52%",
+      "label": "Reduction in average handle time (18 → 8.6 min)"
+    },
+    {
+      "value": "81%",
+      "label": "Customer satisfaction — up from 58%"
+    },
+    {
+      "value": "✓",
+      "label": "Real-time sentiment monitoring across 100% of live calls"
+    },
+    {
+      "value": "✓",
+      "label": "Post-call summaries auto-generated for 120+ agents"
+    },
+    {
+      "value": "✓",
+      "label": "MAS TRM & PDPA compliant — data residency ap-southeast-1"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does the platform work across voice, chat, and digital channels?",
+      "a": "Yes — voice (Amazon Connect), web chat, WhatsApp, mobile push, and email, all with a consistent AI backbone and unified interaction history."
+    },
+    {
+      "q": "How does the AI know what to say to agents during a live call?",
+      "a": "Contact Lens streams a real-time transcript; Bedrock Claude 4.5 reads it alongside the customer's policy history and current context to generate next-action prompts that update as the call progresses — without the agent navigating away."
+    },
+    {
+      "q": "Does customer data leave the client's AWS account?",
+      "a": "No. All AI inference, recording, transcription, and analytics run within the client's own AWS account and region. Data never transits Algorims infrastructure."
+    },
+    {
+      "q": "What does the outbound engine trigger on?",
+      "a": "EventBridge listens to policy and claims events in real time — every state change automatically triggers the right outbound message through the customer's preferred channel within minutes, not days."
+    },
+    {
+      "q": "How long does implementation take?",
+      "a": "Standard implementation runs 16–18 weeks: Connect + Lex build, AI pipeline and agent desktop, outbound engine and integrations, then UAT and go-live hardening."
+    }
+  ],
+  "related": [
+    "intelligent-document-processing",
+    "operations-automation"
+  ]
+}
