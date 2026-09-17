@@ -28,8 +28,8 @@ const imageLabels = {
         <h1 id="solutions-title">Applied AI systems, <span>built around <strong>your operation.</strong></span></h1>
         <p class="solutions-intro">Production-grade AI and automation systems that solve a defined business problem, integrate with the tools you already use, and run in your own AWS account.</p>
         <div class="solutions-actions">
-          <a class="solutions-action solutions-action-primary" href="/contact">Book a consultation</a>
-          <a class="solutions-action" href="/services">Explore services</a>
+          <a class="btn btn-hero btn-lg" href="/contact">Book a consultation</a>
+          <a class="btn btn-outline btn-lg" href="/services">Explore services</a>
         </div>
       </div>
     </section>
@@ -46,7 +46,7 @@ const imageLabels = {
                 <div class="solution-card-heading"><h3>{solution.data.title}</h3></div>
                 <p class="solution-summary">{solution.data.subtitle}</p>
                 {highlights.length > 0 && <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>}
-                <span>Explore solution <i data-lucide="arrow-right" class="!h-4 !w-4" /></span>
+                <span>Explore solution <i data-lucide="arrow-right" class="solution-arrow !h-4 !w-4" /></span>
               </div>
               <figure class="solution-art">
                 <img src={`/assets/illustrations/solution-${solution.id}.png`} alt={image.alt} width="1254" height="1254" loading="lazy" />
@@ -70,8 +70,6 @@ const imageLabels = {
   .solutions-hero h1 strong { font: inherit; white-space: nowrap; }
   .solutions-intro { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
   .solutions-actions { display: flex; justify-content: center; gap: 14px; margin: 26px 0 0; }
-  .solutions-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 25px; border: 1px solid hsl(var(--foreground)); border-radius: 9999px; color: hsl(var(--foreground)); font-weight: 600; }
-  .solutions-action-primary { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
   .solutions-list { padding: 42px clamp(24px, 5vw, 74px) 90px; }
   .solutions-grid { display: grid; gap: 24px; }
   .solution-card { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(36px, 7vw, 120px); min-width: 0; padding: clamp(40px, 5vw, 74px) clamp(18px, 4vw, 56px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; color: inherit; text-decoration: none; transition: background .2s ease; }
@@ -98,9 +96,10 @@ const imageLabels = {
   .solution-card dt { color: hsl(var(--primary)); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
   .solution-card dd { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.35; }
   .solution-copy > span { display: inline-flex; align-items: center; gap: 9px; padding-top: 24px; color: hsl(var(--primary)); font-weight: 600; }
-  .solution-card:hover .solution-copy > span i { transform: translateX(4px); }
-  .solution-copy > span i { transition: transform .2s ease; }
+  .solution-card:is(:hover, :focus-visible) :global(.solution-arrow) { animation: solution-arrow-nudge .35s ease-out forwards; }
+  :global(.solution-arrow) { transition: transform .2s ease; }
+  @keyframes solution-arrow-nudge { 60% { transform: translateX(7px); } 100% { transform: translateX(4px); } }
   @media (max-width: 850px) { .solution-card { grid-template-columns: 1fr; gap: 32px; } .solution-card:nth-child(even) .solution-copy, .solution-card:nth-child(even) .solution-art { order: initial; } }
   @media (max-width: 600px) { .solutions-hero { padding-top: 44px; } .solutions-hero h1 { font-size: 2.4rem; } .solutions-actions { flex-direction: column; margin-inline: 20px; } .solutions-list { padding: 36px 20px 62px; } .solution-card { padding: 26px; } .solution-art figcaption { grid-template-columns: 1fr; } .solution-image-label { font-size: .72rem; } }
-  @media (prefers-reduced-motion: reduce) { .solution-card, .solution-card > span i { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .solution-card, :global(.solution-arrow) { transition: none; animation: none; } .solution-card:is(:hover, :focus-visible) :global(.solution-arrow) { transform: translateX(4px); } }
 </style>

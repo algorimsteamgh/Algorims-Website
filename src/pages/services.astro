@@ -9,8 +9,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <h1 id="services-title" class="services-title text-balance">From Cloud Foundations to <span class="services-emphasis">Autonomous Intelligence</span></h1>
     <p class="services-intro text-muted-foreground">Four practices. One focus: production-grade systems that drive measurable business value.</p>
     <div class="services-actions">
-      <a class="services-action services-action-primary" href="/contact">Let's build together</a>
-      <a class="services-action" href="/case-studies">View case studies</a>
+      <a class="btn btn-hero btn-lg" href="/contact">Let's build together</a>
+      <a class="btn btn-outline btn-lg" href="/case-studies">View case studies</a>
     </div>
     <dl class="services-stats">
       <div><dt data-counter>40+</dt><dd>Projects Delivered</dd></div>
@@ -257,8 +257,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .services-stats div + div { border-left: 1px solid hsl(var(--border)); }
   .services-stats dt { color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .services-stats dd { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .85rem; }
-  .services-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 25px; border: 1px solid hsl(var(--foreground)); border-radius: 9999px; color: hsl(var(--foreground)); font-weight: 600; }
-  .services-action-primary { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
   .services-figure { margin: 0; padding: 28px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
   .services-figure img { display: block; width: 100%; height: auto; }
   .services-figure-dark { display: none !important; }
