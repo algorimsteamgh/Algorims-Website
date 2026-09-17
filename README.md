@@ -1,36 +1,17 @@
 # Algorims Website
 
-Static marketing site served as plain HTML folders plus shared assets.
+Static Astro site. The production workflow runs `npm run verify` and uploads `dist/` to S3.
 
-## Files to edit
-
-- `assets/css/site.css` - shared site styling.
-- `assets/js/content.js` - editable blog, case study, and solution content.
-- `assets/js/site.js` - router, rendering, forms, and page behavior.
-- `contact/index.html` - source body shell for non-root route pages.
-
-## Checks
+## Develop
 
 ```sh
-npm run check
-npm run sync:shell
+npm ci
+npm run dev
+npm run verify
 ```
 
-## Local smoke test
+Edit pages and shared components in `src/`, editorial content in `src/content/`, and site styles in `src/styles/global.css` and `tailwind.config.mjs`. `src/layouts/BaseLayout.astro` owns the shared head, navigation, and footer. Files in `public/` are copied into the build.
 
-```sh
-npm run serve
-```
+The root HTML folders, `assets/`, `footer.html`, and `tools/sync-html-shell.mjs` are legacy rollback material, not production sources. `npm run check:legacy` checks that snapshot; don't run the shell sync when editing Astro pages.
 
-Then open `http://localhost:4173`.
-
-## Shell sync
-
-After editing shared nav/footer/body markup in `contact/index.html`, run:
-
-```sh
-npm run sync:shell:write
-npm run check
-```
-
-Root `index.html` is intentionally not synced because it has root-only favicon/base/chatbot behavior.
+See [REDESIGN_READINESS.md](REDESIGN_READINESS.md) for the redesign scope and release gate.

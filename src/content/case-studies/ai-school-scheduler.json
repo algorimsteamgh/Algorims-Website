@@ -88,7 +88,7 @@
     "Automated Reporting"
   ],
   "architecture": {
-    "src": "/assets/case-studies/school-scheduler-architecture.png",
+    "src": "/assets/case-studies/school-scheduler-architecture.webp",
     "alt": "AI school scheduler architecture — user access portal, web application core, AI analyst engine and conflict detection",
     "caption": "A role-based access portal feeds the web application core — authentication, schedule, and absence managers — with a GPT-4o AI analyst engine and conflict-detection layer reading and writing against a shared relational database, then generating reports and dashboards."
   },

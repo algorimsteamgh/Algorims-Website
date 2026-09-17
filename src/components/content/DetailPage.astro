@@ -1,4 +1,5 @@
 ---
+import ConsultationCta from "../ConsultationCta.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Eyebrow from "./Eyebrow.astro";
 import MetricCard from "./MetricCard.astro";
@@ -92,7 +93,7 @@ const related = data.related.flatMap((slug) => {
 
 {flow && <section class="py-12"><div class="container-x"><FlowDiagram title={flow.title!} desc={flow.desc!} stages={flow.stages! as { icon: string; title: string; subtitle: string; items?: string[] }[]} footer={flow.footer} /></div></section>}
 
-{scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={`/assets/case-studies/scenes/${entry.id}.png`} alt={scene.alt} loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
+{scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={`/assets/case-studies/scenes/${entry.id}.webp`} srcset={`/assets/case-studies/scenes/${entry.id}-800.webp 800w, /assets/case-studies/scenes/${entry.id}.webp 1600w`} sizes="(min-width: 1536px) 1472px, 100vw" width="1600" height="900" alt={scene.alt} loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
 
 <section class="py-12"><div class="container-x max-w-3xl"><ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
 
@@ -112,16 +113,4 @@ const related = data.related.flatMap((slug) => {
 
 {related.length > 0 && <section class="pb-16"><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4"><h3 class="text-2xl font-semibold tracking-tight">Related work</h3></div><RelatedWork items={related} /></div></section>}
 
-{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : <section class="py-10 lg:py-14">
-  <div class="container-x">
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
-      <div class="absolute inset-0 surface-mesh opacity-60" />
-      <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)" />
-      <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)" />
-      <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
-        <div class="md:col-span-3 space-y-5"><div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))" />Ready when you are</div><h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2><p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p></div>
-        <div class="md:col-span-2 flex flex-col gap-3 md:items-end"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right" /></a><a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a></div>
-      </div>
-    </div>
-  </div>
-</section>}
+{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : <ConsultationCta />}

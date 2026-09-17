@@ -25,20 +25,48 @@
     --input: 265 25% 91%;
     --ring: 265 85% 58%;
     --radius: 0.875rem;
-    --gradient-primary: linear-gradient(135deg, hsl(265 85% 58%), hsl(280 95% 70%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-hero:
-      radial-gradient(ellipse at top left, hsl(265 85% 58% / 0.15), transparent 50%),
-      radial-gradient(ellipse at bottom right, hsl(280 95% 70% / 0.18), transparent 55%),
-      linear-gradient(180deg, hsl(270 40% 99%), hsl(265 30% 96%));
+      radial-gradient(ellipse at top left, hsl(var(--primary) / 0.15), transparent 50%),
+      radial-gradient(ellipse at bottom right, hsl(var(--primary-glow) / 0.18), transparent 55%),
+      linear-gradient(180deg, hsl(var(--background)), hsl(var(--secondary)));
     --gradient-dark: linear-gradient(135deg, hsl(260 50% 10%), hsl(265 60% 18%));
     --gradient-mesh:
-      radial-gradient(at 20% 30%, hsl(265 85% 58% / 0.25), transparent 50%),
-      radial-gradient(at 80% 20%, hsl(280 95% 70% / 0.22), transparent 50%),
+      radial-gradient(at 20% 30%, hsl(var(--primary) / 0.25), transparent 50%),
+      radial-gradient(at 80% 20%, hsl(var(--primary-glow) / 0.22), transparent 50%),
       radial-gradient(at 50% 80%, hsl(250 90% 60% / 0.18), transparent 50%);
     --shadow-sm: 0 1px 2px hsl(260 30% 10% / 0.05);
     --shadow-md: 0 8px 24px -8px hsl(265 60% 30% / 0.12);
     --shadow-lg: 0 24px 60px -20px hsl(265 70% 30% / 0.25);
     --shadow-glow: 0 20px 60px -15px hsl(265 85% 58% / 0.5);
+  }
+  :root.dark {
+    color-scheme: dark;
+    --background: 260 30% 8%;
+    --foreground: 270 40% 96%;
+    --card: 260 25% 12%;
+    --card-foreground: 270 40% 96%;
+    --popover: 260 25% 12%;
+    --popover-foreground: 270 40% 96%;
+    --primary: 265 90% 72%;
+    --primary-foreground: 260 30% 8%;
+    --primary-glow: 280 95% 76%;
+    --primary-deep: 265 90% 78%;
+    --secondary: 260 25% 15%;
+    --secondary-foreground: 270 40% 96%;
+    --muted: 260 20% 17%;
+    --muted-foreground: 265 15% 72%;
+    --accent: 280 90% 75%;
+    --accent-foreground: 260 30% 8%;
+    --destructive: 0 80% 68%;
+    --destructive-foreground: 260 30% 8%;
+    --border: 260 18% 26%;
+    --input: 260 18% 26%;
+    --ring: 265 90% 72%;
+    --shadow-sm: 0 1px 2px hsl(260 30% 2% / 0.3);
+    --shadow-md: 0 8px 24px -8px hsl(260 30% 2% / 0.5);
+    --shadow-lg: 0 24px 60px -20px hsl(260 30% 2% / 0.7);
+    --shadow-glow: 0 20px 60px -15px hsl(var(--primary) / 0.35);
   }
   html { scroll-behavior: smooth; }
   body {
@@ -456,7 +484,7 @@
   .rot-center-mark {
     width: 64px; height: 64px;
     border-radius: 9999px;
-    background: hsl(0 0% 100% / 0.95) url('/assets/algorims-logo.png') no-repeat center center;
+    background: hsl(0 0% 100% / 0.95) url('/assets/algorims-logo.webp') no-repeat center center;
     background-size: 280% auto;
     background-position: 6% center;
     backdrop-filter: blur(8px);

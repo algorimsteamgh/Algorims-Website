@@ -1,4 +1,5 @@
 ---
+import ConsultationCta from "../../components/ConsultationCta.astro";
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Eyebrow from "../../components/content/Eyebrow.astro";
@@ -212,7 +213,7 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
           const highlights = study.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
           return <a href={`/case-studies/${study.id}`} class="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg">
             <div class="relative aspect-[16/9] w-full overflow-hidden bg-primary/5">
-              <div class="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]"><img src={`/assets/case-studies/covers/${study.id}.png`} alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" /></div>
+              <div class="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]"><img src={`/assets/case-studies/covers/${study.id}.webp`} srcset={`/assets/case-studies/covers/${study.id}-500.webp 500w, /assets/case-studies/covers/${study.id}.webp 1000w`} sizes="(min-width: 1536px) 720px, (min-width: 768px) 50vw, 100vw" width="1000" height="563" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" /></div>
               <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/25 to-transparent" />
               <span class="absolute left-5 top-5 inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-white ring-1 ring-white/25 backdrop-blur-sm">{study.data.tag}</span>
             </div>
@@ -231,5 +232,5 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
     </div>
   </section>
 
-  <section class="py-10 lg:py-14"><div class="container-x"><div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16"><div class="absolute inset-0 surface-mesh opacity-60" /><div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)" /><div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)" /><div class="relative grid gap-10 md:grid-cols-5 md:items-center"><div class="md:col-span-3 space-y-5"><div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))" />Ready when you are</div><h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2><p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p></div><div class="md:col-span-2 flex flex-col gap-3 md:items-end"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right" /></a><a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a></div></div></div></div></section>
+  <ConsultationCta />
 </BaseLayout>

@@ -1,7 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "check": "node tools/check-static-site.mjs",
+    "check": "astro check",
+    "check:legacy": "node tools/check-static-site.mjs",
+    "verify": "npm run check && npm run build && node tools/check-image-assets.mjs && node tools/check-migrated-static-pages.mjs && node tools/check-migrated-dynamic-pages.mjs && node tools/check-seo.mjs && node --experimental-strip-types tools/check-form-submission.mjs",
     "sync:shell": "node tools/sync-html-shell.mjs --check",
     "sync:shell:write": "node tools/sync-html-shell.mjs --write",
     "serve": "python3 -m http.server 4173",

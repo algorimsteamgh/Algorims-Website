@@ -1,4 +1,5 @@
 ---
+import ConsultationCta from "../../components/ConsultationCta.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Eyebrow from "../../components/content/Eyebrow.astro";
 import { getCollection } from "astro:content";
@@ -51,7 +52,7 @@ const nodes = [
         </div>
         <div class="lg:col-span-6">
           <div class="rot-stage" data-rot-stage aria-label="Algorims orbital timeline">
-            <img class="rot-center-icon" src="/assets/algorims-icon-transparent.png" alt="Algorims" />
+            <img class="rot-center-icon" src="/assets/algorims-icon-transparent.webp" alt="Algorims" />
             {nodes.map((n) => <div class="rot-node" data-rot-node={n.id} data-related-ids={n.relatedIds.join(",")} role="button" tabindex="0" aria-label={n.title} aria-expanded="false">
               <div class="rot-node-halo"></div>
               <div class="rot-node-chip"><i data-lucide={n.icon}></i></div>
@@ -107,19 +108,7 @@ const nodes = [
       <div id="pp-more-trigger" class="flex justify-center pt-4"><button type="button" class="btn btn-outline btn-lg">Load more products <i data-lucide="chevron-down"></i></button></div>
     </div>
   </section>
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
-        <div class="absolute inset-0 surface-mesh opacity-60"></div>
-        <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)"></div>
-        <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)"></div>
-        <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
-          <div class="md:col-span-3 space-y-5"><div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))"></span>Ready when you are</div><h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2><p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p></div>
-          <div class="md:col-span-2 flex flex-col gap-3 md:items-end"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right"></i></a><a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a></div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <ConsultationCta />
 </BaseLayout>
 
 <script>
