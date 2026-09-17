@@ -37,12 +37,12 @@ const imageLabels = {
     <section class="solutions-list" aria-label="Solutions">
       <div class="container-x">
         <div class="solutions-grid">
-          {solutions.map((solution, index) => {
+          {solutions.map((solution) => {
             const highlights = solution.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
             const image = imageLabels[solution.id as keyof typeof imageLabels];
             return <a href={`/solutions/${solution.id}`} class="solution-card">
               <div class="solution-copy">
-                <p class="solutions-kicker">0{index + 1} / {solution.data.tag}</p>
+                <p class="solutions-kicker">{solution.data.tag}</p>
                 <div class="solution-card-heading"><h3>{solution.data.title}</h3></div>
                 <p class="solution-summary">{solution.data.subtitle}</p>
                 {highlights.length > 0 && <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>}
