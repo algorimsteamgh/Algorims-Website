@@ -3,67 +3,40 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Contact — Algorims" description="Get in touch with Algorims to scope your AI, cloud, or DevOps initiative. Most engagements start with a 30-minute conversation.">
-<section class="py-10 pb-0">
-    <div class="container-x">
-      <div class="max-w-3xl space-y-6">
+<section class="contact-hero container-x" aria-labelledby="contact-title">
+  <p class="contact-kicker">Contact us</p>
+  <h1 id="contact-title">Let's build <span>what's next.</span></h1>
+  <p>Tell us about your goals. We'll get back within one business day with next steps and a recommended consultation.</p>
+</section>
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Contact
-  </div>
-        <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Let's build your <span class="text-gradient">agentic future</span>.</h1>
-        <p class="text-lg leading-relaxed text-muted-foreground">Tell us about your goals. We'll get back within one business day with next steps and a recommended consultation.</p>
+<section class="container-x pb-16 lg:pb-24" aria-label="Contact details and enquiry form">
+  <div class="contact-grid">
+    <aside class="contact-details">
+      <div>
+        <p class="contact-label">Direct contact</p>
+        <a href="mailto:contactus@algorims.com" class="contact-link">contactus@algorims.com</a>
+        <a href="tel:+6583459599" class="contact-link">+65 8345 9599</a>
       </div>
-    </div>
-  </section>
+      <div>
+        <p class="contact-label">Headquarters</p>
+        <p class="contact-place">Singapore</p>
+        <p class="contact-address">2 Central Boulevard, #32-01<br/>IOI Central Boulevard Towers<br/>Singapore 018916</p>
+      </div>
+      <div>
+        <p class="contact-label">Branches</p>
+        <p class="contact-place">Tirupati, India</p>
+        <p class="contact-address">STPI, Survey No. 234, Padmavathipuram, Beside Mahilapranganam, Tiruchanur Road, Tirupati, AP 517503</p>
+        <p class="contact-place mt-5">Bengaluru, India</p>
+        <p class="contact-address">2nd Floor, No 29/1, SK Mapple Hoskote Rd, Whitefield, Kadugodi, Bengaluru, Karnataka 560067</p>
+      </div>
+      <div>
+        <p class="contact-label">Free consultation</p>
+        <p class="contact-address">A 30-minute working session with one of our principal engineers to scope your initiative.</p>
+      </div>
+    </aside>
 
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-      <div class="grid gap-10 md:grid-cols-12">
-        <aside class="md:col-span-4 space-y-4">
-
-            <a href="mailto:contactus@algorims.com" class="block rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/30 hover:shadow-md">
-              <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="mail" class="!w-5 !h-5"></i></div>
-              <p class="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Email</p>
-              <p class="mt-1 font-medium">contactus@algorims.com</p>
-            </a>
-
-            <a href="tel:+6583459599" class="block rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/30 hover:shadow-md">
-              <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="phone" class="!w-5 !h-5"></i></div>
-              <p class="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Phone</p>
-              <p class="mt-1 font-medium">+65 8345 9599</p>
-            </a>
-
-
-          <div class="rounded-2xl border border-border bg-card p-6">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="building-2" class="!w-5 !h-5"></i></div>
-            <p class="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Headquarters</p>
-            <p class="mt-1 text-xs font-semibold uppercase tracking-wider text-primary">Singapore</p>
-            <p class="mt-1 text-sm leading-relaxed text-muted-foreground">2 Central Boulevard, #32-01<br/>IOI Central Boulevard Towers<br/>Singapore 018916</p>
-          </div>
-
-          <div class="rounded-2xl border border-border bg-card p-6">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="map-pin" class="!w-5 !h-5"></i></div>
-            <p class="mt-4 text-xs uppercase tracking-widest text-muted-foreground">Branches</p>
-            <ul class="mt-3 space-y-4 text-sm">
-              <li>
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary">Tirupati, India</p>
-                <p class="mt-1 leading-relaxed text-muted-foreground">STPI, Survey No. 234, Padmavathipuram, Beside Mahilapranganam, Tiruchanur Road, Tirupati, AP 517503</p>
-              </li>
-              <li>
-                <p class="text-xs font-semibold uppercase tracking-wider text-primary">Bengaluru, India</p>
-                <p class="mt-1 leading-relaxed text-muted-foreground">2nd Floor, No 29/1, SK Mapple Hoskote Rd, Whitefield, Kadugodi, Bengaluru, Karnataka 560067</p>
-              </li>
-            </ul>
-          </div>
-
-          <div class="rounded-2xl border border-primary/30 bg-primary/5 p-6">
-            <p class="text-sm font-semibold text-primary">Free consultation</p>
-            <p class="mt-2 text-sm text-muted-foreground">A 30-minute working session with one of our principal engineers to scope your initiative.</p>
-          </div>
-        </aside>
-
-        <div class="md:col-span-8">
-          <form id="contact-form" class="rounded-3xl border border-border bg-card p-8 md:p-10" novalidate>
+    <div class="contact-form-wrap">
+          <form id="contact-form" novalidate>
             <div id="contact-success" class="hidden py-10 text-center">
               <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-7 !h-7"></i></div>
               <h3 class="mt-5 text-2xl font-semibold">Thanks — message received</h3>
@@ -71,6 +44,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <button type="button" id="contact-reset" class="btn btn-outline btn-default mt-6 rounded-full">Send another message</button>
             </div>
             <div id="contact-fields" class="space-y-5">
+              <p class="contact-label">Start a conversation</p>
+              <h2 class="text-2xl font-semibold tracking-tight">Tell us about your project.</h2>
               <div class="grid gap-5 md:grid-cols-2">
                 <div class="space-y-2">
                   <label for="name" class="text-sm font-medium">Name</label>
@@ -107,14 +82,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 <p data-error="message" class="text-xs text-destructive hidden"></p>
               </div>
               <p id="contact-status" class="hidden text-sm text-destructive" role="alert"></p>
-              <button type="submit" class="btn btn-hero btn-lg w-full md:w-auto">Send message <i data-lucide="send" class="!w-4 !h-4"></i></button>
+              <button type="submit" class="btn btn-hero btn-lg w-full md:w-auto">Send message <i data-lucide="arrow-right" class="!w-4 !h-4"></i></button>
             </div>
           </form>
-        </div>
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 </BaseLayout>
+
+<style>
+  .contact-hero { padding-top: 46px; padding-bottom: 50px; text-align: center; }
+  .contact-kicker, .contact-label { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .contact-hero h1 { max-width: 1050px; margin: 14px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
+  .contact-hero h1 span { color: hsl(var(--primary)); }
+  .contact-hero > p:last-child { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); border: 1px solid hsl(var(--border)); }
+  .contact-details { display: grid; align-content: start; gap: 0; min-width: 0; }
+  .contact-details > div { padding: 28px 32px; }
+  .contact-details > div + div { border-top: 1px solid hsl(var(--border)); }
+  .contact-label { margin: 0 0 16px; }
+  .contact-link { display: block; width: fit-content; max-width: 100%; margin-top: 8px; overflow-wrap: anywhere; font-weight: 600; }
+  .contact-link:hover { color: hsl(var(--primary)); }
+  .contact-place { margin: 0; font-weight: 600; }
+  .contact-address { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.6; }
+  .contact-form-wrap { min-width: 0; padding: clamp(28px, 4vw, 56px); border-left: 1px solid hsl(var(--border)); }
+  @media (max-width: 767px) {
+    .contact-hero { padding-top: 44px; padding-bottom: 36px; }
+    .contact-hero h1 { font-size: 2.4rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .contact-form-wrap { grid-row: 1; border-left: 0; border-bottom: 1px solid hsl(var(--border)); }
+    .contact-details > div { padding: 24px 28px; }
+  }
+</style>
 
 <script>
   import { sendForm, setButtonLoading } from "../scripts/formSubmission";

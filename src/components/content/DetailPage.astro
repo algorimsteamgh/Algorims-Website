@@ -31,6 +31,8 @@ const results = "results" in data ? data.results : undefined;
 const faqs = "faqs" in data ? data.faqs : undefined;
 const clientLogo = "clientLogo" in data ? data.clientLogo : undefined;
 const scene = entry.id in caseScenes ? caseScenes[entry.id as keyof typeof caseScenes] : undefined;
+const isSolution = entry.collection === "solutions";
+const isOperations = entry.id === "operations-automation";
 const collections = await Promise.all([
   getCollection("case-studies"), getCollection("solutions"), getCollection("products"),
 ]);
@@ -42,6 +44,7 @@ const related = data.related.flatMap((slug) => {
   return [];
 });
 ---
+<div class={isSolution ? `solution-detail${isOperations ? " operations-page" : ""}` : undefined}>
 {entry.collection === "products" ? <ProductHero entry={entry} /> : <>
 <section class="pt-8 pb-4">
   <div class="container-x">
@@ -51,8 +54,22 @@ const related = data.related.flatMap((slug) => {
   </div>
 </section>
 
-<section class="pt-6 pb-10">
+<section class={isSolution ? "solution-hero" : "pt-6 pb-10"}>
   <div class="container-x">
+    {isSolution ? <>
+      <div class="solution-hero-copy">
+        <p class="solution-kicker">{isOperations ? "Operations automation / Singapore SMBs" : `${data.kind} / ${data.tag}`}</p>
+        <h1 class="text-balance">{isOperations ? <>Cut manual operations work by <span>40–70%.</span></> : data.title}</h1>
+        <p class="text-pretty">{data.subtitle}</p>
+        <div class="solution-actions">
+          <a href="/contact" class="btn btn-hero btn-lg">Talk to an architect <i data-lucide="arrow-right" /></a>
+          <a href={data.source.href} class="btn btn-outline btn-lg">{data.source.label}</a>
+        </div>
+      </div>
+      <dl class="solution-meta">
+        {data.meta.map((item) => <div><dt>{item.label}</dt><dd>{item.value}</dd></div>)}
+      </dl>
+    </> :
     <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
       <div class="space-y-6 lg:col-span-7">
         <div class="flex flex-wrap items-center gap-3">
@@ -82,35 +99,104 @@ const related = data.related.flatMap((slug) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
   </div>
 </section>
 
 {data.metrics.length > 0 && <section class="pb-12"><div class="container-x"><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{data.metrics.map((metric) => <MetricCard value={metric.value!} label={metric.label!} />)}</div></div></section>}
 </>}
 
-{data.intro.length > 0 && <section class="pb-4"><div class="container-x max-w-3xl"><Eyebrow text="Overview" /><div class="mt-5 space-y-5">{data.intro.map((paragraph) => <p class="text-[17px] leading-[1.75] text-foreground/85" set:html={paragraph} />)}</div></div></section>}
+{data.intro.length > 0 && (isOperations ? <section class="operations-section operations-overview"><div class="container-x"><Eyebrow text="Overview" /><h2>Automation that understands the operating context.</h2><div class="mt-7 max-w-3xl space-y-5">{data.intro.map((paragraph) => <p set:html={paragraph} />)}</div></div></section> : <section class="pb-4"><div class="container-x max-w-3xl"><Eyebrow text="Overview" /><div class="mt-5 space-y-5">{data.intro.map((paragraph) => <p class="text-[17px] leading-[1.75] text-foreground/85" set:html={paragraph} />)}</div></div></section>)}
 
 {flow && <section class="py-12"><div class="container-x"><FlowDiagram title={flow.title!} desc={flow.desc!} stages={flow.stages! as { icon: string; title: string; subtitle: string; items?: string[] }[]} footer={flow.footer} /></div></section>}
 
 {scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={`/assets/case-studies/scenes/${entry.id}.webp`} srcset={`/assets/case-studies/scenes/${entry.id}-800.webp 800w, /assets/case-studies/scenes/${entry.id}.webp 1600w`} sizes="(min-width: 1536px) 1472px, 100vw" width="1600" height="900" alt={scene.alt} loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
 
-<section class="py-12"><div class="container-x max-w-3xl"><ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
+<section class={isOperations ? "operations-section operations-challenge" : "py-12"}><div class="container-x max-w-3xl">{isOperations && <h2 class="operations-section-title">Where manual operations slow growth</h2>}<ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
 
-{data.solution.length > 0 && <section id={entry.collection === "products" ? "workflow" : undefined} class="py-12 bg-secondary/40"><div class="container-x"><SolutionSteps title={data.solutionTitle} lead={data.solutionLead} steps={data.solution as { h: string; p: string }[]} /></div></section>}
+{data.solution.length > 0 && <section id={entry.collection === "products" ? "workflow" : undefined} class={isOperations ? "operations-section operations-steps" : "py-12 bg-secondary/40"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Six workflows. One connected system.</h2>}<SolutionSteps title={data.solutionTitle} lead={data.solutionLead} steps={data.solution as { h: string; p: string }[]} /></div></section>}
 
-{aws && aws.length > 0 && <section class="py-12"><div class="container-x"><AwsServices title={awsTitle} lead={awsLead} services={aws as { name: string; desc: string }[]} /></div></section>}
+{aws && aws.length > 0 && <section class={isOperations ? "operations-section operations-aws" : "py-12"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Built inside your AWS account.</h2>}<AwsServices title={awsTitle} lead={awsLead} services={aws as { name: string; desc: string }[]} /></div></section>}
 
 {architecture && <section class="py-12"><div class="container-x"><ArchitectureFigure src={architecture.src!} alt={architecture.alt!} caption={architecture.caption} /></div></section>}
 
 {tech && tech.length > 0 && <section class="py-12"><div class="container-x max-w-4xl"><TechStack items={tech} /></div></section>}
 
-{results && results.length > 0 && <section class="py-12 bg-secondary/40"><div class="container-x"><ResultsGrid items={results} /></div></section>}
+{results && results.length > 0 && <section class={isOperations ? "operations-section operations-results" : "py-12 bg-secondary/40"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Less manual work. More control.</h2>}<ResultsGrid items={results} /></div></section>}
 
 {faqs && faqs.length > 0 && <section class="py-12"><div class="container-x max-w-3xl"><Faqs items={faqs as { q: string; a: string }[]} /></div></section>}
 
 {entry.collection === "products" && <ProductDetails slug={entry.id} part="more" />}
 
-{related.length > 0 && <section class="pb-16"><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4"><h3 class="text-2xl font-semibold tracking-tight">Related work</h3></div><RelatedWork items={related} /></div></section>}
+{related.length > 0 && <section class={isOperations ? "operations-section operations-related" : "pb-16"}><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4">{isOperations ? <><Eyebrow text="Related work" /><h2 class="operations-section-title">More systems, built for real operations.</h2></> : <h3 class="text-2xl font-semibold tracking-tight">Related work</h3>}</div><RelatedWork items={related} /></div></section>}
 
-{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : <ConsultationCta />}
+{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : !isOperations && <ConsultationCta />}
+</div>
+<style is:global>
+  .solution-detail .solution-hero { padding: 18px 0 0; }
+  .solution-detail .solution-hero-copy { max-width: 1080px; margin: 0 auto; padding: 38px 0 48px; text-align: center; }
+  .solution-detail .solution-kicker, .solution-detail .inline-flex.rounded-full { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .solution-detail .solution-kicker { margin: 0 0 18px; }
+  .solution-detail .inline-flex.rounded-full { padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .solution-detail .inline-flex.rounded-full > span:first-child { display: none; }
+  .solution-detail h1 { margin: 0 auto; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
+  .operations-page h1 span { color: hsl(var(--primary)); }
+  .solution-detail .solution-hero-copy > p:last-of-type { max-width: 760px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; }
+  .solution-detail .solution-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 28px; }
+  .solution-detail .solution-meta { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; border: 1px solid hsl(var(--border)); }
+  .solution-detail .solution-meta > div { padding: 22px; min-width: 0; }
+  .solution-detail .solution-meta > div + div { border-left: 1px solid hsl(var(--border)); }
+  .solution-detail .solution-meta dt { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .solution-detail .solution-meta dd { margin: 8px 0 0; font-size: .9rem; line-height: 1.45; }
+  .solution-detail .solution-hero + section .grid { gap: 0; border: 1px solid hsl(var(--border)); border-top: 0; }
+  .solution-detail .solution-hero + section .grid > div { border: 0; border-radius: 0; box-shadow: none; }
+  .solution-detail .solution-hero + section .grid > div:nth-child(3n+2), .solution-detail .solution-hero + section .grid > div:nth-child(3n+3) { border-left: 1px solid hsl(var(--border)); }
+  .solution-detail .solution-hero + section .grid > div:nth-child(n+4) { border-top: 1px solid hsl(var(--border)); }
+  .solution-detail:not(.operations-page) section:has(.inline-flex.rounded-full) { border-top: 1px solid hsl(var(--border)); }
+  .solution-detail:not(.operations-page) section:has(.inline-flex.rounded-full) .container-x { padding-top: 28px; padding-bottom: 28px; }
+  .solution-detail section.bg-secondary\/40 { background: hsl(var(--background)); }
+  .solution-detail .text-gradient { background: none; color: hsl(var(--primary)); }
+  .operations-page .solution-hero-copy { padding: 10px 0 36px; }
+  .operations-page > section:not(.solution-hero):not(:first-child) { border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-section { padding: clamp(72px, 8vw, 108px) 0; }
+  .operations-page .operations-section-title { max-width: 850px; margin: 0 0 24px; font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; text-wrap: balance; }
+  .operations-page .operations-overview { padding-top: clamp(72px, 8vw, 108px); }
+  .operations-page .operations-overview h2 { max-width: 680px; margin: 18px 0 0; font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; text-wrap: balance; }
+  .operations-page .operations-overview p { font-size: 1rem; line-height: 1.75; }
+  .operations-page .operations-section .inline-flex.rounded-full { display: none; }
+  .operations-page .operations-section p { max-width: 760px; }
+  .operations-page .operations-challenge .container-x { max-width: 80rem; }
+  .operations-page .operations-challenge ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin-top: 38px; border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-challenge li { align-items: flex-start; min-height: 92px; margin-top: 0 !important; padding: 22px 4px; border: 0; border-bottom: 1px solid hsl(var(--border)); border-radius: 0; background: transparent; }
+  .operations-page .operations-challenge li span:last-child { color: hsl(var(--foreground)); font-size: 1rem; }
+  .operations-page .operations-steps .mt-10.space-y-5 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 42px; border: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div { display: block; min-width: 0; margin: 0; padding: 32px; border: 0; border-radius: 0; background: hsl(var(--background)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(even) { border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div > p { margin-top: 22px; font-size: .96rem; line-height: 1.72; }
+  .operations-page .operations-steps h3 { font-size: 1.25rem; }
+  .operations-page .operations-steps .bg-gradient-primary { border-radius: 0; box-shadow: none; }
+  .operations-page .operations-aws .mt-8.grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 38px; border-top: 1px solid hsl(var(--border)); border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-aws .mt-8.grid > div { padding: 22px; border: 0; border-right: 1px solid hsl(var(--border)); border-bottom: 1px solid hsl(var(--border)); border-radius: 0; box-shadow: none; }
+  .operations-page .operations-aws .mt-8.grid > div p:last-child { font-size: .87rem; }
+  .operations-page .operations-results .mt-8.grid { gap: 0; margin-top: 38px; border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-results .mt-8.grid > div { padding: 22px 18px; border: 0; border-bottom: 1px solid hsl(var(--border)); border-radius: 0; background: transparent; }
+  .operations-page .operations-results .mt-8.grid > div:nth-child(odd) { border-right: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related { padding-bottom: clamp(72px, 8vw, 108px); }
+  .operations-page .operations-related .mb-8 { display: block; }
+  .operations-page .operations-related .inline-flex.rounded-full { display: inline-flex; margin-bottom: 18px; }
+  .operations-page .operations-related .grid { gap: 0; border: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related .grid > a { min-height: 210px; padding: 28px; border: 0; border-radius: 0; box-shadow: none; background: transparent; }
+  .operations-page .operations-related .grid > a + a { border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related .grid > a:hover { border-color: transparent; background: hsl(var(--secondary)); box-shadow: none; }
+  .operations-page .operations-related .grid > a > div:first-child { display: none; }
+  .operations-page .operations-related h4 { max-width: 24rem; font-size: 1.5rem; }
+  .operations-page details { border-radius: 0; }
+  .operations-page .operations-section + section .rounded-3xl { border-radius: 0; }
+  @media (max-width: 900px) { .operations-page .operations-aws .mt-8.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 650px) { .operations-page .operations-challenge ul, .operations-page .operations-steps .mt-10.space-y-5, .operations-page .operations-aws .mt-8.grid, .operations-page .operations-results .mt-8.grid { grid-template-columns: 1fr; } .operations-page .operations-steps .mt-10.space-y-5 > div { padding: 26px 20px; } .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(even), .operations-page .operations-results .mt-8.grid > div:nth-child(odd), .operations-page .operations-related .grid > a + a { border-left: 0; border-right: 0; } .operations-page .operations-steps .mt-10.space-y-5 > div + div, .operations-page .operations-related .grid > a + a { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 800px) { .solution-detail .solution-meta { grid-template-columns: repeat(2, 1fr); } .solution-detail .solution-meta > div:nth-child(odd) { border-left: 0; } .solution-detail .solution-meta > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); } }
+  @media (min-width: 640px) and (max-width: 1023px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div:nth-child(even) { border-left: 1px solid hsl(var(--border)) !important; } .solution-detail .solution-hero + section .grid > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 639px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div + div { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 600px) { .solution-detail .solution-hero-copy { padding: 30px 0 42px; } .solution-detail h1 { font-size: 2.4rem; } .solution-detail .solution-actions { flex-direction: column; } .solution-detail .solution-meta { grid-template-columns: 1fr; } .solution-detail .solution-meta > div { padding: 18px; } .solution-detail .solution-meta > div + div { border-left: 0; border-top: 1px solid hsl(var(--border)); } }
+</style>
