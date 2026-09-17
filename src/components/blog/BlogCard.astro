@@ -4,15 +4,25 @@ import BlogArt from "./BlogArt.astro";
 
 const { post } = Astro.props as { post: CollectionEntry<"blog"> };
 ---
-<a href={`/blog/${post.id}`} class="group flex flex-col rounded-3xl border border-border bg-card overflow-hidden transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
-  <div class="aspect-[16/10] overflow-hidden"><BlogArt kind={post.data.art} /></div>
-  <div class="p-7 flex flex-col flex-1">
-    <div class="flex items-center gap-3 text-xs">
-      <span class="rounded-full bg-primary/10 px-2.5 py-1 font-medium text-primary">{post.data.category}</span>
-      <span class="text-muted-foreground">{post.data.read}</span>
-    </div>
-    <h3 class="mt-3 text-xl font-semibold tracking-tight">{post.data.title}</h3>
-    <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{post.data.excerpt}</p>
-    <span class="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">Read article <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
+<a href={`/blog/${post.id}`} class="blog-card">
+  <div class="blog-card-art"><BlogArt kind={post.data.art} /></div>
+  <div class="blog-card-copy">
+    <div class="blog-card-meta"><span>{post.data.category}</span><span>{post.data.read}</span></div>
+    <h3>{post.data.title}</h3>
+    <p>{post.data.excerpt}</p>
+    <span class="blog-card-link">Read article <i data-lucide="arrow-up-right"></i></span>
   </div>
 </a>
+
+<style>
+  .blog-card { display: flex; min-width: 0; height: 100%; flex-direction: column; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; color: inherit; transition: border-color .2s, transform .2s; }
+  .blog-card:hover { transform: translateY(-3px); border-color: hsl(var(--primary) / .45); }
+  .blog-card-art { aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid hsl(var(--border)); }
+  .blog-card-copy { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
+  .blog-card-meta { display: flex; justify-content: space-between; gap: 1rem; color: hsl(var(--muted-foreground)); font-size: .72rem; }
+  .blog-card-meta span:first-child { color: hsl(var(--primary)); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .blog-card h3 { margin: .85rem 0 0; font-size: 1.2rem; font-weight: 600; line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; }
+  .blog-card p { margin: .75rem 0 0; color: hsl(var(--muted-foreground)); font-size: .88rem; line-height: 1.55; }
+  .blog-card-link { display: inline-flex; align-items: center; gap: .3rem; margin-top: auto; padding-top: 1.25rem; color: hsl(var(--primary)); font-size: .82rem; font-weight: 600; }
+  .blog-card-link :global(svg) { width: 1rem; height: 1rem; }
+</style>
