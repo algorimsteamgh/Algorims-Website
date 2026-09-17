@@ -1,0 +1,107 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const order = ["operations-automation", "intelligent-document-processing", "autonomous-customer-operations"];
+const solutions = (await getCollection("solutions")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const imageLabels = {
+  "operations-automation": {
+    alt: "Invoices, claims, and purchase orders flow through an intelligent operations platform to validated, approved workflows.",
+    items: [["Inputs", "Invoices · claims · purchase orders"], ["Core", "Intelligent operations platform"], ["Outcome", "Validated, approved workflows"]],
+  },
+  "intelligent-document-processing": {
+    alt: "Invoices, KYC packets, and loan applications flow through an AI document pipeline to structured, validated data.",
+    items: [["Inputs", "Invoices · KYC packets · loan applications"], ["Core", "AI document pipeline"], ["Outcome", "Structured, validated data"]],
+  },
+  "autonomous-customer-operations": {
+    alt: "Voice, chat, and policy events flow through an autonomous contact centre to resolved customer interactions.",
+    items: [["Inputs", "Voice · chat · policy events"], ["Core", "Autonomous contact centre"], ["Outcome", "Resolved customer interactions"]],
+  },
+} as const;
+---
+
+<BaseLayout title="Solutions — Algorims" description="Explore Algorims AI, automation, and customer operations solutions, engineered around your business and deployed in your AWS account.">
+  <div class="solutions-page">
+    <section class="solutions-hero" aria-labelledby="solutions-title">
+      <div class="container-x">
+        <p class="solutions-kicker">Solutions</p>
+        <h1 id="solutions-title">Applied AI systems, <span>built around <strong>your operation.</strong></span></h1>
+        <p class="solutions-intro">Production-grade AI and automation systems that solve a defined business problem, integrate with the tools you already use, and run in your own AWS account.</p>
+        <div class="solutions-actions">
+          <a class="solutions-action solutions-action-primary" href="/contact">Book a consultation</a>
+          <a class="solutions-action" href="/services">Explore services</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="solutions-list" aria-label="Solutions">
+      <div class="container-x">
+        <div class="solutions-grid">
+          {solutions.map((solution, index) => {
+            const highlights = solution.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
+            const image = imageLabels[solution.id as keyof typeof imageLabels];
+            return <a href={`/solutions/${solution.id}`} class="solution-card">
+              <div class="solution-copy">
+                <p class="solutions-kicker">0{index + 1} / {solution.data.tag}</p>
+                <div class="solution-card-heading"><h3>{solution.data.title}</h3></div>
+                <p class="solution-summary">{solution.data.subtitle}</p>
+                {highlights.length > 0 && <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>}
+                <span>Explore solution <i data-lucide="arrow-right" class="!h-4 !w-4" /></span>
+              </div>
+              <figure class="solution-art">
+                <img src={`/assets/illustrations/solution-${solution.id}.png`} alt={image.alt} width="1254" height="1254" loading="lazy" />
+                <img class="solution-art-dark" src={`/assets/illustrations/solution-${solution.id}-dark.png`} alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
+                <figcaption>{image.items.map(([label, value]) => <span class="solution-image-label"><b>{label}</b>{value}</span>)}</figcaption>
+              </figure>
+            </a>;
+          })}
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .solutions-page { background: hsl(var(--background)); }
+  .solutions-hero { padding: 46px 0 0; text-align: center; }
+  .solutions-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+  .solutions-hero h1 { max-width: 1050px; margin: 14px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
+  .solutions-hero h1 span { color: hsl(var(--primary)); }
+  .solutions-hero h1 strong { font: inherit; white-space: nowrap; }
+  .solutions-intro { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
+  .solutions-actions { display: flex; justify-content: center; gap: 14px; margin: 26px 0 0; }
+  .solutions-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 25px; border: 1px solid hsl(var(--foreground)); border-radius: 9999px; color: hsl(var(--foreground)); font-weight: 600; }
+  .solutions-action-primary { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .solutions-list { padding: 42px clamp(24px, 5vw, 74px) 90px; }
+  .solutions-grid { overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .solution-card { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(36px, 7vw, 120px); min-width: 0; padding: clamp(40px, 5vw, 74px) clamp(18px, 4vw, 56px); color: inherit; text-decoration: none; transition: background .2s ease; }
+  .solution-card + .solution-card { border-top: 1px solid hsl(var(--border)); }
+  .solution-card:hover { background: hsl(var(--muted) / .45); }
+  .solution-card:nth-child(even) .solution-copy { order: 2; }
+  .solution-card:nth-child(even) .solution-art { order: 1; }
+  .solution-art { position: relative; margin: 0; }
+  .solution-card:nth-child(n + 2) .solution-art::before { position: absolute; inset: 4%; z-index: 0; background-image: linear-gradient(45deg, transparent 49.7%, hsl(var(--border) / .55) 50%, transparent 50.3%), linear-gradient(-45deg, transparent 49.7%, hsl(var(--border) / .55) 50%, transparent 50.3%); background-size: 28px 28px; content: ""; }
+  .solution-art img { display: block; width: 100%; height: auto; }
+  .solution-art img { position: relative; z-index: 1; }
+  .solution-art figcaption { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .solution-image-label { display: block; min-width: 0; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--muted-foreground)); font-size: .68rem; line-height: 1.35; }
+  .solution-image-label b { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; }
+  .solution-art-dark { display: none !important; }
+  :global(:root.dark) .solution-art > img:not(.solution-art-dark) { display: none; }
+  :global(:root.dark) .solution-art > .solution-art-dark { display: block !important; }
+  :global(:root.dark) .solution-art::before { display: none; }
+  .solution-card-heading { display: flex; gap: 14px; align-items: flex-start; margin-top: 22px; color: hsl(var(--primary)); }
+  .solution-card h3 { margin: 0; color: hsl(var(--foreground)); font-size: clamp(1.75rem, 3vw, 2.65rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; }
+  .solution-summary { margin: 18px 0 0; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .solution-card dl { display: grid; grid-template-columns: repeat(2, 1fr); margin: 26px 0 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .75rem; }
+  .solution-card dl div { padding: 16px 10px 16px 0; }
+  .solution-card dl div + div { padding-left: 12px; border-left: 1px solid hsl(var(--border)); }
+  .solution-card dt { color: hsl(var(--primary)); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
+  .solution-card dd { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.35; }
+  .solution-copy > span { display: inline-flex; align-items: center; gap: 9px; padding-top: 24px; color: hsl(var(--primary)); font-weight: 600; }
+  .solution-card:hover .solution-copy > span i { transform: translateX(4px); }
+  .solution-copy > span i { transition: transform .2s ease; }
+  @media (max-width: 850px) { .solution-card { grid-template-columns: 1fr; gap: 32px; padding-inline: 0; } .solution-card:nth-child(even) .solution-copy, .solution-card:nth-child(even) .solution-art { order: initial; } }
+  @media (max-width: 600px) { .solutions-hero { padding-top: 44px; } .solutions-hero h1 { font-size: 2.4rem; } .solutions-actions { flex-direction: column; margin-inline: 20px; } .solutions-list { padding: 36px 20px 62px; } .solution-card { padding: 26px; } .solution-art figcaption { grid-template-columns: 1fr; } .solution-image-label { font-size: .72rem; } }
+  @media (prefers-reduced-motion: reduce) { .solution-card, .solution-card > span i { transition: none; } }
+</style>

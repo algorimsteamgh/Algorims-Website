@@ -69,9 +69,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
           <aside class="services-figure-wrap lg:col-span-4">
             <figure class="services-figure">
-
-
-              <figcaption class="services-flow"><span>Inputs<br /><b>Data & workloads</b></span><span>Core<br /><b>Cloud engineering</b></span><span>Outcome<br /><b>Resilient infrastructure</b></span></figcaption>
+              <img src="/assets/illustrations/service-cloud-engineering.png" alt="Cloud engineering illustration" width="724" height="724" loading="lazy" />
+              <img class="services-figure-dark" src="/assets/illustrations/service-cloud-engineering-3d-dark.png" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
             </figure>
           </aside>
         </div>
@@ -126,9 +125,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
           <aside class="services-figure-wrap lg:col-span-4">
             <figure class="services-figure">
-
-
-              <figcaption class="services-flow"><span>Inputs<br /><b>Code changes</b></span><span>Core<br /><b>Automated delivery</b></span><span>Outcome<br /><b>Reliable operations</b></span></figcaption>
+              <img src="/assets/illustrations/service-devops-platform.png" alt="DevOps and platform engineering illustration" width="724" height="724" loading="lazy" />
+              <img class="services-figure-dark" src="/assets/illustrations/service-devops-platform-3d-dark.png" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
             </figure>
           </aside>
         </div>
@@ -183,9 +181,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
           <aside class="services-figure-wrap lg:col-span-4">
             <figure class="services-figure">
-
-
-              <figcaption class="services-flow"><span>Inputs<br /><b>Requirements & APIs</b></span><span>Core<br /><b>Application engineering</b></span><span>Outcome<br /><b>Production software</b></span></figcaption>
+              <img src="/assets/illustrations/service-development.png" alt="Application development illustration" width="724" height="724" loading="lazy" />
+              <img class="services-figure-dark" src="/assets/illustrations/service-development-3d-dark.png" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
             </figure>
           </aside>
         </div>
@@ -240,9 +237,8 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
           <aside class="services-figure-wrap lg:col-span-4">
             <figure class="services-figure">
-
-
-              <figcaption class="services-flow"><span>Inputs<br /><b>Invoices & banking</b></span><span>Core<br /><b>Xero workflows</b></span><span>Outcome<br /><b>Financial visibility</b></span></figcaption>
+              <img src="/assets/illustrations/service-xero-light.png" alt="Xero financial workflows illustration" width="1254" height="1254" loading="lazy" />
+              <img class="services-figure-dark" src="/assets/illustrations/service-xero-dark.png" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
             </figure>
           </aside>
         </div>
@@ -256,14 +252,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .services-hero .services-title { max-width: 1050px; margin: 0 auto; }
   .services-hero .services-intro { max-width: 720px; margin: 24px auto 0; text-wrap: balance; }
   .services-actions { display: flex; justify-content: center; gap: 14px; margin: 26px 0 0; }
-  .services-stats { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 960px; margin: 42px auto 0; border-block: 1px solid hsl(var(--border)); }
+  .services-stats { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 960px; margin: 42px auto 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
   .services-stats div { padding: 20px 12px; }
   .services-stats div + div { border-left: 1px solid hsl(var(--border)); }
   .services-stats dt { color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .services-stats dd { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .85rem; }
   .services-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 25px; border: 1px solid hsl(var(--foreground)); border-radius: 9999px; color: hsl(var(--foreground)); font-weight: 600; }
   .services-action-primary { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
-  .services-figure { margin: 0; padding: 28px; border: 1px solid hsl(var(--border)); background: hsl(var(--background)); }
+  .services-figure { margin: 0; padding: 28px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
+  .services-figure img { display: block; width: 100%; height: auto; }
+  .services-figure-dark { display: none !important; }
+  :global(:root.dark) .services-figure > img:not(.services-figure-dark) { display: none; }
+  :global(:root.dark) .services-figure > .services-figure-dark { display: block !important; }
   .services-flow { display: grid; gap: 0; max-width: 360px; margin-inline: auto; }
   .services-flow span { position: relative; display: block; padding: 14px 14px 14px 36px; color: hsl(var(--muted-foreground)); font-size: .68rem; font-weight: 700; letter-spacing: .14em; line-height: 1.4; text-transform: uppercase; }
   .services-flow span::before { position: absolute; top: 19px; left: 8px; width: 9px; height: 9px; border: 1px solid hsl(var(--foreground)); background: hsl(var(--background)); content: ""; }

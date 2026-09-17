@@ -96,7 +96,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .contact-hero h1 { max-width: 1050px; margin: 14px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
   .contact-hero h1 span { color: hsl(var(--primary)); }
   .contact-hero > p:last-child { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
-  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); border: 1px solid hsl(var(--border)); }
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
   .contact-details { display: grid; align-content: start; gap: 0; min-width: 0; }
   .contact-details > div { padding: 28px 32px; }
   .contact-details > div + div { border-top: 1px solid hsl(var(--border)); }
