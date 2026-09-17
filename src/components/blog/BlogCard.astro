@@ -7,10 +7,11 @@ const { post } = Astro.props as { post: CollectionEntry<"blog"> };
 <a href={`/blog/${post.id}`} class="blog-card">
   <div class="blog-card-art"><BlogArt kind={post.data.art} /></div>
   <div class="blog-card-copy">
-    <div class="blog-card-meta"><span>{post.data.category}</span><span>{post.data.read}</span></div>
-    <h3>{post.data.title}</h3>
-    <p>{post.data.excerpt}</p>
-    <span class="blog-card-link">Read article <i data-lucide="arrow-up-right"></i></span>
+    <div>
+      <span class="blog-card-read">{post.data.read}</span>
+      <h3>{post.data.title}</h3>
+    </div>
+    <i data-lucide="arrow-up-right" aria-hidden="true"></i>
   </div>
 </a>
 
@@ -18,11 +19,10 @@ const { post } = Astro.props as { post: CollectionEntry<"blog"> };
   .blog-card { display: flex; min-width: 0; height: 100%; flex-direction: column; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; color: inherit; transition: border-color .2s, transform .2s; }
   .blog-card:hover { transform: translateY(-3px); border-color: hsl(var(--primary) / .45); }
   .blog-card-art { aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid hsl(var(--border)); }
-  .blog-card-copy { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
-  .blog-card-meta { display: flex; justify-content: space-between; gap: 1rem; color: hsl(var(--muted-foreground)); font-size: .72rem; }
-  .blog-card-meta span:first-child { color: hsl(var(--primary)); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
-  .blog-card h3 { margin: .85rem 0 0; font-size: 1.2rem; font-weight: 600; line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; }
-  .blog-card p { margin: .75rem 0 0; color: hsl(var(--muted-foreground)); font-size: .88rem; line-height: 1.55; }
-  .blog-card-link { display: inline-flex; align-items: center; gap: .3rem; margin-top: auto; padding-top: 1.25rem; color: hsl(var(--primary)); font-size: .82rem; font-weight: 600; }
-  .blog-card-link :global(svg) { width: 1rem; height: 1rem; }
+  .blog-card-copy { display: flex; flex: 1; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.5rem; }
+  .blog-card-read { color: hsl(var(--muted-foreground)); font-size: .72rem; }
+  .blog-card h3 { margin: .55rem 0 0; font-size: 1.2rem; font-weight: 600; line-height: 1.2; letter-spacing: -.035em; text-wrap: balance; }
+  .blog-card-copy :global(svg) { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; color: hsl(var(--primary)); transition: transform .2s ease; }
+  .blog-card:hover .blog-card-copy :global(svg) { transform: translate(3px, -3px); }
+  @media (prefers-reduced-motion: reduce) { .blog-card, .blog-card-copy :global(svg) { transition: none; } }
 </style>
