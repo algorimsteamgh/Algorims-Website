@@ -2,7 +2,7 @@ name: Deploy website to S3
 
 on:
   push:
-    branches: [main]
+    branches: [main, astro-aoutive-redesign]
   workflow_dispatch:
 
 permissions:
@@ -47,7 +47,7 @@ jobs:
           [[ "$function_arn" == */algorims-spa-index-rewrite ]]
 
       - name: Upload website
-        run: aws s3 sync dist/ s3://algorims-website-561580620525
+        run: aws s3 sync dist/ s3://algorims-website-561580620525 --delete
 
       - name: Refresh CloudFront
         run: aws cloudfront create-invalidation --distribution-id ESYSC15E546OI --paths "/*"
