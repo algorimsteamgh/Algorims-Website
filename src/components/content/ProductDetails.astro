@@ -1,0 +1,181 @@
+---
+interface Props { slug: string; part: "feed" | "more" | "cta" }
+const { slug, part } = Astro.props;
+
+const details: Record<string, {
+  feed: string;
+  rows: { label: string; detail: string; status: string; held?: boolean }[];
+  warning: string;
+  heading: string;
+  lead: string;
+  cards: { title: string; text: string }[];
+  capabilities: string[];
+  cta: { title: string; text: string };
+  pipeline: string[];
+  markets?: { name: string; region: string; compliance: string; currency: string; description: string }[];
+  economics?: { columns: string[]; rows: string[][]; note: string };
+}> = {
+  cxiq: {
+    feed: "Conversation feed",
+    rows: [
+      { label: '"What time does the clinic open Saturday?"', detail: "CHT-88201", status: "Answered" },
+      { label: '"Can you confirm my RSVP for the annual dinner?"', detail: "CHT-88207", status: "Confirmed" },
+      { label: '"Can I get a refund on my membership fee?"', detail: "CHT-88213", status: "Awaiting approval", held: true },
+      { label: '"Where\'s my order #4521?"', detail: "CHT-88219", status: "Answered" },
+    ],
+    warning: "Money actions are approval-gated by default, regardless of intent confidence.",
+    heading: "Two stacks, one product",
+    lead: "Most deployments need the core build. Enterprise contact centers can add managed NLU, multi-step agents, and voice escalation without changing the trust rules.",
+    cards: [
+      { title: "Core · community and SME", text: "A 2–4 week build using Bedrock Claude, per-intent confidence scores, and editable rules over existing WhatsApp and email. The community and association track has a proven 10–15 hours per week recovered." },
+      { title: "SME commerce and service", text: "Order status, appointments, FAQ deflection, and payment reminders for clinics, salons, F&B, and commerce teams. This track is modeled and currently validating with design partners." },
+      { title: "Enterprise contact center", text: "A scoped engagement for teams with an existing CRM and 5,000+ contacts per month. Optional Lex v2, Bedrock Agents, and Amazon Connect carry full context into voice escalation. This track is in validation." },
+    ],
+    capabilities: [
+      "Repeated low-confidence extraction from the same person escalates to a human rather than looping or guessing.",
+      "An unrecognized phone number follows a defined identity-resolution flow; automated RSVPs, reminders, and bookings have a human-visible undo path.",
+      "English plus Mandarin, Malay, Tamil, or Hindi is scoped upfront. Consent and opt-out are explicit and designed for PDPA/DPDP compliance.",
+      "Every automated reply and human decision enters an append-only audit trail. Idempotency prevents duplicate RSVPs or double-sent reminders.",
+    ],
+    cta: { title: "Let AI handle the routine. Let your team handle what matters.", text: "Tell us which channels you run and what a typical week of conversations looks like — we'll show you exactly what CXIQ would automate, and what it would always leave to a human." },
+    pipeline: ["Receive", "Understand", "Ground", "Gate money actions", "Respond or escalate"],
+  },
+  dociq: {
+    feed: "Processing feed",
+    rows: [
+      { label: "Invoice · Singapore · Tier 1", detail: "JOB-9F21A4 · 0.98", status: "Auto-approved" },
+      { label: "Contract · ANZ · Tier 2", detail: "JOB-9F21A5 · 0.91", status: "Auto-approved" },
+      { label: "Claim · India · Tier 3", detail: "JOB-9F21A6 · 0.68", status: "HIL Review", held: true },
+      { label: "Invoice · Singapore · Tier 1", detail: "JOB-9F21A7 · 0.96", status: "Auto-approved" },
+    ],
+    warning: "Fields below the signed-off threshold after Bedrock escalation go to a reviewer, never to silent approval.",
+    heading: "The economics, from a reference deployment",
+    lead: "Measured at 50,000 documents per month. Textract handles the first pass; Bedrock runs when confidence falls short.",
+    cards: [
+      { title: "Reviewers own exceptions", text: "The business owner signs off confidence thresholds before go-live. Reviewers receive the document image and a pre-filled extraction overlay, with an agreed response time." },
+      { title: "In-region and reversible", text: "Documents and extracted data stay in the client's AWS account and region. Every production cutover has a parallel run and rollback path." },
+    ],
+    capabilities: [
+      "PDFs, scans, photos, rotated originals, forms, and tables are supported; each field carries a confidence score.",
+      "Results return in under 2 seconds across a searchable archive of more than 1 million documents.",
+      "The reviewer response time is agreed at onboarding. Modeled AI spend and CloudWatch alarms make processing costs predictable.",
+    ],
+    cta: { title: "Stop paying manual document-keying prices.", text: "Tell us your document mix and volume — we'll model your numbers before you commit to anything." },
+    pipeline: ["Receive", "Textract", "Bedrock if needed", "Human review if needed", "ERP delivery"],
+    markets: [
+      { name: "Singapore / SEA", region: "ap-southeast-1", compliance: "PDPA (SG, MY)", currency: "SGD", description: "Reference architecture already in-region. Dense SME and regional-HQ market with an English-first sales motion." },
+      { name: "ANZ", region: "ap-southeast-2", compliance: "Privacy Act 1988, APRA CPS 234/230", currency: "AUD", description: "Highest labor cost of the three markets — the biggest per-FTE savings story — with strong AWS adoption and a regulated FSI opportunity." },
+      { name: "India", region: "ap-south-1", compliance: "DPDP Act 2023, RBI outsourcing norms", currency: "INR / USD", description: "Massive finance-ops, GBS, and BPO document volume, with a strong cost-out culture and shared-services buyers." },
+    ],
+    economics: {
+      columns: ["Metric", "Manual + shadow ChatGPT", "DocIQ", "Delta"],
+      rows: [
+        ["Monthly cost", "SGD $39,350", "SGD $212.78", "−99.5%"],
+        ["Cost per document", "SGD $0.787", "SGD $0.00426", "−99.5%"],
+        ["12-month TCO", "SGD $472,200", "SGD $12,053", "−97.4%"],
+        ["Payback on one-time fee", "—", "1–2 weeks of run-rate savings", "—"],
+      ],
+      note: "Reference deployment: 50,000 documents/month. Results vary by document mix and volume.",
+    },
+  },
+  opsiq: {
+    feed: "Ticket feed",
+    rows: [
+      { label: "Password reset — user locked out", detail: "TCK-88412 · T1", status: "Auto-resolved" },
+      { label: "VPN access request — new hire", detail: "TCK-88417 · T2", status: "Auto-resolved" },
+      { label: "Bulk mailbox permission change — Finance", detail: "TCK-88423 · T3", status: "Approval gate", held: true },
+      { label: "Software install request — Slack", detail: "TCK-88429 · T2", status: "Auto-resolved" },
+    ],
+    warning: "Tier 3 bulk-impact and domain changes always pause at a Systems Manager approval gate.",
+    heading: "The economics, from a live service desk",
+    lead: "Measured over six months at a 200-employee IT and BPO firm. The IT manager signs off each ticket category's automation tier before go-live.",
+    cards: [
+      { title: "Scoped execution", text: "AWS Systems Manager runs remediation with rollback. Active Directory uses a service account limited to specific cmdlets, federated via SAML; no domain-admin login is shared." },
+      { title: "Grounded and private", text: "Classification is checked against retrieved playbooks before execution. Bedrock Guardrails redact PII before logging, and VPC PrivateLink keeps traffic off the public internet." },
+    ],
+    capabilities: [
+      "The reference deployment scored 47 ticket categories; its top 10 categories covered 82% of volume.",
+      "Tier 1 is autonomous and reversible, Tier 2 notifies the IT lead, and Tier 3 pauses for approval. The IT manager signs off the tiering category by category.",
+      "Every run's inputs, outputs, and status go to an immutable DynamoDB and CloudTrail log. Monthly ticket reviews, including all low-confidence tickets, drive tuning.",
+    ],
+    cta: { title: "Let AI close the routine tickets. Let your team own what's risky.", text: "Tell us your ticket mix and which ITSM you run — we'll walk through exactly which categories would be Tier 1, 2, or 3 for your desk." },
+    pipeline: ["Classify", "Retrieve playbook", "Execute runbook", "Validate tier gate", "Close or escalate"],
+    markets: [
+      { name: "Singapore / SEA", region: "ap-southeast-1", compliance: "PDPA (SG, MY)", currency: "SGD", description: "Portfolio-consistent beachhead. Dense mid-market IT and regional shared-services-desk buyers, English-first sales motion." },
+      { name: "ANZ", region: "ap-southeast-2", compliance: "Privacy Act 1988 / APPs", currency: "AUD", description: "Highest labor cost in APJ for L1 support headcount — the biggest per-FTE savings story — with strong AWS and ServiceNow penetration." },
+      { name: "India", region: "ap-south-1", compliance: "DPDP Act 2023", currency: "INR / USD", description: "Reference market — the anchor case is India-native. Dense IT/BPO/GBS service-desk supply and a strong cost-out culture." },
+    ],
+    economics: {
+      columns: ["Metric", "Manual L1 desk", "OpsIQ", "Delta"],
+      rows: [
+        ["Monthly run-rate", "SGD $11,825", "SGD $1,790", "−85%"],
+        ["Auto-resolution", "0%", "78% at month 6", "↑ from 71%"],
+        ["Classification accuracy", "—", "91% after tuning", "↑ from 86%"],
+        ["Tier-3 false positives", "—", "1.8% at month 6", "↓ from 12%"],
+      ],
+      note: "Reference deployment: IT & BPO firm, 200 employees, India, ap-south-1, 6 months live. Measured in INR (₹7,45,000 → ₹1,12,650/month) and converted at an indicative SGD→INR rate of ~63. Submitted as an AWS AI Competency case study — reproduced as submitted, not a projection.",
+    },
+  },
+  payiq: {
+    feed: "Posting feed",
+    rows: [
+      { label: "Straits Logistics Pte Ltd", detail: "INV-22841 · SGD 1,240.00", status: "Posted" },
+      { label: "Golden Harvest Traders", detail: "INV-22842 · SGD 386.50", status: "Posted" },
+      { label: "Meridian Supplies Co.", detail: "INV-22843 · SGD 2,910.00", status: "Held", held: true },
+      { label: "Pacific Rim Distributors", detail: "INV-22844 · SGD 764.20", status: "Posted" },
+    ],
+    warning: "Changed vendor bank details trigger a human review, regardless of confidence score.",
+    heading: "Built around the ledger you already run",
+    lead: "The connector and market angle change. The fraud stop does not.",
+    cards: [
+      { title: "ANZ · Xero", text: "Highest labor cost of the three markets means the strongest per-invoice time savings — and business email compromise is front-page news here, so the fraud stop leads the conversation." },
+      { title: "Singapore / SEA · Xero + Zoho", text: "Xero for Singapore entities, Zoho across the wider region. Built for lean finance teams who need to grow headcount-free, hosted and compliant in-region." },
+      { title: "India · Zoho Books", text: "Zoho's home turf — and the connector's deepest integration, taking invoices all the way from capture through posting to bank reconciliation." },
+    ],
+    capabilities: [
+      "Line items, taxes, and PO references are extracted and matched; new or unrecognized vendors always enter an onboarding review.",
+      "Reviewer response time is agreed at onboarding so approvals do not sit past an invoice due date.",
+      "PayIQ runs inside your AWS account. AI spend is capped in the stack, invoices queue if AI is unavailable, and wrongly posted invoices have a reversal workflow.",
+      "A bank-detail change is verified out of band and the guard cannot be configured off.",
+    ],
+    cta: { title: "Let your team review exceptions, not type invoices.", text: "Tell us which ERP you run and what your invoice volume looks like — we'll walk you through exactly how PayIQ would handle it." },
+    pipeline: ["Ingest", "Extract and score", "Guard vendor details", "Post and reconcile"],
+  },
+};
+
+const detail = details[slug];
+---
+
+{detail && part === "feed" && <div class:list={["product-feed", slug]}>
+  <div class="feed-head"><h2>{detail.feed}</h2><span>● Example</span></div>
+  <ul>{detail.rows.map((row) => <><li class:list={["feed-row", { held: row.held }]}><span class="feed-icon" aria-hidden="true">{row.held ? "⚠️" : slug === "cxiq" ? "💬" : slug === "opsiq" ? "🎫" : "📄"}</span><div class="feed-body"><p>{row.label}</p><small>{row.detail}</small></div><strong>{row.status}</strong></li>{row.held && <li class="feed-note">{detail.warning}</li>}</>)}</ul>
+</div>}
+{detail && part === "more" && <>
+  <section class="py-12"><div class="container-x"><p class="text-xs font-semibold uppercase tracking-widest text-primary">Where it fits</p><h2 class="mt-3 text-3xl font-semibold tracking-tight">{detail.heading}</h2><p class="mt-3 max-w-3xl text-muted-foreground">{detail.lead}</p><div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{detail.cards.map((card) => <div class="rounded-2xl border border-border bg-background p-6"><h3 class="text-lg font-semibold">{card.title}</h3><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{card.text}</p></div>)}</div></div></section>
+  <section class="pb-12"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Deployment commitments</h2><ul class="mt-6 grid gap-3 md:grid-cols-2">{detail.capabilities.map((capability) => <li class="rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-muted-foreground">{capability}</li>)}</ul></div></section>
+  {detail.markets && <section class="py-12 bg-secondary/40"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Built region first, market by market</h2><div class="mt-6 grid gap-4 lg:grid-cols-3">{detail.markets.map((market) => <div class="rounded-2xl border border-border bg-background p-6"><h3 class="text-lg font-semibold">{market.name}</h3><p class="mt-2 text-sm text-muted-foreground">{market.description}</p><dl class="mt-5 space-y-2 border-t border-border pt-4 text-sm"><div class="flex justify-between gap-4"><dt>AWS region</dt><dd class="text-right font-medium">{market.region}</dd></div><div class="flex justify-between gap-4"><dt>Compliance</dt><dd class="text-right font-medium">{market.compliance}</dd></div><div class="flex justify-between gap-4"><dt>Currency</dt><dd class="text-right font-medium">{market.currency}</dd></div></dl></div>)}</div></div></section>}
+  {detail.economics && <section class="py-12 bg-secondary/40"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Measured results</h2><div class="mt-6 overflow-x-auto rounded-2xl border border-border bg-background"><table class="w-full min-w-[640px] text-left text-sm"><thead class="bg-secondary/60"><tr>{detail.economics.columns.map((column) => <th scope="col" class="px-4 py-3 font-semibold">{column}</th>)}</tr></thead><tbody class="divide-y divide-border">{detail.economics.rows.map((row) => <tr>{row.map((cell) => <td class="px-4 py-3">{cell}</td>)}</tr>)}</tbody></table></div><p class="mt-3 text-xs text-muted-foreground">{detail.economics.note}</p></div></section>}
+  <section class="py-12"><div class="container-x"><p class="text-xs font-semibold uppercase tracking-widest text-primary">The architecture</p><h2 class="mt-3 text-3xl font-semibold tracking-tight">A defined path from intake to decision</h2><ol class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{detail.pipeline.map((step, index) => <li class="rounded-xl border border-border bg-secondary/40 p-4"><span class="text-xs font-semibold text-primary">{String(index + 1).padStart(2, "0")}</span><p class="mt-2 font-medium">{step}</p></li>)}</ol></div></section>
+</>}
+{detail && part === "cta" && <section class="py-10 lg:py-14"><div class="container-x"><div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16"><div class="absolute inset-0 surface-mesh opacity-60" /><div class="relative grid gap-8 md:grid-cols-5 md:items-center"><div class="md:col-span-3"><h2 class="text-balance text-4xl font-semibold leading-tight">{detail.cta.title}</h2><p class="mt-4 max-w-xl leading-relaxed text-white/75">{detail.cta.text}</p></div><div class="md:col-span-2 md:text-right"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Contact Us <i data-lucide="arrow-right" /></a></div></div></div></div></section>}
+
+<style>
+  .product-feed { padding: 6px; border: 1px solid var(--product-border); border-radius: 20px; background: white; box-shadow: 0 24px 56px rgba(13,27,64,.12); }
+  .feed-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; }
+  .feed-head h2 { color: #8C98A9; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .feed-head span { color: var(--product-deep); font-size: .68rem; font-weight: 700; }
+  .product-feed ul { margin: 0; padding: 0; list-style: none; }
+  .feed-row { display: flex; align-items: center; gap: 12px; margin: 0 8px 6px; padding: 12px 14px; border: 1px solid var(--product-border); border-radius: 12px; background: var(--product-surface); }
+  .feed-row.held { border-color: #FDE1A8; background: #FEF3C7; }
+  .feed-icon { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border: 1px solid var(--product-border); border-radius: 9px; background: #fff; font-size: .85rem; }
+  .feed-body { flex: 1; min-width: 0; }
+  .feed-body p { margin: 0; color: #0D1B40; font-size: .8rem; font-weight: 600; line-height: 1.4; }
+  .feed-body small { display: block; margin-top: 3px; color: #8C98A9; font-size: .64rem; }
+  .feed-row strong { flex: 0 0 auto; padding: 4px 9px; border-radius: 6px; background: #E7F6EC; color: #15803D; font-size: .6rem; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; }
+  .feed-row.held strong { background: #fff8e8; color: #B45309; }
+  .feed-note { margin: 0 8px 8px; padding: 10px 14px; border: 1px dashed #FDE1A8; border-radius: 10px; background: #FFF8E8; color: #8A5A0A; font-size: .72rem; line-height: 1.5; }
+  .payiq .feed-row.held { border-color: #F8C9C9; background: #FEE2E2; }
+  .payiq .feed-row.held strong { background: #fff; color: #DC2626; }
+  .payiq .feed-note { border-color: #F8C9C9; background: #FDF0F0; color: #8A1F1F; }
+  @media (max-width: 600px) { .feed-row { flex-wrap: wrap; } .feed-row strong { margin-left: 44px; } }
+</style>

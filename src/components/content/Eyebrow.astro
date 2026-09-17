@@ -1,0 +1,11 @@
+---
+// Small pill label used at the top of most detail-page sections.
+// Matches the `eyebrow()` helper in assets/js/site.js exactly.
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
+  <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />{text}
+</div>

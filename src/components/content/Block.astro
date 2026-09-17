@@ -1,0 +1,18 @@
+---
+// Dispatches a single content block to its renderer, by `type`.
+// This replaces the inline `renderBlock()` closure inside
+// assets/js/site.js `pageBlogPost()` — one dispatcher for whichever page
+// template (Phase 3/4) needs to render a blog post's `body[]`.
+import type { ContentBlock } from "../../content.config";
+import Paragraph from "./Paragraph.astro";
+import Heading from "./Heading.astro";
+import List from "./List.astro";
+
+interface Props {
+  block: ContentBlock;
+}
+const { block } = Astro.props;
+---
+{block.type === "p" && <Paragraph text={block.text} />}
+{block.type === "h" && <Heading text={block.text} />}
+{block.type === "ul" && <List items={block.items} />}

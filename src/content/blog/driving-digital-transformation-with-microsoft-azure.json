@@ -1,0 +1,52 @@
+{
+  "category": "Cloud",
+  "title": "Driving digital transformation with Microsoft Azure",
+  "excerpt": "When Azure is the right choice — and how to get more out of it than a hosting bill.",
+  "date": "Sep 1, 2025",
+  "read": "6 min read",
+  "author": "Algorims Cloud Practice",
+  "art": "azure",
+  "body": [
+    {
+      "type": "p",
+      "text": "Plenty has been written about cloud migration. Far less is written honestly about cloud <em>fit</em>. Azure isn't the right answer for every workload — and pretending otherwise is how organisations end up paying twice for infrastructure that doesn't quite work for them."
+    },
+    {
+      "type": "h",
+      "text": "When Azure wins"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Deep Microsoft 365 and Entra ID footprint, where identity and productivity integration is a real advantage.",
+        "Regulated industries with sovereignty requirements that map cleanly to Azure's regional and government clouds.",
+        "Heavy reliance on SQL Server, .NET, or Dynamics, where the operational story on Azure is genuinely better.",
+        "Hybrid scenarios where Azure Arc gives you a coherent control plane across on-prem, cloud, and edge."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "The Hybrid Benefit nobody calculates properly"
+    },
+    {
+      "type": "p",
+      "text": "Azure Hybrid Benefit can cut compute costs significantly when existing Windows Server and SQL Server licences are reused — but most teams either forget about it or apply it haphazardly. A proper licence audit, mapped to actual workload placement, is one of the highest-ROI exercises in any Azure engagement we've run."
+    },
+    {
+      "type": "h",
+      "text": "Where AI sits in the Azure story"
+    },
+    {
+      "type": "p",
+      "text": "Azure OpenAI Service, AI Foundry, and the broader Cognitive Services portfolio give Azure-native organisations a credible path to production AI without leaving the platform. For teams already running their data estate on Synapse or Fabric, the integration story is genuinely tight — fewer pipes to build, fewer surfaces to secure."
+    },
+    {
+      "type": "h",
+      "text": "What we actually do"
+    },
+    {
+      "type": "p",
+      "text": "Landing zone design, identity and governance modernisation, workload assessment, FinOps, and AI enablement on Azure. Always honest about whether Azure is the right tool for the specific job — and willing to say when it isn't."
+    }
+  ]
+}

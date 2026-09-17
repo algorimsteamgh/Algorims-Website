@@ -1,0 +1,123 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Agentic AI · Quick Service Restaurants",
+  "title": "Turning 490K+ transactions of dark data into real-time intelligence for a Singapore QSR chain",
+  "subtitle": "From manual labour reports to AI-powered conversational analytics — designed, built, and deployed in four weeks.",
+  "glyph": "utensils-crossed",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Food & Beverage · QSR"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore"
+    },
+    {
+      "label": "Engagement",
+      "value": "4 weeks to production"
+    },
+    {
+      "label": "Platform",
+      "value": "Serverless AWS + Amazon Q"
+    }
+  ],
+  "intro": [
+    "A leading QSR operator managing multiple outlets across Singapore was making critical workforce decisions in the dark. Labour analytics relied entirely on manual reporting and fragmented data sources, leaving managers unable to answer the questions that mattered most.",
+    "The answer wasn't more reports. It was real-time, AI-powered intelligence that anyone in the business could access — instantly, in plain English, without needing a data analyst."
+  ],
+  "challenge": {
+    "lead": "Workforce decisions were being made without the data to support them — and the existing reporting stack couldn't close the gap:",
+    "items": [
+      "Labour analytics relied entirely on manual reporting and fragmented, disconnected data sources.",
+      "Managers couldn't see which time periods were genuinely productive versus loss-making.",
+      "Overstaffing and understaffing went undetected across outlets until after the fact.",
+      "There was no visibility into how labour cost was impacting outlet-level performance."
+    ]
+  },
+  "solutionTitle": "What Algorims built",
+  "solutionLead": "A Conversational Analytics Platform on AWS — a fully serverless, cloud-native intelligence system that transforms raw operational data into actionable insights through natural language, engineered across six layers.",
+  "solution": [
+    {
+      "h": "Data ingestion & storage",
+      "p": "Raw labour and transaction data ingested and structured in Amazon S3 — creating a single, reliable source of truth across all outlets."
+    },
+    {
+      "h": "Data engineering pipeline",
+      "p": "AWS Glue crawlers and ETL processes clean, transform, and optimise raw data for high-speed analytical querying at enterprise scale."
+    },
+    {
+      "h": "Analytics layer",
+      "p": "Amazon Athena computes critical business KPIs — TCPMH (transactions per crew man-hour), SPMH (sales per man-hour), and labour cost % — all validated against real business logic."
+    },
+    {
+      "h": "AI-powered natural language interface",
+      "p": "Amazon Q lets business users ask workforce questions in plain English and instantly receive AI-generated charts, insights, and contextual follow-up recommendations. No SQL, no analysts, no waiting."
+    },
+    {
+      "h": "Real-time dashboards",
+      "p": "AWS QuickSight delivers interactive, real-time visualisations — KPI monitoring across time periods, zones, and operational areas — giving every manager complete visibility at a glance."
+    },
+    {
+      "h": "Enterprise security & governance",
+      "p": "Full encryption, IAM role-based access control, and comprehensive audit logging — built in from day one, not retrofitted after launch."
+    }
+  ],
+  "tech": [
+    "Amazon S3",
+    "AWS Glue",
+    "Amazon Athena",
+    "Amazon Q",
+    "AWS QuickSight",
+    "AWS IAM",
+    "AWS KMS"
+  ],
+  "architecture": {
+    "src": "/assets/case-studies/qsr-architecture.png",
+    "alt": "QSR conversational analytics architecture on AWS — S3, Glue, Athena, Amazon Q and QuickSight",
+    "caption": "Raw labour and transaction data flows from source systems into Amazon S3, is catalogued and transformed by AWS Glue, queried through Amazon Athena, and surfaced to business users through Amazon Q natural-language queries and QuickSight dashboards."
+  },
+  "results": [
+    "<strong>Instant decision-making</strong> — real-time workforce insights through natural language; decisions that took days now happen in seconds.",
+    "<strong>490K+ transactions</strong> across 13 months of operational data processed with complete visibility.",
+    "A previously invisible <strong>46% productivity gap</strong> between time periods uncovered — enabling targeted optimisation.",
+    "<strong>4 weeks</strong> from architecture to production — faster than any traditional analytics programme.",
+    "Managers now make <strong>proactive staffing decisions</strong> driven by AI, controlling labour cost across every outlet.",
+    "<strong>Data access democratised</strong> — non-technical users interrogate operational data freely, no SQL required."
+  ],
+  "metrics": [
+    {
+      "value": "490K+",
+      "label": "Transactions processed across 13 months of data"
+    },
+    {
+      "value": "46%",
+      "label": "Hidden productivity gap uncovered between time periods"
+    },
+    {
+      "value": "4 wks",
+      "label": "From architecture to production deployment"
+    },
+    {
+      "value": "✓",
+      "label": "Plain-English analytics via Amazon Q — no SQL, no analysts"
+    },
+    {
+      "value": "✓",
+      "label": "Fully serverless AWS architecture — scalable by design"
+    },
+    {
+      "value": "✓",
+      "label": "Data access democratised across the whole business"
+    }
+  ],
+  "related": [
+    "finance-document-automation",
+    "enterprise-knowledge-mining"
+  ]
+}

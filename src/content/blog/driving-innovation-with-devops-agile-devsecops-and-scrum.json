@@ -1,0 +1,60 @@
+{
+  "category": "DevOps",
+  "title": "You've done DevOps. So why are you still shipping slowly?",
+  "excerpt": "The labels don't matter. The operating model does. A practical view on what actually ships software faster — and why most teams still get it wrong.",
+  "date": "Sep 1, 2025",
+  "read": "7 min read",
+  "author": "Algorims Platform Practice",
+  "art": "devops",
+  "body": [
+    {
+      "type": "p",
+      "text": "Every organisation we meet has 'done DevOps'. They have pipelines. They have stand-ups. They have a Jira board with a velocity metric. And they still ship slowly. The methodology isn't the problem — the operating model around it is."
+    },
+    {
+      "type": "h",
+      "text": "Agile is a behaviour, not a ceremony"
+    },
+    {
+      "type": "p",
+      "text": "Scrum gives you a vocabulary. It does not give you the cultural permission to ship a half-built thing, learn, and iterate. That permission has to come from leadership — and without it, the rituals are theatre. The teams that move fastest aren't the ones with the cleanest backlog. They're the ones who have <em>internalised</em> small batches, fast feedback, and a tolerance for being wrong on the way to being right."
+    },
+    {
+      "type": "h",
+      "text": "DevOps is mostly an empathy problem"
+    },
+    {
+      "type": "p",
+      "text": "The original insight of DevOps was simple: developers and operators were optimising for different things and blaming each other for the gap. Two decades later, we've automated a lot of that gap away — but the underlying issue, that teams optimise locally instead of for the whole flow, is still alive and well. Platform engineering helps. Golden paths help. Shared on-call helps most."
+    },
+    {
+      "type": "h",
+      "text": "DevSecOps: shifting left, properly"
+    },
+    {
+      "type": "p",
+      "text": "Security as a checkpoint at the end of the SDLC is dead and should be. Security as a continuous property — SAST, DAST, SBOMs, signed artefacts, policy-as-code, runtime detection — is what 'shift left' actually means. Done well, it makes engineers faster, not slower."
+    },
+    {
+      "type": "h",
+      "text": "What we build"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "Internal developer platforms that engineers actually adopt.",
+        "CI/CD pipelines with security and compliance gates that don't block flow.",
+        "SRE practice — SLOs, error budgets, blameless postmortems — installed as muscle memory, not posters on a wall.",
+        "Agentic automation in the operational layer, so the platform team scales without growing linearly with the org."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "The bar"
+    },
+    {
+      "type": "p",
+      "text": "If your release cadence isn't measurably faster six months in, the engagement failed. That's the only metric that matters."
+    }
+  ]
+}

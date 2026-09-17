@@ -1,0 +1,18 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DetailPage from "../../components/content/DetailPage.astro";
+
+export async function getStaticPaths() {
+  return (await getCollection("solutions")).map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<"solutions"> };
+---
+
+<BaseLayout title={`${entry.data.title} — Algorims`} description={entry.data.subtitle}>
+  <DetailPage entry={entry} />
+</BaseLayout>

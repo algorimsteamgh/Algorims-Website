@@ -1,0 +1,69 @@
+---
+// Renders `flow: { title, desc, stages[], footer }` — the "How it fits"
+// diagram section of renderDetailPage() in assets/js/site.js. Only DocIQ
+// (products/dociq) carries this field in the legacy data.
+//
+// NOTE (ported as-is, not fixed): the legacy renderer hardcodes the two
+// connector captions ("Document Submitted" / "Auto-Approved or Routed to
+// Reviewer") to stage indices 0 and 1 regardless of what `stages[]` actually
+// contains, and the second connector's positioning uses an inline
+// `left: 350px` magic number instead of the same `-right-20` offset as the
+// first. Both quirks are reproduced verbatim for visual parity; a real fix
+// would make the connector caption part of the stage data itself.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Stage {
+  icon: string;
+  title: string;
+  subtitle: string;
+  items?: string[];
+}
+interface Props {
+  title: string;
+  desc: string;
+  stages: Stage[];
+  footer?: string;
+}
+const { title, desc, stages, footer } = Astro.props;
+---
+<Eyebrow text="How it fits" />
+<h2 class="mt-6 text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl text-balance">{title}</h2>
+<p class="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">{desc}</p>
+<div
+  class="mt-10 rounded-3xl p-8 md:p-10"
+  style="background:linear-gradient(135deg, hsl(220 30% 10%), hsl(220 40% 8%));border:1px solid hsl(220 50% 25%)"
+>
+  <div class="grid gap-20 md:grid-cols-3 md:gap-32">
+    {stages.map((stage, i) => (
+      <div class="relative">
+        <div class="rounded-2xl p-6" style="background:hsl(220 30% 15%);border:1px solid hsl(220 40% 30%)">
+          <div class="grid h-12 w-12 place-items-center rounded-xl mb-4" style="background:hsl(220 60% 40%);color:white">
+            <i data-lucide={stage.icon} class="!w-6 !h-6" />
+          </div>
+          <h3 class="text-lg font-semibold text-white">{stage.title}</h3>
+          <p class="mt-2 text-sm text-blue-200">{stage.subtitle}</p>
+          {stage.items && (
+            <ul class="mt-4 space-y-2">
+              {stage.items.map((item) => (
+                <li class="text-sm text-white/80 border-t border-blue-500/20 pt-2 first:border-0 first:pt-0">{item}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        {i === 0 && (
+          <div class="hidden md:absolute md:flex md:-right-20 md:top-1/2 md:-translate-y-1/2 z-10 flex-col items-center gap-1">
+            <div class="text-xs font-medium text-center whitespace-nowrap" style="color:hsl(220 60% 55%)">Document<br />Submitted</div>
+            <div style="color:hsl(220 60% 55%)"><i data-lucide="arrow-right" class="!w-8 !h-8" /></div>
+          </div>
+        )}
+        {i === 1 && (
+          <div class="hidden md:absolute md:flex md:-right-20 md:top-1/2 md:-translate-y-1/2 z-10 flex-col items-center gap-2" style="left: 350px">
+            <div class="text-xs font-medium text-center whitespace-nowrap" style="color:hsl(220 60% 55%)">Auto-Approved<br />or Routed to<br />Reviewer</div>
+            <div style="color:hsl(220 60% 55%)"><i data-lucide="arrow-right" class="!w-8 !h-8" /></div>
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+  {footer && <p class="mt-8 text-center text-sm text-white/70">{footer}</p>}
+</div>

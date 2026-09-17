@@ -1,0 +1,53 @@
+{
+  "category": "Development",
+  "title": "Typed everything: our bet on strict types across the stack",
+  "excerpt": "Why we made strict typing non-negotiable — and how it pays off across infrastructure, agents, and APIs.",
+  "date": "",
+  "read": "6 min read",
+  "author": "Algorims Engineering",
+  "art": "code",
+  "body": [
+    {
+      "type": "p",
+      "text": "Type systems are a religious topic, and we're not here to convert anyone. But after a decade of building production software — and now agentic AI systems where any inconsistency cascades quickly — we've settled on a clear default: types everywhere, strict, and treated as part of the API contract."
+    },
+    {
+      "type": "h",
+      "text": "Where we lean in"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>TypeScript strict mode</strong> on every frontend and Node service. <code>noImplicitAny</code>, <code>strictNullChecks</code>, the works.",
+        "<strong>Pydantic / typed Python</strong> on every service that talks to a model. Structured outputs aren't a nice-to-have; they're the interface.",
+        "<strong>OpenAPI / gRPC contracts</strong> as the single source of truth, with client SDKs generated, not handwritten.",
+        "<strong>Infrastructure-as-code in a real language</strong> (CDK, Pulumi) so the type system covers the cloud, not just the app.",
+        "<strong>Schema-validated events</strong> end-to-end — at the producer, on the wire, and at the consumer."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "What it actually buys you"
+    },
+    {
+      "type": "p",
+      "text": "Three things, mainly. First, fewer 4am pages: most of the production incidents that used to be data-shape mismatches are now compile-time errors. Second, faster onboarding: a new engineer can refactor confidently because the compiler tells them what they're breaking. Third — and this is the underrated one — better AI agents: when a model's tool calls are typed, you can validate, retry, and recover; when they're stringly-typed JSON, you're guessing."
+    },
+    {
+      "type": "h",
+      "text": "Where it hurts"
+    },
+    {
+      "type": "p",
+      "text": "Types add friction in two places: at the boundary with untyped external systems, and at the very start of a prototype when you're still figuring out the shape. We pay both costs deliberately. The boundary tax is one-time and worth it. The prototype tax is small enough that we'd rather start typed and stay typed than retrofit it later."
+    },
+    {
+      "type": "h",
+      "text": "The bigger argument"
+    },
+    {
+      "type": "p",
+      "text": "Strict types are a forcing function for thinking. You can't write the type if you can't name the thing. Naming the thing is most of the design. That sequence — name, type, implement — is responsible for more of our shipped quality than any single tool, framework, or methodology."
+    }
+  ]
+}

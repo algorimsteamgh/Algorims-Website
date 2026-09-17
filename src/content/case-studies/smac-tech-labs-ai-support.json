@@ -1,0 +1,98 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Agentic AI · Customer Support",
+  "title": "Built the AI-Powered Support Platform Running SMAC Tech Labs' Own Customer Service",
+  "subtitle": "Algorims designed and built SMAC Support — a Bedrock Claude-powered AI support platform that answers customer questions from SMAC Tech Labs' own knowledge base, with a seamless handoff to a human agent when it can't help.",
+  "glyph": "message-circle",
+  "accent": "hsl(265 85% 58%)",
+  "clientLogo": {
+    "src": "/assets/case-studies/clients/smac-tech-labs-logo.png",
+    "alt": "SMAC Tech Labs",
+    "name": "SMAC Tech Labs"
+  },
+  "meta": [
+    {
+      "label": "Client",
+      "value": "SMAC Tech Labs"
+    },
+    {
+      "label": "Industry",
+      "value": "Digital Engineering & IT Services"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Bedrock (Claude)"
+    },
+    {
+      "label": "Status",
+      "value": "Live in production"
+    }
+  ],
+  "intro": [
+    "SMAC Tech Labs — a digital engineering company delivering cloud, mobile, web, and AI/ML services out of Singapore and India — needed a support experience for its own customers that matched the AI-native systems it builds for its clients.",
+    "Algorims designed and built SMAC Support end-to-end: a dedicated AI support platform where an AI agent answers customer questions directly from SMAC Tech Labs' own knowledge base, and hands off to a human agent the moment it can't help."
+  ],
+  "challenge": {
+    "lead": "SMAC Tech Labs needed a support channel that could scale without scaling headcount, while staying grounded in accurate, SMAC-specific answers:",
+    "items": [
+      "Customer questions needed answers grounded in SMAC Tech Labs' own knowledge base — not generic AI responses that risk being wrong.",
+      "Support needed to be available continuously, without a growing team watching every channel manually.",
+      "When the AI couldn't help, the handoff to a human agent needed to be seamless, with conversation history carried over rather than lost.",
+      "The platform needed to be built specifically around SMAC Tech Labs' own workflow, not a generic third-party chatbot bolted on top."
+    ]
+  },
+  "solutionTitle": "What Algorims built",
+  "solutionLead": "SMAC Support — a purpose-built AI support platform on Amazon Bedrock, combining a knowledge-grounded AI agent, an embeddable chat widget, and a full agent dashboard.",
+  "solution": [
+    {
+      "h": "Knowledge-grounded AI agent",
+      "p": "An AI agent built on Amazon Bedrock (Claude) answers customer questions from SMAC Tech Labs' own knowledge base rather than general training data, so answers stay accurate and on-brand."
+    },
+    {
+      "h": "Embeddable web chat widget",
+      "p": "A lightweight, embeddable chat widget puts the AI agent directly on SMAC Tech Labs' site, answering questions in real time without a support agent needing to be online."
+    },
+    {
+      "h": "Seamless human handoff",
+      "p": "When a question needs a human, the conversation escalates to SMAC Tech Labs' support team with the full history intact — customers never have to repeat themselves."
+    },
+    {
+      "h": "Agent dashboard",
+      "p": "A dedicated dashboard gives SMAC Tech Labs' team a live inbox, ticketing, and knowledge-base management, built specifically around how their support team works."
+    }
+  ],
+  "tech": [
+    "Amazon Bedrock",
+    "Claude (Anthropic)",
+    "NestJS",
+    "Next.js",
+    "PostgreSQL"
+  ],
+  "results": [
+    "<strong>Live in production</strong> at SMAC Tech Labs' support platform, handling real customer conversations today.",
+    "<strong>AI-first, human-backed</strong> — questions are answered instantly by the AI agent where possible, with a clean handoff to a human for anything it can't resolve.",
+    "<strong>Purpose-built for SMAC Tech Labs</strong> — a dedicated platform reflecting their own knowledge base and support workflow, not a shared generic tool."
+  ],
+  "metrics": [
+    {
+      "value": "✓",
+      "label": "Live in production, handling real customer conversations"
+    },
+    {
+      "value": "✓",
+      "label": "AI agent grounded in SMAC Tech Labs' own knowledge base"
+    },
+    {
+      "value": "✓",
+      "label": "Seamless AI-to-human handoff with full conversation context"
+    }
+  ],
+  "related": [
+    "enterprise-knowledge-mining",
+    "autonomous-customer-operations"
+  ]
+}

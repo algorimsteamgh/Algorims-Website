@@ -1,0 +1,60 @@
+{
+  "category": "Cloud",
+  "title": "Your cloud migration succeeded. So why isn't it paying off?",
+  "excerpt": "A pragmatic look at why AWS keeps winning the enterprise — and how to extract the competitive advantage most migrations leave on the table.",
+  "date": "Aug 29, 2025",
+  "read": "7 min read",
+  "author": "Algorims Cloud Practice",
+  "art": "aws",
+  "body": [
+    {
+      "type": "p",
+      "text": "Cloud is no longer a destination. It's the substrate. The interesting question isn't whether to move to AWS — most of our clients are years past that decision — it's whether the move is actually translating into competitive advantage. Too often it isn't, and the reason is almost never the technology."
+    },
+    {
+      "type": "h",
+      "text": "Why AWS, still"
+    },
+    {
+      "type": "p",
+      "text": "AWS continues to lead for a reason that's easy to forget: breadth. From core compute to purpose-built services for analytics, machine learning, document AI, and now agentic workloads, the platform gives engineering teams a coherent set of primitives without forcing them to assemble it themselves. For an enterprise running serious AI, that coherence compounds."
+    },
+    {
+      "type": "h",
+      "text": "What good cloud consulting actually delivers"
+    },
+    {
+      "type": "ul",
+      "items": [
+        "<strong>An honest assessment.</strong> A workload-by-workload view of what should move, what should be re-architected, and what should stay put.",
+        "<strong>A landing zone that ages well.</strong> Multi-account structure, identity, networking, and guardrails designed for the next five years — not the next quarter.",
+        "<strong>Cost discipline from day one.</strong> Tagging, budgets, reservations, and a FinOps cadence that prevents the bill from becoming a surprise.",
+        "<strong>Security as a property, not a project.</strong> Encryption, least-privilege, secret rotation, and audit baked in — visible to compliance without slowing engineering."
+      ]
+    },
+    {
+      "type": "h",
+      "text": "The mistake most teams make"
+    },
+    {
+      "type": "p",
+      "text": "Treating the cloud as a hosting upgrade. Lift-and-shift gets you off the old data centre, but it doesn't give you elasticity, doesn't unlock managed services, and rarely improves margin. The value compounds when you re-platform — letting AWS run the things that aren't your differentiator, so your team can spend their time on the things that are."
+    },
+    {
+      "type": "h",
+      "text": "AI-first changes the equation"
+    },
+    {
+      "type": "p",
+      "text": "Once you're building agentic systems on top, the architectural choices get sharper. Bedrock, SageMaker, Kendra, S3 Vectors, Textract — these aren't standalone services, they're a stack. Designing for that stack from the start saves a re-architecture two years in."
+    },
+    {
+      "type": "h",
+      "text": "Our take"
+    },
+    {
+      "type": "p",
+      "text": "Good cloud consulting is a forcing function. It surfaces decisions that were being avoided, brings cost into the open, and leaves your team materially more capable than they were before we arrived. As an AWS Advanced Consulting Partner, that's the bar we hold ourselves to — and it's how we measure the work."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+---
+// Renders a `{ type: "p" }` block from a blog post's `body[]` (see
+// src/content.config.ts `contentBlockSchema`). Matches the markup emitted by
+// legacy assets/js/site.js `pageBlogPost()`'s `renderBlock()` for `type === "p"`.
+// `text` carries trusted, hand-authored inline HTML (<strong>, <em>) from
+// src/content/blog/*.json — same trust boundary as the legacy template string.
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<p class="mt-5 text-[17px] leading-[1.75] text-foreground/85" set:html={text} />

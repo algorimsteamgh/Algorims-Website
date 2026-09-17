@@ -1,0 +1,123 @@
+{
+  "source": {
+    "href": "/products",
+    "label": "Products"
+  },
+  "kind": "Product",
+  "tag": "Conversational Admin Automation · WhatsApp & Email",
+  "title": "Every conversation handled. Every dollar approved.",
+  "subtitle": "An AI layer on top of the WhatsApp and email you already use — no migration — that answers routine questions automatically, and always puts a human in the loop the moment a conversation touches money.",
+  "glyph": "message-square-text",
+  "accent": "hsl(345 60% 48%)",
+  "meta": [
+    {
+      "label": "Built for",
+      "value": "Community & association · SME commerce · Enterprise contact center"
+    },
+    {
+      "label": "Region",
+      "value": "APJ Commercial — Singapore/SEA · India · ANZ"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Bedrock (Claude)"
+    },
+    {
+      "label": "Onboarding",
+      "value": "2–4 weeks for the core build"
+    }
+  ],
+  "intro": [
+    "Your team fields the same questions over and over — RSVPs, order status, opening hours, fee reminders — on WhatsApp and email, one conversation at a time. The obvious fix is a chatbot. The trouble is most chatbots answer everything with the same confidence, whether they actually know or not.",
+    "That's fine for \"what time do you open.\" It's not fine for \"can I get a refund\" or \"waive my late fee.\" The moment a conversation touches money, a wrong automated reply isn't a minor bug — it's a trust event with a real member, customer, or resident."
+  ],
+  "flow": {
+    "title": "One layer between your conversations and your systems",
+    "desc": "CXIQ works inside WhatsApp and email without replacing your CRM. Money actions follow an auditable path to a human.",
+    "stages": [
+      { "icon": "messages-square", "title": "Customers & Conversations", "subtitle": "Wherever a message arrives", "items": ["WhatsApp", "Email", "Web chat"] },
+      { "icon": "message-square-text", "title": "Algorims CXIQ", "subtitle": "Amazon Bedrock · Lex v2 · Amazon Connect", "items": ["Understand", "Approve", "Respond", "Escalate to voice"] },
+      { "icon": "database", "title": "CRM, Voice & Audit Trail", "subtitle": "Where the record lands", "items": ["CRM lookup", "Amazon Connect handoff", "Append-only audit log"] }
+    ],
+    "footer": "Every step is scoped, logged, and reversible. Voice escalations carry the full conversation context."
+  },
+  "challenge": {
+    "lead": "Generic chatbots answer confidently. That's the problem.",
+    "items": [
+      "Repeat questions — RSVPs, order status, hours, fee reminders — consume hours of staff time on WhatsApp and email every week.",
+      "A wrong automated reply is fine for routine questions and dangerous the moment it touches a refund or a fee waiver.",
+      "Without a defined approval path, automation itself becomes the thing that costs a community org or SME real trust — and real money."
+    ]
+  },
+  "solutionLead": "Most conversations resolve instantly. The moment money is involved, CXIQ deliberately slows down.",
+  "solution": [
+    {
+      "h": "Message arrives on WhatsApp or email",
+      "p": "No new app for your customer or member to install — CXIQ works inside the channels already in use."
+    },
+    {
+      "h": "Bedrock Claude extracts intent",
+      "p": "Matched against a per-intent, confidence-scored FAQ knowledge base — no ML training pipeline to maintain."
+    },
+    {
+      "h": "High confidence, no money involved",
+      "p": "Order status, hours, bookings, and general questions are answered automatically and logged to an append-only audit trail."
+    },
+    {
+      "h": "Money or account action detected",
+      "p": "The conversation always routes to a human for approval — a rule that never bends until a client explicitly promotes it to auto-run."
+    }
+  ],
+  "awsLead": "Understand what's being asked. Approve what involves money. Connect to the channels you run. Audit everything, always.",
+  "aws": [
+    {
+      "name": "Amazon Bedrock (Claude)",
+      "desc": "Intent extraction against a confidence-scored FAQ knowledge base — no custom ML training pipeline."
+    },
+    {
+      "name": "Config-not-code rules engine",
+      "desc": "Your team edits what's automated without engineering tickets."
+    },
+    {
+      "name": "Amazon Connect",
+      "desc": "Voice escalation for complex queries, with full conversational context carried over."
+    }
+  ],
+  "metrics": [
+    {
+      "value": "10–15 hrs/wk",
+      "label": "Admin time recovered — proven community/association case"
+    },
+    {
+      "value": "100%",
+      "label": "Money actions human-approved until explicitly promoted"
+    },
+    {
+      "value": "No migration",
+      "label": "Runs on the WhatsApp and email you already use"
+    },
+    {
+      "value": "2–4 wks",
+      "label": "Typical onboarding for the core build"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does CXIQ ever auto-approve a money action?",
+      "a": "No. Refunds, fee waivers, and other money actions are always routed to a human, until a client explicitly promotes a specific rule to auto-run."
+    },
+    {
+      "q": "Do customers need to install a new app?",
+      "a": "No. CXIQ works inside the WhatsApp and email channels already in use — there's no migration."
+    },
+    {
+      "q": "Who is CXIQ built for today?",
+      "a": "Community and association groups and SME commerce/service businesses are the proven and validating tracks; enterprise contact centers with an existing CRM are supported as a dedicated engagement."
+    }
+  ],
+  "related": [
+    "dociq",
+    "opsiq",
+    "payiq"
+  ]
+}

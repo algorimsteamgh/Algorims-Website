@@ -1,0 +1,252 @@
+{
+  "products": [
+    {
+      "id": "cxiq",
+      "name": "CXIQ",
+      "status": "Conversational admin automation · AWS-native",
+      "live": true,
+      "tagline": "Every conversation handled. Every dollar approved.",
+      "body": "An AI layer on top of the WhatsApp and email you already use — no migration — that answers routine questions automatically, and always puts a human in the loop the moment a conversation touches money.",
+      "glyph": "message-square-text",
+      "bgFrom": "hsl(345 60% 55% / 0.18)",
+      "bgTo": "hsl(345 40% 40% / 0.16)",
+      "accent": "hsl(345 60% 48%)",
+      "logoBg": "linear-gradient(135deg, hsl(345 60% 96%), hsl(345 40% 96%))",
+      "features": [
+        {
+          "icon": "message-square-text",
+          "label": "Conversational AI",
+          "desc": "Bedrock + Lex v2 answer routine questions on WhatsApp and email."
+        },
+        {
+          "icon": "lock",
+          "label": "Approval-gated",
+          "desc": "Every money action routes to a human before it moves."
+        },
+        {
+          "icon": "headset",
+          "label": "Voice escalation",
+          "desc": "Complex queries hand off to Amazon Connect with full context."
+        }
+      ],
+      "readMore": "/products/cxiq"
+    },
+    {
+      "id": "dociq",
+      "name": "DocIQ",
+      "status": "Intelligent document processing · AWS-native",
+      "live": true,
+      "tagline": "Documents in. Decisions out.",
+      "body": "A cost-tiered AI pipeline on AWS that replaces manual document keying with confidence-routed extraction — cutting document processing cost by up to 97%, hosted entirely in your own region.",
+      "glyph": "scan-text",
+      "bgFrom": "hsl(219 85% 60% / 0.18)",
+      "bgTo": "hsl(262 70% 58% / 0.16)",
+      "accent": "hsl(219 85% 55%)",
+      "logoBg": "linear-gradient(135deg, hsl(219 70% 96%), hsl(262 60% 96%))",
+      "features": [
+        {
+          "icon": "scan-text",
+          "label": "Textract → Bedrock",
+          "desc": "Cheapest tier that meets the accuracy bar, escalating only when needed."
+        },
+        {
+          "icon": "shield-check",
+          "label": "Human boundary",
+          "desc": "Below-threshold documents always route to a reviewer."
+        },
+        {
+          "icon": "webhook",
+          "label": "ERP delivery",
+          "desc": "HMAC-signed webhook into SAP, Oracle, or NetSuite."
+        }
+      ],
+      "readMore": "/products/dociq"
+    },
+    {
+      "id": "opsiq",
+      "name": "OpsIQ",
+      "status": "Autonomous L1 service desk · AWS-native",
+      "live": true,
+      "tagline": "Tickets in. Resolutions out.",
+      "body": "An agentic AIOps layer on Amazon Bedrock that classifies, resolves, and closes the majority of L1 service-desk tickets directly in your existing ITSM platform — with every Active Directory, firewall, or bulk-impact action gated behind a human decision.",
+      "glyph": "server-cog",
+      "bgFrom": "hsl(191 85% 40% / 0.18)",
+      "bgTo": "hsl(199 60% 25% / 0.16)",
+      "accent": "hsl(191 85% 35%)",
+      "logoBg": "linear-gradient(135deg, hsl(191 60% 95%), hsl(199 40% 95%))",
+      "features": [
+        {
+          "icon": "server-cog",
+          "label": "3-tier autonomy",
+          "desc": "Tier 1/2 resolve automatically; Tier 3 pauses for approval."
+        },
+        {
+          "icon": "key",
+          "label": "No domain-admin",
+          "desc": "A scoped service account only — least privilege throughout."
+        },
+        {
+          "icon": "rotate-ccw",
+          "label": "Auto-rollback",
+          "desc": "Multi-step runbooks roll back automatically on failure."
+        }
+      ],
+      "readMore": "/products/opsiq"
+    },
+    {
+      "id": "payiq",
+      "name": "PayIQ",
+      "status": "AI-native accounts payable · AWS-native",
+      "live": true,
+      "tagline": "Your invoices post themselves. Safely.",
+      "body": "AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.",
+      "glyph": "receipt",
+      "bgFrom": "hsl(158 75% 35% / 0.18)",
+      "bgTo": "hsl(158 50% 22% / 0.16)",
+      "accent": "hsl(158 75% 30%)",
+      "logoBg": "linear-gradient(135deg, hsl(158 60% 95%), hsl(158 40% 95%))",
+      "features": [
+        {
+          "icon": "receipt",
+          "label": "Touchless posting",
+          "desc": "Confident invoices post straight into Xero or Zoho Books."
+        },
+        {
+          "icon": "shield-alert",
+          "label": "Fraud hard-stop",
+          "desc": "A vendor bank-detail change always requires human sign-off."
+        },
+        {
+          "icon": "link-2",
+          "label": "Xero + Zoho",
+          "desc": "Both connectors live from day one."
+        }
+      ],
+      "readMore": "/products/payiq"
+    },
+    {
+      "id": "operations-automation",
+      "name": "GenAI Operations Automation",
+      "status": "Enterprise platform · AWS-native",
+      "live": true,
+      "tagline": "Less manual work. More finished work.",
+      "body": "An AWS-native platform that automates the end-to-end document lifecycle across finance, HR, and operations — built for Singapore with UEN validation, GST checks, and PayNow matching, all inside your own AWS account.",
+      "glyph": "workflow",
+      "bgFrom": "hsl(265 85% 60% / 0.18)",
+      "bgTo": "hsl(280 95% 70% / 0.16)",
+      "accent": "hsl(265 85% 58%)",
+      "logoBg": "linear-gradient(135deg, hsl(265 60% 96%), hsl(280 70% 96%))",
+      "features": [
+        {
+          "icon": "scan-text",
+          "label": "Document processing",
+          "desc": "Invoices, claims, and POs extracted with Singapore UEN & GST validation."
+        },
+        {
+          "icon": "calculator",
+          "label": "AR/AP reconciliation",
+          "desc": "AI GL coding and bank matching posted to Xero, QuickBooks, SAP."
+        },
+        {
+          "icon": "message-square-text",
+          "label": "Conversational assistant",
+          "desc": "Natural-language queries over finance, HR, and ops — with cited answers."
+        }
+      ],
+      "readMore": "/solutions/operations-automation"
+    }
+  ],
+  "moreProducts": [
+    {
+      "id": "algokisan",
+      "name": "Algokisan",
+      "status": "Live on Play Store",
+      "live": true,
+      "tagline": "A direct line from farm to buyer.",
+      "body": "Farmers list their produce. Buyers reach out directly — no middlemen, no markup. When either side needs it, transport is built right into the app.",
+      "logo": "/assets/products/algokisan.png",
+      "bgFrom": "hsl(140 60% 55% / 0.18)",
+      "bgTo": "hsl(215 80% 55% / 0.18)",
+      "accent": "hsl(140 50% 38%)",
+      "logoBg": "linear-gradient(135deg, hsl(140 50% 95%), hsl(215 60% 95%))",
+      "features": [
+        {
+          "icon": "store",
+          "label": "Direct listings",
+          "desc": "Farmers post produce with photos, quantity, and asking price."
+        },
+        {
+          "icon": "message-square-text",
+          "label": "Buyer ↔ seller chat",
+          "desc": "Negotiate and confirm orders inside the app."
+        },
+        {
+          "icon": "truck",
+          "label": "Optional transport",
+          "desc": "Either party can request in-app transport for the load."
+        }
+      ],
+      "cta": {
+        "label": "Get on Google Play",
+        "href": "#"
+      }
+    },
+    {
+      "id": "algoride",
+      "name": "Algoride",
+      "status": "Live on Play Store",
+      "live": true,
+      "tagline": "Intercity travel, two ways.",
+      "body": "Carpool with people heading the same way, or hire a full vehicle and driver for the trip. Built for the long haul between cities — not for hopping across town.",
+      "logo": "/assets/products/algoride.png",
+      "bgFrom": "hsl(212 90% 60% / 0.18)",
+      "bgTo": "hsl(195 90% 60% / 0.18)",
+      "accent": "hsl(212 90% 48%)",
+      "logoBg": "linear-gradient(135deg, hsl(212 70% 95%), hsl(195 70% 95%))",
+      "modes": [
+        {
+          "icon": "users-round",
+          "title": "Carpooling",
+          "desc": "Intercity rides only — riders match with drivers going the same route. Not designed for intra-city trips."
+        },
+        {
+          "icon": "car-front",
+          "title": "For-Hire",
+          "desc": "Hire a vehicle along with its driver for a planned trip. Owners can publish their vehicles to earn."
+        }
+      ],
+      "safety": [
+        {
+          "icon": "shield-check",
+          "label": "KYC verified"
+        },
+        {
+          "icon": "phone-call",
+          "label": "Emergency contact"
+        },
+        {
+          "icon": "map-pin",
+          "label": "Live tracking share"
+        }
+      ],
+      "cta": {
+        "label": "Get on Google Play",
+        "href": "#"
+      }
+    },
+    {
+      "id": "algomart",
+      "name": "Algomart",
+      "status": "Coming Soon",
+      "live": false,
+      "tagline": "Something's taking flight.",
+      "body": "We're not ready to talk about this one yet — but it's moving fast and it's almost here. Drop your email and we'll tell you the moment it lands.",
+      "logo": "/assets/products/algomart.png",
+      "bgFrom": "hsl(140 70% 55% / 0.15)",
+      "bgTo": "hsl(30 95% 60% / 0.15)",
+      "accent": "hsl(140 50% 40%)",
+      "logoBg": "linear-gradient(135deg, hsl(140 60% 95%), hsl(30 80% 95%))",
+      "comingSoon": true
+    }
+  ]
+}

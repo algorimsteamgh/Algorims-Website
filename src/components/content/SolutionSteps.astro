@@ -1,0 +1,31 @@
+---
+// Renders `solution: [{ h, p }]` with its heading/lead — the numbered
+// "solution" section of renderDetailPage() in assets/js/site.js.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  title?: string;
+  lead?: string;
+  steps: { h: string; p: string }[];
+}
+const { title = "The solution", lead, steps } = Astro.props;
+---
+<div class="max-w-3xl">
+  <Eyebrow text={title} />
+  {lead && <p class="mt-5 text-[17px] leading-[1.75] text-foreground/85" set:html={lead} />}
+</div>
+<div class="mt-10 space-y-5">
+  {steps.map((step, i) => (
+    <div class="grid gap-5 rounded-3xl border border-border bg-card p-7 md:grid-cols-12 md:items-start md:p-8">
+      <div class="md:col-span-4">
+        <div class="flex items-center gap-3">
+          <span class="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary text-sm font-bold text-white shadow-glow">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <h3 class="text-xl font-semibold tracking-tight">{step.h}</h3>
+        </div>
+      </div>
+      <p class="text-[15px] leading-relaxed text-muted-foreground md:col-span-8" set:html={step.p} />
+    </div>
+  ))}
+</div>

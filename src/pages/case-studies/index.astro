@@ -1,0 +1,235 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Eyebrow from "../../components/content/Eyebrow.astro";
+
+const order = ["qsr-conversational-analytics", "ai-school-scheduler", "cicd-release-automation", "enterprise-knowledge-mining", "finance-document-automation", "syslatech-intelligent-document-processing", "smac-tech-labs-ai-support"];
+const studies = (await getCollection("case-studies")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+---
+<BaseLayout title="Case Studies — Algorims" description="Real-world results from Algorims — agentic AI, cloud, and data engineering case studies with measured business impact.">
+  <section class="py-10 pb-12">
+    <div class="container-x">
+      <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
+        <div class="space-y-6 lg:col-span-7">
+          <Eyebrow text="Case Studies" />
+          <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Real systems. <span class="text-gradient">Real outcomes.</span></h1>
+          <p class="text-lg leading-relaxed text-muted-foreground">A selection of recent engagements across Agentic AI, cloud, and platform engineering — each one a production system delivering measurable outcomes. Click any study to read the full architecture and results.</p>
+        </div>
+        <div class="lg:col-span-5">
+          <div class="csa-wrap" aria-hidden="true">
+      <svg class="csa-svg" viewBox="0 0 420 380" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="csa-bg" cx="50%" cy="40%" r="65%">
+            <stop offset="0%"   stop-color="hsl(280 95% 70%)" stop-opacity="0.22"/>
+            <stop offset="60%"  stop-color="hsl(265 85% 58%)" stop-opacity="0.08"/>
+            <stop offset="100%" stop-color="hsl(265 85% 58%)" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="csa-bar-grad" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%"   stop-color="hsl(265 85% 58%)"/>
+            <stop offset="100%" stop-color="hsl(280 95% 70%)"/>
+          </linearGradient>
+          <linearGradient id="csa-area-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%"   stop-color="hsl(280 95% 70%)" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="hsl(280 95% 70%)" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="csa-chip-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="hsl(280 95% 78%)"/>
+            <stop offset="100%" stop-color="hsl(265 85% 55%)"/>
+          </radialGradient>
+        </defs>
+
+        <!-- ambient halo -->
+        <rect x="0" y="0" width="420" height="380" fill="url(#csa-bg)"/>
+
+        <!-- =================== DASHBOARD CARD =================== -->
+        <g class="csa-card-group">
+          <rect class="csa-card" x="30" y="60" width="280" height="240" rx="16"
+                fill="white" stroke="hsl(265 30% 88%)"/>
+
+          <!-- card header -->
+          <g transform="translate(46 80)">
+            <circle cx="0" cy="0" r="5" fill="url(#csa-chip-grad)"/>
+            <text x="14" y="3" font-family="'DM Sans', sans-serif" font-size="11" font-weight="600" fill="hsl(260 30% 12%)">Engagement Impact</text>
+            <text x="14" y="18" font-family="ui-monospace, monospace" font-size="8" fill="hsl(265 30% 55%)">last 12 quarters</text>
+          </g>
+
+          <!-- KPI strip (top right of card) -->
+          <g transform="translate(216 76)" class="csa-kpi-group">
+            <rect x="0" y="0" width="76" height="34" rx="8" fill="hsl(265 30% 96%)"/>
+            <text x="8" y="12" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)" letter-spacing="0.06em">IMPACT</text>
+            <text class="csa-kpi-num" x="8" y="26" font-family="'DM Sans', sans-serif" font-size="14" font-weight="700" fill="hsl(265 85% 45%)">+78<tspan font-size="9" fill="hsl(265 60% 55%)">%</tspan></text>
+            <!-- tiny up-arrow -->
+            <g transform="translate(60 18)" class="csa-kpi-arrow">
+              <path d="M 0 6 L 4 0 L 8 6 L 5 6 L 5 10 L 3 10 L 3 6 Z" fill="hsl(150 65% 38%)"/>
+            </g>
+          </g>
+
+          <!-- =================== AREA / LINE CHART =================== -->
+          <g transform="translate(46 130)">
+            <!-- gridlines -->
+            <g stroke="hsl(265 30% 92%)" stroke-width="1">
+              <line x1="0" y1="0"  x2="246" y2="0"/>
+              <line x1="0" y1="22" x2="246" y2="22"/>
+              <line x1="0" y1="44" x2="246" y2="44"/>
+              <line x1="0" y1="66" x2="246" y2="66"/>
+            </g>
+
+            <!-- area under the line (clipped by reveal) -->
+            <g class="csa-reveal">
+              <path d="M 0 56 L 26 50 L 52 42 L 78 44 L 104 32 L 130 36 L 156 22 L 182 18 L 208 12 L 234 8 L 246 6 L 246 66 L 0 66 Z"
+                    fill="url(#csa-area-grad)"/>
+              <!-- line -->
+              <path d="M 0 56 L 26 50 L 52 42 L 78 44 L 104 32 L 130 36 L 156 22 L 182 18 L 208 12 L 234 8 L 246 6"
+                    fill="none" stroke="hsl(280 95% 60%)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+
+            <!-- data points (staggered pop-in) -->
+            <g fill="white" stroke="hsl(280 95% 60%)" stroke-width="1.8">
+              <circle class="csa-pt csa-pt-0" cx="0" cy="56" r="2.6"/><circle class="csa-pt csa-pt-1" cx="26" cy="50" r="2.6"/><circle class="csa-pt csa-pt-2" cx="52" cy="42" r="2.6"/><circle class="csa-pt csa-pt-3" cx="78" cy="44" r="2.6"/><circle class="csa-pt csa-pt-4" cx="104" cy="32" r="2.6"/><circle class="csa-pt csa-pt-5" cx="130" cy="36" r="2.6"/><circle class="csa-pt csa-pt-6" cx="156" cy="22" r="2.6"/><circle class="csa-pt csa-pt-7" cx="182" cy="18" r="2.6"/><circle class="csa-pt csa-pt-8" cx="208" cy="12" r="2.6"/><circle class="csa-pt csa-pt-9" cx="234" cy="8" r="2.6"/><circle class="csa-pt csa-pt-10" cx="246" cy="6" r="2.6"/>
+            </g>
+
+            <!-- traveling pulse along the line -->
+            <circle class="csa-pulse" r="4" fill="hsl(280 95% 70%)" filter="drop-shadow(0 0 6px hsl(280 95% 70% / 0.9))">
+              <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto"
+                             path="M 0 56 L 26 50 L 52 42 L 78 44 L 104 32 L 130 36 L 156 22 L 182 18 L 208 12 L 234 8 L 246 6"/>
+            </circle>
+          </g>
+
+          <!-- =================== BAR CHART =================== -->
+          <g transform="translate(46 222)">
+            <!-- baseline -->
+            <line x1="0" y1="62" x2="246" y2="62" stroke="hsl(265 30% 86%)" stroke-width="1"/>
+
+              <g class="csa-bar csa-bar-0" style="--bar-h: 38px;">
+                <rect class="csa-bar-rect" x="0" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="11" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q1</text>
+              </g>
+
+              <g class="csa-bar csa-bar-1" style="--bar-h: 48px;">
+                <rect class="csa-bar-rect" x="36" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="47" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q2</text>
+              </g>
+
+              <g class="csa-bar csa-bar-2" style="--bar-h: 30px;">
+                <rect class="csa-bar-rect" x="72" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="83" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q3</text>
+              </g>
+
+              <g class="csa-bar csa-bar-3" style="--bar-h: 54px;">
+                <rect class="csa-bar-rect" x="108" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="119" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q4</text>
+              </g>
+
+              <g class="csa-bar csa-bar-4" style="--bar-h: 44px;">
+                <rect class="csa-bar-rect" x="144" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="155" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q5</text>
+              </g>
+
+              <g class="csa-bar csa-bar-5" style="--bar-h: 58px;">
+                <rect class="csa-bar-rect" x="180" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="191" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q6</text>
+              </g>
+
+              <g class="csa-bar csa-bar-6" style="--bar-h: 50px;">
+                <rect class="csa-bar-rect" x="216" y="62" width="22" height="0" rx="3" fill="url(#csa-bar-grad)"/>
+                <text x="227" y="74" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" fill="hsl(265 30% 55%)">Q7</text>
+              </g>
+
+          </g>
+        </g>
+
+        <!-- =================== CIRCULAR GAUGE (right side) =================== -->
+        <g class="csa-gauge-group" transform="translate(355 110)">
+          <circle r="34" fill="white" stroke="hsl(265 30% 90%)" stroke-width="1"/>
+          <!-- background ring -->
+          <circle r="26" fill="none" stroke="hsl(265 30% 92%)" stroke-width="6"/>
+          <!-- progress ring (animated stroke-dashoffset) -->
+          <circle class="csa-gauge-ring" r="26" fill="none"
+                  stroke="url(#csa-bar-grad)" stroke-width="6" stroke-linecap="round"
+                  transform="rotate(-90)"/>
+          <!-- center number -->
+          <text class="csa-gauge-num" text-anchor="middle" y="2"
+                font-family="'DM Sans', sans-serif" font-size="14" font-weight="700"
+                fill="hsl(265 85% 45%)">92<tspan font-size="8" fill="hsl(265 60% 55%)">%</tspan></text>
+          <text text-anchor="middle" y="14"
+                font-family="ui-monospace, monospace" font-size="6"
+                fill="hsl(265 30% 55%)" letter-spacing="0.12em">STP</text>
+        </g>
+
+        <!-- =================== FLOATING IMPACT CHIPS =================== -->
+        <g class="csa-chips">
+          <g class="csa-chip csa-chip-1" transform="translate(312 230)">
+            <rect x="0" y="0" width="84" height="32" rx="9" fill="white" stroke="hsl(265 30% 88%)"/>
+            <circle cx="14" cy="16" r="6" fill="hsl(150 60% 92%)"/>
+            <path d="M 11 16 L 13 18 L 17 14" stroke="hsl(150 65% 38%)" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="25" y="14" font-family="ui-monospace, monospace" font-size="6" fill="hsl(265 30% 55%)" letter-spacing="0.08em">RELEASE</text>
+            <text x="25" y="24" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="hsl(260 30% 12%)">3.4×</text>
+          </g>
+
+          <g class="csa-chip csa-chip-2" transform="translate(308 290)">
+            <rect x="0" y="0" width="84" height="32" rx="9" fill="white" stroke="hsl(265 30% 88%)"/>
+            <circle cx="14" cy="16" r="6" fill="hsl(265 85% 95%)"/>
+            <path d="M 10 18 L 13 15 L 16 17 L 19 13" stroke="hsl(265 85% 45%)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="25" y="14" font-family="ui-monospace, monospace" font-size="6" fill="hsl(265 30% 55%)" letter-spacing="0.08em">PIPELINE</text>
+            <text x="25" y="24" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="hsl(260 30% 12%)">+2.6×</text>
+          </g>
+
+          <g class="csa-chip csa-chip-3" transform="translate(36 330)">
+            <rect x="0" y="0" width="92" height="32" rx="9" fill="white" stroke="hsl(265 30% 88%)"/>
+            <circle cx="14" cy="16" r="6" fill="hsl(40 90% 92%)"/>
+            <path d="M 14 12 L 14 16 L 17 18" stroke="hsl(40 85% 40%)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <text x="25" y="14" font-family="ui-monospace, monospace" font-size="6" fill="hsl(265 30% 55%)" letter-spacing="0.08em">CYCLE TIME</text>
+            <text x="25" y="24" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="hsl(260 30% 12%)">−45<tspan font-size="8" fill="hsl(265 60% 55%)">%</tspan></text>
+          </g>
+
+          <g class="csa-chip csa-chip-4" transform="translate(150 30)">
+            <rect x="0" y="0" width="94" height="30" rx="9" fill="white" stroke="hsl(265 30% 88%)"/>
+            <circle cx="13" cy="15" r="5.5" fill="hsl(265 85% 58%)"/>
+            <text x="13" y="18" text-anchor="middle" font-family="ui-monospace, monospace" font-size="7" font-weight="700" fill="white">$</text>
+            <text x="24" y="13" font-family="ui-monospace, monospace" font-size="6" fill="hsl(265 30% 55%)" letter-spacing="0.08em">CLOUD SPEND</text>
+            <text x="24" y="23" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="hsl(260 30% 12%)">−38<tspan font-size="8" fill="hsl(265 60% 55%)">%</tspan></text>
+          </g>
+        </g>
+
+        <!-- spark particles drifting up -->
+        <g class="csa-particles" fill="hsl(280 95% 70%)">
+          <circle class="csa-sp s1" cx="60"  cy="350" r="1.4"/>
+          <circle class="csa-sp s2" cx="200" cy="360" r="1.6"/>
+          <circle class="csa-sp s3" cx="280" cy="350" r="1.2"/>
+          <circle class="csa-sp s4" cx="380" cy="360" r="1.5"/>
+        </g>
+      </svg>
+    </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-20 lg:pb-28">
+    <div class="container-x">
+      <div class="grid gap-6 md:grid-cols-2">
+        {studies.map((study) => {
+          const highlights = study.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
+          return <a href={`/case-studies/${study.id}`} class="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-card transition-all hover:border-primary/30 hover:shadow-lg">
+            <div class="relative aspect-[16/9] w-full overflow-hidden bg-primary/5">
+              <div class="h-full w-full transition-transform duration-500 group-hover:scale-[1.02]"><img src={`/assets/case-studies/covers/${study.id}.png`} alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" /></div>
+              <div class="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/25 to-transparent" />
+              <span class="absolute left-5 top-5 inline-flex items-center rounded-full bg-white/15 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-white ring-1 ring-white/25 backdrop-blur-sm">{study.data.tag}</span>
+            </div>
+            <div class="relative flex flex-1 flex-col p-8">
+              <div class="absolute -right-16 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/20" />
+              <div class="relative flex flex-1 flex-col">
+                <div class="flex items-start justify-between gap-4"><h3 class="text-2xl font-semibold leading-snug tracking-tight">{study.data.title}</h3><div class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-border transition-all group-hover:bg-primary group-hover:text-white group-hover:border-primary"><i data-lucide="arrow-up-right" class="!w-4 !h-4" /></div></div>
+                <p class="mt-3 text-[15px] leading-relaxed text-muted-foreground">{study.data.subtitle}</p>
+                {highlights.length > 0 && <div class="mt-6 flex flex-wrap gap-x-8 gap-y-4">{highlights.map((metric) => <div><p class="text-2xl font-semibold tracking-tight text-gradient">{metric.value}</p><p class="mt-1 text-xs leading-snug text-muted-foreground max-w-[150px]">{metric.label}</p></div>)}</div>}
+                <div class="mt-auto pt-6"><span class="inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Read case study <i data-lucide="arrow-right" class="!w-4 !h-4" /></span></div>
+              </div>
+            </div>
+          </a>;
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 lg:py-14"><div class="container-x"><div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16"><div class="absolute inset-0 surface-mesh opacity-60" /><div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)" /><div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)" /><div class="relative grid gap-10 md:grid-cols-5 md:items-center"><div class="md:col-span-3 space-y-5"><div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))" />Ready when you are</div><h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2><p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p></div><div class="md:col-span-2 flex flex-col gap-3 md:items-end"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right" /></a><a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a></div></div></div></div></section>
+</BaseLayout>

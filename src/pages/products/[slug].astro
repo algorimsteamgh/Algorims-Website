@@ -1,0 +1,36 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DetailPage from "../../components/content/DetailPage.astro";
+
+export async function getStaticPaths() {
+  return (await getCollection("products")).map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<"products"> };
+const seo: Record<string, { title: string; description: string }> = {
+  cxiq: {
+    title: "Algorims CXIQ — Every Conversation Handled, Every Dollar Approved",
+    description: "An AI layer on top of the WhatsApp and email you already use — no migration — that answers routine questions automatically, and always puts a human in the loop before money moves.",
+  },
+  dociq: {
+    title: "Algorims DocIQ — Intelligent Document Processing on AWS",
+    description: "A cost-tiered AI pipeline on AWS that replaces manual document keying with confidence-routed extraction — cutting document processing cost up to 97%, hosted entirely in your own region.",
+  },
+  opsiq: {
+    title: "Algorims OpsIQ — Autonomous L1 Service Desk Resolution on AWS",
+    description: "An agentic AIOps layer on Amazon Bedrock that classifies, resolves, and closes the majority of L1 service-desk tickets directly in your existing ITSM platform — with every Active Directory, firewall, or bulk-impact action gated behind a human decision.",
+  },
+  payiq: {
+    title: "Algorims PayIQ — Invoices That Post Themselves, Safely",
+    description: "AI reads every invoice, posts the confident ones straight into Xero or Zoho Books, and always stops for a human the moment a vendor's bank details change. Your AP team, freed from keying and fraud risk.",
+  },
+};
+---
+
+<BaseLayout title={seo[entry.id]?.title ?? `${entry.data.title} — Algorims`} description={seo[entry.id]?.description ?? entry.data.subtitle}>
+  <DetailPage entry={entry} />
+</BaseLayout>

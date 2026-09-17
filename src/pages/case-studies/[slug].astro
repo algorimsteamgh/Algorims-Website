@@ -1,0 +1,24 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import DetailPage from "../../components/content/DetailPage.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("case-studies");
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<"case-studies"> };
+const seo: Record<string, { title?: string; description?: string }> = {
+  "syslatech-intelligent-document-processing": {
+    title: "How Syslatech Automated Document Processing with AWS",
+    description: "Algorims built a generative AI document-processing pipeline on Amazon Bedrock that cuts manual review to a fraction of Syslatech's finance workload — with a human always in the loop.",
+  },
+  "smac-tech-labs-ai-support": {
+    description: "Algorims designed and built SMAC Support — a Bedrock Claude-powered AI support platform that answers customer questions from SMAC Tech Labs' own knowledge base, with a seamless handoff to a human agent.",
+  },
+};
+---
+<BaseLayout title={`${seo[entry.id]?.title ?? entry.data.title} — Algorims`} description={seo[entry.id]?.description ?? entry.data.subtitle}>
+  <DetailPage entry={entry} />
+</BaseLayout>

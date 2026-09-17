@@ -1,0 +1,315 @@
+---
+// BaseLayout.astro
+//
+// Replaces tools/sync-html-shell.mjs — the script that previously kept
+// nav/footer/head markup in sync by string-copying across all 24 index.html
+// files. Every page now imports this single layout instead.
+//
+// Nav markup ported from `renderNav()` in assets/js/site.js (NAV_LINKS /
+// PRODUCT_MENU / RESOURCES_MENU / COMPANY_MENU) — that function generated
+// the nav client-side at runtime; here it's static Astro markup rendered at
+// build time, since Astro doesn't need the client router to draw the nav.
+// Footer markup ported 1:1 from footer.html (previously fetched at runtime
+// via loadFooter() in site.js).
+//
+// Each Astro page renders its own HTML; links use native browser navigation.
+
+import "../styles/global.css";
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonical?: string;
+  robots?: string;
+}
+
+const {
+  title,
+  description = "Algorims builds autonomous, agentic AI systems for the enterprise — AI & Generative AI, Data & Analytics, AWS cloud, DevOps, and managed services that unlock the value buried in your data.",
+  ogImage = "https://www.algorims.com/assets/algorims-icon-transparent.png",
+  canonical = new URL(Astro.url.pathname, Astro.site).toString(),
+  robots = "index, follow",
+} = Astro.props;
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const activeNav = /^\/(blog|case-studies)(\/|$)/.test(path) ? "/case-studies"
+  : path === "/support" ? "/about"
+  : path.startsWith("/products/") ? "/products"
+  : path;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>{title}</title>
+
+{googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+
+<!-- SEO -->
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<meta name="author" content="Algorims" />
+<link rel="canonical" href={canonical} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="/assets/algorims-favicon.png" />
+<link rel="shortcut icon" type="image/png" href="/assets/algorims-favicon.png" />
+<link rel="apple-touch-icon" href="/assets/algorims-favicon.png" />
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Algorims" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+<!-- Warm the connection to the Spline CDN early so the agentic-AI robot scene loads fast -->
+<link rel="preconnect" href="https://prod.spline.design" crossorigin />
+<link rel="preconnect" href="https://unpkg.com" crossorigin />
+<link rel="dns-prefetch" href="https://prod.spline.design" />
+<link rel="prefetch" as="fetch" href="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" crossorigin />
+
+<script is:inline src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script is:inline type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
+
+<!-- Tailwind is now handled by @astrojs/tailwind (see astro.config.mjs /
+     tailwind.config.mjs). global.css (ported from assets/css/site.css) is
+     imported above in the frontmatter so Vite bundles + hashes it — no more
+     CDN script tag, no more inline per-page tailwind.config, no more a
+     manual <link> to a static css path. -->
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- =================== NAVBAR =================== -->
+<header id="navbar" class="fixed inset-x-0 top-0 z-50 transition-all duration-500">
+  <div class="container-x">
+    <div class="relative">
+      <div id="nav-bg" class="absolute inset-0 rounded-2xl opacity-0 transition-all duration-500"
+           style="background:hsl(0 0% 100% / 0.6);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid hsl(var(--border) / 0.6);box-shadow:0 12px 32px -16px hsl(265 60% 30% / 0.22)"></div>
+      <div id="nav-shell" class="relative flex items-center justify-between px-4 py-4 transition-all duration-500">
+        <!-- Logo -->
+        <a href="/" class="group inline-flex items-center">
+          <img src="/assets/algorims-logo.png" alt="Algorims" class="h-8 w-auto transition-transform duration-500 group-hover:scale-[1.03]" style="filter:drop-shadow(0 1px 0 hsl(0 0% 100% / 0.4))" />
+        </a>
+
+        <!-- Desktop nav (centered) -->
+        <nav class="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" id="nav-links">
+          <a href="/" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/" ? "page" : undefined}>Home</a>
+          <a href="/services" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/services" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/services" ? "page" : undefined}>Services</a>
+
+          <div class="group relative">
+            <a href="/products" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/products" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/products" ? "page" : undefined}>
+              Products <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+            </a>
+            <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-96">
+                <a href="/products/cxiq" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="message-circle" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">CXIQ</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Conversational admin automation on WhatsApp &amp; email</div>
+                </a>
+                <a href="/products/dociq" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="file-text" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">DocIQ</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Intelligent document processing with confidence routing</div>
+                </a>
+                <a href="/products/opsiq" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="server-cog" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">OpsIQ</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Autonomous L1 service desk and IT operations</div>
+                </a>
+                <a href="/products/payiq" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="credit-card" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">PayIQ</div>
+                  <div class="text-xs leading-snug text-muted-foreground">AI-native accounts payable for Xero &amp; Zoho Books</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="/agentic-ai" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/agentic-ai" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/agentic-ai" ? "page" : undefined}>Agentic AI</a>
+
+          <a href="/cca-f" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/cca-f" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={activeNav === "/cca-f" ? "page" : undefined}>
+            Claude<span class="nav-new-badge" aria-label="New content">New</span>
+          </a>
+
+          <div class="group relative">
+            <a href="/case-studies" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/case-studies" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/case-studies" ? "page" : undefined}>
+              Resources <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+            </a>
+            <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-72">
+                <a href="/case-studies" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="layout-grid" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">Case Studies</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Real deployments, real outcomes</div>
+                </a>
+                <a href="/blog" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="newspaper" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">Blog</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Ideas, guides, and updates</div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="group relative">
+            <a href="/about" class:list={["nav-link inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all duration-200", activeNav === "/about" ? "nav-link-active" : "text-foreground/80 hover:bg-primary/10 hover:text-primary"]} aria-current={path === "/about" ? "page" : undefined}>
+              Company <i data-lucide="chevron-down" class="!w-4 !h-4 transition-transform group-hover:rotate-180"></i>
+            </a>
+            <div class="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="grid grid-cols-2 gap-1 rounded-lg border border-border bg-card shadow-lg overflow-hidden p-1 w-72">
+                <a href="/about" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="building-2" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">About</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Who we are and what we build</div>
+                </a>
+                <a href="/support" class="flex flex-col gap-2 rounded-lg px-3 py-3 hover:bg-secondary/50 transition-colors">
+                  <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary"><i data-lucide="life-buoy" class="!w-4 !h-4"></i></span>
+                  <div class="font-medium text-sm text-foreground">Support</div>
+                  <div class="text-xs leading-snug text-muted-foreground">Get help or open a ticket</div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
+
+        <div class="hidden lg:flex items-center gap-2">
+          <a href="/contact" class="btn btn-hero btn-default">
+            Get Started <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button id="mobile-toggle" class="lg:hidden grid h-10 w-10 place-items-center rounded-full border border-border bg-white/40 backdrop-blur" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
+          <i data-lucide="menu" class="!w-5 !h-5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden mt-2 rounded-2xl glass p-4 shadow-lg lg:hidden animate-fade-in">
+      <nav class="flex flex-col gap-1" id="mobile-nav-links">
+        <a href="/" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/" ? "page" : undefined}>Home</a>
+        <a href="/services" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/services" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/services" ? "page" : undefined}>Services</a>
+        <a href="/products" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/products" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/products" ? "page" : undefined}>Products</a>
+        <a href="/agentic-ai" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/agentic-ai" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/agentic-ai" ? "page" : undefined}>Agentic AI</a>
+        <a href="/cca-f" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/cca-f" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={activeNav === "/cca-f" ? "page" : undefined}>Claude<span class="nav-new-badge" aria-label="New content">New</span></a>
+        <a href="/case-studies" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/case-studies" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/case-studies" ? "page" : undefined}>Resources</a>
+        <a href="/about" class:list={["inline-flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium", activeNav === "/about" ? "bg-secondary text-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"]} aria-current={path === "/about" ? "page" : undefined}>Company</a>
+      </nav>
+      <a href="/contact" class="btn btn-hero btn-default mt-2 w-full">Get Started</a>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 pt-24">
+  <slot />
+</main>
+
+<!-- =================== FOOTER =================== -->
+<footer class="relative mt-32 border-t border-border bg-secondary/40">
+  <div class="container-x py-16">
+    <div class="grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4 space-y-5">
+        <a href="/" class="group inline-flex items-center">
+          <img src="/assets/algorims-logo.png" alt="Algorims" class="h-9 w-auto" />
+        </a>
+        <p class="max-w-sm text-sm leading-relaxed text-muted-foreground">
+          The Future of Enterprise Is Autonomous. We Build It. We help ambitious companies build AI-first, cloud-native systems that compound value.
+        </p>
+        <div class="flex items-center gap-2">
+          <a href="https://www.linkedin.com/company/algorims/" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2.5 rounded-full border border-border bg-card pl-2 pr-4 py-1.5 text-sm font-medium text-foreground transition-all hover:border-primary/40 hover:bg-primary hover:text-primary-foreground hover:shadow-md" aria-label="Follow Algorims on LinkedIn">
+            <span class="grid h-7 w-7 place-items-center rounded-full bg-primary text-primary-foreground transition-colors group-hover:bg-white group-hover:text-primary">
+              <svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+            </span>
+            Follow on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h4 class="text-sm font-semibold">Company</h4>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="/cca-f" class="text-muted-foreground hover:text-foreground">Claude</a></li>
+          <li><a href="/about" class="text-muted-foreground hover:text-foreground">About</a></li>
+          <li><a href="/case-studies" class="text-muted-foreground hover:text-foreground">Case Studies</a></li>
+          <li><a href="/blog" class="text-muted-foreground hover:text-foreground">Blog</a></li>
+          <li><a href="/contact" class="text-muted-foreground hover:text-foreground">Contact</a></li>
+        </ul>
+      </div>
+      <div class="lg:col-span-2">
+        <h4 class="text-sm font-semibold">Products</h4>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li><a href="/products/cxiq" class="text-muted-foreground hover:text-foreground">CXIQ</a></li>
+          <li><a href="/products/dociq" class="text-muted-foreground hover:text-foreground">DocIQ</a></li>
+          <li><a href="/products/opsiq" class="text-muted-foreground hover:text-foreground">OpsIQ</a></li>
+          <li><a href="/products/payiq" class="text-muted-foreground hover:text-foreground">PayIQ</a></li>
+        </ul>
+      </div>
+      <div class="lg:col-span-2">
+        <h4 class="text-sm font-semibold">Get in touch</h4>
+        <ul class="mt-4 space-y-3 text-sm text-muted-foreground">
+          <li><a href="mailto:contactus@algorims.com" class="hover:text-foreground">contactus@algorims.com</a></li>
+          <li><a href="tel:+6583459599" class="hover:text-foreground">+65 8345 9599</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-14 flex flex-col items-start justify-between gap-4 border-t border-border pt-8 text-xs text-muted-foreground sm:flex-row sm:items-center">
+      <p>© {new Date().getFullYear()} Algorims. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-foreground">Privacy</a>
+        <a href="#" class="hover:text-foreground">Terms</a>
+        <a href="#" class="hover:text-foreground">Security</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Chatling chatbot (bottom-right corner) -->
+<script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>
+<script is:inline async data-id="6125825243" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+
+<script>
+  // Previously shared hash routes now load the matching static page.
+  if (location.pathname === "/" && /^#\/(?!\/)/.test(location.hash)) {
+    location.replace(location.hash.slice(1));
+  }
+
+  const shell = document.getElementById("nav-shell");
+  const bg = document.getElementById("nav-bg");
+  if (shell && bg) {
+    const updateNavbar = () => {
+      const scrolled = scrollY > 12;
+      bg.style.opacity = scrolled ? "1" : "0";
+      shell.classList.toggle("py-2", scrolled);
+      shell.classList.toggle("py-4", !scrolled);
+    };
+    updateNavbar();
+    addEventListener("scroll", updateNavbar, { passive: true });
+  }
+
+  const mobileToggle = document.getElementById("mobile-toggle");
+  const mobileMenu = document.getElementById("mobile-menu");
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener("click", () => {
+      const opened = mobileMenu.classList.toggle("hidden") === false;
+      mobileToggle.setAttribute("aria-expanded", String(opened));
+    });
+  }
+  (window as Window & { lucide?: { createIcons(): void } }).lucide?.createIcons();
+</script>
+</body>
+</html>

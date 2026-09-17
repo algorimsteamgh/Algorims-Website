@@ -1,0 +1,15 @@
+---
+import ai from "./art/ai.svg?raw";
+import aws from "./art/aws.svg?raw";
+import azure from "./art/azure.svg?raw";
+import devops from "./art/devops.svg?raw";
+import migration from "./art/migration.svg?raw";
+import agent from "./art/agent.svg?raw";
+import rag from "./art/rag.svg?raw";
+import code from "./art/code.svg?raw";
+import platform from "./art/platform.svg?raw";
+
+const art = { ai, aws, azure, devops, migration, agent, rag, code, platform };
+const { kind } = Astro.props as { kind: string };
+---
+<Fragment set:html={art[kind as keyof typeof art] ?? ai} />

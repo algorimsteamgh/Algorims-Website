@@ -1,0 +1,17 @@
+---
+// Renders a `{ type: "ul" }` block from a blog post's `body[]`. Matches
+// assets/js/site.js `pageBlogPost()` `renderBlock()` for `type === "ul"`,
+// including the small bullet-dot span rather than a native <li> marker.
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+<ul class="mt-5 space-y-3 text-[17px] leading-[1.75] text-foreground/85">
+  {items.map((item) => (
+    <li class="flex gap-3">
+      <span class="mt-2.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-primary" />
+      <span set:html={item} />
+    </li>
+  ))}
+</ul>

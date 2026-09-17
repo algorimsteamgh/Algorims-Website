@@ -1,0 +1,43 @@
+---
+// Renders the "Related work" card grid at the end of a detail page — matches
+// the `related` block in renderDetailPage() in assets/js/site.js. Callers
+// (a Phase 3/4 page template) are responsible for resolving each `related`
+// slug against whichever of case-studies/solutions/products actually holds
+// it — mirroring the legacy `findDetail()` / `detailHref()` helpers — and
+// passing the resolved records in here.
+interface RelatedItem {
+  slug: string;
+  href: string;
+  glyph: string;
+  kind: string;
+  title: string;
+}
+interface Props {
+  items: RelatedItem[];
+}
+const { items } = Astro.props;
+---
+{items.length > 0 && (
+  <div class="grid gap-6 md:grid-cols-2">
+    {items.map((item) => (
+      <a
+        href={item.href}
+        class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-lg"
+      >
+        <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/20" />
+        <div class="relative">
+          <div class="flex items-center justify-between gap-4">
+            <span class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">
+              <i data-lucide={item.glyph} class="!w-5 !h-5" />
+            </span>
+            <div class="grid h-10 w-10 place-items-center rounded-full border border-border transition-all group-hover:bg-primary group-hover:text-white group-hover:border-primary">
+              <i data-lucide="arrow-up-right" class="!w-4 !h-4" />
+            </div>
+          </div>
+          <p class="mt-4 text-xs font-medium uppercase tracking-widest text-primary">{item.kind}</p>
+          <h4 class="mt-2 text-xl font-semibold tracking-tight">{item.title}</h4>
+        </div>
+      </a>
+    ))}
+  </div>
+)}

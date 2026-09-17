@@ -1,0 +1,133 @@
+<svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg" class="h-full w-full block" preserveAspectRatio="xMidYMid slice" role="img">
+
+    <defs>
+      <!-- Gradients -->
+      <linearGradient id="bp-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="hsl(258 88% 50%)"/>
+        <stop offset="55%" stop-color="hsl(275 90% 62%)"/>
+        <stop offset="100%" stop-color="hsl(290 95% 74%)"/>
+      </linearGradient>
+      <linearGradient id="bp-purple-2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"  stop-color="hsl(275 90% 65%)"/>
+        <stop offset="100%" stop-color="hsl(258 80% 48%)"/>
+      </linearGradient>
+      <linearGradient id="bp-coral" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="hsl(330 85% 65%)"/>
+        <stop offset="100%" stop-color="hsl(290 90% 70%)"/>
+      </linearGradient>
+      <linearGradient id="bp-cyan" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="hsl(195 85% 60%)"/>
+        <stop offset="100%" stop-color="hsl(265 85% 65%)"/>
+      </linearGradient>
+      <linearGradient id="bp-card" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%"  stop-color="white"/>
+        <stop offset="100%" stop-color="hsl(265 40% 97%)"/>
+      </linearGradient>
+      <linearGradient id="bp-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%"  stop-color="hsl(265 50% 97%)"/>
+        <stop offset="100%" stop-color="hsl(280 50% 94%)"/>
+      </linearGradient>
+      <radialGradient id="bp-glow" cx="50%" cy="50%" r="60%">
+        <stop offset="0%"   stop-color="hsl(280 95% 70% / 0.55)"/>
+        <stop offset="55%"  stop-color="hsl(265 85% 58% / 0.18)"/>
+        <stop offset="100%" stop-color="hsl(265 85% 58% / 0)"/>
+      </radialGradient>
+      <radialGradient id="bp-glow-coral" cx="50%" cy="50%" r="60%">
+        <stop offset="0%"   stop-color="hsl(325 90% 70% / 0.45)"/>
+        <stop offset="100%" stop-color="hsl(325 90% 70% / 0)"/>
+      </radialGradient>
+
+      <!-- Subtle dot pattern -->
+      <pattern id="bp-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="11" cy="11" r="0.9" fill="hsl(265 60% 55% / 0.13)"/>
+      </pattern>
+      <!-- Cross-hatch grid (sparse) -->
+      <pattern id="bp-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+        <path d="M 48 0 L 0 0 0 48" fill="none" stroke="hsl(265 60% 65% / 0.08)" stroke-width="0.8"/>
+      </pattern>
+
+      <!-- Shadows -->
+      <filter id="bp-shadow-sm" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="hsl(265 70% 25%)" flood-opacity="0.10"/>
+      </filter>
+      <filter id="bp-shadow" x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="8" stdDeviation="14" flood-color="hsl(265 70% 30%)" flood-opacity="0.18"/>
+      </filter>
+      <filter id="bp-soft" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="1.5"/>
+      </filter>
+    </defs>
+      <rect width="600" height="360" fill="url(#bp-bg)"/>
+      <rect width="600" height="360" fill="url(#bp-grid)"/>
+
+      <ellipse cx="460" cy="190" rx="170" ry="140" fill="url(#bp-glow)"/>
+
+      <!-- server rack (single, detailed) -->
+      <g transform="translate(80,90)" filter="url(#bp-shadow)">
+        <rect width="120" height="190" rx="14" fill="url(#bp-card)" stroke="hsl(265 30% 85%)"/>
+        <rect width="120" height="22" rx="14" fill="hsl(265 30% 30%)"/>
+        <rect width="120" height="22" rx="14" fill="url(#bp-purple)" opacity="0.85"/>
+        <text x="60" y="15" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,monospace" font-size="9" font-weight="700" letter-spacing="1.5" fill="white">ON-PREM</text>
+
+          <g transform="translate(10,36)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="hsl(265 30% 80%)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="1"/>
+          </g>
+
+          <g transform="translate(10,60)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="url(#bp-purple)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="0.5"/>
+          </g>
+
+          <g transform="translate(10,84)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="hsl(265 30% 80%)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="0.5"/>
+          </g>
+
+          <g transform="translate(10,108)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="url(#bp-purple)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="0.5"/>
+          </g>
+
+          <g transform="translate(10,132)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="hsl(265 30% 80%)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="0.5"/>
+          </g>
+
+          <g transform="translate(10,156)">
+            <rect width="100" height="18" rx="4" fill="hsl(265 30% 96%)"/>
+            <rect x="6" y="6" width="50" height="6" rx="3" fill="hsl(265 30% 84%)"/>
+            <circle cx="88" cy="9" r="3" fill="hsl(265 30% 80%)"/>
+            <circle cx="78" cy="9" r="2" fill="hsl(140 60% 55%)" opacity="0.5"/>
+          </g>
+
+      </g>
+
+      <!-- flow particles -->
+      <circle cx="240" cy="195" r="4" fill="url(#bp-purple)" opacity="1"/><circle cx="260.90909090909093" cy="204.04344640107544" r="3.7727272727272725" fill="url(#bp-purple)" opacity="0.95"/><circle cx="281.8181818181818" cy="209.05794901911528" r="3.5454545454545454" fill="url(#bp-purple)" opacity="0.9"/><circle cx="302.72727272727275" cy="209.0374677212205" r="3.3181818181818183" fill="url(#bp-purple)" opacity="0.85"/><circle cx="323.6363636363636" cy="204.75603995984588" r="3.090909090909091" fill="url(#bp-purple)" opacity="0.8"/><circle cx="344.54545454545456" cy="198.27834247960936" r="2.8636363636363638" fill="url(#bp-purple)" opacity="0.75"/><circle cx="365.45454545454544" cy="192.08022622909792" r="2.6363636363636367" fill="url(#bp-purple)" opacity="0.7"/><circle cx="386.3636363636364" cy="188.1295493240522" r="2.409090909090909" fill="url(#bp-purple)" opacity="0.6499999999999999"/><circle cx="407.27272727272725" cy="187.26139599983998" r="2.1818181818181817" fill="url(#bp-purple)" opacity="0.6"/><circle cx="428.1818181818182" cy="189.04604512131587" r="1.9545454545454546" fill="url(#bp-purple)" opacity="0.5499999999999999"/><circle cx="449.0909090909091" cy="192.1493484170523" r="1.7272727272727275" fill="url(#bp-purple)" opacity="0.5"/><circle cx="470" cy="195" r="1.5" fill="url(#bp-purple)" opacity="0.44999999999999996"/>
+
+      <!-- target cloud -->
+      <g transform="translate(380,120)" filter="url(#bp-shadow)">
+        <path d="M 20 110 Q 30 60 80 60 Q 100 25 145 35 Q 195 15 215 65 Q 255 70 240 115 Q 250 145 215 145 L 50 145 Q 10 145 20 110 Z"
+              fill="url(#bp-card)" stroke="hsl(265 30% 85%)"/>
+        <path d="M 30 95 Q 40 55 85 60 Q 105 30 145 40 Q 180 25 200 65" fill="none" stroke="url(#bp-purple)" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+        <text x="130" y="110" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="20" font-weight="700" fill="url(#bp-purple)">CLOUD</text>
+      </g>
+
+      <g transform="translate(36,36)" filter="url(#bp-shadow-sm)">
+        <rect width="118" height="28" rx="14" fill="white"/>
+        <circle cx="14" cy="14" r="4" fill="url(#bp-purple)"/>
+        <text x="24" y="18" font-family="ui-monospace,SFMono-Regular,monospace" font-size="10" font-weight="700" letter-spacing="1.5" fill="hsl(265 35% 25%)">MIGRATION</text>
+      </g>
+
+    </svg>

@@ -13,8 +13,7 @@
 #   ./deploy/attach-cloudfront-function.sh
 #
 # Safe to re-run: creates the function on first run, updates it on
-# subsequent runs, and only edits the FunctionAssociations block of the
-# distribution config (everything else is passed through untouched).
+# subsequent runs, and preserves unrelated function associations.
 
 set -euo pipefail
 
@@ -59,13 +58,17 @@ DIST_ETAG=$(jq -r '.ETag' /tmp/cff-dist.json)
 
 echo "== Patching DefaultCacheBehavior.FunctionAssociations =="
 jq --arg arn "$FUNCTION_ARN" '
-  .DistributionConfig.DefaultCacheBehavior.FunctionAssociations = {
-    Quantity: 1,
-    Items: [
-      { EventType: "viewer-request", FunctionARN: $arn }
-    ]
-  }
-  | .DistributionConfig
+  .DistributionConfig
+  | (.DefaultCacheBehavior.FunctionAssociations.Items // []) as $items
+  | if any($items[]; .EventType == "viewer-request" and .FunctionARN != $arn)
+    then error("a different viewer-request function is already attached")
+    else .DefaultCacheBehavior.FunctionAssociations = {
+      Quantity: ((($items | map(select(.EventType != "viewer-request"))) | length) + 1),
+      Items: (($items | map(select(.EventType != "viewer-request"))) + [
+        { EventType: "viewer-request", FunctionARN: $arn }
+      ])
+    }
+    end
 ' /tmp/cff-dist.json > /tmp/cff-dist-config-new.json
 
 echo "== Updating distribution =="

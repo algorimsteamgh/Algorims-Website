@@ -1,0 +1,123 @@
+{
+  "source": {
+    "href": "/products",
+    "label": "Products"
+  },
+  "kind": "Product",
+  "tag": "AI-Native Accounts Payable · Xero + Zoho Books",
+  "title": "Your invoices post themselves. Safely.",
+  "subtitle": "AI reads every invoice and posts the ones it's confident about straight into Xero or Zoho Books. The rest come to you for a one-click review. And the moment a vendor's bank details change, PayIQ always stops and asks a human first.",
+  "glyph": "receipt",
+  "accent": "hsl(158 65% 28%)",
+  "meta": [
+    {
+      "label": "Built for",
+      "value": "Accounts payable and finance ops teams"
+    },
+    {
+      "label": "Region",
+      "value": "ANZ · Singapore/SEA · India"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon Bedrock + Xero/Zoho connectors"
+    },
+    {
+      "label": "Onboarding",
+      "value": "<2 weeks to first touchless post"
+    }
+  ],
+  "intro": [
+    "Someone on your team is still opening every invoice, typing it into Xero or Zoho, and hoping they catch the one that's off. That's slow on a good week — and on a bad one, it's how a business email compromise scam gets a real payment out the door.",
+    "PayIQ takes the typing off your team's plate for the invoices it's sure about, and puts a hard stop in front of the one thing that actually causes AP fraud losses: a vendor's bank details changing without anyone noticing."
+  ],
+  "flow": {
+    "title": "One layer between your invoices and your books",
+    "desc": "PayIQ sits inside your AP workflow without replacing Xero or Zoho. Payment-detail changes always return to a human.",
+    "stages": [
+      { "icon": "files", "title": "Vendors & Invoices", "subtitle": "Where invoices arrive", "items": ["Email", "Upload", "Vendor portal"] },
+      { "icon": "receipt", "title": "Algorims PayIQ", "subtitle": "Amazon Textract · Amazon Bedrock", "items": ["Capture", "Guard", "Post"] },
+      { "icon": "landmark", "title": "Xero, Zoho & Bank", "subtitle": "Where the entry lands", "items": ["Xero", "Zoho Books", "Bank reconciliation"] }
+    ],
+    "footer": "Invoices are posted or held for review. A vendor bank-detail change never posts without a human."
+  },
+  "challenge": {
+    "lead": "AP toil is annoying. AP fraud is dangerous. You're carrying both.",
+    "items": [
+      "Manual invoice entry is slow, and the busy weeks are exactly when mistakes slip through.",
+      "Vendor bank-detail changes are the single most common way accounts payable fraud actually happens.",
+      "Teams need touchless processing without losing a human check on the one thing that matters most."
+    ]
+  },
+  "solutionLead": "Most invoices move fast. The moment something touches a vendor's payment details, PayIQ deliberately slows down.",
+  "solution": [
+    {
+      "h": "Invoice arrives",
+      "p": "Captured from email or upload, with nothing lost if AI is briefly unavailable — invoices are always queued."
+    },
+    {
+      "h": "AI reads and codes it",
+      "p": "Confident invoices are coded and queued to post automatically."
+    },
+    {
+      "h": "Bank-detail change = hard stop",
+      "p": "Always human-verified, regardless of confidence score — this rule has no configurable-off switch."
+    },
+    {
+      "h": "Posts to your ledger",
+      "p": "Approved invoices post straight into Xero or Zoho Books, with a defined reversal workflow if something was wrongly auto-posted."
+    }
+  ],
+  "awsLead": "Capture the paperwork. Guard the payment. Post where you already work. Stay in control the whole way through.",
+  "aws": [
+    {
+      "name": "Amazon Bedrock",
+      "desc": "Invoice reading, coding, and confidence scoring."
+    },
+    {
+      "name": "Xero connector",
+      "desc": "Live posting integration, native from day one."
+    },
+    {
+      "name": "Zoho Books connector",
+      "desc": "Deepest integration in India, through to bank reconciliation."
+    }
+  ],
+  "metrics": [
+    {
+      "value": "100%",
+      "label": "Bank-detail changes human-verified, no exceptions"
+    },
+    {
+      "value": "2 ERPs",
+      "label": "Xero and Zoho Books, live from day one"
+    },
+    {
+      "value": "<2 wks",
+      "label": "Typical onboarding to first touchless post"
+    },
+    {
+      "value": "0",
+      "label": "Invoices lost if AI is briefly unavailable — always queued"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Can PayIQ auto-approve a change to a vendor's bank details?",
+      "a": "No. That action is always human-verified, regardless of confidence score — a headline commitment with no configurable-off switch."
+    },
+    {
+      "q": "Which accounting systems does PayIQ post into?",
+      "a": "Xero and Zoho Books are both live from day one, via native connectors."
+    },
+    {
+      "q": "What if an invoice was wrongly auto-posted?",
+      "a": "There's a defined reversal workflow — PayIQ sells the safety net, not just the gate."
+    }
+  ],
+  "related": [
+    "cxiq",
+    "dociq",
+    "opsiq"
+  ]
+}

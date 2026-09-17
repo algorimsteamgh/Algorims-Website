@@ -1,0 +1,120 @@
+{
+  "source": {
+    "href": "/case-studies",
+    "label": "Case Studies"
+  },
+  "kind": "Case Study",
+  "tag": "Agentic AI · Enterprise Knowledge Management",
+  "title": "Building an enterprise knowledge mining assistant that answers questions — not just returns files",
+  "subtitle": "A permissions-aware, retrieval-augmented AI assistant on Amazon S3 Vectors and Amazon Nova — giving employees instant, cited answers from thousands of documents.",
+  "glyph": "brain-circuit",
+  "accent": "hsl(265 85% 58%)",
+  "meta": [
+    {
+      "label": "Industry",
+      "value": "Enterprise Knowledge Management"
+    },
+    {
+      "label": "Region",
+      "value": "Singapore (ap-southeast-1)"
+    },
+    {
+      "label": "Platform",
+      "value": "Amazon S3 Vectors + Amazon Nova"
+    },
+    {
+      "label": "Status",
+      "value": "In active deployment"
+    }
+  ],
+  "intro": [
+    "Enterprises accumulate thousands of documents across SharePoint, S3, internal portals, and email. The knowledge is there — but finding it is a different problem entirely. Employees waste hours hunting for policy answers, contract clauses, and SOP steps, while keyword search returns lists of files, not answers.",
+    "We are deploying a permissions-aware retrieval-augmented assistant built on Amazon S3 Vectors and Amazon Nova. Employees ask questions in plain English; the system retrieves the most relevant information, reasons through it, and delivers grounded, cited answers — instantly, securely, and without hallucination."
+  ],
+  "challenge": {
+    "lead": "The problem is not a lack of knowledge — it is a lack of intelligent access to it:",
+    "items": [
+      "Slow onboarding — new employees spend weeks finding information that should take minutes.",
+      "Compliance risk — outdated or incorrect documents get actioned because the right one was never found.",
+      "Repeated SME escalations — experts field the same questions daily instead of focusing on high-value work.",
+      "Decision delays — leaders wait for information that already exists somewhere in the organisation."
+    ]
+  },
+  "solutionTitle": "What Algorims is building",
+  "solutionLead": "A permissions-aware Enterprise Knowledge Mining Assistant — a production-grade RAG system engineered across six core capabilities that transforms how enterprises interact with their institutional knowledge.",
+  "solution": [
+    {
+      "h": "Permissions-aware retrieval",
+      "p": "Built on Amazon S3 Vectors — users only ever see documents within their authorised access scope. Enterprise security and compliance are enforced at the retrieval layer, not bolted on afterwards."
+    },
+    {
+      "h": "Citation-grounded answers",
+      "p": "Every answer links directly back to its source document and specific chunk — eliminating hallucinated facts and giving employees the confidence to act on AI-generated answers."
+    },
+    {
+      "h": "Multi-format document ingestion",
+      "p": "PDF, DOCX, PPTX, HTML, and email all ingested, indexed, and made searchable — across SharePoint, S3, Confluence, Salesforce, and internal portals."
+    },
+    {
+      "h": "Incremental document sync",
+      "p": "The system tracks document changes and updates incrementally — no full re-indexing required, keeping the knowledge base current without operational overhead."
+    },
+    {
+      "h": "Intelligent fallback handling",
+      "p": "When confidence falls below threshold, the system escalates rather than guessing. Enterprise AI that knows the boundaries of its own knowledge is safer than one that doesn't."
+    },
+    {
+      "h": "Continuous improvement loop",
+      "p": "User feedback ratings feed directly into relevance tuning — the system gets measurably smarter with every interaction, compounding value over time."
+    }
+  ],
+  "tech": [
+    "Amazon S3 Vectors",
+    "Amazon Nova",
+    "Amazon Nova Lite",
+    "Amazon Bedrock Guardrails",
+    "AWS IAM",
+    "SharePoint Connector",
+    "Amazon S3",
+    "Confluence",
+    "Salesforce"
+  ],
+  "results": [
+    "<strong>Instant knowledge access</strong> — precise, cited answers in seconds, not lists of files to search manually.",
+    "<strong>Zero security compromise</strong> — permissions-aware retrieval enforces every user's authorised scope natively.",
+    "<strong>Answers you can trust</strong> — every response cites its source, eliminating hallucinated facts.",
+    "<strong>SME escalations dramatically reduced</strong> — repeated questions answered autonomously.",
+    "<strong>Fast time to value</strong> — functional in under a week from architecture to first demo.",
+    "<strong>Singapore-ready</strong> — deployed in ap-southeast-1 for data residency compliance."
+  ],
+  "metrics": [
+    {
+      "value": "<1 wk",
+      "label": "From architecture to first working demo"
+    },
+    {
+      "value": "✓",
+      "label": "Permissions-aware retrieval — authorised scope only"
+    },
+    {
+      "value": "✓",
+      "label": "Every answer cited back to its source chunk"
+    },
+    {
+      "value": "✓",
+      "label": "PDF, DOCX, PPTX, HTML & email ingestion"
+    },
+    {
+      "value": "✓",
+      "label": "PII redaction via Bedrock Guardrails"
+    },
+    {
+      "value": "✓",
+      "label": "Deployed in ap-southeast-1 for data residency"
+    }
+  ],
+  "related": [
+    "finance-document-automation",
+    "qsr-conversational-analytics"
+  ]
+}

@@ -1,0 +1,23 @@
+---
+// Renders `challenge: { lead, items[] }` — the "The challenge" section of
+// renderDetailPage() in assets/js/site.js.
+import Eyebrow from "./Eyebrow.astro";
+
+interface Props {
+  lead: string;
+  items: string[];
+}
+const { lead, items } = Astro.props;
+---
+<Eyebrow text="The challenge" />
+<p class="mt-5 text-[17px] leading-[1.75] text-foreground/85" set:html={lead} />
+<ul class="mt-6 space-y-3">
+  {items.map((item) => (
+    <li class="flex gap-3 rounded-2xl border border-border bg-card p-4">
+      <span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-destructive/10 text-destructive">
+        <i data-lucide="x" class="!w-3.5 !h-3.5" />
+      </span>
+      <span class="text-[15px] leading-relaxed text-muted-foreground" set:html={item} />
+    </li>
+  ))}
+</ul>

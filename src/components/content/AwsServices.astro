@@ -1,0 +1,32 @@
+---
+// Renders `aws: [{ name, desc }]` — the "AWS services in the solution"
+// section of renderDetailPage() in assets/js/site.js. Only solutions and
+// products carry this field (case-studies use free-form `tech[]` chips
+// instead — see TechStack.astro).
+import Eyebrow from "./Eyebrow.astro";
+import { awsIcon } from "./awsIcon";
+
+interface Props {
+  title?: string;
+  lead?: string;
+  services: { name: string; desc: string }[];
+}
+const { title = "AWS services in the solution", lead, services } = Astro.props;
+---
+<div class="max-w-3xl">
+  <Eyebrow text={title} />
+  {lead && <p class="mt-5 text-[17px] leading-[1.75] text-foreground/85" set:html={lead} />}
+</div>
+<div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+  {services.map((service) => (
+    <div class="rounded-2xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md">
+      <div class="flex items-center gap-2.5">
+        <span class="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-primary/10 text-primary">
+          <i data-lucide={awsIcon(service.name)} class="!w-4 !h-4" />
+        </span>
+        <p class="text-sm font-semibold">{service.name}</p>
+      </div>
+      <p class="mt-2.5 text-[13px] leading-relaxed text-muted-foreground">{service.desc}</p>
+    </div>
+  ))}
+</div>
