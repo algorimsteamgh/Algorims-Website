@@ -3,70 +3,27 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Support — Algorims" description="Algorims support — submit a ticket or reach our engineers for AWS, DevOps, security, and infrastructure issues.">
-<!-- Hero -->
-  <section class="relative overflow-hidden py-12 lg:py-16">
-    <div class="pointer-events-none absolute inset-0 grid-bg opacity-60"></div>
-    <div class="container-x relative">
-      <div class="max-w-3xl space-y-6">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Support
-  </div>
-        <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Need technical <span class="text-gradient">support</span>?</h1>
-        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Reach the Algorims support team for AWS, DevOps, Kubernetes, security, backup, cloud migration, and infrastructure issues.</p>
-        <div class="flex flex-col gap-3 pt-1 sm:flex-row sm:items-center">
-          <a href="/support#support-form" class="btn btn-hero btn-xl">Raise a Support Ticket <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
-          <a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl"><i data-lucide="log-in" class="!w-4 !h-4"></i> Client Login</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Support options -->
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-      <div class="grid gap-6 md:grid-cols-3">
-
-          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="mail" class="!w-6 !h-6"></i></div>
-            <h3 class="mt-5 text-xl font-semibold">Email Support</h3>
-            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">For technical issues and service requests.</p>
-            <div class="mt-5 pt-1"><a href="mailto:support@algorims.com" class="inline-flex items-center gap-1.5 font-medium text-primary hover:underline">support@algorims.com</a></div>
-          </div>
-
-          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="log-in" class="!w-6 !h-6"></i></div>
-            <h3 class="mt-5 text-xl font-semibold">Customer Portal</h3>
-            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">Track tickets, reply to engineers, and view ticket status.</p>
-            <div class="mt-5 pt-1"><a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-default rounded-full">Client Login <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a></div>
-          </div>
-
-          <div class="flex flex-col rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="ticket" class="!w-6 !h-6"></i></div>
-            <h3 class="mt-5 text-xl font-semibold">Submit a Ticket</h3>
-            <p class="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">Create a support request directly from the website.</p>
-            <div class="mt-5 pt-1"><a href="/support#support-form" class="btn btn-hero btn-default">Create Ticket <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a></div>
-          </div>
-
-      </div>
+  <section class="container-x py-12 text-center lg:py-16" aria-labelledby="support-title">
+    <p class="text-xs font-bold uppercase tracking-[.18em] text-primary">Support</p>
+    <h1 id="support-title" class="mx-auto mt-4 max-w-4xl text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Need technical <span class="text-primary">support</span>?</h1>
+    <p class="mx-auto mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted-foreground">Reach our engineers for AWS, DevOps, Kubernetes, security, backup, cloud migration, and infrastructure issues.</p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="#support-form" class="btn btn-hero btn-lg">Raise a Support Ticket <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
+      <a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-lg">Client Login <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a>
     </div>
   </section>
 
   <!-- Support request form -->
-  <section id="support-form" class="scroll-mt-28 py-10 lg:py-14">
+  <section id="support-form" class="scroll-mt-28 pb-12 lg:pb-16" aria-labelledby="support-form-title">
     <div class="container-x">
-      <div class="grid gap-10 lg:grid-cols-12">
-        <div class="lg:col-span-5 space-y-6">
-
-  <div class="max-w-3xl space-y-5 text-left">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Submit a ticket
-  </div>
-    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Tell us what's going on</h2>
-    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Fill out the form and our engineers will get back to you within the SLA for the priority you select.</p>
-  </div>
-          <ul class="space-y-4">
+      <div class="grid overflow-hidden rounded-3xl border border-border lg:grid-cols-12">
+        <div class="space-y-8 p-7 md:p-9 lg:col-span-5 lg:p-12">
+          <div class="space-y-5">
+            <p class="text-xs font-bold uppercase tracking-[.18em] text-primary">Submit a ticket</p>
+            <h2 id="support-form-title" class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Tell us what's going on</h2>
+            <p class="text-pretty leading-relaxed text-muted-foreground">Fill out the form and our engineers will respond according to your support agreement and selected priority.</p>
+          </div>
+          <ul class="space-y-5 border-t border-border pt-7">
 
               <li class="flex gap-3.5">
                 <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-5 !h-5"></i></span>
@@ -84,17 +41,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               </li>
 
           </ul>
+          <div class="border-t border-border pt-6 text-sm">
+            <p class="text-muted-foreground">Prefer email?</p>
+            <a href="mailto:support@algorims.com" class="mt-1 inline-block break-all font-semibold text-primary hover:underline">support@algorims.com</a>
+          </div>
         </div>
 
-        <div class="lg:col-span-7">
-          <form id="support-form-el" class="rounded-3xl border border-border bg-card p-7 md:p-9" novalidate>
+        <div class="min-w-0 border-t border-border p-7 md:p-9 lg:col-span-7 lg:border-l lg:border-t-0 lg:p-12">
+          <form id="support-form-el" novalidate>
             <div id="support-success" class="hidden py-10 text-center">
               <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-7 !h-7"></i></div>
-              <h3 class="mt-5 text-2xl font-semibold">Ticket details ready</h3>
-              <p class="mx-auto mt-2 max-w-md text-muted-foreground">We've prepared your request for <span class="font-medium text-foreground">support@algorims.com</span>. You can also track everything in the customer portal.</p>
+              <h3 class="mt-5 text-2xl font-semibold">Support request sent</h3>
+              <p class="mx-auto mt-2 max-w-md text-muted-foreground">We've sent your request to our support team. We'll reply by email.</p>
               <div class="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <a href="https://algorims.zohodesk.com.au/portal" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-default">Open customer portal <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a>
-                <button type="button" id="support-reset" class="btn btn-outline btn-default rounded-full">Submit another ticket</button>
+                <button type="button" id="support-reset" class="btn btn-outline btn-default">Submit another ticket</button>
               </div>
             </div>
 
@@ -173,17 +134,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     </div>
   </section>
 
-  <!-- Support hours + SLA -->
-  <section class="py-10 lg:py-14">
+  <!-- Support hours and priority guide -->
+  <section class="pb-16 lg:pb-24" aria-label="Support hours and priority guide">
     <div class="container-x">
-      <div class="grid gap-6 lg:grid-cols-12">
+      <div class="grid overflow-hidden rounded-3xl border border-border lg:grid-cols-12">
         <!-- Hours -->
-        <div class="lg:col-span-4">
-          <div class="h-full rounded-3xl border border-border bg-card p-7">
-            <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="clock" class="!w-6 !h-6"></i></div>
-            <h3 class="mt-5 text-xl font-semibold">Support hours</h3>
+        <div class="p-7 md:p-9 lg:col-span-4 lg:p-12">
+            <p class="text-xs font-bold uppercase tracking-[.18em] text-primary">Availability</p>
+            <h3 class="mt-3 text-2xl font-semibold">Support hours</h3>
             <dl class="mt-5 space-y-4 text-sm">
-              <div class="flex items-center justify-between border-b border-border pb-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-4">
                 <dt class="text-muted-foreground">Monday – Friday</dt>
                 <dd class="font-medium">9:00 AM – 6:00 PM IST</dd>
               </div>
@@ -192,43 +152,36 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 <span class="text-pretty">Emergency support available around the clock for active support customers.</span>
               </div>
             </dl>
-          </div>
         </div>
 
-        <!-- SLA / priority -->
-        <div class="lg:col-span-8">
-          <div class="h-full rounded-3xl border border-border bg-card p-7">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <h3 class="text-xl font-semibold">Priority &amp; response</h3>
-                <p class="mt-1 text-sm text-muted-foreground">How we classify and respond to incoming tickets.</p>
-              </div>
-              <span class="hidden shrink-0 rounded-xl bg-primary/10 p-2.5 text-primary sm:grid sm:place-items-center"><i data-lucide="gauge" class="!w-5 !h-5"></i></span>
-            </div>
-            <div class="mt-5 divide-y divide-border overflow-hidden rounded-2xl border border-border">
+        <div class="border-t border-border p-7 md:p-9 lg:col-span-8 lg:border-l lg:border-t-0 lg:p-12">
+            <p class="text-xs font-bold uppercase tracking-[.18em] text-primary">Ticket triage</p>
+            <h3 class="mt-3 text-2xl font-semibold">Choose a priority</h3>
+            <p class="mt-1 text-sm text-muted-foreground">Use the impact on your service to classify your request.</p>
+            <div class="mt-6 divide-y divide-border overflow-hidden rounded-2xl border border-border">
 
-                <div class="flex items-center gap-4 px-5 py-4">
+                <div class="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
                     <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(0 84% 60%)"></span>Critical
                   </span>
                   <span class="text-sm leading-relaxed text-muted-foreground">Production outage or direct business impact.</span>
                 </div>
 
-                <div class="flex items-center gap-4 px-5 py-4">
+                <div class="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
                     <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(30 95% 55%)"></span>High
                   </span>
                   <span class="text-sm leading-relaxed text-muted-foreground">A major function is affected.</span>
                 </div>
 
-                <div class="flex items-center gap-4 px-5 py-4">
+                <div class="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
                     <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(265 85% 58%)"></span>Medium
                   </span>
                   <span class="text-sm leading-relaxed text-muted-foreground">Partial issue with a workaround available.</span>
                 </div>
 
-                <div class="flex items-center gap-4 px-5 py-4">
+                <div class="flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-center sm:gap-4">
                   <span class="inline-flex w-24 shrink-0 items-center gap-2 text-sm font-semibold">
                     <span class="h-2.5 w-2.5 rounded-full" style="background:hsl(260 10% 55%)"></span>Low
                   </span>
@@ -236,26 +189,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
                 </div>
 
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact strip -->
-  <section class="py-10 lg:py-16">
-    <div class="container-x">
-      <div class="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark p-8 md:p-12">
-        <div class="pointer-events-none absolute inset-0 surface-mesh opacity-40"></div>
-        <div class="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-          <div class="space-y-3 text-white">
-            <h3 class="text-balance text-3xl font-semibold leading-tight md:text-4xl">Still need a hand?</h3>
-            <p class="max-w-xl text-pretty leading-relaxed text-white/70">Email us directly or visit the Algorims website to learn more about what we do.</p>
-          </div>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="mailto:support@algorims.com" class="btn btn-hero btn-lg"><i data-lucide="mail" class="!w-4 !h-4"></i> support@algorims.com</a>
-            <a href="https://algorims.com" target="_blank" rel="noopener noreferrer" class="btn btn-lg rounded-full border border-white/25 text-white transition-colors hover:bg-white/10">algorims.com <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></a>
-          </div>
         </div>
       </div>
     </div>
