@@ -69,16 +69,12 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
       </div>
 
-      <div class="mt-14 border-t border-border pt-12">
-        <div class="flex flex-col gap-8">
-          <div class="mx-auto max-w-3xl text-center">
-            <h3 class="text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl">How it becomes <span class="text-gradient">delivery</span></h3>
-          </div>
-          <div class="mx-auto max-w-4xl space-y-5 text-lg leading-relaxed text-muted-foreground">
-            <p>We don't parachute in with generic frameworks. We embed alongside your teams, immerse ourselves in your business, and identify the highest-impact opportunities where agentic AI and cloud engineering can create real, measurable change.</p>
-            <p>From architecting intelligent workflows and deploying production-grade AI agents to building enterprise cloud foundations and scaling autonomous operations — we co-create solutions that are deeply aligned with your business goals, engineered to last, and built to evolve.</p>
-          </div>
+      <div class="mt-14 grid gap-10 rounded-3xl border border-border bg-card p-10 md:grid-cols-2 md:items-center md:p-14">
+        <div class="space-y-5">
+          <h3 class="text-left text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">How it becomes <span class="text-gradient">delivery</span></h3>
+          <p class="text-base leading-relaxed text-muted-foreground">We don't parachute in with generic frameworks. We embed alongside your teams, immerse ourselves in your business, and identify the highest-impact opportunities where agentic AI and cloud engineering can create real, measurable change.</p>
         </div>
+        <p class="rounded-2xl border border-border bg-background p-6 text-base leading-relaxed text-muted-foreground">From architecting intelligent workflows and deploying production-grade AI agents to building enterprise cloud foundations and scaling autonomous operations — we co-create solutions that are deeply aligned with your business goals, engineered to last, and built to evolve.</p>
       </div>
     </div>
   </section>
@@ -97,24 +93,39 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
             <div class="principles-track" data-principles-track>
 
             <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
-              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="heart-handshake" class="!h-6 !w-6"></i></div>
-              <h3 class="mt-6 text-xl font-semibold tracking-tight">Relentless client partnership</h3>
-              <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We embed deeply, think long-term, and stay committed until the outcomes are real and lasting.</p>
-              <p class="mt-5 text-sm italic text-primary/90">We stay until the outcomes are real.</p>
+              <div class="principle-copy">
+                <div class="flex items-center gap-4">
+                  <div class="principle-icon grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="heart-handshake" class="!h-6 !w-6"></i></div>
+                  <h3 class="text-xl font-semibold tracking-tight">Relentless client partnership</h3>
+                </div>
+                <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We embed deeply, think long-term, and stay committed until the outcomes are real and lasting.</p>
+                <p class="mt-5 text-sm italic text-primary/90">We stay until the outcomes are real.</p>
+              </div>
+              <img class="principle-art" src="/assets/illustrations/principle-partnership.png" alt="Two teams connect their work through a shared platform to reach one outcome." width="1536" height="1024" />
             </article>
 
             <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
-              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="flag" class="!h-6 !w-6"></i></div>
-              <h3 class="mt-6 text-xl font-semibold tracking-tight">Courage to lead</h3>
-              <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We tackle the problems others find too complex, too ambiguous, or too risky. We go where others won't.</p>
-              <p class="mt-5 text-sm italic text-primary/90">We go where others won't.</p>
+              <div class="principle-copy">
+                <div class="flex items-center gap-4">
+                  <div class="principle-icon grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="flag" class="!h-6 !w-6"></i></div>
+                  <h3 class="text-xl font-semibold tracking-tight">Courage to lead</h3>
+                </div>
+                <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We tackle the problems others find too complex, too ambiguous, or too risky. We go where others won't.</p>
+                <p class="mt-5 text-sm italic text-primary/90">We go where others won't.</p>
+              </div>
+              <img class="principle-art" src="/assets/illustrations/principle-courage.png" alt="A path rises past obstacles toward a clear direction marked by a violet flag." width="1536" height="1024" loading="lazy" />
             </article>
 
             <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
-              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!h-6 !w-6"></i></div>
-              <h3 class="mt-6 text-xl font-semibold tracking-tight">Integrity in every engagement</h3>
-              <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We say what we mean and deliver what we promise. Real partnership is built on trust and transparency.</p>
-              <p class="mt-5 text-sm italic text-primary/90">Honest counsel. Always.</p>
+              <div class="principle-copy">
+                <div class="flex items-center gap-4">
+                  <div class="principle-icon grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!h-6 !w-6"></i></div>
+                  <h3 class="text-xl font-semibold tracking-tight">Integrity in every engagement</h3>
+                </div>
+                <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We say what we mean and deliver what we promise. Real partnership is built on trust and transparency.</p>
+                <p class="mt-5 text-sm italic text-primary/90">Honest counsel. Always.</p>
+              </div>
+              <img class="principle-art" src="/assets/illustrations/principle-integrity.png" alt="A visible path carries a commitment through accountable work to a verified result." width="1774" height="887" loading="lazy" />
             </article>
 
             </div>
@@ -222,10 +233,10 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   <section class="py-12 lg:py-16 overflow-hidden">
     <div class="container-x">
-      <div class="space-y-3">
+      <div class="journey-heading space-y-3">
 
         <p class="about-kicker">Journey</p>
-        <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Milestones that define us</h2>
+        <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Milestones that <span class="text-primary">define us</span></h2>
       </div>
 
       <div class="journey-scroll mt-8">
@@ -433,11 +444,6 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
     color: hsl(var(--primary));
   }
 
-  .about-page :global(.border-t.border-border.pt-12) {
-    margin-top: 48px;
-    padding-top: 42px;
-  }
-
   .about-page :global(.mission-card) {
     position: relative;
     overflow: hidden;
@@ -485,9 +491,21 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   .about-page :global(.principle-card) {
     flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 330px;
     position: relative;
     overflow: hidden;
     animation: principle-rise .55s ease both;
+  }
+
+  .about-page :global(.principle-art) {
+    display: block;
+    width: 100%;
+    max-height: 265px;
+    object-fit: contain;
   }
 
   .about-page :global(.principle-card:hover) {
@@ -632,6 +650,12 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .about-page :global(.journey-heading) {
+    width: 100%;
+    margin-inline: auto;
+    text-align: center;
   }
 
   .about-page :global(.journey-scroll) {
@@ -789,6 +813,16 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
   }
 
   @media (max-width: 600px) {
+    .about-page :global(.principle-card) {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .about-page :global(.principle-art) {
+      max-height: 210px;
+      margin-top: 1rem;
+    }
+
     .about-hero {
       padding-top: 44px;
     }
