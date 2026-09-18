@@ -199,8 +199,11 @@ h1,h2,h3{font-weight:600}
 @media(max-width:600px){.case-art-figure figcaption{grid-template-columns:1fr}.case-label{font-size:.72rem}}
 </style>
 <style>
-.trusted h2,.proof h2{max-width:760px;margin:0 auto 24px;padding:0 20px;text-align:center}.proof{padding-top:72px}.stats strong{font-variant-numeric:tabular-nums}
-.stats,.approach-grid,.case,.alliance-card,.service-showcase{overflow:hidden;border-radius:1.5rem}.stats{border:1px solid hsl(var(--border))}.wide-art{border-radius:1.5rem}.service-labels>span,.case-label{border-radius:.75rem}
+.trusted h2,.proof h2{max-width:760px;margin:0 auto 24px;padding:0 20px;text-align:center}.proof{padding:72px clamp(24px,5vw,74px) 0}.stats strong{font-variant-numeric:tabular-nums}
+.stats,.approach-grid,.case,.alliance-card,.service-showcase{overflow:hidden;border-radius:1.5rem}.stats{border:1px solid hsl(var(--border))}.proof+.closing{border-top:0!important}.wide-art{border-radius:1.5rem}.service-labels>span,.case-label{border-radius:.75rem}
+@media(max-width:600px){.proof{padding-inline:20px}}
+.proof{padding:90px clamp(24px,5vw,74px)}
+@media(max-width:600px){.proof,.closing{padding:62px 20px}}
 </style>
 <style>
 .case.reverse{grid-template-columns:.85fr 1.15fr}
