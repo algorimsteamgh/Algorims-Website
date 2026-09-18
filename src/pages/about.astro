@@ -1,145 +1,23 @@
 ---
 import ConsultationCta from "../components/ConsultationCta.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 ---
 
 <BaseLayout title="About — Algorims" description="Algorims is an AWS Advanced Consulting Partner engineering autonomous AI, data, and cloud systems for the enterprise.">
-<section class="py-20 lg:py-12">
+<div class="about-page">
+<section class="about-hero py-20 lg:py-12">
     <div class="container-x">
       <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
         <div class="space-y-6 lg:col-span-7">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>About Algorims
-  </div>
-          <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">The Future of Enterprise Starts Here.</h1>
-          <p class="text-2xl font-semibold leading-tight tracking-tight md:text-3xl"><span class="text-gradient">We built the foundation for it.</span></p>
+          <p class="about-kicker">About Algorims</p>
+          <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">The Future of <span>Enterprise</span> <span class="nowrap">Starts Here.</span></h1>
           <p class="text-lg leading-relaxed text-muted-foreground">From cloud pioneers to agentic AI leaders — this is the story of a firm built to be different from day one.</p>
         </div>
         <div class="lg:col-span-5">
 
-    <div class="aha-wrap" aria-hidden="true">
-      <svg class="aha-svg" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="aha-bg-glow" cx="50%" cy="50%" r="55%">
-            <stop offset="0%"   stop-color="hsl(280 95% 70%)" stop-opacity="0.28"/>
-            <stop offset="55%"  stop-color="hsl(265 85% 58%)" stop-opacity="0.10"/>
-            <stop offset="100%" stop-color="hsl(265 85% 58%)" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="aha-core-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%"   stop-color="hsl(265 85% 58%)"/>
-            <stop offset="55%"  stop-color="hsl(275 90% 64%)"/>
-            <stop offset="100%" stop-color="hsl(280 95% 72%)"/>
-          </linearGradient>
-          <linearGradient id="aha-sweep" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stop-color="hsl(280 95% 70%)" stop-opacity="0"/>
-            <stop offset="50%"  stop-color="hsl(280 95% 70%)" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="hsl(280 95% 70%)" stop-opacity="0"/>
-          </linearGradient>
-          <pattern id="aha-dots" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
-            <circle cx="1.4" cy="1.4" r="1.1" fill="hsl(265 60% 65% / 0.18)"/>
-          </pattern>
-        </defs>
-
-        <!-- backdrop: dot grid + radial halo -->
-        <g class="aha-grid-fade"><rect x="0" y="0" width="460" height="460" fill="url(#aha-dots)"/></g>
-        <rect x="0" y="0" width="460" height="460" fill="url(#aha-bg-glow)"/>
-
-        <!-- ambient corner sparks -->
-        <g>
-          <circle class="aha-spark aha-spark-1" cx="38"  cy="46"  r="2.2" fill="hsl(280 95% 70%)"/>
-          <circle class="aha-spark aha-spark-2" cx="426" cy="58"  r="2.4" fill="hsl(265 85% 58%)"/>
-          <circle class="aha-spark aha-spark-3" cx="46"  cy="418" r="2.0" fill="hsl(265 85% 58%)"/>
-          <circle class="aha-spark aha-spark-4" cx="420" cy="412" r="2.4" fill="hsl(280 95% 70%)"/>
-        </g>
-
-        <!-- pulse rings from the core -->
-        <circle class="aha-ping aha-ping-1" cx="230" cy="230" r="48" fill="none" stroke="hsl(280 95% 70%)" stroke-width="1.4"/>
-        <circle class="aha-ping aha-ping-2" cx="230" cy="230" r="48" fill="none" stroke="hsl(265 85% 58%)" stroke-width="1.2"/>
-        <circle class="aha-ping aha-ping-3" cx="230" cy="230" r="48" fill="none" stroke="hsl(280 95% 70%)" stroke-width="1.0"/>
-
-        <!-- =================== CONNECTION LINKS =================== -->
-        <g stroke="hsl(265 85% 58% / 0.55)" stroke-width="1.4" stroke-linecap="round" fill="none">
-          <line class="aha-link aha-link-1" x1="230" y1="230" x2="110" y2="90"/>
-          <line class="aha-link aha-link-2" x1="230" y1="230" x2="350" y2="90"/>
-          <line class="aha-link aha-link-3" x1="230" y1="230" x2="60"  y2="230"/>
-          <line class="aha-link aha-link-4" x1="230" y1="230" x2="400" y2="230"/>
-          <line class="aha-link aha-link-5" x1="230" y1="230" x2="110" y2="370"/>
-          <line class="aha-link aha-link-6" x1="230" y1="230" x2="350" y2="370"/>
-        </g>
-
-        <!-- =================== TRAVELING DATA DOTS =================== -->
-        <g>
-          <circle class="aha-dot aha-dot-1" cx="230" cy="230" r="3.2" fill="hsl(212 90% 60%)"/>
-          <circle class="aha-dot aha-dot-2" cx="230" cy="230" r="3.2" fill="hsl(265 85% 58%)"/>
-          <circle class="aha-dot aha-dot-3" cx="230" cy="230" r="3.2" fill="hsl(150 65% 50%)"/>
-          <circle class="aha-dot aha-dot-4" cx="230" cy="230" r="3.2" fill="hsl(40 95% 58%)"/>
-          <circle class="aha-dot aha-dot-5" cx="230" cy="230" r="3.2" fill="hsl(280 95% 70%)"/>
-          <circle class="aha-dot aha-dot-6" cx="230" cy="230" r="3.2" fill="hsl(0 75% 62%)"/>
-        </g>
-
-        <!-- =================== CAPABILITY NODES =================== -->
-        <g font-family="'DM Sans', system-ui, sans-serif">
-          <!-- top-left: Cloud -->
-          <g transform="translate(110 90)"><g class="aha-node aha-node-1">
-            <rect x="-54" y="-19" width="108" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-38" cy="0" r="6" fill="hsl(212 90% 60%)"/>
-            <text x="-25" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">Cloud</text>
-          </g></g>
-
-          <!-- top-right: Agentic AI -->
-          <g transform="translate(350 90)"><g class="aha-node aha-node-2">
-            <rect x="-58" y="-19" width="116" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-42" cy="0" r="6" fill="url(#aha-core-grad)"/>
-            <text x="-30" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">Agentic AI</text>
-          </g></g>
-
-          <!-- center-left: DevOps -->
-          <g transform="translate(60 230)"><g class="aha-node aha-node-3">
-            <rect x="-50" y="-19" width="100" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-34" cy="0" r="6" fill="hsl(150 65% 50%)"/>
-            <text x="-21" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">DevOps</text>
-          </g></g>
-
-          <!-- center-right: Data & ML -->
-          <g transform="translate(400 230)"><g class="aha-node aha-node-4">
-            <rect x="-54" y="-19" width="108" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-38" cy="0" r="6" fill="hsl(40 95% 58%)"/>
-            <text x="-25" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">Data &amp; ML</text>
-          </g></g>
-
-          <!-- bottom-left: Platform -->
-          <g transform="translate(110 370)"><g class="aha-node aha-node-5">
-            <rect x="-54" y="-19" width="108" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-38" cy="0" r="6" fill="hsl(280 95% 70%)"/>
-            <text x="-25" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">Platform</text>
-          </g></g>
-
-          <!-- bottom-right: Security -->
-          <g transform="translate(350 370)"><g class="aha-node aha-node-6">
-            <rect x="-54" y="-19" width="108" height="38" rx="19" fill="white" stroke="hsl(265 30% 88%)"/>
-            <circle cx="-38" cy="0" r="6" fill="hsl(0 75% 62%)"/>
-            <text x="-25" y="4" font-size="12" font-weight="600" fill="hsl(260 30% 18%)">Security</text>
-          </g></g>
-        </g>
-
-        <!-- =================== CORE MONOGRAM =================== -->
-        <g transform="translate(230 230)"><g class="aha-core">
-          <rect x="-44" y="-44" width="88" height="88" rx="22" fill="url(#aha-core-grad)"/>
-          <!-- subtle inner highlight -->
-          <rect x="-38" y="-38" width="76" height="34" rx="17" fill="white" opacity="0.18"/>
-          <text x="0" y="16" text-anchor="middle"
-                font-family="'DM Sans', system-ui, sans-serif"
-                font-size="50" font-weight="700" fill="white" letter-spacing="-0.02em">A</text>
-          <!-- corner tick -->
-          <circle cx="32" cy="-32" r="6" fill="white"/>
-          <circle cx="32" cy="-32" r="3" fill="url(#aha-core-grad)"/>
-        </g></g>
-
-        <!-- =================== SCANNING SWEEP =================== -->
-        <rect class="aha-scan" x="-60" y="0" width="120" height="460" fill="url(#aha-sweep)"/>
-      </svg>
-    </div>
+          <SystemDiagram />
 
         </div>
       </div>
@@ -151,9 +29,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div class="lg:col-span-4">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Our story
-  </div>
+          <p class="about-kicker">Origin</p>
           <h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Why we <span class="text-gradient">exist</span></h2>
         </div>
         <div class="space-y-5 text-lg leading-relaxed text-muted-foreground lg:col-span-8">
@@ -168,9 +44,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="container-x">
       <div class="space-y-3">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Mission & Vision
-  </div>
+        <p class="about-kicker">Direction</p>
         <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What drives us forward</h2>
       </div>
 
@@ -193,7 +67,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="mt-14 border-t border-border pt-12">
         <div class="grid gap-8 lg:grid-cols-12">
           <div class="lg:col-span-4">
-            <h3 class="text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl">Our <span class="text-gradient">approach</span></h3>
+            <h3 class="text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl">How it becomes <span class="text-gradient">delivery</span></h3>
           </div>
           <div class="space-y-5 text-lg leading-relaxed text-muted-foreground lg:col-span-8">
             <p>We don't parachute in with generic frameworks. We embed alongside your teams, immerse ourselves in your business, and identify the highest-impact opportunities where agentic AI and cloud engineering can create real, measurable change.</p>
@@ -209,9 +83,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="rounded-3xl bg-secondary/40 p-8 md:p-12 lg:p-14">
         <div class="space-y-3">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Our values
-  </div>
+          <p class="about-kicker">Principles</p>
           <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What we stand for</h2>
           <p class="text-base italic text-muted-foreground md:text-lg">What guides us when no one is watching.</p>
         </div>
@@ -248,9 +120,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <div class="max-w-3xl space-y-5 mx-auto text-center">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Credentials
-  </div>
+  <p class="about-kicker">Capability proof</p>
     <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Certified <span class="text-gradient">specialists</span> across the stack</h2>
     <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Our engineers and architects hold deep credentials across cloud, data, and AI platforms.</p>
   </div>
@@ -295,9 +165,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <div class="grid gap-10 rounded-3xl border border-border bg-card p-10 md:grid-cols-2 md:items-center md:p-14">
         <div class="space-y-5">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Team & strength
-  </div>
+          <p class="about-kicker">Senior delivery</p>
           <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">A senior team, built for <span class="text-gradient">complex systems</span>.</h2>
           <p class="text-base leading-relaxed text-muted-foreground">From staff engineers who've shipped at hyperscale, to ML researchers building agentic systems — we bring the seniority your most ambitious initiatives deserve.</p>
         </div>
@@ -332,9 +200,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <div class="container-x">
       <div class="space-y-3">
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Our journey
-  </div>
+        <p class="about-kicker">Journey</p>
         <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Milestones that define us</h2>
       </div>
 
@@ -401,6 +267,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
 
   <ConsultationCta iconClass="!w-4 !h-4" />
+</div>
 <script>
   const journey = document.querySelector<HTMLElement>('[data-journey]');
   if (journey) {
@@ -415,3 +282,161 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   }
 </script>
 </BaseLayout>
+<style>
+  .about-kicker {
+    margin: 0;
+    color: hsl(var(--primary));
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .18em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .about-hero {
+    padding-top: 46px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .about-hero :global(.container-x > .grid) {
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  .about-hero :global(.lg\:col-span-7) {
+    max-width: 900px;
+    text-align: center;
+  }
+
+  .about-hero :global(.lg\:col-span-5) {
+    width: 100%;
+  }
+
+  .about-page > section:not(.about-hero) {
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .about-page > section:nth-of-type(4),
+  .about-page > section:nth-of-type(6) {
+    background: hsl(var(--muted) / .22);
+  }
+
+  .about-hero h1 {
+    max-width: 1050px;
+    margin-inline: auto;
+    font-size: clamp(2.7rem, 5.2vw, 4.8rem);
+    line-height: 1;
+    letter-spacing: -.06em;
+  }
+
+  .about-hero :global(.text-lg) {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .about-hero h1 span {
+    color: hsl(var(--primary));
+  }
+
+  .about-hero h1 .nowrap {
+    color: inherit;
+    white-space: nowrap;
+  }
+
+  .about-hero .text-gradient {
+    background-image: none;
+    color: hsl(var(--primary));
+  }
+
+  .about-page h2,
+  .about-page h3 {
+    text-wrap: balance;
+  }
+
+  .about-page :global(.container-x > .space-y-3),
+  .about-page :global(.max-w-3xl.space-y-5) {
+    max-width: 760px;
+  }
+
+  .about-page :global(.container-x > .space-y-3:not(.mx-auto)) {
+    margin-inline: 0;
+  }
+
+  .about-page :global(.rounded-3xl),
+  .about-page :global(.rounded-2xl) {
+    border-radius: 1.5rem;
+  }
+
+  .about-page :global(.bg-card),
+  .about-page :global(.bg-secondary\/40) {
+    background: hsl(var(--background));
+  }
+
+  .about-page :global(.hover\:shadow-md:hover) {
+    box-shadow: none;
+  }
+
+  .about-page :global(.rounded-3xl.border),
+  .about-page :global(.rounded-2xl.border) {
+    transition: border-color .2s ease, background .2s ease;
+  }
+
+  .about-page :global(.rounded-3xl.border:hover),
+  .about-page :global(.rounded-2xl.border:hover) {
+    border-color: hsl(var(--primary) / .45);
+    background: hsl(var(--muted) / .35);
+  }
+
+  .about-page :global(.text-gradient) {
+    background-image: none;
+    color: hsl(var(--primary));
+  }
+
+  .about-page :global(.border-t.border-border.pt-12) {
+    margin-top: 48px;
+    padding-top: 42px;
+  }
+
+  .about-page :global(.journey) {
+    max-width: 920px;
+  }
+
+  .about-hero :global(.system-diagram) {
+    max-width: 1120px;
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    border-radius: 1.5rem;
+    background: hsl(var(--background));
+    padding: 20px 18px 6px;
+  }
+
+  .about-hero :global(.system-diagram img) {
+    max-width: 100%;
+  }
+
+  .about-page :global(.journey-line),
+  .about-page :global(.journey-dot > span:last-child) {
+    box-shadow: none;
+  }
+
+  @media (max-width: 600px) {
+    .about-hero {
+      padding-top: 44px;
+    }
+
+    .about-hero h1 {
+      font-size: 2.4rem;
+    }
+
+    .about-hero :global(.system-diagram) {
+      margin-inline: -20px;
+      border-right: 0;
+      border-left: 0;
+      border-radius: 0;
+      padding: 14px 0 0;
+    }
+  }
+</style>
