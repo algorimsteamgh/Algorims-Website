@@ -1,5 +1,4 @@
 ---
-import ConsultationCta from "../components/ConsultationCta.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 ---
@@ -26,13 +25,13 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   <section class="py-12">
     <div class="container-x">
-      <div class="grid gap-10 lg:grid-cols-12 lg:gap-14">
-        <div class="lg:col-span-4">
+      <div class="flex flex-col gap-8">
+        <div class="mx-auto max-w-3xl text-center">
 
           <p class="about-kicker">Origin</p>
           <h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Why we <span class="text-gradient">exist</span></h2>
         </div>
-        <div class="space-y-5 text-lg leading-relaxed text-muted-foreground lg:col-span-8">
+        <div class="mx-auto max-w-4xl space-y-5 text-lg leading-relaxed text-muted-foreground">
           <p>In 2023, Algorims was founded on a single, uncompromising conviction — that enterprises deserve one trusted partner with the depth to do it all. A firm that could architect bulletproof cloud foundations, engineer world-class DevOps pipelines, and deploy cutting-edge agentic AI systems — not as separate services, but as one unified, intelligent capability.</p>
           <p class="text-foreground">Today, Algorims stands at the intersection of cloud excellence and autonomous intelligence — a firm that was never built to follow the market, but to lead it.</p>
         </div>
@@ -42,22 +41,28 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   <section class="py-12">
     <div class="container-x">
-      <div class="space-y-3">
+      <div class="mx-auto max-w-3xl space-y-3 text-center">
 
         <p class="about-kicker">Direction</p>
-        <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What drives us forward</h2>
+        <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What drives us <span class="text-gradient">forward</span></h2>
       </div>
 
       <div class="mt-10 grid gap-6 md:grid-cols-2">
 
-          <div class="rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md lg:p-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Mission</p>
+          <div class="mission-card rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md lg:p-10">
+            <div class="flex items-center gap-4">
+              <div class="mission-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="target" class="!h-6 !w-6"></i></div>
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Mission</p>
+            </div>
             <p class="mt-4 text-base leading-relaxed text-foreground/90">To empower enterprises with the cloud foundations, engineering excellence, and agentic AI capabilities they need to operate smarter, move faster, and lead their industries with confidence.</p>
             <p class="mt-5 text-sm italic leading-relaxed text-primary/90">Turning enterprise ambition into autonomous, intelligent reality.</p>
           </div>
 
-          <div class="rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md lg:p-10">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Vision</p>
+          <div class="mission-card rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md lg:p-10">
+            <div class="flex items-center gap-4">
+              <div class="mission-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="telescope" class="!h-6 !w-6"></i></div>
+              <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Vision</p>
+            </div>
             <p class="mt-4 text-base leading-relaxed text-foreground/90">A world where every enterprise runs on intelligent, autonomous systems — where technology doesn't just support the business, but actively drives it forward and compounds its value.</p>
             <p class="mt-5 text-sm italic leading-relaxed text-primary/90">Every enterprise, autonomously intelligent.</p>
           </div>
@@ -65,11 +70,11 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
       </div>
 
       <div class="mt-14 border-t border-border pt-12">
-        <div class="grid gap-8 lg:grid-cols-12">
-          <div class="lg:col-span-4">
+        <div class="flex flex-col gap-8">
+          <div class="mx-auto max-w-3xl text-center">
             <h3 class="text-3xl font-semibold leading-[1.1] tracking-tight md:text-4xl">How it becomes <span class="text-gradient">delivery</span></h3>
           </div>
-          <div class="space-y-5 text-lg leading-relaxed text-muted-foreground lg:col-span-8">
+          <div class="mx-auto max-w-4xl space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>We don't parachute in with generic frameworks. We embed alongside your teams, immerse ourselves in your business, and identify the highest-impact opportunities where agentic AI and cloud engineering can create real, measurable change.</p>
             <p>From architecting intelligent workflows and deploying production-grade AI agents to building enterprise cloud foundations and scaling autonomous operations — we co-create solutions that are deeply aligned with your business goals, engineered to last, and built to evolve.</p>
           </div>
@@ -81,35 +86,44 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
   <section class="py-12">
     <div class="container-x">
       <div class="rounded-3xl bg-secondary/40 p-8 md:p-12 lg:p-14">
-        <div class="space-y-3">
+        <div class="mx-auto max-w-3xl space-y-3 text-center">
 
           <p class="about-kicker">Principles</p>
-          <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What we stand for</h2>
+          <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">What we <span class="text-gradient">stand</span> for</h2>
           <p class="text-base italic text-muted-foreground md:text-lg">What guides us when no one is watching.</p>
         </div>
-        <div class="mt-10 grid gap-6 md:grid-cols-3">
+        <div class="principles-carousel mx-auto mt-10 w-full max-w-3xl" data-principles-carousel>
+          <div class="principles-viewport">
+            <div class="principles-track" data-principles-track>
 
-            <div class="rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md">
-              <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="heart-handshake" class="!w-5 !h-5"></i></div>
+            <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
+              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="heart-handshake" class="!h-6 !w-6"></i></div>
               <h3 class="mt-6 text-xl font-semibold tracking-tight">Relentless client partnership</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We embed deeply, think long-term, and stay committed until the outcomes are real and lasting.</p>
               <p class="mt-5 text-sm italic text-primary/90">We stay until the outcomes are real.</p>
-            </div>
+            </article>
 
-            <div class="rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md">
-              <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="flag" class="!w-5 !h-5"></i></div>
+            <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
+              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="flag" class="!h-6 !w-6"></i></div>
               <h3 class="mt-6 text-xl font-semibold tracking-tight">Courage to lead</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We tackle the problems others find too complex, too ambiguous, or too risky. We go where others won't.</p>
               <p class="mt-5 text-sm italic text-primary/90">We go where others won't.</p>
-            </div>
+            </article>
 
-            <div class="rounded-3xl border border-border bg-card p-8 transition-all hover:border-primary/30 hover:shadow-md">
-              <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-5 !h-5"></i></div>
+            <article class="principle-card rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md md:p-8" data-principle-card>
+              <div class="principle-icon grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!h-6 !w-6"></i></div>
               <h3 class="mt-6 text-xl font-semibold tracking-tight">Integrity in every engagement</h3>
               <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We say what we mean and deliver what we promise. Real partnership is built on trust and transparency.</p>
               <p class="mt-5 text-sm italic text-primary/90">Honest counsel. Always.</p>
-            </div>
+            </article>
 
+            </div>
+          </div>
+          <div class="principles-controls mx-auto mt-6 flex items-center justify-center gap-1.5 rounded-full border border-border bg-background px-2.5 py-1.5 shadow-sm" aria-label="Principles carousel controls">
+            <button class="principle-dot" type="button" aria-label="Show partnership principle" data-principles-tab="0"></button>
+            <button class="principle-dot" type="button" aria-label="Show courage principle" data-principles-tab="1"></button>
+            <button class="principle-dot" type="button" aria-label="Show integrity principle" data-principles-tab="2"></button>
+          </div>
         </div>
       </div>
     </div>
@@ -117,44 +131,54 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   <section class="py-10 lg:py-14">
     <div class="container-x">
+      <div class="mx-auto max-w-3xl space-y-3 text-center">
+        <p class="about-kicker">Capability proof</p>
+        <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Certified <span class="text-gradient">specialists</span> across the stack</h2>
+        <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Our engineers and architects hold deep credentials across cloud, data, and AI platforms.</p>
+      </div>
+      <div class="cert-grid mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-  <div class="max-w-3xl space-y-5 mx-auto text-center">
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AWS</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="blocks" class="!h-5 !w-5"></i></div><div><p class="cert-type">Professional</p><h3>Solutions Architect</h3></div></div>
+            <p class="cert-issuer">Amazon Web Services</p>
+          </article>
 
-  <p class="about-kicker">Capability proof</p>
-    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Certified <span class="text-gradient">specialists</span> across the stack</h2>
-    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Our engineers and architects hold deep credentials across cloud, data, and AI platforms.</p>
-  </div>
-      <div class="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AWS</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="brain-circuit" class="!h-5 !w-5"></i></div><div><p class="cert-type">Specialty</p><h3>Machine Learning</h3></div></div>
+            <p class="cert-issuer">Amazon Web Services</p>
+          </article>
 
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">Solutions Architect — Professional</p>
-          </div>
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AWS</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="git-branch" class="!h-5 !w-5"></i></div><div><p class="cert-type">Professional</p><h3>DevOps Engineer</h3></div></div>
+            <p class="cert-issuer">Amazon Web Services</p>
+          </article>
 
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">Machine Learning — Specialty</p>
-          </div>
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AWS</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="database-zap" class="!h-5 !w-5"></i></div><div><p class="cert-type">Specialty</p><h3>Data Engineer</h3></div></div>
+            <p class="cert-issuer">Amazon Web Services</p>
+          </article>
 
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">DevOps Engineer — Professional</p>
-          </div>
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AI</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="sparkles" class="!h-5 !w-5"></i></div><div><p class="cert-type">Learning Credential</p><h3>Claude Skilljar</h3></div></div>
+            <p class="cert-issuer">Anthropic</p>
+          </article>
 
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">Data Engineer — Speciality</p>
-          </div>
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AWS</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="wand-sparkles" class="!h-5 !w-5"></i></div><div><p class="cert-type">AI Capability</p><h3>Generative AI</h3></div></div>
+            <p class="cert-issuer">Amazon Web Services</p>
+          </article>
 
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">Claude Skilljar</p>
-          </div>
-
-          <div class="flex items-start gap-3 rounded-2xl border border-border bg-card p-5">
-            <i data-lucide="award" class="!w-5 !h-5 text-primary mt-0.5 shrink-0"></i>
-            <p class="text-sm font-medium">AWS Generative AI</p>
-          </div>
+          <article class="cert-card rounded-2xl border border-border bg-card p-6">
+            <div class="cert-meta"><span>AI</span><span class="cert-status"><i data-lucide="badge-check" class="!h-3.5 !w-3.5"></i> Verified</span></div>
+            <div class="cert-main"><div class="cert-icon grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="bot" class="!h-5 !w-5"></i></div><div><p class="cert-type">Foundations</p><h3>CCAF</h3></div></div>
+            <p class="cert-issuer">Claude Certified Architect Foundations</p>
+          </article>
 
       </div>
     </div>
@@ -204,81 +228,100 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
         <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Milestones that define us</h2>
       </div>
 
-      <div class="journey relative mt-12 pl-10 md:pl-14" data-journey>
-        <span class="journey-line absolute left-[7px] top-2 w-[2px] rounded-full" aria-hidden="true"></span>
-        <span class="journey-spark absolute left-[3px] top-0 grid h-4 w-4 place-items-center" aria-hidden="true">
-          <span class="absolute inset-0 rounded-full bg-primary/40 blur-md"></span>
-          <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow"></span>
-        </span>
+      <div class="journey-scroll mt-8">
+        <div class="journey-roadmap">
+          <div class="journey-road" aria-hidden="true"></div>
 
-          <div class="journey-item relative mb-10 last:mb-0" style="--delay:0ms; --idx:0">
-            <span class="journey-dot absolute -left-10 top-1.5 grid h-4 w-4 place-items-center md:-left-14">
-              <span class="absolute inset-0 rounded-full bg-primary/30 journey-pulse"></span>
-              <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow ring-4 ring-background"></span>
-            </span>
-            <p class="journey-year text-sm font-semibold uppercase tracking-[0.18em] text-primary">2023</p>
-            <h3 class="journey-title mt-2 text-xl font-semibold tracking-tight md:text-2xl">Algorims founded in Singapore</h3>
-            <p class="journey-desc mt-1.5 text-sm leading-relaxed text-muted-foreground md:text-base">Built to be the one partner for cloud, DevOps, and agentic AI.</p>
-          </div>
-
-          <div class="journey-item relative mb-10 last:mb-0" style="--delay:140ms; --idx:1">
-            <span class="journey-dot absolute -left-10 top-1.5 grid h-4 w-4 place-items-center md:-left-14">
-              <span class="absolute inset-0 rounded-full bg-primary/30 journey-pulse"></span>
-              <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow ring-4 ring-background"></span>
-            </span>
-            <p class="journey-year text-sm font-semibold uppercase tracking-[0.18em] text-primary">2024</p>
-            <h3 class="journey-title mt-2 text-xl font-semibold tracking-tight md:text-2xl">Global expansion</h3>
-            <p class="journey-desc mt-1.5 text-sm leading-relaxed text-muted-foreground md:text-base">Expanded globally with a second office in India.</p>
-          </div>
-
-          <div class="journey-item relative mb-10 last:mb-0" style="--delay:280ms; --idx:2">
-            <span class="journey-dot absolute -left-10 top-1.5 grid h-4 w-4 place-items-center md:-left-14">
-              <span class="absolute inset-0 rounded-full bg-primary/30 journey-pulse"></span>
-              <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow ring-4 ring-background"></span>
-            </span>
-            <p class="journey-year text-sm font-semibold uppercase tracking-[0.18em] text-primary">2024</p>
-            <h3 class="journey-title mt-2 text-xl font-semibold tracking-tight md:text-2xl">AWS Advanced Consulting Partner</h3>
-            <p class="journey-desc mt-1.5 text-sm leading-relaxed text-muted-foreground md:text-base">Achieved AWS Advanced Consulting Partner status.</p>
-          </div>
-
-          <div class="journey-item relative mb-10 last:mb-0" style="--delay:420ms; --idx:3">
-            <span class="journey-dot absolute -left-10 top-1.5 grid h-4 w-4 place-items-center md:-left-14">
-              <span class="absolute inset-0 rounded-full bg-primary/30 journey-pulse"></span>
-              <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow ring-4 ring-background"></span>
-            </span>
-            <p class="journey-year text-sm font-semibold uppercase tracking-[0.18em] text-primary">2025</p>
-            <h3 class="journey-title mt-2 text-xl font-semibold tracking-tight md:text-2xl">Agentic AI practice launched</h3>
-            <p class="journey-desc mt-1.5 text-sm leading-relaxed text-muted-foreground md:text-base">Deploying autonomous systems for enterprise clients across Singapore.</p>
-          </div>
-
-          <div class="journey-item relative mb-10 last:mb-0" style="--delay:560ms; --idx:4">
-            <span class="journey-dot absolute -left-10 top-1.5 grid h-4 w-4 place-items-center md:-left-14">
-              <span class="absolute inset-0 rounded-full bg-primary/30 journey-pulse"></span>
-              <span class="relative h-3 w-3 rounded-full bg-primary shadow-glow ring-4 ring-background"></span>
-            </span>
-            <p class="journey-year text-sm font-semibold uppercase tracking-[0.18em] text-primary">Today</p>
-            <h3 class="journey-title mt-2 text-xl font-semibold tracking-tight md:text-2xl">40+ projects. 20+ SMEs. 99.9% uptime. 24/7 support.</h3>
-            <p class="journey-desc mt-1.5 text-sm leading-relaxed text-muted-foreground md:text-base">Growing every day.</p>
-          </div>
-
+          <article class="journey-stop" style="--x:10%;">
+            <p class="journey-date">2023</p>
+            <div class="journey-content"><h3>Algorims founded in Singapore</h3><p>Built to be the one partner for cloud, DevOps, and agentic AI.</p></div>
+            <span class="journey-stem" aria-hidden="true"></span>
+            <span class="journey-pin" aria-hidden="true"></span>
+          </article>
+          <article class="journey-stop journey-lower" style="--x:30%;">
+            <p class="journey-date">2024</p>
+            <div class="journey-content"><h3>Global expansion</h3><p>Expanded globally with a second office in India.</p></div>
+            <span class="journey-stem" aria-hidden="true"></span>
+            <span class="journey-pin" aria-hidden="true"></span>
+          </article>
+          <article class="journey-stop" style="--x:50%;">
+            <p class="journey-date">2024</p>
+            <div class="journey-content"><h3>AWS Advanced Consulting Partner</h3><p>Achieved AWS Advanced Consulting Partner status.</p></div>
+            <span class="journey-stem" aria-hidden="true"></span>
+            <span class="journey-pin" aria-hidden="true"></span>
+          </article>
+          <article class="journey-stop journey-lower" style="--x:70%;">
+            <p class="journey-date">2025</p>
+            <div class="journey-content"><h3>Agentic AI practice launched</h3><p>Deploying autonomous systems for enterprise clients across Singapore.</p></div>
+            <span class="journey-stem" aria-hidden="true"></span>
+            <span class="journey-pin" aria-hidden="true"></span>
+          </article>
+          <article class="journey-stop journey-today" style="--x:90%;">
+            <p class="journey-date">Today</p>
+            <div class="journey-content"><h3>40+ projects. 20+ SMEs.</h3><p>99.9% uptime. 24/7 support. Growing every day.</p></div>
+            <span class="journey-stem" aria-hidden="true"></span>
+            <span class="journey-pin" aria-hidden="true"></span>
+          </article>
+        </div>
       </div>
     </div>
   </section>
-
-
-  <ConsultationCta iconClass="!w-4 !h-4" />
 </div>
 <script>
-  const journey = document.querySelector<HTMLElement>('[data-journey]');
-  if (journey) {
-    journey.style.setProperty('--journey-h', `${journey.offsetHeight}px`);
+  const roadmap = document.querySelector<HTMLElement>('.journey-roadmap');
+  if (roadmap && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const stops = [...roadmap.querySelectorAll<HTMLElement>('.journey-stop')];
+    let next = 0;
+    const reveal = () => {
+      if (next === stops.length) {
+        stops.forEach((stop) => stop.classList.remove('is-visible'));
+        next = 0;
+        setTimeout(reveal, 350);
+        return;
+      }
+      stops[next++].classList.add('is-visible');
+      setTimeout(reveal, next === stops.length ? 2400 : 750);
+    };
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return;
-      journey.style.setProperty('--journey-h', `${journey.offsetHeight}px`);
-      journey.classList.add('is-visible');
+      roadmap.classList.add('is-animated');
+      reveal();
       observer.disconnect();
-    }, { threshold: 0.18, rootMargin: '0px 0px -10% 0px' });
-    observer.observe(journey);
+    }, { threshold: .25 });
+    observer.observe(roadmap);
+  }
+
+  const principles = document.querySelector<HTMLElement>('[data-principles-carousel]');
+  if (principles) {
+    const track = principles.querySelector<HTMLElement>('[data-principles-track]');
+    const cards = [...principles.querySelectorAll<HTMLElement>('[data-principle-card]')];
+    const tabs = [...principles.querySelectorAll<HTMLButtonElement>('[data-principles-tab]')];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let active = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const show = (index: number) => {
+      active = (index + cards.length) % cards.length;
+      if (track) track.style.transform = `translateX(-${active * 100}%)`;
+      cards.forEach((card, i) => card.setAttribute('aria-hidden', String(i !== active)));
+      tabs.forEach((tab, i) => tab.setAttribute('aria-pressed', String(i === active)));
+    };
+    const start = () => {
+      clearTimeout(timer);
+      if (!reducedMotion) timer = setTimeout(() => {
+        show(active + 1);
+        start();
+      }, 5200);
+    };
+    const restart = () => {
+      start();
+    };
+
+    tabs.forEach((tab, i) => tab.addEventListener('click', () => { show(i); restart(); }));
+    principles.addEventListener('mouseenter', () => clearTimeout(timer));
+    principles.addEventListener('mouseleave', start);
+    show(0);
+    start();
   }
 </script>
 </BaseLayout>
@@ -360,10 +403,6 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
     max-width: 760px;
   }
 
-  .about-page :global(.container-x > .space-y-3:not(.mx-auto)) {
-    margin-inline: 0;
-  }
-
   .about-page :global(.rounded-3xl),
   .about-page :global(.rounded-2xl) {
     border-radius: 1.5rem;
@@ -399,8 +438,340 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
     padding-top: 42px;
   }
 
-  .about-page :global(.journey) {
-    max-width: 920px;
+  .about-page :global(.mission-card) {
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+  }
+
+  .about-page :global(.mission-card::before) {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: hsl(var(--primary));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+  }
+
+  .about-page :global(.mission-card:hover) {
+    transform: translateY(-4px);
+  }
+
+  .about-page :global(.mission-card:hover::before) {
+    transform: scaleX(1);
+  }
+
+  .about-page :global(.mission-card:hover .mission-icon) {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    transform: rotate(-4deg) scale(1.04);
+  }
+
+  .about-page :global(.mission-icon) {
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+
+  .about-page :global(.principles-viewport) {
+    overflow: hidden;
+  }
+
+  .about-page :global(.principles-track) {
+    display: flex;
+    transition: transform .38s ease;
+    will-change: transform;
+  }
+
+  .about-page :global(.principle-card) {
+    flex: 0 0 100%;
+    position: relative;
+    overflow: hidden;
+    animation: principle-rise .55s ease both;
+  }
+
+  .about-page :global(.principle-card:hover) {
+    transform: translateY(-5px);
+  }
+
+  .about-page :global(.principle-card:hover .principle-icon) {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    transform: translateY(-2px);
+  }
+
+  .about-page :global(.principle-icon) {
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+
+  .about-page :global(.cert-card) {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    min-height: 190px;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .about-page :global(.cert-card::before) {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: hsl(var(--primary));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform .25s ease;
+  }
+
+  .about-page :global(.cert-card:hover) {
+    border-color: hsl(var(--primary) / .45);
+    box-shadow: 0 16px 30px hsl(var(--foreground) / .08);
+  }
+
+  .about-page :global(.cert-card:hover::before) {
+    transform: scaleY(1);
+  }
+
+  .about-page :global(.cert-card:hover .cert-icon) {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    transform: translateY(-2px);
+  }
+
+  .about-page :global(.cert-icon) {
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+  }
+
+  .about-page :global(.cert-meta) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: hsl(var(--muted-foreground));
+    font-size: .625rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .about-page :global(.cert-status) {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    color: hsl(var(--primary));
+    letter-spacing: .04em;
+  }
+
+  .about-page :global(.cert-main) {
+    display: flex;
+    align-items: center;
+    gap: .875rem;
+    margin-top: auto;
+    padding-block: 1.25rem;
+  }
+
+  .about-page :global(.cert-type) {
+    color: hsl(var(--primary));
+    font-size: .6875rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .about-page :global(.cert-main h3) {
+    margin-top: .375rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.15;
+  }
+
+  .about-page :global(.cert-issuer) {
+    border-top: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+    line-height: 1.3;
+    padding-top: .875rem;
+  }
+
+  @media (min-width: 1024px) {
+    .about-page :global(.cert-grid .cert-card:last-child) {
+      grid-column: 2;
+    }
+  }
+
+  .about-page :global(.principles-controls) {
+    width: max-content;
+    max-width: 100%;
+  }
+
+  .about-page :global(.principle-dot) {
+    width: 18px;
+    height: 4px;
+    border: 0;
+    border-radius: 9999px;
+    background: hsl(var(--muted-foreground) / .32);
+    transition: width .2s ease, background .2s ease;
+  }
+
+  .about-page :global(.principle-dot:hover),
+  .about-page :global(.principle-dot[aria-pressed="true"]) {
+    width: 36px;
+    background: hsl(var(--primary));
+  }
+
+  @keyframes principle-rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .about-page :global(.journey-scroll) {
+    overflow-x: auto;
+    padding-block: 8px;
+  }
+
+  .about-page :global(.journey-roadmap) {
+    position: relative;
+    min-width: 1050px;
+    max-width: 1200px;
+    height: 452px;
+    margin-inline: auto;
+  }
+
+  .about-page :global(.journey-road) {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    width: 100%;
+    height: 48px;
+    background: hsl(var(--foreground) / .86);
+    border-block: 3px solid hsl(var(--foreground) / .25);
+    pointer-events: none;
+  }
+
+  .about-page :global(.journey-road::after) {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, hsl(var(--background) / .8) 0 14px, transparent 14px 28px);
+    background-size: 28px 2px;
+    animation: road-line-move .7s linear infinite;
+  }
+
+  .about-page :global(.journey-stop) {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: var(--x);
+    width: 18%;
+    height: 168px;
+    padding: 14px;
+    border: 1px solid hsl(var(--border));
+    border-top: 3px solid hsl(var(--primary));
+    border-radius: 5px;
+    background: hsl(var(--card));
+    transform: translateX(-50%);
+  }
+
+  .about-page :global(.journey-lower) {
+    top: 280px;
+  }
+
+  .about-page :global(.journey-roadmap.is-animated .journey-stop) {
+    opacity: 0;
+    transform: translate(-50%, 12px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+
+  .about-page :global(.journey-roadmap.is-animated .journey-stop.is-visible) {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+
+  .about-page :global(.journey-today) {
+    border-color: hsl(var(--primary) / .6);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / .08);
+  }
+
+  .about-page :global(.journey-content) {
+    margin-top: 10px;
+  }
+
+  .about-page :global(.journey-stem) {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 3px;
+    height: 32px;
+    background: hsl(var(--foreground) / .7);
+    transform: translateX(-50%);
+  }
+
+  .about-page :global(.journey-lower .journey-stem) {
+    top: auto;
+    bottom: 100%;
+  }
+
+  .about-page :global(.journey-content h3) {
+    font-size: .9375rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.25;
+  }
+
+  .about-page :global(.journey-content p) {
+    margin-top: .375rem;
+    color: hsl(var(--muted-foreground));
+    font-size: .75rem;
+    line-height: 1.45;
+  }
+
+  .about-page :global(.journey-pin) {
+    position: absolute;
+    z-index: 2;
+    top: 200px;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    border: 3px solid hsl(var(--background));
+    border-radius: 3px;
+    background: hsl(var(--primary));
+    box-shadow: 0 0 0 1px hsl(var(--primary));
+    transform: translate(-50%, -50%);
+  }
+
+  .about-page :global(.journey-lower .journey-pin) {
+    top: -32px;
+  }
+
+  .about-page :global(.journey-date) {
+    color: hsl(var(--primary));
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .about-page :global(.journey-today .journey-pin) {
+    background: hsl(var(--foreground));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / .2);
+  }
+
+  @keyframes road-line-move {
+    to { background-position-x: 28px; }
   }
 
   .about-hero :global(.system-diagram) {
@@ -415,11 +786,6 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 
   .about-hero :global(.system-diagram img) {
     max-width: 100%;
-  }
-
-  .about-page :global(.journey-line),
-  .about-page :global(.journey-dot > span:last-child) {
-    box-shadow: none;
   }
 
   @media (max-width: 600px) {
@@ -437,6 +803,41 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
       border-left: 0;
       border-radius: 0;
       padding: 14px 0 0;
+    }
+
+    .about-page :global(.journey-scroll) {
+      margin-inline: -1.25rem;
+      padding-inline: 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-page :global(.journey-road::after) {
+      animation: none;
+    }
+
+    .about-page :global(.mission-card),
+    .about-page :global(.mission-card:hover),
+    .about-page :global(.mission-card::before),
+    .about-page :global(.mission-icon),
+    .about-page :global(.mission-card:hover .mission-icon),
+    .about-page :global(.principle-card),
+    .about-page :global(.principle-card:hover),
+    .about-page :global(.principle-icon),
+    .about-page :global(.principle-card:hover .principle-icon),
+    .about-page :global(.cert-card),
+    .about-page :global(.cert-card:hover),
+    .about-page :global(.cert-card::before),
+    .about-page :global(.cert-icon),
+    .about-page :global(.cert-card:hover .cert-icon),
+    .about-page :global(.road-lane),
+    .about-page :global(.principles-track),
+    .about-page :global(.principle-dot),
+    .about-page :global(.principle-dot:hover),
+    .about-page :global(.principle-dot[aria-pressed="true"]) {
+      animation: none;
+      transition: none;
+      transform: none;
     }
   }
 </style>
