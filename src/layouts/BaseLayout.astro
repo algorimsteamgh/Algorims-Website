@@ -100,7 +100,8 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
         </a>
 
         <!-- Desktop nav (centered) -->
-        <nav class="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2" aria-label="Primary">
+        <nav class="hidden lg:flex items-center gap-6 xl:gap-8 absolute left-1/2 -translate-x-1/2" aria-label="Primary">
+          <a href="/agentic-ai" aria-current={path.startsWith("/agentic-ai") ? "page" : undefined}>Agentic AI</a>
           <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
           <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
           <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
@@ -126,6 +127,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <!-- Mobile menu -->
     <div id="mobile-menu" class="hidden border-t border-border bg-background p-4 lg:hidden">
       <nav class="flex flex-col gap-1" id="mobile-nav-links">
+        <a href="/agentic-ai" aria-current={path.startsWith("/agentic-ai") ? "page" : undefined}>Agentic AI</a>
         <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
         <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
         <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
