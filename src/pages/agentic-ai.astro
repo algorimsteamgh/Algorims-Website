@@ -27,6 +27,14 @@ const caseArt = [
   ["knowledge", "A question and internal records feed an agent that retrieves source passages and returns an answer with citations."],
   ["supply", "Demand trends and supplier stock feed an agent that plans replenishment and coordinates deliveries."],
 ] as const;
+const caseLabels = [
+  [["Inputs", "Voice · Chat"], ["Agent", "Customer operations"], ["Outcome", "Resolved interactions"]],
+  [["Inputs", "Business documents"], ["Agent", "Document processing"], ["Outcome", "Validated information"]],
+  [["Inputs", "Accounts · CRM"], ["Agent", "Revenue copilot"], ["Outcome", "Prepared outreach"]],
+  [["Inputs", "Alerts · Deployments"], ["Agent", "SRE operations"], ["Outcome", "Restored service"]],
+  [["Inputs", "Questions · Records"], ["Agent", "Knowledge retrieval"], ["Outcome", "Cited answers"]],
+  [["Inputs", "Demand · Stock"], ["Agent", "Supply planning"], ["Outcome", "Coordinated delivery"]],
+];
 const services = [
   ["Amazon Nova", "Foundation model family", "Frontier multimodal reasoning — purpose-built for fast, cost-effective agentic workloads at enterprise scale."],
   ["Amazon Kendra", "Intelligent enterprise search", "Natural-language retrieval across every system of record — turning siloed documents into instant, governed answers."],
@@ -85,8 +93,9 @@ const architecture = [
             <figure>
               <img class="case-art-light" src={index === 0 ? "/assets/illustrations/solution-autonomous-customer-operations.webp" : "/assets/illustrations/solution-intelligent-document-processing.webp"} alt={index === 0 ? "Voice and chat inputs connect through an autonomous customer operations system to resolved interactions." : "Business documents flow through an intelligent processing system to validated information."} width="1254" height="1254" loading="lazy" />
               <img class="case-art-dark" src={index === 0 ? "/assets/illustrations/solution-autonomous-customer-operations-dark.webp" : "/assets/illustrations/solution-intelligent-document-processing-dark.webp"} alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
+              <figcaption>{caseLabels[index].map(([label, value]) => <span><b>{label}</b>{value}</span>)}</figcaption>
             </figure> :
-            <figure class="generated-art"><AgentUseCaseArt kind={caseArt[index - 2][0]} description={caseArt[index - 2][1]} /></figure>}
+            <figure class="generated-art"><AgentUseCaseArt kind={caseArt[index - 2][0]} description={caseArt[index - 2][1]} /><figcaption>{caseLabels[index].map(([label, value]) => <span><b>{label}</b>{value}</span>)}</figcaption></figure>}
         </article>)}</div></div>
     </div></section>
 
@@ -102,7 +111,7 @@ const architecture = [
 
     <section class="section" aria-labelledby="value-title"><div class="container-x value-grid">
       <div><p class="eyebrow">Enterprise value</p><h2 id="value-title">More capacity for <span>higher-value work.</span></h2><p>Connected agents can reduce repetitive work, improve response times, and make decisions easier to trace.</p></div>
-      <div class="outcome-grid">{outcomes.map(([figure, label]) => <div><strong>{figure}</strong><p>{label}</p></div>)}</div>
+      <div class="outcome-grid">{outcomes.map(([figure, label]) => <div><strong data-counter>{figure}</strong><p>{label}</p></div>)}</div>
     </div></section>
 
     <section class="section architecture-section" aria-labelledby="architecture-title"><div class="container-x"><div class="architecture-grid">
@@ -158,17 +167,18 @@ const architecture = [
 @keyframes case-ticker { to { --case-progress: 360deg; } }
 .case-picker button:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
 .featured-cases { display: grid; gap: 22px; }
-.is-enhanced .featured-cases { display: grid; grid-template-columns: minmax(0, 1fr); padding: 34px 56px 0 0; }
-.featured-case { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: center; gap: clamp(22px, 4vw, 70px); min-height: 290px; padding: clamp(24px, 3vw, 38px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); transition: border-color .25s ease, transform .25s ease; }
+.is-enhanced .featured-cases { display: grid; grid-template-columns: minmax(0, 1fr); padding-top: 34px; }
+.featured-case { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(28px, 3vw, 48px); min-height: 290px; padding: clamp(24px, 3vw, 38px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); transition: border-color .25s ease, transform .25s ease; }
 .case-showcase:not(.is-enhanced) .featured-case:hover { border-color: hsl(var(--primary) / .4); transform: translateY(-3px); }
 .is-enhanced .featured-case { grid-area: 1 / 1; min-height: 350px; transition: transform .6s cubic-bezier(.22, 1, .36, 1), opacity .4s ease, border-color .25s ease, visibility .4s; }
 .is-enhanced .featured-case[data-slot="0"] { z-index: 3; opacity: 1; transform: translate(0, 0) scale(1); }
-.is-enhanced .featured-case[data-slot="1"] { z-index: 2; opacity: .65; transform: translate(18px, -17px) scale(.97); }
-.is-enhanced .featured-case[data-slot="2"] { z-index: 1; opacity: .35; transform: translate(36px, -34px) scale(.94); }
-.is-enhanced .featured-case[data-slot="hidden"] { visibility: hidden; opacity: 0; transform: translate(45px, -42px) scale(.92); }
+.is-enhanced .featured-case[data-slot="1"] { z-index: 2; opacity: .65; transform: translateY(-17px) scale(.97); }
+.is-enhanced .featured-case[data-slot="2"] { z-index: 1; opacity: .35; transform: translateY(-34px) scale(.94); }
+.is-enhanced .featured-case[data-slot="hidden"] { visibility: hidden; opacity: 0; transform: translateY(-42px) scale(.92); }
 .is-enhanced .featured-case[data-slot="0"]:hover { border-color: hsl(var(--primary) / .4); }
 .featured-case:nth-child(even) .featured-copy { order: 2; }
 .featured-case:nth-child(even) figure { order: 1; }
+.featured-copy { width: min(100%, 460px); margin: 0 auto; }
 .featured-case h3 { max-width: 450px; font-size: clamp(1.7rem, 3vw, 2.5rem); }
 .featured-case h3 span { color: hsl(var(--primary)); }
 .featured-case p { max-width: 440px; margin: 18px 0 0; color: hsl(var(--muted-foreground)); font-size: 1.05rem; }
@@ -181,8 +191,11 @@ const architecture = [
 .featured-case .when-open, .featured-case details[open] .when-closed { display: none; }
 .featured-case details[open] .when-open { display: inline; }
 .featured-case details p { margin-top: 4px; font-size: .98rem; }
-.featured-case figure { display: grid; place-items: center; width: min(100%, 320px); height: 280px; margin: 0 auto; }
-.featured-case img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.featured-case figure { display: grid; grid-template-rows: 230px auto; gap: 12px; place-items: center; width: min(100%, 460px); margin: 0 auto; }
+.featured-case img { display: block; grid-row: 1; width: min(100%, 340px); height: 230px; object-fit: contain; }
+.featured-case figcaption { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; }
+.featured-case figcaption span { min-width: 0; padding: 8px 10px; border: 1px solid hsl(var(--border)); border-radius: .65rem; color: hsl(var(--muted-foreground)); font-size: .66rem; line-height: 1.35; }
+.featured-case figcaption b { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; }
 .featured-case .case-art-dark { display: none; }
 :global(:root.dark) .featured-case .case-art-light { display: none; }
 :global(:root.dark) .featured-case .case-art-dark { display: block; }
@@ -245,13 +258,15 @@ const architecture = [
   .capability-grid h3 { margin-top: 18px; }
   .case-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
   .case-picker button { min-height: 62px; font-size: .82rem; }
-  .is-enhanced .featured-cases { padding: 30px 30px 0 0; }
+  .is-enhanced .featured-cases { padding-top: 30px; }
   .featured-case { grid-template-columns: 1fr; gap: 8px; min-height: 0; padding: 26px; }
   .is-enhanced .featured-case { min-height: 510px; }
-  .is-enhanced .featured-case[data-slot="1"] { transform: translate(10px, -12px) scale(.98); }
-  .is-enhanced .featured-case[data-slot="2"] { transform: translate(20px, -24px) scale(.96); }
+  .is-enhanced .featured-case[data-slot="1"] { transform: translateY(-12px) scale(.98); }
+  .is-enhanced .featured-case[data-slot="2"] { transform: translateY(-24px) scale(.96); }
   .featured-case:nth-child(even) .featured-copy, .featured-case:nth-child(even) figure { order: initial; }
-  .featured-case figure { width: min(100%, 280px); height: 220px; }
+  .featured-case figure { grid-template-rows: 190px auto; width: 100%; }
+  .featured-case img { height: 190px; }
+  .featured-case figcaption span { padding: 7px; font-size: .6rem; }
   .stack-list { grid-template-columns: 1fr; }
   .delivery ol { grid-template-columns: 1fr; gap: 0; }
   .delivery li { padding: 22px 0; }
