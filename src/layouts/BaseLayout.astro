@@ -76,14 +76,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
-<!-- Warm the connection to the Spline CDN early so the agentic-AI robot scene loads fast -->
-<link rel="preconnect" href="https://prod.spline.design" crossorigin />
-<link rel="preconnect" href="https://unpkg.com" crossorigin />
-<link rel="dns-prefetch" href="https://prod.spline.design" />
-<link rel="prefetch" as="fetch" href="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode" crossorigin />
-
 <script is:inline src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<script is:inline type="module" src="https://unpkg.com/@splinetool/viewer@1.9.28/build/spline-viewer.js"></script>
 
 <!-- Tailwind is now handled by @astrojs/tailwind (see astro.config.mjs /
      tailwind.config.mjs). global.css (ported from assets/css/site.css) is
