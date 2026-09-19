@@ -73,12 +73,12 @@ const architecture = [
 
     <section class="section" aria-labelledby="problem-title"><div class="container-x problem-layout">
       <div class="problem-intro"><p class="eyebrow">The challenge</p><h2 id="problem-title">Enterprise knowledge is <span>hard to use.</span></h2><p>Data, documents, and operational workflows sit across disconnected systems. Teams spend time finding information, processing documents, and repeating tasks before they can act.</p></div>
-      <div class="problem-rows">{problems.map(([title, description], index) => <article><span class="item-number">0{index + 1}</span><div><h3>{title}</h3><p>{description}</p></div></article>)}</div>
+      <div class="problem-rows">{problems.map(([title, description]) => <article><h3>{title}</h3><p>{description}</p></article>)}</div>
     </div></section>
 
     <section class="section" id="how-it-works" aria-labelledby="capabilities-title"><div class="container-x">
       <div class="section-heading"><p class="eyebrow">What is Agentic AI</p><h2 id="capabilities-title">Solution that <span>mines, decides, and acts for your business</span></h2><p>Agentic AI pairs a powerful reasoning engine with your enterprise knowledge — continuously mining insights, reducing operational workload, and taking autonomous action to drive measurable business outcomes.</p></div>
-      <div class="capability-grid">{capabilities.map(([title, description], index) => <article><span class="item-number">0{index + 1}</span><div><h3>{title}</h3><p>{description}</p></div><span class="capability-mark" aria-hidden="true">↗</span></article>)}</div>
+      <div class="capability-grid">{capabilities.map(([title, description]) => <article><div><h3>{title}</h3><p>{description}</p></div><span class="capability-mark" aria-hidden="true">↗</span></article>)}</div>
     </div></section>
 
     <section class="section use-cases" aria-labelledby="use-cases-title"><div class="container-x">
@@ -101,7 +101,7 @@ const architecture = [
 
     <section class="section" aria-labelledby="stack-title"><div class="container-x">
       <div class="stack-layout"><div class="stack-intro"><p class="eyebrow">Our AWS AI stack</p><h2 id="stack-title">AWS services for <span>production agents.</span></h2><p>We select the services each system needs for search, reasoning, storage, and document processing.</p></div>
-      <div class="stack-list">{services.map(([title, category, description], index) => <article><span class="item-number">0{index + 1}</span><div><p class="service-category">{category}</p><h3>{title}</h3><p>{description}</p></div></article>)}</div></div>
+      <div class="stack-list">{services.map(([title, category, description]) => <article><p class="service-category">{category}</p><h3>{title}</h3><p>{description}</p></article>)}</div></div>
     </div></section>
 
     <section class="section delivery" aria-labelledby="delivery-title"><div class="container-x">
@@ -116,7 +116,7 @@ const architecture = [
 
     <section class="section architecture-section" aria-labelledby="architecture-title"><div class="container-x"><div class="architecture-grid">
       <div><p class="eyebrow">Future-ready architecture</p><h2 id="architecture-title">Built on a reference architecture for <span>production agents</span>.</h2><p>Model-agnostic. Tool-rich. Observable by default. Our reference architecture brings together planning, memory, evaluation, and governance — so you ship agents you can trust.</p></div>
-      <div class="architecture-layers">{architecture.map(([title, description], index) => <div><span>0{index + 1}</span><strong>{title}</strong><p>{description}</p></div>)}</div>
+      <div class="architecture-layers">{architecture.map(([title, description]) => <div><strong>{title}</strong><p>{description}</p></div>)}</div>
     </div>
     </div></section>
   </div>
@@ -145,15 +145,15 @@ const architecture = [
 .hero .btn-outline { color: hsl(var(--foreground)); }
 
 .problem-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid hsl(var(--border)); }
-.problem-rows article { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 26px 12px 0 0; }
+.problem-rows article { padding: 26px 12px 0 0; }
 .problem-rows h3 { font-size: 1.25rem; }
 .problem-rows p, .capability-grid p, .stack-list article p:last-child, .delivery li p, .architecture-layers p { margin: 9px 0 0; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.65; }
 
 .capability-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid hsl(var(--border)); }
-.capability-grid article { position: relative; display: flex; flex-direction: column; min-height: 290px; padding: 25px 26px 18px 0; }
+.capability-grid article { position: relative; display: flex; flex-direction: column; min-height: 250px; padding: 25px 26px 18px 0; }
 .capability-grid article + article { padding-left: 26px; border-left: 1px solid hsl(var(--border)); }
 .capability-grid article > div { margin-top: auto; }
-.capability-grid h3 { margin-top: 36px; }
+.capability-grid h3 { margin-top: 0; }
 .capability-grid p { max-width: 260px; }
 .capability-mark { position: absolute; top: 24px; right: 24px; color: hsl(var(--primary) / .5); font-size: 1.1rem; }
 
@@ -201,7 +201,7 @@ const architecture = [
 :global(:root.dark) .featured-case .case-art-dark { display: block; }
 
 .stack-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 42px; border-top: 1px solid hsl(var(--border)); }
-.stack-list article { display: grid; grid-template-columns: 42px 1fr; gap: 18px; padding: 22px 0 24px; border-bottom: 1px solid hsl(var(--border)); }
+.stack-list article { padding: 22px 0 24px; border-bottom: 1px solid hsl(var(--border)); }
 .stack-list h3 { margin-top: 3px; font-size: 1.4rem; }
 .stack-list .service-category { margin: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
 .stack-list article p:last-child { max-width: 520px; margin-top: 9px; }
@@ -223,10 +223,9 @@ const architecture = [
 .architecture-grid > div:first-child { max-width: 850px; margin: 0 auto 42px; text-align: center; }
 .architecture-grid > div:first-child > p:last-child { color: hsl(var(--muted-foreground)); }
 .architecture-layers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; border-top: 1px solid hsl(var(--border)); }
-.architecture-layers > div { display: grid; grid-template-columns: 30px 1fr; gap: 4px 15px; padding: 24px 0; border-bottom: 1px solid hsl(var(--border)); }
-.architecture-layers span { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; }
+.architecture-layers > div { padding: 24px 0; border-bottom: 1px solid hsl(var(--border)); }
 .architecture-layers strong { font-size: 1.05rem; font-weight: 600; }
-.architecture-layers p { grid-column: 2; margin: 0; color: hsl(var(--muted-foreground)); font-size: .92rem; }
+.architecture-layers p { margin: 9px 0 0; color: hsl(var(--muted-foreground)); font-size: .92rem; }
 
 .agentic-page :is(a, summary):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 4px; }
 
@@ -255,7 +254,7 @@ const architecture = [
   .capability-grid article, .capability-grid article + article, .capability-grid article:nth-child(3), .capability-grid article:nth-child(4) { min-height: 0; padding: 22px 0; border-left: 0; }
   .capability-grid article + article { border-top: 1px solid hsl(var(--border)); }
   .capability-grid article > div { margin-top: 0; }
-  .capability-grid h3 { margin-top: 18px; }
+  .capability-grid h3 { margin-top: 0; }
   .case-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
   .case-picker button { min-height: 62px; font-size: .82rem; }
   .is-enhanced .featured-cases { padding-top: 30px; }
