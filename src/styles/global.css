@@ -95,6 +95,7 @@
     @media (min-width: 1536px) { .container-x { padding-left: 2rem; padding-right: 2rem; } }
   }
   .text-gradient { background-clip: text; -webkit-background-clip: text; color: transparent; background-image: var(--gradient-primary); }
+  .heading-accent { color: hsl(var(--primary)); }
   .surface-mesh { background-image: var(--gradient-mesh); }
   .surface-hero { background-image: var(--gradient-hero); }
   .glass { backdrop-filter: blur(20px); background: hsl(var(--background) / 0.6); border: 1px solid hsl(var(--border) / 0.6); }

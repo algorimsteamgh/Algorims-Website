@@ -1,0 +1,248 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import ProductHero from "./ProductHero.astro";
+import ProductDetails from "./ProductDetails.astro";
+import { awsIcon } from "./awsIcon";
+
+interface Props { entry: CollectionEntry<"products"> }
+const { entry } = Astro.props;
+const data = entry.data;
+const relatedEntries = await getCollection("products");
+const related = data.related.flatMap((slug) => {
+  const item = relatedEntries.find((candidate) => candidate.id === slug);
+  return item ? [{ slug, title: item.data.title, glyph: item.data.glyph }] : [];
+});
+const flow = data.flow;
+const systemArt = {
+  cxiq: ["solution-autonomous-customer-operations.webp", "solution-autonomous-customer-operations-dark.webp"],
+  dociq: ["solution-intelligent-document-processing.webp", "solution-intelligent-document-processing-dark.webp"],
+  opsiq: ["agent-devops-sre.png", "agent-devops-sre.png"],
+  payiq: ["payiq-system.png", "payiq-system.png"],
+}[entry.id] ?? ["autonomous-system.webp", "autonomous-system-3d-dark.webp"];
+const systemAlt = entry.id === "payiq"
+  ? "Invoices enter PayIQ for capture and payment-detail checks, then post to the ledger or pause for human review."
+  : `${flow.stages[0].title} flow through ${flow.stages[1].title} to ${flow.stages[2].title}.`;
+const headingCopy: Record<string, { challenge: [string, string]; system: [string, string] }> = {
+  cxiq: { challenge: ["Generic chatbots answer confidently.", "That's the problem."], system: ["One layer between your conversations", "and your systems"] },
+  dociq: { challenge: ["Your team keys data", "your AI could read."], system: ["One layer between your documents", "and your systems"] },
+  opsiq: { challenge: ["Your L1 desk is stuck between", "two bad options."], system: ["One layer between your tickets", "and your systems"] },
+  payiq: { challenge: ["AP toil is annoying. AP fraud is dangerous.", "You're carrying both."], system: ["One layer between your invoices", "and your books"] },
+};
+const headings = headingCopy[entry.id];
+---
+
+<article class="product-detail-page">
+  <ProductHero entry={entry} />
+
+  <section class="product-section product-overview" aria-labelledby="overview-title">
+    <div class="container-x overview-grid">
+      <div class="section-heading">
+        <p class="product-eyebrow">The opportunity</p>
+        <h2 id="overview-title">{headings?.challenge[0] ?? data.challenge.lead} {headings && <span>{headings.challenge[1]}</span>}</h2>
+      </div>
+      <div class="overview-copy">
+        {data.intro.map((paragraph) => <p set:html={paragraph} />)}
+      </div>
+      <ul class="challenge-grid">
+        {data.challenge.items.map((item, index) => (
+          <li>
+            <span class="item-number">{String(index + 1).padStart(2, "0")}</span>
+            <p>{item}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="product-section product-system" aria-labelledby="system-title">
+    <div class="container-x">
+      <header class="section-heading centered">
+        <p class="product-eyebrow">How it fits</p>
+        <h2 id="system-title">{headings?.system[0] ?? flow.title} {headings && <span>{headings.system[1]}</span>}</h2>
+        <p>{flow.desc}</p>
+      </header>
+      <figure class="system-flow" aria-describedby="system-caption">
+        <div class="system-art-frame">
+          <img class="system-art-light" src={`/assets/illustrations/${systemArt[0]}`} alt={systemAlt} width={entry.id === "opsiq" ? 1536 : 1254} height={entry.id === "opsiq" ? 1024 : 1254} loading="lazy" />
+          <img class="system-art-dark" src={`/assets/illustrations/${systemArt[1]}`} alt="" aria-hidden="true" width={entry.id === "opsiq" ? 1536 : 1254} height={entry.id === "opsiq" ? 1024 : 1254} loading="lazy" />
+        </div>
+        <figcaption id="system-caption">
+          <div class="system-labels">
+            {flow.stages.map((stage, index) => <span><b>{index === 0 ? "Inputs" : index === 1 ? "Algorims system" : "Outcomes"}</b>{stage.title}</span>)}
+          </div>
+          {flow.footer && <p>{flow.footer}</p>}
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="product-section product-workflow" id="workflow" aria-labelledby="workflow-title">
+    <div class="container-x">
+      <header class="section-heading">
+        <p class="product-eyebrow">The workflow</p>
+        <h2 id="workflow-title">Designed to move fast—<span>and stop at the right moment.</span></h2>
+        {data.solutionLead && <p>{data.solutionLead}</p>}
+      </header>
+      <ol class="workflow-list">
+        {data.solution.map((step, index) => (
+          <li>
+            <span class="item-number">{String(index + 1).padStart(2, "0")}</span>
+            <div><h3>{step.h}</h3><p>{step.p}</p></div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {data.aws && data.aws.length > 0 && (
+    <section class="product-section product-foundation" aria-labelledby="foundation-title">
+      <div class="container-x foundation-grid">
+        <header class="section-heading">
+          <p class="product-eyebrow">Production foundation</p>
+          <h2 id="foundation-title">Built for your environment, <span>not around it.</span></h2>
+          {data.awsLead && <p>{data.awsLead}</p>}
+        </header>
+        <div class="foundation-list">
+          {data.aws.map((service) => (
+            <article>
+              <span aria-hidden="true"><i data-lucide={awsIcon(service.name)} /></span>
+              <div><h3>{service.name}</h3><p>{service.desc}</p></div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <ProductDetails slug={entry.id} part="more" />
+
+  {data.faqs && data.faqs.length > 0 && (
+    <section class="product-section product-faq" aria-labelledby="faq-title">
+      <div class="container-x faq-grid">
+        <header class="section-heading">
+          <p class="product-eyebrow">Questions, answered</p>
+          <h2 id="faq-title">What teams ask <span>before they start.</span></h2>
+        </header>
+        <div class="faq-list">
+          {data.faqs.map((faq) => (
+            <details>
+              <summary><span>{faq.q}</span><i data-lucide="plus" aria-hidden="true" /></summary>
+              <p>{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="product-section product-related" aria-labelledby="related-title">
+    <div class="container-x">
+      <header class="section-heading compact">
+        <p class="product-eyebrow">Product suite</p>
+        <h2 id="related-title">Explore the <span>connected systems.</span></h2>
+      </header>
+      <div class="related-grid">
+        {related.map((item) => (
+          <a href={`/products/${item.slug}`}>
+            <span class="related-icon" aria-hidden="true"><i data-lucide={item.glyph} /></span>
+            <div><p>{item.slug.toUpperCase()}</p><h3>{item.title}</h3></div>
+            <i data-lucide="arrow-up-right" aria-hidden="true" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ProductDetails slug={entry.id} part="cta" />
+</article>
+
+<style>
+  .product-detail-page { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+  .product-section { padding: clamp(64px, 7vw, 96px) 0; border-top: 1px solid hsl(var(--border)); }
+  .product-eyebrow, .item-number { margin: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+  .section-heading { max-width: 760px; }
+  .section-heading.centered { margin-inline: auto; text-align: center; }
+  .section-heading.compact { margin-bottom: 36px; }
+  .section-heading h2 { margin: 16px 0 0; font-size: clamp(2.15rem, 4vw, 3.8rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.04; text-wrap: balance; }
+  .section-heading h2 span { color: hsl(var(--primary)); }
+  .section-heading > p:last-child:not(.product-eyebrow) { margin: 20px 0 0; color: hsl(var(--muted-foreground)); font-size: 1.05rem; line-height: 1.7; text-wrap: pretty; }
+  .centered > p:last-child:not(.product-eyebrow) { margin-inline: auto; }
+
+  .overview-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 28px clamp(36px, 7vw, 96px); }
+  .overview-copy p { margin: 0; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.75; }
+  .overview-copy p + p { margin-top: 18px; }
+  .challenge-grid { display: grid; grid-column: 1 / -1; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0 0; padding: 0; list-style: none; }
+  .challenge-grid li { position: relative; padding: 28px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background)); transition: border-color .2s ease, transform .2s ease; }
+  .challenge-grid li::before { position: absolute; inset: 0 0 auto; height: 3px; background: hsl(var(--primary)); transform: scaleX(0); transform-origin: left; transition: transform .22s ease; content: ""; }
+  .challenge-grid li:hover { border-color: hsl(var(--primary) / .45); transform: translateY(-4px); }
+  .challenge-grid li:hover::before { transform: scaleX(1); }
+  .challenge-grid p { margin: 14px 0 0; color: hsl(var(--muted-foreground)); line-height: 1.65; }
+
+  .product-system { background: hsl(var(--muted) / .3); }
+  .system-flow { max-width: 980px; margin: 40px auto 0; }
+  .system-art-frame { display: grid; place-items: center; min-height: 470px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
+  .system-art-frame img { display: block; grid-area: 1 / 1; width: min(100%, 620px); height: 460px; object-fit: contain; }
+  .system-art-dark { display: none !important; }
+  :global(:root.dark) .system-art-light { display: none; }
+  :global(:root.dark) .system-art-dark { display: block !important; }
+  .system-labels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
+  .system-labels span { padding: 13px 16px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background)); color: hsl(var(--muted-foreground)); font-size: .74rem; line-height: 1.4; }
+  .system-labels b { display: block; margin-bottom: 4px; color: hsl(var(--primary)); font-size: .62rem; letter-spacing: .15em; text-transform: uppercase; }
+  .system-flow figcaption > p { max-width: 760px; margin: 20px auto 0; color: hsl(var(--muted-foreground)); font-size: .82rem; line-height: 1.6; text-align: center; }
+
+  .workflow-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 46px 0 0; padding: 0; list-style: none; }
+  .workflow-list li { display: grid; grid-template-columns: 42px 1fr; gap: 20px; min-height: 185px; padding: 30px; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background)); transition: border-color .2s ease, transform .2s ease; }
+  .workflow-list li:hover { border-color: hsl(var(--primary) / .45); transform: translateY(-4px); }
+  .workflow-list li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .workflow-list h3 { margin: 0; font-size: 1.2rem; font-weight: 600; letter-spacing: -.025em; }
+  .workflow-list p { margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .93rem; line-height: 1.65; }
+
+  .product-foundation { background: hsl(var(--muted) / .3); }
+  .foundation-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(40px, 8vw, 112px); align-items: start; }
+  .foundation-list { display: grid; gap: 14px; }
+  .foundation-list article { display: grid; grid-template-columns: 42px 1fr; gap: 18px; padding: 24px; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background)); transition: border-color .2s ease, transform .2s ease; }
+  .foundation-list article:hover { border-color: hsl(var(--primary) / .45); transform: translateX(4px); }
+  .foundation-list article > span { display: grid; width: 36px; height: 36px; place-items: center; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--primary)); }
+  .foundation-list article > span :global(svg) { width: 18px; height: 18px; }
+  .foundation-list h3 { margin: 0; font-size: 1.05rem; font-weight: 600; }
+  .foundation-list p { margin: 7px 0 0; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.6; }
+
+  .faq-grid { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(40px, 8vw, 112px); }
+  .faq-list { display: grid; gap: 12px; }
+  .faq-list details { border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background)); }
+  .faq-list summary { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 76px; padding: 18px 22px; font-weight: 600; cursor: pointer; list-style: none; }
+  .faq-list summary::-webkit-details-marker { display: none; }
+  .faq-list summary :global(svg) { flex: none; width: 18px; height: 18px; color: hsl(var(--primary)); transition: transform .2s ease; }
+  .faq-list details[open] summary :global(svg) { transform: rotate(45deg); }
+  .faq-list details > p { margin: -4px 52px 22px 22px; color: hsl(var(--muted-foreground)); line-height: 1.65; }
+
+  .product-related { padding-top: 72px; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .related-grid a { display: grid; grid-template-columns: auto 1fr auto; gap: 18px; align-items: start; min-height: 180px; padding: 28px; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; color: inherit; background: hsl(var(--background)); text-decoration: none; }
+  .related-grid a:hover { border-color: hsl(var(--primary) / .45); background: hsl(var(--muted) / .45); }
+  .related-grid .related-icon { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--primary)); }
+  .related-grid :global(svg) { width: 18px; height: 18px; }
+  .related-grid > a > :global(svg) { color: hsl(var(--muted-foreground)); }
+  .related-grid p { margin: 2px 0 8px; color: hsl(var(--primary)); font-size: .68rem; font-weight: 700; letter-spacing: .16em; }
+  .related-grid h3 { margin: 0; font-size: 1.16rem; font-weight: 600; line-height: 1.35; }
+
+  @media (max-width: 900px) {
+    .overview-grid, .foundation-grid, .faq-grid { grid-template-columns: 1fr; }
+    .challenge-grid { grid-template-columns: 1fr; }
+    .challenge-grid li { padding: 22px; }
+    .related-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 650px) {
+    .product-section { padding: 64px 0; }
+    .workflow-list { grid-template-columns: 1fr; }
+    .workflow-list li { min-height: 0; padding: 24px 20px; }
+    .system-art-frame { min-height: 320px; }
+    .system-art-frame img { height: 310px; }
+    .system-labels { grid-template-columns: 1fr; }
+    .related-grid a { min-height: 0; padding: 22px 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .faq-list summary :global(svg), .challenge-grid li, .challenge-grid li::before, .workflow-list li, .foundation-list article { transition: none; }
+    .challenge-grid li:hover, .workflow-list li:hover, .foundation-list article:hover { transform: none; }
+  }
+</style>

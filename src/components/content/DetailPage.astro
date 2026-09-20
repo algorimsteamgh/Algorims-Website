@@ -33,6 +33,21 @@ const clientLogo = "clientLogo" in data ? data.clientLogo : undefined;
 const scene = entry.id in caseScenes ? caseScenes[entry.id as keyof typeof caseScenes] : undefined;
 const isSolution = entry.collection === "solutions";
 const isOperations = entry.id === "operations-automation";
+const titleAccents: Record<string, string> = {
+  "autonomous-customer-operations": "with Amazon Connect",
+  "intelligent-document-processing": "with AI on AWS",
+  "operations-automation": "for Singapore SMBs",
+  "ai-school-scheduler": "with intelligent automation",
+  "cicd-release-automation": "secure, high-quality software automatically",
+  "enterprise-knowledge-mining": "answers questions — not just returns files",
+  "finance-document-automation": "invoices to ERP in minutes",
+  "qsr-conversational-analytics": "real-time intelligence for a Singapore QSR chain",
+  "smac-tech-labs-ai-support": "Running SMAC Tech Labs' Own Customer Service",
+  "syslatech-intelligent-document-processing": "Automated Document Processing with AWS",
+};
+const accentPhrase = titleAccents[entry.id];
+const titleAccent = accentPhrase && data.title.endsWith(accentPhrase) ? accentPhrase : undefined;
+const titleLead = titleAccent ? data.title.slice(0, -titleAccent.length).trim() : data.title;
 const backLink = isSolution ? { href: "/solutions", label: "Solutions" } : data.source;
 const collections = await Promise.all([
   getCollection("case-studies"), getCollection("solutions"), getCollection("products"),
@@ -45,7 +60,7 @@ const related = data.related.flatMap((slug) => {
   return [];
 });
 ---
-<div class={isSolution ? `solution-detail${isOperations ? " operations-page" : ""}` : undefined}>
+<div class={isSolution ? `solution-detail${isOperations ? " operations-page" : ""}` : "case-detail"}>
 {entry.collection === "products" ? <ProductHero entry={entry} /> : <>
 <section class="pt-8 pb-4">
   <div class="container-x">
@@ -60,7 +75,9 @@ const related = data.related.flatMap((slug) => {
     {isSolution ? <>
       <div class="solution-hero-layout">
         <div class="solution-hero-copy">
-          <h1 class="text-balance">{data.title}</h1>
+          <p class="solution-kicker">{data.tag}</p>
+          <h1 class="text-balance">{titleLead} {titleAccent && <span>{titleAccent}</span>}</h1>
+          <p class="solution-hero-lead">{data.subtitle}</p>
         </div>
         <figure class="solution-hero-art">
           <img src={`/assets/illustrations/solution-${entry.id}.webp`} alt={`${data.title} — system workflow illustration`} width="1254" height="1254" fetchpriority="high" />
@@ -78,7 +95,7 @@ const related = data.related.flatMap((slug) => {
           <div class="relative flex h-14 items-center rounded-2xl border border-border bg-white px-3"><img src={clientLogo.src} alt={clientLogo.alt} class="h-7 w-auto object-contain" /></div>
           <div><p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Deployed for</p><p class="text-xl font-semibold text-foreground">{clientLogo.name}</p></div>
         </div>}
-        <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">{data.title}</h1>
+        <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">{titleLead} {titleAccent && <span>{titleAccent}</span>}</h1>
         <p class="text-pretty text-lg leading-relaxed text-muted-foreground">{data.subtitle}</p>
         <div class="flex flex-wrap gap-3 pt-1">
           <a href="/contact" class="btn btn-hero btn-lg">Talk to an architect <i data-lucide="arrow-right" /></a>
@@ -139,7 +156,8 @@ const related = data.related.flatMap((slug) => {
   .solution-detail .inline-flex.rounded-full { padding: 0; border: 0; border-radius: 0; background: transparent; }
   .solution-detail .inline-flex.rounded-full > span:first-child { display: none; }
   .solution-detail h1 { margin: 0 auto; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
-  .operations-page h1 span { color: hsl(var(--primary)); }
+  .solution-detail h1 span, .case-detail h1 span { color: hsl(var(--primary)); }
+  .solution-detail .solution-hero-lead { max-width: 640px; margin: 22px 0 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.65; }
   .solution-detail .solution-hero-art { margin: 0; }
   .solution-detail .solution-hero-art img { display: block; width: 100%; height: auto; }
   .solution-detail .solution-hero-art-dark { display: none !important; }
@@ -192,7 +210,7 @@ const related = data.related.flatMap((slug) => {
   .operations-page .operations-section + section .rounded-3xl { border-radius: 0; }
   @media (max-width: 900px) { .operations-page .operations-aws .mt-8.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 650px) { .operations-page .operations-challenge ul, .operations-page .operations-steps .mt-10.space-y-5, .operations-page .operations-aws .mt-8.grid, .operations-page .operations-results .mt-8.grid { grid-template-columns: 1fr; } .operations-page .operations-steps .mt-10.space-y-5 > div { padding: 26px 20px; } .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(even), .operations-page .operations-results .mt-8.grid > div:nth-child(odd), .operations-page .operations-related .grid > a + a { border-left: 0; border-right: 0; } .operations-page .operations-steps .mt-10.space-y-5 > div + div, .operations-page .operations-related .grid > a + a { border-top: 1px solid hsl(var(--border)); } }
-  @media (max-width: 800px) { .solution-detail .solution-hero-layout { grid-template-columns: 1fr; } .solution-detail .solution-hero-layout .solution-hero-copy { text-align: center; } .solution-detail .solution-hero-art { max-width: 580px; margin-inline: auto; } }
+  @media (max-width: 800px) { .solution-detail .solution-hero-layout { grid-template-columns: 1fr; } .solution-detail .solution-hero-layout .solution-hero-copy { text-align: center; } .solution-detail .solution-hero-lead { margin-inline: auto; } .solution-detail .solution-hero-art { max-width: 580px; margin-inline: auto; } }
   @media (min-width: 640px) and (max-width: 1023px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div:nth-child(even) { border-left: 1px solid hsl(var(--border)) !important; } .solution-detail .solution-hero + section .grid > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); } }
   @media (max-width: 639px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div + div { border-top: 1px solid hsl(var(--border)); } }
   @media (max-width: 600px) { .solution-detail h1 { font-size: 2.4rem; } }

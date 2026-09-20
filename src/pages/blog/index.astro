@@ -23,10 +23,10 @@ const posts = await getBlogPosts();
   <section class="blog-list" aria-labelledby="more-title">
     <div class="container-x">
       <div class="blog-list-heading">
-        <h2 id="more-title">More from the team</h2>
+        <div><p>Latest thinking</p><h2 id="more-title">More from the <span>team.</span></h2></div>
       </div>
       <div class="blog-grid">
-        {posts.map((post) => <BlogCard post={post} />)}
+        {posts.map((post, index) => <BlogCard post={post} index={index + 1} />)}
       </div>
     </div>
   </section>
@@ -34,15 +34,17 @@ const posts = await getBlogPosts();
 
 <style>
   .blog-hero { border-bottom: 1px solid hsl(var(--border)); }
-  .blog-hero-copy { max-width: 1050px; margin: 0 auto; padding: 46px 0 24px; text-align: center; }
+  .blog-hero-copy { max-width: 1050px; margin: 0 auto; padding: 42px 0 30px; text-align: center; }
   .blog-kicker { margin: 0 0 14px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
   .blog-hero h1 { margin: 0; font-size: clamp(2.8rem, 5.4vw, 5rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
   .blog-hero h1 span { color: hsl(var(--primary)); }
   .blog-intro { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
   .blog-actions { display: flex; justify-content: center; gap: 14px; margin: 26px 0 0; }
-  .blog-list { padding: 48px 0 clamp(4rem, 8vw, 7rem); }
+  .blog-list { padding: 56px 0 clamp(4rem, 8vw, 6rem); }
   .blog-list-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 2rem; }
-  .blog-list-heading h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 600; letter-spacing: -.045em; }
+  .blog-list-heading p { margin: 0 0 10px; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .blog-list-heading h2 { margin: 0; font-size: clamp(2.15rem, 3.6vw, 3.4rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.04; }
+  .blog-list-heading h2 span { color: hsl(var(--primary)); }
   .blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
   @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 640px) { .blog-hero-copy { padding-top: 44px; } .blog-actions { flex-direction: column; margin-inline: 20px; } .blog-grid { grid-template-columns: 1fr; } }

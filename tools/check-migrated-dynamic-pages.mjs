@@ -22,10 +22,10 @@ for (const collection of ['blog', 'case-studies', 'products', 'solutions']) {
 }
 
 const products = read('dist/products/index.html');
-assert.equal((products.match(/class="pp-card\b/g) ?? []).length, 8);
+assert.equal((products.match(/class="product-row\b/g) ?? []).length, 8);
 assert.equal((products.match(/data-more="true"/g) ?? []).length, 3);
-assert.equal((products.match(/data-pp-rail-target=/g) ?? []).length, 5);
-assert.equal((products.match(/data-rot-node=/g) ?? []).length, 5);
+assert.equal((products.match(/href="#(?:cxiq|dociq|opsiq|payiq|operations-automation)"/g) ?? []).length, 5);
+assert.match(products, /Built by Algorims, <span[^>]*>used in the wild\.<\/span>/);
 
 for (const [slug, required] of Object.entries({
   cxiq: ['Conversation feed', 'Two stacks, one product', 'One layer between your conversations and your systems', 'Let AI handle the routine. Let your team handle what matters.'],
@@ -34,7 +34,8 @@ for (const [slug, required] of Object.entries({
   payiq: ['Posting feed', 'ANZ · Xero', 'One layer between your invoices and your books', 'Let your team review exceptions, not type invoices.'],
 })) {
   const html = read(`dist/products/${slug}/index.html`);
-  for (const copy of required) assert.ok(html.includes(copy), `products/${slug} omits ${copy}`);
+  const copyText = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
+  for (const copy of required) assert.ok(copyText.includes(copy), `products/${slug} omits ${copy}`);
 }
 
 console.log('All collection routes and listing links are present.');

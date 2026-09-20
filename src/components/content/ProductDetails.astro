@@ -144,38 +144,117 @@ const details: Record<string, {
 };
 
 const detail = details[slug];
+const feedIcon = slug === "cxiq" ? "message-square" : slug === "opsiq" ? "ticket-check" : slug === "payiq" ? "receipt" : "file-check-2";
+const detailHeadings: Record<string, [string, string]> = {
+  cxiq: ["Two stacks,", "one product"],
+  dociq: ["The economics,", "from a reference deployment"],
+  opsiq: ["The economics,", "from a live service desk"],
+  payiq: ["Built around", "the ledger you already run"],
+};
+const ctaHeadings: Record<string, [string, string]> = {
+  cxiq: ["Let AI handle the routine.", "Let your team handle what matters."],
+  dociq: ["Stop paying", "manual document-keying prices."],
+  opsiq: ["Let AI close the routine tickets.", "Let your team own what's risky."],
+  payiq: ["Let your team review exceptions,", "not type invoices."],
+};
 ---
 
-{detail && part === "feed" && <div class:list={["product-feed", slug]}>
-  <div class="feed-head"><h2>{detail.feed}</h2><span>● Example</span></div>
-  <ul>{detail.rows.map((row) => <><li class:list={["feed-row", { held: row.held }]}><span class="feed-icon" aria-hidden="true">{row.held ? "⚠️" : slug === "cxiq" ? "💬" : slug === "opsiq" ? "🎫" : "📄"}</span><div class="feed-body"><p>{row.label}</p><small>{row.detail}</small></div><strong>{row.status}</strong></li>{row.held && <li class="feed-note">{detail.warning}</li>}</>)}</ul>
+{detail && part === "feed" && <div class="product-feed">
+  <div class="feed-head"><h2>{detail.feed}</h2><span><i data-lucide="circle" aria-hidden="true" /> Live example</span></div>
+  <ul>{detail.rows.map((row) => <Fragment><li class:list={["feed-row", { held: row.held }]}><span class="feed-icon" aria-hidden="true"><i data-lucide={row.held ? "shield-alert" : feedIcon} /></span><div class="feed-body"><p>{row.label}</p><small>{row.detail}</small></div><strong><i data-lucide={row.held ? "pause" : "check"} aria-hidden="true" />{row.status}</strong></li>{row.held && <li class="feed-note"><i data-lucide="lock-keyhole" aria-hidden="true" /><span>{detail.warning}</span></li>}</Fragment>)}</ul>
 </div>}
 {detail && part === "more" && <>
-  <section class="py-12"><div class="container-x"><p class="text-xs font-semibold uppercase tracking-widest text-primary">Where it fits</p><h2 class="mt-3 text-3xl font-semibold tracking-tight">{detail.heading}</h2><p class="mt-3 max-w-3xl text-muted-foreground">{detail.lead}</p><div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">{detail.cards.map((card) => <div class="rounded-2xl border border-border bg-background p-6"><h3 class="text-lg font-semibold">{card.title}</h3><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{card.text}</p></div>)}</div></div></section>
-  <section class="pb-12"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Deployment commitments</h2><ul class="mt-6 grid gap-3 md:grid-cols-2">{detail.capabilities.map((capability) => <li class="rounded-xl border border-border bg-background p-5 text-sm leading-relaxed text-muted-foreground">{capability}</li>)}</ul></div></section>
-  {detail.markets && <section class="py-12 bg-secondary/40"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Built region first, market by market</h2><div class="mt-6 grid gap-4 lg:grid-cols-3">{detail.markets.map((market) => <div class="rounded-2xl border border-border bg-background p-6"><h3 class="text-lg font-semibold">{market.name}</h3><p class="mt-2 text-sm text-muted-foreground">{market.description}</p><dl class="mt-5 space-y-2 border-t border-border pt-4 text-sm"><div class="flex justify-between gap-4"><dt>AWS region</dt><dd class="text-right font-medium">{market.region}</dd></div><div class="flex justify-between gap-4"><dt>Compliance</dt><dd class="text-right font-medium">{market.compliance}</dd></div><div class="flex justify-between gap-4"><dt>Currency</dt><dd class="text-right font-medium">{market.currency}</dd></div></dl></div>)}</div></div></section>}
-  {detail.economics && <section class="py-12 bg-secondary/40"><div class="container-x"><h2 class="text-2xl font-semibold tracking-tight">Measured results</h2><div class="mt-6 overflow-x-auto rounded-2xl border border-border bg-background"><table class="w-full min-w-[640px] text-left text-sm"><thead class="bg-secondary/60"><tr>{detail.economics.columns.map((column) => <th scope="col" class="px-4 py-3 font-semibold">{column}</th>)}</tr></thead><tbody class="divide-y divide-border">{detail.economics.rows.map((row) => <tr>{row.map((cell) => <td class="px-4 py-3">{cell}</td>)}</tr>)}</tbody></table></div><p class="mt-3 text-xs text-muted-foreground">{detail.economics.note}</p></div></section>}
-  <section class="py-12"><div class="container-x"><p class="text-xs font-semibold uppercase tracking-widest text-primary">The architecture</p><h2 class="mt-3 text-3xl font-semibold tracking-tight">A defined path from intake to decision</h2><ol class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">{detail.pipeline.map((step, index) => <li class="rounded-xl border border-border bg-secondary/40 p-4"><span class="text-xs font-semibold text-primary">{String(index + 1).padStart(2, "0")}</span><p class="mt-2 font-medium">{step}</p></li>)}</ol></div></section>
+  <section class="detail-section fit-section"><div class="container-x"><header class="detail-heading"><p class="detail-eyebrow">Where it fits</p><h2>{detailHeadings[slug]?.[0] ?? detail.heading} <span>{detailHeadings[slug]?.[1]}</span></h2><p>{detail.lead}</p></header><div class="fit-grid">{detail.cards.map((card, index) => <article><span>{String(index + 1).padStart(2, "0")}</span><h3>{card.title}</h3><p>{card.text}</p></article>)}</div></div></section>
+  <section class="detail-section commitments-section"><div class="container-x commitments-layout"><header class="detail-heading"><p class="detail-eyebrow">Built-in controls</p><h2>Deployment <span>commitments</span></h2></header><ul>{detail.capabilities.map((capability) => <li><i data-lucide="check" aria-hidden="true" /><span>{capability}</span></li>)}</ul></div></section>
+  {detail.markets && <section class="detail-section markets-section"><div class="container-x"><header class="detail-heading"><p class="detail-eyebrow">Regional by design</p><h2>Built region first, <span>market by market.</span></h2></header><div class="market-grid">{detail.markets.map((market) => <article><h3>{market.name}</h3><p>{market.description}</p><dl><div><dt>AWS region</dt><dd>{market.region}</dd></div><div><dt>Compliance</dt><dd>{market.compliance}</dd></div><div><dt>Currency</dt><dd>{market.currency}</dd></div></dl></article>)}</div></div></section>}
+  {detail.economics && <section class="detail-section economics-section"><div class="container-x"><header class="detail-heading"><p class="detail-eyebrow">Evidence</p><h2>Measured <span>results</span></h2></header><div class="table-wrap"><table><thead><tr>{detail.economics.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead><tbody>{detail.economics.rows.map((row) => <tr>{row.map((cell) => <td>{cell}</td>)}</tr>)}</tbody></table></div><p class="table-note">{detail.economics.note}</p></div></section>}
+  <section class="detail-section pipeline-section"><div class="container-x"><header class="detail-heading centered"><p class="detail-eyebrow">Operating sequence</p><h2>A defined path from <span>intake to decision.</span></h2></header><ol>{detail.pipeline.map((step, index) => <li><span>{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol></div></section>
 </>}
-{detail && part === "cta" && <section class="py-10 lg:py-14"><div class="container-x"><div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16"><div class="absolute inset-0 surface-mesh opacity-60" /><div class="relative grid gap-8 md:grid-cols-5 md:items-center"><div class="md:col-span-3"><h2 class="text-balance text-4xl font-semibold leading-tight">{detail.cta.title}</h2><p class="mt-4 max-w-xl leading-relaxed text-white/75">{detail.cta.text}</p></div><div class="md:col-span-2 md:text-right"><a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Contact Us <i data-lucide="arrow-right" /></a></div></div></div></div></section>}
+{detail && part === "cta" && <section class="product-cta"><div class="container-x"><p class="detail-eyebrow">Ready when you are</p><h2>{ctaHeadings[slug]?.[0] ?? detail.cta.title} <span>{ctaHeadings[slug]?.[1]}</span></h2><p>{detail.cta.text}</p><a href="/contact" class="btn btn-hero btn-xl">Start a conversation <i data-lucide="arrow-right" aria-hidden="true" /></a></div></section>}
 
 <style>
-  .product-feed { padding: 6px; border: 1px solid var(--product-border); border-radius: 20px; background: white; box-shadow: 0 24px 56px rgba(13,27,64,.12); }
-  .feed-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 12px; }
-  .feed-head h2 { color: #8C98A9; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
-  .feed-head span { color: var(--product-deep); font-size: .68rem; font-weight: 700; }
-  .product-feed ul { margin: 0; padding: 0; list-style: none; }
-  .feed-row { display: flex; align-items: center; gap: 12px; margin: 0 8px 6px; padding: 12px 14px; border: 1px solid var(--product-border); border-radius: 12px; background: var(--product-surface); }
-  .feed-row.held { border-color: #FDE1A8; background: #FEF3C7; }
-  .feed-icon { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border: 1px solid var(--product-border); border-radius: 9px; background: #fff; font-size: .85rem; }
+  .product-feed { background: transparent; }
+  .feed-head { display: flex; align-items: center; justify-content: space-between; padding: 0 2px 16px; }
+  .feed-head h2 { margin: 0; color: hsl(var(--foreground)); font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+  .feed-head span { display: inline-flex; align-items: center; gap: 6px; color: hsl(var(--muted-foreground)); font-size: .66rem; font-weight: 600; text-transform: uppercase; }
+  .feed-head span :global(svg) { width: 7px; height: 7px; fill: hsl(var(--primary)); color: hsl(var(--primary)); }
+  .product-feed ul { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .feed-row { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background)); }
+  .feed-row.held { background: hsl(var(--primary) / .07); }
+  .feed-icon { display: grid; flex: 0 0 34px; width: 34px; height: 34px; place-items: center; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--primary)); }
+  .feed-icon :global(svg) { width: 16px; height: 16px; stroke-width: 1.8; }
   .feed-body { flex: 1; min-width: 0; }
-  .feed-body p { margin: 0; color: #0D1B40; font-size: .8rem; font-weight: 600; line-height: 1.4; }
-  .feed-body small { display: block; margin-top: 3px; color: #8C98A9; font-size: .64rem; }
-  .feed-row strong { flex: 0 0 auto; padding: 4px 9px; border-radius: 6px; background: #E7F6EC; color: #15803D; font-size: .6rem; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; }
-  .feed-row.held strong { background: #fff8e8; color: #B45309; }
-  .feed-note { margin: 0 8px 8px; padding: 10px 14px; border: 1px dashed #FDE1A8; border-radius: 10px; background: #FFF8E8; color: #8A5A0A; font-size: .72rem; line-height: 1.5; }
-  .payiq .feed-row.held { border-color: #F8C9C9; background: #FEE2E2; }
-  .payiq .feed-row.held strong { background: #fff; color: #DC2626; }
-  .payiq .feed-note { border-color: #F8C9C9; background: #FDF0F0; color: #8A1F1F; }
-  @media (max-width: 600px) { .feed-row { flex-wrap: wrap; } .feed-row strong { margin-left: 44px; } }
+  .feed-body p { margin: 0; color: hsl(var(--foreground)); font-size: .82rem; font-weight: 600; line-height: 1.4; }
+  .feed-body small { display: block; margin-top: 4px; color: hsl(var(--muted-foreground)); font-size: .66rem; }
+  .feed-row strong { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; color: hsl(var(--muted-foreground)); font-size: .61rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .feed-row strong :global(svg) { width: 12px; height: 12px; color: hsl(var(--primary)); }
+  .feed-row.held strong { color: hsl(var(--primary)); }
+  .feed-note { display: flex; gap: 10px; align-items: center; padding: 13px 18px; border: 1px solid hsl(var(--primary) / .2); border-radius: 1rem; background: hsl(var(--primary) / .04); color: hsl(var(--muted-foreground)); font-size: .72rem; line-height: 1.5; }
+  .feed-note :global(svg) { flex: 0 0 auto; width: 15px; height: 15px; color: hsl(var(--primary)); }
+
+  .detail-section { padding: clamp(64px, 7vw, 96px) 0; border-top: 1px solid hsl(var(--border)); background: hsl(var(--background)); }
+  .detail-eyebrow { margin: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+  .detail-heading { max-width: 760px; }
+  .detail-heading.centered { margin-inline: auto; text-align: center; }
+  .detail-heading h2, .product-cta h2 { margin: 16px 0 0; font-size: clamp(2.15rem, 4vw, 3.8rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.04; text-wrap: balance; }
+  .detail-heading h2 span, .product-cta h2 span { color: hsl(var(--primary)); }
+  .detail-heading > p:last-child:not(.detail-eyebrow) { margin: 19px 0 0; color: hsl(var(--muted-foreground)); font-size: 1.04rem; line-height: 1.7; }
+
+  .fit-grid, .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+  .fit-grid article, .market-grid article { position: relative; min-width: 0; padding: 28px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--background)); transition: border-color .2s ease, transform .2s ease; }
+  .fit-grid article::before, .market-grid article::before { position: absolute; inset: 0 0 auto; height: 3px; background: hsl(var(--primary)); transform: scaleX(0); transform-origin: left; transition: transform .22s ease; content: ""; }
+  .fit-grid article:hover, .market-grid article:hover { border-color: hsl(var(--primary) / .45); transform: translateY(-4px); }
+  .fit-grid article:hover::before, .market-grid article:hover::before { transform: scaleX(1); }
+  .fit-grid article > span { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; }
+  .fit-grid h3, .market-grid h3 { margin: 18px 0 0; font-size: 1.18rem; font-weight: 600; letter-spacing: -.025em; }
+  .fit-grid p, .market-grid > article > p { margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.65; }
+
+  .commitments-section { background: hsl(var(--muted) / .3); }
+  .commitments-layout { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(40px, 8vw, 112px); }
+  .commitments-layout ul { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .commitments-layout li { display: grid; grid-template-columns: 22px 1fr; gap: 14px; padding: 20px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background)); color: hsl(var(--muted-foreground)); font-size: .92rem; line-height: 1.6; transition: border-color .2s ease, transform .2s ease; }
+  .commitments-layout li:hover { border-color: hsl(var(--primary) / .45); transform: translateX(4px); }
+  .commitments-layout li :global(svg) { width: 16px; height: 16px; margin-top: 4px; color: hsl(var(--primary)); }
+
+  .markets-section + .economics-section { padding-top: 0; border-top: 0; }
+  .market-grid dl { margin: 24px 0 0; border-top: 1px solid hsl(var(--border)); }
+  .market-grid dl div { display: flex; justify-content: space-between; gap: 18px; padding: 10px 0; border-bottom: 1px solid hsl(var(--border)); font-size: .75rem; line-height: 1.4; }
+  .market-grid dt { color: hsl(var(--muted-foreground)); }
+  .market-grid dd { margin: 0; font-weight: 600; text-align: right; }
+  .table-wrap { margin-top: 36px; overflow-x: auto; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; }
+  table { width: 100%; min-width: 660px; border-collapse: collapse; text-align: left; }
+  th, td { padding: 15px 18px; border-bottom: 1px solid hsl(var(--border)); font-size: .82rem; }
+  th { background: hsl(var(--muted) / .45); color: hsl(var(--foreground)); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; }
+  td { color: hsl(var(--muted-foreground)); }
+  tbody tr:last-child td { border-bottom: 0; }
+  .table-note { margin: 14px 0 0; color: hsl(var(--muted-foreground)); font-size: .72rem; line-height: 1.55; }
+
+  .pipeline-section { background: hsl(var(--muted) / .3); }
+  .pipeline-section ol { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 44px 0 0; padding: 0; list-style: none; }
+  .pipeline-section li { min-width: 0; padding: 24px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background)); }
+  .pipeline-section li > span { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; }
+  .pipeline-section li p { margin: 24px 0 0; font-size: .92rem; font-weight: 600; line-height: 1.45; }
+
+  .product-cta { padding: clamp(78px, 9vw, 124px) 0; border-top: 1px solid hsl(var(--border)); background: hsl(var(--background)); text-align: center; }
+  .product-cta .container-x { max-width: 900px; }
+  .product-cta > div > p:not(.detail-eyebrow) { max-width: 660px; margin: 22px auto 0; color: hsl(var(--muted-foreground)); font-size: 1.03rem; line-height: 1.7; }
+  .product-cta .btn { margin-top: 28px; }
+
+  @media (max-width: 900px) {
+    .fit-grid, .market-grid { grid-template-columns: 1fr; }
+    .commitments-layout { grid-template-columns: 1fr; }
+    .pipeline-section ol { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .feed-row { flex-wrap: wrap; padding: 12px; }
+    .feed-row strong { margin-left: 48px; }
+    .feed-note { align-items: flex-start; padding: 12px; }
+    .detail-section { padding: 64px 0; }
+    .fit-grid article, .market-grid article { padding: 24px 20px; }
+    .pipeline-section ol { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fit-grid article, .market-grid article, .fit-grid article::before, .market-grid article::before, .commitments-layout li { transition: none; }
+    .fit-grid article:hover, .market-grid article:hover, .commitments-layout li:hover { transform: none; }
+  }
 </style>
