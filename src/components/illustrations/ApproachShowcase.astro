@@ -1,0 +1,762 @@
+---
+// src/components/illustrations/ApproachShowcase.astro
+const steps = [
+  {
+    index: "01",
+    kicker: "01 / Discover & diagnose",
+    phase: "Discover & diagnose",
+    desc: "We map the goals, constraints, systems, and signals that define the real problem.",
+    lightImg: "/assets/illustrations/approach-discover.webp",
+    darkImg: "/assets/illustrations/approach-discover-dark.webp",
+    alt: "Business goals, existing systems, and operational data connect through Algorims into a clear transformation roadmap.",
+    labels: [
+      ["Inputs", "Business goals · Existing systems · Operational data"],
+      ["Core", "Discovery & diagnosis"],
+      ["Outcome", "Transformation roadmap"],
+    ],
+  },
+  {
+    index: "02",
+    kicker: "02 / Design & engineer",
+    phase: "Design & engineer",
+    desc: "We turn the diagnosis into a secure architecture and build the system around it.",
+    lightImg: "/assets/illustrations/approach-design.webp",
+    darkImg: "/assets/illustrations/approach-design-dark.webp",
+    alt: "Workflows, AI agents, and cloud services connect through Algorims into an engineered system blueprint.",
+    labels: [
+      ["Inputs", "Workflows · AI agents · Cloud services"],
+      ["Core", "Solution engineering"],
+      ["Outcome", "System blueprint"],
+    ],
+  },
+  {
+    index: "03",
+    kicker: "03 / Deploy & evolve",
+    phase: "Deploy & evolve",
+    desc: "We ship into production, measure what matters, and improve the system continuously.",
+    lightImg: "/assets/illustrations/approach-deploy.webp",
+    darkImg: "/assets/illustrations/approach-deploy-dark.webp",
+    alt: "Deployment, monitoring, and reliability controls connect through Algorims into measurable operational outcomes.",
+    labels: [
+      ["Inputs", "Release · Monitoring · Security"],
+      ["Core", "Production operations"],
+      ["Outcome", "Measurable performance"],
+    ],
+  },
+];
+---
+
+<div class="approach-showcase" id="approach-showcase" data-active="0">
+  <!-- Interactive 3-card selector tabs (Aoutive style) -->
+  <div class="approach-tabs" role="tablist" aria-label="Methodology phases">
+    {steps.map((step, i) => (
+      <button
+        type="button"
+        role="tab"
+        class="approach-tab"
+        data-index={i}
+        data-active={i === 0 ? "true" : "false"}
+        aria-selected={i === 0 ? "true" : "false"}
+        aria-controls={`approach-window-${i}`}
+        id={`approach-tab-${i}`}
+      >
+        <span class="tab-index">{step.index} / Discovery to Production</span>
+        <h3 class="tab-title">{step.phase}</h3>
+        <p class="tab-desc">{step.desc}</p>
+        <div class="tab-progress" aria-hidden="true"></div>
+      </button>
+    ))}
+  </div>
+
+  <!-- 3D Isometric Stacked Windows Stage -->
+  <div class="stage-viewport" aria-live="polite">
+    <div class="stage-perspective">
+      {steps.map((step, i) => (
+        <div
+          class="stacked-window"
+          id={`approach-window-${i}`}
+          role="tabpanel"
+          aria-labelledby={`approach-tab-${i}`}
+          data-slot={i}
+          data-index={i}
+        >
+          <!-- Window Header with macOS dots -->
+          <div class="window-header">
+            <div class="window-dots" aria-hidden="true">
+              <span class="dot close"></span>
+              <span class="dot minimize"></span>
+              <span class="dot expand"></span>
+            </div>
+            <div class="window-title-tag">
+              <span class="window-indicator-dot"></span>
+              <span>{step.phase}</span>
+            </div>
+            <div class="window-actions" aria-hidden="true">
+              <span class="window-step-badge">{step.index}</span>
+            </div>
+          </div>
+
+          <!-- Window Canvas Content -->
+          <figure class="window-body">
+            <img
+              class="art-light"
+              src={step.lightImg}
+              alt={step.alt}
+              width="1536"
+              height="1024"
+              loading={i === 0 ? "eager" : "lazy"}
+            />
+            <img
+              class="art-dark"
+              src={step.darkImg}
+              alt=""
+              aria-hidden="true"
+              width="1536"
+              height="1024"
+              loading={i === 0 ? "eager" : "lazy"}
+            />
+            <figcaption class="art-labels">
+              {step.labels.map(([label, value]) => (
+                <span><b>{label}</b>{value}</span>
+              ))}
+            </figcaption>
+          </figure>
+        </div>
+      ))}
+    </div>
+
+    <!-- Centered bottom indicator pill -->
+    <div class="stage-indicator" aria-hidden="true">
+      {steps.map((_, i) => (
+        <button
+          type="button"
+          tabindex="-1"
+          class="indicator-segment"
+          data-index={i}
+          data-active={i === 0 ? "true" : "false"}
+          aria-label={`Jump to step 0${i + 1}`}
+        ></button>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+.tab-index,
+.window-actions { display: none; }
+
+.approach-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* --- 3-card selector tabs --- */
+.approach-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.approach-tab {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  padding: 24px 26px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.approach-tab:hover {
+  background: hsl(var(--muted) / 0.35);
+  border-color: hsl(var(--border));
+}
+
+.approach-tab:focus-visible {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.2);
+}
+
+.tab-index {
+  display: block;
+  margin-bottom: 8px;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.tab-title {
+  margin: 0 0 8px;
+  color: hsl(var(--muted-foreground));
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  transition: color 0.3s ease;
+}
+
+.tab-desc {
+  margin: 0;
+  color: hsl(var(--muted-foreground) / 0.75);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  transition: color 0.3s ease;
+}
+
+/* Active Tab State (exact Aoutive style from screenshot) */
+.approach-tab[data-active="true"] {
+  background: hsl(var(--background));
+  border-color: hsl(var(--primary));
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.08), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+}
+
+:global(.dark) .approach-tab[data-active="true"] {
+  background: #14171f;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.5), 0 0 0 1px hsl(var(--primary) / 0.35);
+}
+
+.approach-tab[data-active="true"] .tab-index {
+  color: hsl(var(--primary));
+}
+
+.approach-tab[data-active="true"] .tab-title {
+  color: hsl(var(--foreground));
+}
+
+.approach-tab[data-active="true"] .tab-desc {
+  color: hsl(var(--foreground) / 0.82);
+}
+
+/* Progress indicator under active card */
+.tab-progress {
+  position: absolute;
+  bottom: -1.5px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  background: hsl(var(--primary));
+  border-radius: 9999px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.3s ease;
+}
+
+.approach-tab[data-active="true"] .tab-progress {
+  opacity: 1;
+  animation: tab-cycle-progress 5.5s linear forwards;
+}
+
+@keyframes tab-cycle-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.approach-showcase:hover .tab-progress,
+.approach-showcase:focus-within .tab-progress {
+  animation-play-state: paused;
+}
+
+/* --- 3D Isometric Stacked Windows Stage --- */
+.stage-viewport {
+  position: relative;
+  width: 100%;
+  min-height: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px 40px;
+  overflow: visible;
+  background: linear-gradient(180deg, hsl(var(--muted) / 0.18) 0%, hsl(var(--background)) 100%);
+  border: 1px solid hsl(var(--border));
+  border-radius: 16px;
+}
+
+.stage-perspective {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  height: 520px;
+  perspective: 1600px;
+  perspective-origin: 50% 35%;
+  overflow: visible;
+}
+
+/* Stacked Window Component */
+.stacked-window {
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  width: 100%;
+  max-width: 720px;
+  height: 450px;
+  margin-left: -360px;
+  border-radius: 12px;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.12), 0 8px 24px -4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.5s ease,
+              box-shadow 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.5s ease;
+}
+
+:global(.dark) .stacked-window {
+  background: #0f1218;
+  border-color: #2b3342;
+  box-shadow: 0 30px 80px -16px rgba(0, 0, 0, 0.7), 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Window Header Bar with macOS dots */
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding: 0 16px;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--muted) / 0.3);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+:global(.dark) .window-header {
+  background: #151a22;
+  border-bottom-color: #2b3342;
+}
+
+.window-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(var(--border));
+  opacity: 0.85;
+}
+
+.stacked-window[data-slot="0"] .dot.close { background: #ff5f56; }
+.stacked-window[data-slot="0"] .dot.minimize { background: #ffbd2e; }
+.stacked-window[data-slot="0"] .dot.expand { background: #27c93f; }
+
+.window-title-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  letter-spacing: 0.02em;
+}
+
+.window-indicator-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+}
+
+.window-step-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--muted));
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Window Canvas Body - perfectly frames the 1536x1024 illustration */
+.window-body {
+  position: relative;
+  flex: 1;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  padding: 16px 24px;
+  margin: 0;
+  background: hsl(var(--background));
+  overflow: hidden;
+}
+
+:global(.dark) .window-body {
+  background: #0b0d12;
+}
+
+.window-body img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.art-labels {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  font-size: 0.67rem;
+  line-height: 1.35;
+}
+
+.art-labels span { display: grid; gap: 2px; }
+.art-labels b {
+  color: hsl(var(--foreground));
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.window-body .art-dark {
+  display: none;
+}
+
+:global(.dark) .window-body .art-light {
+  display: none;
+}
+
+:global(.dark) .window-body .art-dark {
+  display: block;
+}
+
+/* --- Isometric Stacking Transitions (Aoutive Stacked perspective) --- */
+/* Slot 0: Foreground Active Window */
+.stacked-window[data-slot="0"] {
+  z-index: 10;
+  opacity: 1;
+  pointer-events: auto;
+  filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.12));
+  transform: rotateX(24deg) rotateY(-12deg) rotateZ(6deg) translate3d(0, 0, 40px);
+}
+
+:global(.dark) .stacked-window[data-slot="0"] {
+  filter: drop-shadow(0 28px 45px rgba(0, 0, 0, 0.65));
+}
+
+/* Slot 1: Middle Receding Window (shifted back and up-right) */
+.stacked-window[data-slot="1"] {
+  z-index: 5;
+  opacity: 0.82;
+  pointer-events: auto;
+  filter: brightness(0.96);
+  transform: rotateX(24deg) rotateY(-12deg) rotateZ(6deg) translate3d(38px, -32px, -20px);
+}
+
+:global(.dark) .stacked-window[data-slot="1"] {
+  filter: brightness(0.88);
+}
+
+.stacked-window[data-slot="1"]:hover {
+  opacity: 0.95;
+  transform: rotateX(24deg) rotateY(-12deg) rotateZ(6deg) translate3d(34px, -38px, 0px);
+}
+
+/* Slot 2: Deepest Receding Window */
+.stacked-window[data-slot="2"] {
+  z-index: 2;
+  opacity: 0.6;
+  pointer-events: auto;
+  filter: brightness(0.92);
+  transform: rotateX(24deg) rotateY(-12deg) rotateZ(6deg) translate3d(76px, -64px, -70px);
+}
+
+:global(.dark) .stacked-window[data-slot="2"] {
+  filter: brightness(0.76);
+}
+
+.stacked-window[data-slot="2"]:hover {
+  opacity: 0.8;
+  transform: rotateX(24deg) rotateY(-12deg) rotateZ(6deg) translate3d(72px, -70px, -45px);
+}
+
+
+/* Centered bottom indicator pill (from screenshot) */
+.stage-indicator {
+  position: relative;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 6px 10px;
+  background: hsl(var(--muted) / 0.6);
+  border: 1px solid hsl(var(--border));
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+
+.indicator-segment {
+  width: 24px;
+  height: 5px;
+  border-radius: 9999px;
+  border: 0;
+  padding: 0;
+  background: hsl(var(--muted-foreground) / 0.35);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator-segment[data-active="true"] {
+  width: 42px;
+  background: hsl(var(--primary));
+}
+
+.indicator-segment:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+
+/* --- Responsive Layout Rules --- */
+@media (max-width: 980px) {
+  .stage-perspective {
+    height: 440px;
+  }
+  .stacked-window {
+    max-width: 580px;
+    height: 370px;
+    margin-left: -290px;
+  }
+  .stacked-window[data-slot="1"] {
+    transform: rotateX(26deg) rotateY(-12deg) rotateZ(6deg) translate3d(36px, -36px, -20px);
+  }
+  .stacked-window[data-slot="2"] {
+    transform: rotateX(26deg) rotateY(-12deg) rotateZ(6deg) translate3d(72px, -72px, -80px);
+  }
+}
+
+@media (max-width: 768px) {
+  .approach-tabs {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .approach-tab {
+    padding: 18px 20px;
+  }
+  .stage-viewport {
+    min-height: 420px;
+    padding: 20px 12px 36px;
+  }
+  .stage-perspective {
+    height: 340px;
+  }
+  .stacked-window {
+    max-width: 92%;
+    height: 300px;
+    margin-left: -46%;
+  }
+  .stacked-window[data-slot="0"] {
+    transform: rotateX(20deg) rotateY(-8deg) rotateZ(4deg) translate3d(0, 0, 30px);
+  }
+  .stacked-window[data-slot="1"] {
+    transform: rotateX(20deg) rotateY(-8deg) rotateZ(4deg) translate3d(24px, -24px, -15px);
+  }
+  .stacked-window[data-slot="2"] {
+    transform: rotateX(20deg) rotateY(-8deg) rotateZ(4deg) translate3d(48px, -48px, -50px);
+  }
+}
+
+@media (max-width: 480px) {
+  .stage-perspective {
+    height: 290px;
+  }
+  .stacked-window {
+    height: 260px;
+  }
+  .window-header {
+    height: 32px;
+    padding: 0 10px;
+  }
+  .window-body {
+    padding: 8px;
+  }
+  .art-labels {
+    gap: 8px;
+    padding-top: 8px;
+    font-size: 0.56rem;
+  }
+  .art-labels b { font-size: 0.5rem; }
+}
+
+/* Reduced Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .stacked-window,
+  .approach-tab {
+    transition: none !important;
+  }
+  .tab-progress {
+    animation: none !important;
+    transform: scaleX(1) !important;
+  }
+}
+</style>
+
+<script>
+  function setupApproachShowcase() {
+    const showcase = document.getElementById('approach-showcase');
+    if (!showcase) return;
+
+    const tabs = Array.from(showcase.querySelectorAll<HTMLButtonElement>('.approach-tab'));
+    const windows = Array.from(showcase.querySelectorAll<HTMLElement>('.stacked-window'));
+    const indicatorSegments = Array.from(showcase.querySelectorAll<HTMLButtonElement>('.indicator-segment'));
+    const total = tabs.length;
+    let currentActive = 0;
+    let cycleTimer: number | undefined;
+    let isInteracting = false;
+
+    function updateSlots(activeIndex: number) {
+      currentActive = activeIndex;
+      showcase.dataset.active = String(activeIndex);
+
+      // Update Tabs
+      tabs.forEach((tab, i) => {
+        const isActive = i === activeIndex;
+        tab.dataset.active = String(isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+        tab.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      // Update Indicators
+      indicatorSegments.forEach((seg, i) => {
+        seg.dataset.active = String(i === activeIndex);
+      });
+
+      // Update Window Slots
+      // Slot 0 = Active Foreground
+      // Slot 1 = Next in order (Middle)
+      // Slot 2 = After next (Deep Back)
+      windows.forEach((win) => {
+        const winIndex = parseInt(win.dataset.index || '0', 10);
+        const slotDistance = (winIndex - activeIndex + total) % total;
+        win.dataset.slot = String(slotDistance);
+        win.setAttribute('aria-hidden', String(slotDistance !== 0));
+      });
+    }
+
+    function startCycle() {
+      stopCycle();
+      if (isInteracting) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      cycleTimer = window.setInterval(() => {
+        updateSlots((currentActive + 1) % total);
+      }, 5500);
+    }
+
+    function stopCycle() {
+      if (cycleTimer) {
+        clearInterval(cycleTimer);
+        cycleTimer = undefined;
+      }
+    }
+
+    // Tab click listeners
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        updateSlots(index);
+        startCycle();
+      });
+
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = (currentActive + 1) % total;
+          tabs[next]?.focus();
+          updateSlots(next);
+          startCycle();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = (currentActive - 1 + total) % total;
+          tabs[prev]?.focus();
+          updateSlots(prev);
+          startCycle();
+        }
+      });
+    });
+
+    // Window click listeners (clicking background window brings it forward)
+    windows.forEach((win) => {
+      win.addEventListener('click', () => {
+        const winIndex = parseInt(win.dataset.index || '0', 10);
+        updateSlots(winIndex);
+        startCycle();
+      });
+    });
+
+    // Indicator click listeners
+    indicatorSegments.forEach((seg, index) => {
+      seg.addEventListener('click', () => {
+        updateSlots(index);
+        startCycle();
+      });
+    });
+
+    // Hover & focus management
+    showcase.addEventListener('mouseenter', () => {
+      isInteracting = true;
+      stopCycle();
+    });
+
+    showcase.addEventListener('mouseleave', () => {
+      isInteracting = false;
+      startCycle();
+    });
+
+    showcase.addEventListener('focusin', () => {
+      isInteracting = true;
+      stopCycle();
+    });
+
+    showcase.addEventListener('focusout', () => {
+      isInteracting = false;
+      startCycle();
+    });
+
+    // IntersectionObserver to only animate when visible
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          startCycle();
+        } else {
+          stopCycle();
+        }
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(showcase);
+
+    // Initial slot layout
+    updateSlots(0);
+  }
+
+  // Initialize on DOM load and Astro page transitions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupApproachShowcase);
+  } else {
+    setupApproachShowcase();
+  }
+  document.addEventListener('astro:page-load', setupApproachShowcase);
+</script>

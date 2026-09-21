@@ -1,207 +1,194 @@
 ---
 import ConsultationCta from "../../components/ConsultationCta.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Eyebrow from "../../components/content/Eyebrow.astro";
 import { getCollection } from "astro:content";
 import listing from "../../data/productsListing.json";
 
-type Feature = { icon: string; label: string; desc: string };
 type Listing = {
   id: string; name: string; status: string; live: boolean; tagline: string; body: string;
-  glyph?: string; logo?: string; bgFrom: string; bgTo: string; accent: string; logoBg: string;
-  features?: Feature[]; modes?: { icon: string; title: string; desc: string }[];
+  glyph?: string; logo?: string;
   safety?: { icon: string; label: string }[]; cta?: { href: string; label: string };
   readMore?: string; comingSoon?: boolean;
+  art?: [string, string]; flow?: { stages: { title: string }[] };
+};
+const artwork: Record<string, [string, string]> = {
+  cxiq: ["solution-autonomous-customer-operations.webp", "solution-autonomous-customer-operations-dark.webp"],
+  dociq: ["solution-intelligent-document-processing.webp", "solution-intelligent-document-processing-dark.webp"],
+  opsiq: ["agent-devops-sre.webp", "agent-devops-sre.webp"],
+  payiq: ["payiq-system.webp", "payiq-system.webp"],
+  "operations-automation": ["solution-operations-automation.webp", "solution-operations-automation-dark.webp"],
 };
 const entries = await getCollection("products");
 const primary = (listing.products as Listing[]).map((p) => {
   const entry = entries.find((item) => item.id === p.id);
-  return entry ? { ...p, body: entry.data.subtitle, glyph: entry.data.glyph, accent: entry.data.accent, readMore: `/products/${entry.id}` } : p;
+  if (entry) return { ...p, body: entry.data.subtitle, glyph: entry.data.glyph, readMore: `/products/${entry.id}`, art: artwork[entry.id], flow: entry.data.flow };
+  return p.id === "operations-automation" ? { ...p, art: artwork[p.id], flow: { stages: [{ title: "Finance, HR & operations" }, { title: "Algorims platform" }, { title: "Validated records" }] } } : p;
 });
-const products = [...primary, ...listing.moreProducts] as Listing[];
-const nodes = [
-  { id: "planning", title: "Planning", date: "Jan 2024", status: "live", statusLabel: "Complete", body: "Project planning and requirements gathering phase.", icon: "calendar", energy: 100, relatedIds: ["design"] },
-  { id: "design", title: "Design", date: "Feb 2024", status: "live", statusLabel: "Complete", body: "UI/UX design and system architecture.", icon: "file-text", energy: 90, relatedIds: ["planning", "development"] },
-  { id: "development", title: "Development", date: "Mar 2024", status: "practice", statusLabel: "In Progress", body: "Core features implementation and testing.", icon: "code", energy: 60, relatedIds: ["design", "testing"] },
-  { id: "testing", title: "Testing", date: "Apr 2024", status: "soon", statusLabel: "Pending", body: "User testing and bug fixes.", icon: "user", energy: 30, relatedIds: ["development", "release"] },
-  { id: "release", title: "Release", date: "May 2024", status: "soon", statusLabel: "Pending", body: "Final deployment and release.", icon: "clock", energy: 10, relatedIds: ["testing"] },
-];
+const apps = listing.moreProducts as Listing[];
 ---
 
 <BaseLayout title="Products — Algorims" description="Explore Algorims products — AI-powered platforms that turn enterprise data into autonomous, measurable outcomes.">
-  <nav class="pp-rail" aria-label="Product navigation" id="pp-rail">
-    {primary.map((p) => <a href={`#${p.id}`} data-pp-rail-target={p.id} aria-label={p.name}>
-      <span class="grid place-items-center" style={`color:${p.accent}`}><i data-lucide={p.glyph} class="!w-[22px] !h-[22px]"></i></span>
-      <span class="pp-rail-label">{p.name}</span>
-    </a>)}
-  </nav>
-
-  <section class="py-10 pb-6">
+  <section class="products-hero" aria-labelledby="products-title">
     <div class="container-x">
-      <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-        <div class="space-y-6 lg:col-span-6">
-          <Eyebrow text="Our Products" />
-          <h1 class="text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">Built by Algorims, <span class="text-gradient">used in the wild</span>.</h1>
-          <p class="text-lg leading-relaxed text-muted-foreground">Beyond consulting, we ship our own products — from an AWS-native operations automation platform for businesses to practical apps for farmers, travellers, and small businesses. Some are live today; one's almost ready.</p>
-          <div class="flex flex-wrap gap-3 pt-2">
-            {primary.map((p) => <a href={`#${p.id}`} class="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm">
-              <span class="grid h-5 w-5 place-items-center" style={`color:${p.accent}`}><i data-lucide={p.glyph} class="!w-4 !h-4"></i></span>
-              {p.name}<span class="inline-flex h-1.5 w-1.5 rounded-full bg-green-500"></span>
-            </a>)}
-          </div>
-        </div>
-        <div class="lg:col-span-6">
-          <div class="rot-stage" data-rot-stage aria-label="Algorims orbital timeline">
-            <img class="rot-center-icon" src="/assets/algorims-icon-transparent.webp" alt="Algorims" />
-            {nodes.map((n) => <div class="rot-node" data-rot-node={n.id} data-related-ids={n.relatedIds.join(",")} role="button" tabindex="0" aria-label={n.title} aria-expanded="false">
-              <div class="rot-node-halo"></div>
-              <div class="rot-node-chip"><i data-lucide={n.icon}></i></div>
-              <div class="rot-node-label">{n.title}</div>
-              <div class="rot-card" role="dialog" aria-label={`${n.title} details`} aria-hidden="true" inert>
-                <div class="rot-card-head"><span class="rot-card-badge" data-status={n.status}>{n.statusLabel}</span><span class="rot-card-date">{n.date}</span></div>
-                <h4>{n.title}</h4><p>{n.body}</p>
-                <div class="rot-card-meter-row"><span class="rot-meter-label"><i data-lucide="zap"></i>Energy</span><span style="font-family:ui-monospace,monospace;">{n.energy}%</span></div>
-                <div class="rot-card-meter"><span style={`width:${n.energy}%`}></span></div>
-                <div class="rot-card-related"><h5><i data-lucide="link"></i>Connected</h5><div class="rot-card-related-list">
-                  {n.relatedIds.map((id) => <button data-rot-jump={id} type="button">{nodes.find((node) => node.id === id)?.title}<i data-lucide="arrow-right"></i></button>)}
-                </div></div>
-              </div>
-            </div>)}
-          </div>
-        </div>
-      </div>
+      <p class="products-kicker">Our Products</p>
+      <h1 id="products-title">Built by Algorims.<span class="products-title-line">Built for the <span class="products-title-accent">real world</span>.</span></h1>
+      <p class="products-intro">Explore production-ready AI platforms for business operations and practical apps for everyday needs.</p>
+      <div class="products-actions"><a class="btn btn-hero btn-lg" href="#enterprise-products">Explore platforms</a><a class="btn btn-outline btn-lg" href="/contact">Talk to our team</a></div>
     </div>
   </section>
 
-  <section class="py-8 lg:py-12">
-    <div class="container-x space-y-8 lg:space-y-10">
-      {products.map((p, idx) => <article id={p.id} data-reverse={idx % 2 === 1 ? "true" : "false"} data-more={idx >= primary.length ? "true" : undefined} class:list={["pp-card group relative overflow-hidden rounded-[2rem] border border-border bg-card shadow-sm transition-all hover:border-primary/30 hover:shadow-lg", { hidden: idx >= primary.length }]}>
-        <div class="pp-halo pointer-events-none absolute inset-0 -z-0 opacity-90" style={`background:radial-gradient(circle at ${idx % 2 ? "85%" : "15%"} 30%,${p.bgFrom},transparent 55%),radial-gradient(circle at ${idx % 2 ? "15%" : "85%"} 80%,${p.bgTo},transparent 60%)`}></div>
-        <div class="relative grid gap-10 p-8 md:p-12 lg:grid-cols-12 lg:items-center lg:gap-14">
-          <div class:list={["pp-media product-media relative lg:col-span-5", { "lg:order-2": idx % 2 === 1 }]}>
-            <div class="relative mx-auto aspect-square w-full max-w-[360px]">
-              <div class="absolute inset-0 rounded-[2rem]" style={`background:${p.logoBg};border:1px solid hsl(0 0% 100% / 0.6);box-shadow:0 30px 80px -30px ${p.accent}40,inset 0 1px 0 hsl(0 0% 100% / 0.8)`}></div>
-              <div class="absolute inset-2 rounded-[2rem] opacity-60" style={`border:1px dashed ${p.accent}33`}></div>
-              <div class="absolute inset-0 grid place-items-center p-10">
-                {p.logo ? <img src={p.logo} alt={`${p.name} logo`} class="pp-logo h-full w-full object-contain transition-transform duration-500 group-hover:scale-105" /> : <div class="pp-logo grid h-full w-full place-items-center transition-transform duration-500 group-hover:scale-105" style={`color:${p.accent}`}><i data-lucide={p.glyph} class="!w-28 !h-28"></i></div>}
-              </div>
-              {p.comingSoon && <span class="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-amber-500/30 bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-amber-700 shadow-sm">In development</span>}
-            </div>
-          </div>
-          <div class="lg:col-span-7 space-y-6">
-            <div class="pp-fade flex flex-wrap items-center gap-3" style="--pp-delay:.05s">
-              <span class:list={["inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold", p.live ? "border-green-500/30 bg-green-500/10 text-green-700" : "border-amber-500/30 bg-amber-500/10 text-amber-700"]}><span class:list={["h-1.5 w-1.5 rounded-full", p.live ? "bg-green-500" : "bg-amber-500"]}></span>{p.status}</span>
-              <span class="pp-eyebrow text-muted-foreground">Algorims product</span>
-            </div>
-            <div class="pp-fade space-y-3" style="--pp-delay:.15s"><h2 class="text-4xl font-semibold tracking-tight md:text-5xl">{p.name}</h2><p class="text-xl font-medium" style={`color:${p.accent}`}>{p.tagline}</p></div>
-            <p class="pp-fade max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg" style="--pp-delay:.25s">{p.body}</p>
-            {p.features && <div class="grid gap-3 sm:grid-cols-3 pt-2">{p.features.map((f, i) => <div class="pp-fade rounded-2xl border border-border bg-background/80 p-4 backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md" style={`--pp-delay:${0.35 + i * 0.1}s`}><div class="grid h-9 w-9 place-items-center rounded-xl" style={`background:${p.accent}1a;color:${p.accent}`}><i data-lucide={f.icon} class="!w-4 !h-4"></i></div><p class="mt-3 text-sm font-semibold">{f.label}</p><p class="mt-1 text-xs leading-relaxed text-muted-foreground">{f.desc}</p></div>)}</div>}
-            {p.modes && <><div class="grid gap-4 sm:grid-cols-2 pt-2">{p.modes.map((m, i) => <div class="pp-fade rounded-2xl border border-border bg-background/80 p-5 backdrop-blur transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md" style={`--pp-delay:${0.35 + i * 0.12}s`}><div class="flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-xl" style={`background:${p.accent}1a;color:${p.accent}`}><i data-lucide={m.icon} class="!w-5 !h-5"></i></div><p class="text-base font-semibold">{m.title}</p></div><p class="mt-3 text-sm leading-relaxed text-muted-foreground">{m.desc}</p></div>)}</div><div class="pp-fade pt-2" style="--pp-delay:.65s"><p class="pp-eyebrow text-muted-foreground">Built-in safety</p><div class="mt-3 flex flex-wrap gap-2">{p.safety?.map((s) => <span class="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-1.5 text-xs font-medium"><i data-lucide={s.icon} class="!w-3.5 !h-3.5" style={`color:${p.accent}`}></i>{s.label}</span>)}</div></div></>}
-            <div class="pp-fade flex flex-wrap items-center gap-3 pt-3" style="--pp-delay:.55s">
-              {p.cta && <a href={p.cta.href} class="btn btn-hero btn-lg">{p.cta.label}<i data-lucide="arrow-up-right"></i></a>}
-              {p.readMore && <a href={p.readMore} class="btn btn-hero btn-lg">Read more <i data-lucide="arrow-right"></i></a>}
-              {p.comingSoon && <form id="algomart-notify" class="flex w-full max-w-md flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap"><input type="email" required aria-label="Email for Algomart updates" placeholder="you@company.com" class="field flex-1" maxlength="120" /><button class="btn btn-hero btn-default whitespace-nowrap">Notify me <i data-lucide="arrow-right"></i></button><span data-msg class="hidden text-xs font-medium text-green-700">Thanks — we'll be in touch.</span></form>}
-            </div>
+  <section class="products-list" aria-label="Products">
+    <div class="container-x products-inner">
+      <header id="enterprise-products" class="products-section-heading"><p class="products-kicker">Enterprise platforms</p><h2>Purpose-built systems. <span>Ready for operations.</span></h2><p>Each product solves a specific workflow and fits the tools your team already uses.</p></header>
+    {primary.map((p, idx) => <article id={p.id} class="product-row">
+      <div class="container-x product-grid">
+        <div class="product-copy">
+          <p class="product-kicker"><span>{`${String(idx + 1).padStart(2, "0")} / Algorims product`}</span><span class="product-status"><span class:list={["status-dot", { "is-pending": !p.live }]}></span>{p.status}</span></p>
+          <h3>{p.name}</h3>
+          <p class="product-tagline">{p.tagline}</p>
+          <p class="product-body">{p.body}</p>
+          {p.safety && <p class="product-safety">{p.safety.map((s) => s.label).join(" · ")}</p>}
+          <div class="product-actions">
+            {p.cta && p.cta.href !== "#" && <a href={p.cta.href} class="product-link">{p.cta.label}<i data-lucide="arrow-up-right" aria-hidden="true"></i></a>}
+            {p.readMore && <a href={p.readMore} class="product-link">Explore {p.name}<i data-lucide="arrow-right" aria-hidden="true"></i></a>}
+            {p.comingSoon && <form id="algomart-notify" class="product-notify"><input type="email" required aria-label="Email for Algomart updates" placeholder="you@company.com" class="field" maxlength="120" /><button class="btn btn-hero btn-default">Notify me <i data-lucide="arrow-right" aria-hidden="true"></i></button><span data-msg class="hidden text-sm text-primary">Thanks — we'll be in touch.</span></form>}
           </div>
         </div>
-      </article>)}
-      <div id="pp-more-trigger" class="flex justify-center pt-4"><button type="button" class="btn btn-outline btn-lg">Load more products <i data-lucide="chevron-down"></i></button></div>
+        <figure class:list={["product-figure", { "has-art": !!p.art }]}>
+          {p.art ? <>
+            <div class="product-art">
+              <img class="art-light" src={`/assets/illustrations/${p.art[0]}`} alt={p.id === "payiq" ? "Invoices enter PayIQ for capture and payment-detail checks, then post to the ledger or pause for human review." : `${p.flow?.stages.map((stage: { title: string }) => stage.title).join(" → ")}.`} width={p.id === "opsiq" ? 1536 : 1254} height={p.id === "opsiq" ? 1024 : 1254} loading="lazy" />
+              <img class="art-dark" src={`/assets/illustrations/${p.art[1]}`} alt="" aria-hidden="true" width={p.id === "opsiq" ? 1536 : 1254} height={p.id === "opsiq" ? 1024 : 1254} loading="lazy" />
+            </div>
+          </> : <>
+            {p.logo ? <img class="product-logo" src={p.logo} alt={`${p.name} logo`} loading="lazy" /> : <i data-lucide={p.glyph} role="img" aria-label={`${p.name} icon`}></i>}
+          </>}
+        </figure>
+      </div>
+    </article>)}
+      <header id="everyday-apps" class="products-section-heading apps-heading"><p class="products-kicker">Everyday apps</p><h2>Useful ideas. <span>Made tangible.</span></h2><p>Products for people and small businesses, built with the same care as our enterprise platforms.</p></header>
+      <div class="apps-carousel" data-apps-carousel aria-label="Everyday apps carousel">
+        <div class="apps-viewport">
+          <div class="apps-track" data-apps-track>
+            {apps.map((app) => <article id={app.id} class="app-slide" data-app-slide>
+              <div class="app-copy">
+                <p class="product-kicker">Algorims app <span class="product-status"><span class:list={["status-dot", { "is-pending": !app.live }]}></span>{app.status}</span></p>
+                <h3>{app.name}</h3>
+                <p class="product-tagline">{app.tagline}</p>
+                <p class="product-body">{app.body}</p>
+                {app.safety && <p class="product-safety">{app.safety.map((item) => item.label).join(" · ")}</p>}
+                {app.comingSoon && <form id="algomart-notify" class="product-notify"><input type="email" required aria-label="Email for Algomart updates" placeholder="you@company.com" class="field" maxlength="120" /><button class="btn btn-hero btn-default">Notify me <i data-lucide="arrow-right" aria-hidden="true"></i></button><span data-msg class="hidden text-sm text-primary">Thanks — we'll be in touch.</span></form>}
+              </div>
+              <figure class="app-figure"><img src={app.logo} alt={`${app.name} logo`} loading="lazy" /></figure>
+            </article>)}
+          </div>
+        </div>
+        <div class="apps-controls" aria-label="Select an app">
+          {apps.map((app, index) => <button type="button" class="app-dot" data-app-tab={index} aria-label={`Show ${app.name}`} aria-controls={app.id}></button>)}
+        </div>
+      </div>
     </div>
   </section>
   <ConsultationCta />
 </BaseLayout>
 
+<style>
+  .products-hero { padding: 46px 0 50px; border-bottom: 1px solid hsl(var(--border)); text-align: center; }
+  .products-kicker, .product-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+  .products-hero h1 { max-width: 1050px; margin: 14px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
+  .products-title-line { display: block; }
+  .products-title-accent, .products-section-heading h2 span { color: hsl(var(--primary)); }
+  .products-intro { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
+  .products-actions { display: flex; justify-content: center; gap: 14px; margin-top: 26px; }
+  .products-list { padding: clamp(64px, 7vw, 90px) 0; }
+  .products-inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .products-section-heading { grid-column: 1 / -1; max-width: 790px; margin: 0 auto 18px; scroll-margin-top: 80px; text-align: center; }
+  .products-section-heading h2 { margin: 14px 0 0; font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; text-wrap: balance; }
+  .products-section-heading > p:last-child { margin: 16px auto 0; color: hsl(var(--muted-foreground)); font-size: 1.05rem; line-height: 1.65; }
+  .apps-heading { margin-top: 50px; }
+  .product-row { min-width: 0; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; scroll-margin-top: 80px; transition: background .2s ease; }
+  .product-row:hover { background: hsl(var(--muted) / .35); }
+  .product-row { grid-column: 1 / -1; }
+  .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(24px, 4vw, 56px); max-width: none; padding: clamp(28px, 3vw, 40px); }
+  .product-copy { min-width: 0; }
+  .product-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .product-status { display: inline-flex; align-items: center; gap: 7px; color: hsl(var(--muted-foreground)); font-size: .68rem; letter-spacing: .07em; }
+  .status-dot { width: 6px; height: 6px; flex: none; border-radius: 50%; background: hsl(var(--primary)); }
+  .status-dot.is-pending { background: hsl(38 85% 46%); }
+  .product-copy h3 { margin: 20px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 600; line-height: 1.1; letter-spacing: -.045em; text-wrap: balance; }
+  .product-tagline { margin: 12px 0 0; color: hsl(var(--primary)); font-size: 1.1rem; font-weight: 600; line-height: 1.35; }
+  .product-body { margin: 18px 0 0; color: hsl(var(--muted-foreground)); line-height: 1.65; text-wrap: pretty; }
+  .product-safety { margin: 15px 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; }
+  .product-actions { margin-top: 26px; }
+  .product-link { display: inline-flex; align-items: center; gap: 8px; color: hsl(var(--primary)); font-weight: 600; text-decoration: none; }
+  .product-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .product-link :global(svg) { width: 16px; height: 16px; transition: transform .2s ease; }
+  .product-link:is(:hover, :focus-visible) :global(svg) { transform: translateX(4px); }
+  .product-notify { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .product-notify .field { width: auto; min-width: 140px; flex: 1; }
+  .product-figure { justify-self: center; width: 100%; max-width: 400px; min-width: 0; margin: 0; }
+  .product-art { display: grid; aspect-ratio: 1; }
+  .product-art img { grid-area: 1 / 1; display: block; width: 100%; height: 100%; object-fit: contain; }
+  .product-figure .art-dark { display: none; }
+  :global(.dark) .product-figure .art-light { display: none; }
+  :global(.dark) .product-figure .art-dark { display: block; }
+  .product-row:nth-of-type(even) .product-copy { grid-column: 2; grid-row: 1; }
+  .product-row:nth-of-type(even) .product-figure { grid-column: 1; grid-row: 1; }
+  .apps-carousel { grid-column: 1 / -1; width: 100%; max-width: 880px; margin: 0 auto; padding: clamp(16px, 3vw, 32px); border-radius: 2rem; background: hsl(var(--secondary) / .4); }
+  .apps-viewport { overflow: hidden; border-radius: 1.5rem; }
+  .apps-track { display: flex; transition: transform .5s cubic-bezier(.22, 1, .36, 1); }
+  .app-slide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .8fr); align-items: center; gap: clamp(24px, 5vw, 60px); flex: 0 0 100%; min-width: 0; min-height: 370px; padding: clamp(28px, 4vw, 48px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--card)); }
+  .app-copy { min-width: 0; }
+  .app-copy h3 { margin: 20px 0 0; font-size: clamp(2rem, 3vw, 2.7rem); font-weight: 600; line-height: 1.1; letter-spacing: -.045em; }
+  .app-copy .product-notify { margin-top: 26px; }
+  .app-figure { display: grid; place-items: center; min-width: 0; aspect-ratio: 1; margin: 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
+  .app-figure img { display: block; width: 78%; height: 78%; object-fit: contain; }
+  #algomart .app-figure img { width: 95%; height: 95%; }
+  .apps-controls { display: flex; justify-content: center; gap: 2px; width: max-content; margin: 20px auto 0; padding: 4px 8px; border: 1px solid hsl(var(--border)); border-radius: 999px; background: hsl(var(--background)); }
+  .app-dot { display: grid; place-items: center; width: 40px; height: 32px; border: 0; background: transparent; cursor: pointer; }
+  .app-dot::before { width: 18px; height: 4px; border-radius: 999px; background: hsl(var(--muted-foreground) / .35); content: ""; transition: width .25s ease, background .25s ease; }
+  .app-dot:is(:hover, [aria-pressed="true"])::before { width: 30px; background: hsl(var(--primary)); }
+  @media (max-width: 900px) { .product-grid { grid-template-columns: 1fr; } .product-row:nth-of-type(even) .product-copy, .product-row:nth-of-type(even) .product-figure { grid-column: auto; grid-row: auto; } }
+  @media (max-width: 600px) { .products-hero { padding-top: 44px; } .products-hero h1 { font-size: 2.4rem; } .products-actions { flex-direction: column; margin-inline: 20px; } .products-list { padding: 62px 0; } .products-inner { grid-template-columns: 1fr; } .products-section-heading { margin-bottom: 8px; } .apps-heading { margin-top: 38px; } .product-grid { gap: 24px; padding: 24px; } .app-slide { grid-template-columns: 1fr; gap: 24px; } .app-figure { width: min(100%, 250px); margin: 0 auto; } }
+  @media (prefers-reduced-motion: reduce) { .product-row, .product-link :global(svg), .apps-track, .app-dot::before { transition: none; } }
+</style>
+
 <script>
-  const cards = [...document.querySelectorAll<HTMLElement>(".pp-card")];
-  const rail = [...document.querySelectorAll<HTMLAnchorElement>("[data-pp-rail-target]")];
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const carousel = document.querySelector<HTMLElement>("[data-apps-carousel]");
+  if (carousel) {
+    const track = carousel.querySelector<HTMLElement>("[data-apps-track]")!;
+    const slides = [...carousel.querySelectorAll<HTMLElement>("[data-app-slide]")];
+    const tabs = [...carousel.querySelectorAll<HTMLButtonElement>("[data-app-tab]")];
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let active = 0;
+    let timer: ReturnType<typeof setTimeout>;
 
-  const reveal = new IntersectionObserver((entries) => {
-    for (const entry of entries) if (entry.isIntersecting) {
-      entry.target.classList.add("is-visible");
-      reveal.unobserve(entry.target);
-    }
-  }, { threshold: 0.18, rootMargin: "0px 0px -60px 0px" });
-  cards.forEach((card) => reveal.observe(card));
+    const show = (index: number) => {
+      active = (index + slides.length) % slides.length;
+      track.style.transform = `translateX(-${active * 100}%)`;
+      slides.forEach((slide, i) => { slide.inert = i !== active; slide.setAttribute("aria-hidden", String(i !== active)); });
+      tabs.forEach((tab, i) => tab.setAttribute("aria-pressed", String(i === active)));
+    };
+    const start = () => {
+      clearTimeout(timer);
+      if (!reducedMotion && !document.hidden) timer = setTimeout(() => { show(active + 1); start(); }, 5200);
+    };
+    tabs.forEach((tab, i) => tab.addEventListener("click", () => { show(i); start(); }));
+    carousel.addEventListener("mouseenter", () => clearTimeout(timer));
+    carousel.addEventListener("mouseleave", start);
+    carousel.addEventListener("focusin", () => clearTimeout(timer));
+    carousel.addEventListener("focusout", (event) => { if (!carousel.contains(event.relatedTarget as Node)) start(); });
+    document.addEventListener("visibilitychange", start);
+    const linkedSlide = slides.findIndex((slide) => `#${slide.id}` === location.hash);
+    show(linkedSlide < 0 ? 0 : linkedSlide);
+    addEventListener("hashchange", () => { const index = slides.findIndex((slide) => `#${slide.id}` === location.hash); if (index >= 0) { show(index); start(); } });
+    start();
+  }
 
-  const current = new IntersectionObserver((entries) => {
-    for (const entry of entries) if (entry.isIntersecting) {
-      rail.forEach((link) => link.setAttribute("aria-current", String(link.dataset.ppRailTarget === entry.target.id)));
-    }
-  }, { rootMargin: "-40% 0px -45% 0px" });
-  cards.slice(0, rail.length).forEach((card) => current.observe(card));
-  rail.forEach((link) => link.addEventListener("click", (event) => {
-    const target = document.getElementById(link.dataset.ppRailTarget || "");
-    if (!target) return;
-    event.preventDefault();
-    scrollTo({ top: target.getBoundingClientRect().top + scrollY - 96, behavior: reduce ? "instant" : "smooth" });
-  }));
-
-  document.querySelector("#pp-more-trigger button")?.addEventListener("click", () => {
-    document.querySelectorAll<HTMLElement>("[data-more]").forEach((card) => card.classList.remove("hidden"));
-    document.getElementById("pp-more-trigger")?.remove();
-  });
   document.getElementById("algomart-notify")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const form = event.currentTarget as HTMLFormElement;
     form.querySelector("[data-msg]")?.classList.remove("hidden");
     form.reset();
   });
-
-  const stage = document.querySelector<HTMLElement>("[data-rot-stage]");
-  if (stage) {
-    const nodes = [...stage.querySelectorAll<HTMLElement>("[data-rot-node]")];
-    const radius = () => stage.clientWidth < 480 ? 150 : stage.clientWidth < 768 ? 195 : stage.clientWidth < 1100 ? 220 : 260;
-    let rotation = -90;
-    let active = "";
-    const place = () => nodes.forEach((node, i) => {
-      const rad = ((i / nodes.length * 360 + rotation) % 360) * Math.PI / 180;
-      node.style.setProperty("--x", `${(Math.cos(rad) * radius()).toFixed(2)}px`);
-      node.style.setProperty("--y", `${(Math.sin(rad) * radius()).toFixed(2)}px`);
-      node.style.setProperty("--z", String(Math.round(100 + 50 * Math.cos(rad))));
-      node.style.setProperty("--op", String(Math.max(.55, Math.min(1, .55 + .45 * (1 + Math.sin(rad)) / 2))));
-    });
-    const activate = (id: string) => {
-      active = active === id ? "" : id;
-      const selected = nodes.find((node) => node.dataset.rotNode === active);
-      if (selected) stage.dataset.paused = "true";
-      else delete stage.dataset.paused;
-      const related = selected?.dataset.relatedIds?.split(",") || [];
-      nodes.forEach((node) => {
-        if (node === selected) node.dataset.active = "true";
-        else delete node.dataset.active;
-        if (related.includes(node.dataset.rotNode || "")) node.dataset.related = "true";
-        else delete node.dataset.related;
-        node.setAttribute("aria-expanded", String(node === selected));
-        const card = node.querySelector<HTMLElement>(".rot-card");
-        card?.toggleAttribute("inert", node !== selected);
-        card?.setAttribute("aria-hidden", String(node !== selected));
-      });
-      if (selected) rotation = -90 - nodes.indexOf(selected) / nodes.length * 360;
-      place();
-    };
-    nodes.forEach((node) => {
-      node.addEventListener("click", (event) => {
-        const target = event.target as HTMLElement;
-        const jump = target.closest<HTMLElement>("[data-rot-jump]");
-        if (jump) { event.stopPropagation(); activate(jump.dataset.rotJump || ""); return; }
-        if (target.closest(".rot-card")) return;
-        event.stopPropagation();
-        activate(node.dataset.rotNode || "");
-      });
-      node.addEventListener("keydown", (event) => {
-        if (event.target !== node) return;
-        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); activate(node.dataset.rotNode || ""); }
-      });
-    });
-    stage.addEventListener("click", () => { if (active) activate(active); });
-    stage.addEventListener("keydown", (event) => { if (event.key === "Escape" && active) activate(active); });
-    addEventListener("resize", place);
-    const tick = () => {
-      if (!active && !reduce) { rotation = (rotation + .16) % 360; place(); }
-      requestAnimationFrame(tick);
-    };
-    place();
-    if (!reduce) requestAnimationFrame(tick);
-  }
 </script>

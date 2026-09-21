@@ -1,1587 +1,231 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const domains = [
+  {
+    name: "Agentic Architecture & Orchestration", weight: 27,
+    summary: "Agentic loops, coordinator and subagent patterns, task decomposition, and session state.",
+    tasks: ["Design and implement agentic loops", "Orchestrate multi-agent systems", "Configure subagent invocation and context passing", "Implement multi-step workflows with enforcement", "Apply Agent SDK hooks", "Design task decomposition strategies", "Manage session state, resumption, and forking"],
+  },
+  {
+    name: "Tool Design & MCP Integration", weight: 18,
+    summary: "Tool interfaces, structured errors, MCP servers, and tool access across agents.",
+    tasks: ["Design effective tool interfaces", "Implement structured error responses for MCP tools", "Distribute tools across agents and configure tool choice", "Integrate MCP servers into Claude Code and agent workflows", "Select and apply built-in tools effectively"],
+  },
+  {
+    name: "Claude Code Configuration & Workflows", weight: 20,
+    summary: "CLAUDE.md, reusable commands and skills, plan mode, and CI/CD workflows.",
+    tasks: ["Configure CLAUDE.md files with hierarchy and modular organisation", "Create and configure custom slash commands and skills", "Apply path-specific rules for conditional convention loading", "Determine when to use plan mode vs direct execution", "Apply iterative refinement techniques", "Integrate Claude Code into CI/CD pipelines"],
+  },
+  {
+    name: "Prompt Engineering & Structured Output", weight: 20,
+    summary: "Clear criteria, few-shot prompts, JSON schemas, validation, and review passes.",
+    tasks: ["Design prompts with explicit criteria to reduce false positives", "Apply few-shot prompting for consistency and quality", "Enforce structured output using tool use and JSON schemas", "Implement validation, retry, and feedback loops", "Design efficient batch processing strategies", "Design multi-instance and multi-pass review architectures"],
+  },
+  {
+    name: "Context Management & Reliability", weight: 15,
+    summary: "Long-running context, escalation, error propagation, and uncertainty.",
+    tasks: ["Manage conversation context across long interactions", "Design escalation and ambiguity resolution patterns", "Implement error propagation strategies across multi-agent systems", "Manage context in large codebase exploration"],
+  },
+];
+
+const splitTitle = (title: string) => {
+  const words = title.split(" ");
+  let cut = words.length - 2;
+  if (words[cut] === "&") cut--;
+  return [words.slice(0, cut).join(" "), words.slice(cut).join(" ")];
+};
+
+const scenarios = [
+  ["Support automation", "Design an agent that resolves requests, calls tools, and escalates when confidence is low.", "1 · 2 · 5"],
+  ["Developer workflow", "Configure Claude Code, team conventions, and context management for codebase work.", "3 · 5"],
+  ["Research orchestration", "Coordinate specialist agents, tool access, source handling, and synthesis.", "1 · 2 · 5"],
+  ["Productivity automation", "Choose tool boundaries, prompts, and workflows for repeated knowledge work.", "1 · 2 · 3"],
+  ["CI/CD assistance", "Use structured output, review criteria, and non-interactive execution in pipelines.", "3 · 4"],
+  ["Document extraction", "Design schemas, validation, retries, and reliable context use for messy inputs.", "4 · 5"],
+];
+
+const registration = [
+  ["Request certification access", "https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-access-request"],
+  ["Take the certification", "https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification"],
+  ["Schedule with Pearson VUE", "https://pearsonvue.com/us/en/anthropic"],
+];
+const foundations = [
+  ["Anthropic Academy", "https://www.anthropic.com/learn"],
+  ["AI Fluency: Framework & Foundations", "https://anthropic.skilljar.com/ai-fluency-framework-foundations"],
+  ["Claude 101", "https://anthropic.skilljar.com/claude-101"],
+  ["Building with the Claude API", "https://anthropic.skilljar.com/claude-with-the-anthropic-api"],
+  ["Claude with Amazon Bedrock", "https://anthropic.skilljar.com/claude-in-amazon-bedrock"],
+  ["Claude with Google Cloud Vertex AI", "https://anthropic.skilljar.com/claude-with-google-vertex"],
+];
+const advanced = [
+  ["Introduction to Model Context Protocol", "https://anthropic.skilljar.com/introduction-to-model-context-protocol"],
+  ["Model Context Protocol: Advanced Topics", "https://anthropic.skilljar.com/model-context-protocol-advanced-topics"],
+  ["Claude Code in Action", "https://anthropic.skilljar.com/claude-code-in-action"],
+  ["Claude API documentation", "https://docs.anthropic.com"],
+  ["Claude Code documentation", "https://docs.anthropic.com/en/docs/claude-code"],
+  ["MCP specification", "https://modelcontextprotocol.io"],
+  ["Claude Agent SDK", "https://docs.anthropic.com/en/docs/claude-code/sdk"],
+];
 ---
 
-<BaseLayout title="CCA-F — Algorims" description="Claude Certified Architect Foundations exam prep resources, syllabus, prerequisites, and study material.">
-<!-- ========== INDEPENDENCE NOTICE ========== -->
-  <section data-ccaf-notice class="sticky top-16 z-30 border-y border-primary/20 bg-primary/10 backdrop-blur-md">
-    <div class="container-x">
-      <div class="flex items-start justify-between gap-4 py-3 text-sm leading-relaxed text-foreground">
-        <div class="flex items-start gap-3">
-        <span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary/15 text-primary"><i data-lucide="info" class="!w-3.5 !h-3.5"></i></span>
-        <p><strong>Independent study overview.</strong> Algorims is not affiliated with or endorsed by Anthropic; trademarks belong to their owners.</p>
-        </div>
-        <button type="button" data-dismiss-notice class="grid h-8 w-8 shrink-0 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-background/70 hover:text-foreground" aria-label="Dismiss notice">
-          <i data-lucide="x" class="!w-4 !h-4"></i>
-        </button>
+<BaseLayout title="CCA-F — Algorims" description="An independent guide to the Claude Certified Architect Foundations exam: domains, practice scenarios, and official study resources.">
+  <div class="ccaf">
+    <section class="ccaf-hero" aria-labelledby="ccaf-title">
+      <p class="ccaf-kicker">Claude Certified Architect Foundations / CCA-F</p>
+      <h1 id="ccaf-title">A clearer path to <span class="ccaf-accent">Claude architecture.</span></h1>
+      <p class="ccaf-lede">The exam covers the decisions behind production Claude systems. See what it assesses, where to focus, and which official resources to use.</p>
+      <div class="ccaf-actions">
+        <a class="ccaf-action primary" href="#domains">Explore the domains →</a>
+        <a class="ccaf-action" href="#resources">Find study resources</a>
       </div>
-    </div>
-  </section>
+      <p class="ccaf-note">Independent study overview. Algorims is not affiliated with or endorsed by Anthropic; trademarks belong to their owners.</p>
+    </section>
 
+    <section class="ccaf-facts" aria-label="Exam at a glance">
+      <div><strong data-counter>60</strong><span>multiple-choice questions</span></div>
+      <div><strong data-counter>120 min</strong><span>exam duration</span></div>
+      <div><strong data-counter>5</strong><span>weighted domains</span></div>
+      <div><strong>$<span data-counter>125</span></strong><span>per attempt</span></div>
+    </section>
 
-  <!-- ========== HERO ========== -->
-  <section class="relative  overflow-hidden pt-24 pb-16 lg:pt-28 lg:pb-24" style="background:radial-gradient(ellipse at 70% 0%, hsl(265 85% 58% / 0.10) 0%, transparent 55%), radial-gradient(ellipse at 20% 100%, hsl(280 95% 70% / 0.08) 0%, transparent 50%)">
-    <div class="pointer-events-none absolute inset-0 grid-bg opacity-40"></div>
-    <div class="container-x relative">
-      <div class="grid items-start gap-12 lg:grid-cols-[1fr_auto]">
-        <div class="max-w-2xl space-y-6 pt-6">
+    <section class="ccaf-section ccaf-intro" aria-labelledby="ccaf-overview">
+      <div>
+        <p class="ccaf-kicker">01 / The overview</p>
+        <h2 id="ccaf-overview">Know the exam before <span class="ccaf-accent">you study.</span></h2>
+      </div>
+      <div class="ccaf-prose">
+        <p>CCA-F is for practitioners at <strong>Anthropic Partner companies</strong> who already have hands-on experience with Claude. It assesses architectural judgment across agents, tools, prompts, workflows, and reliability.</p>
+        <p>The exam is delivered through Pearson VUE, online or at a test center. The published pass score is 720 on a scaled 100–1,000 range. You should be comfortable reading Python or TypeScript and working with JSON.</p>
+        <p>New to Claude? Start with <a href="https://www.anthropic.com/learn" target="_blank" rel="noopener noreferrer">Anthropic Academy ↗</a> before working through the domains below.</p>
+      </div>
+    </section>
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>CCA-F · Claude Certified Architect Foundations
+    <section id="domains" class="ccaf-section" aria-labelledby="ccaf-domains-title">
+      <header class="ccaf-section-heading">
+        <p class="ccaf-kicker">02 / Exam domains</p>
+        <h2 id="ccaf-domains-title">Focus where <span class="ccaf-accent">it counts.</span></h2>
+        <p>Published exam weights. Open a domain to see its task statements.</p>
+      </header>
+      <div class="ccaf-domain-list">
+        {domains.map((domain, index) => {
+          const [lead, accent] = splitTitle(domain.name);
+          return (
+          <details class="ccaf-domain">
+            <summary>
+              <span class="ccaf-index">0{index + 1}</span>
+              <span class="ccaf-domain-main"><strong>{lead} <span class="ccaf-accent">{accent}</span></strong><small>{domain.summary}</small></span>
+              <span class="ccaf-weight">{domain.weight}%</span>
+              <span class="ccaf-plus" aria-hidden="true">+</span>
+            </summary>
+            <ol class="ccaf-tasks">{domain.tasks.map(task => <li>{task}</li>)}</ol>
+          </details>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="ccaf-section" aria-labelledby="ccaf-practice-title">
+      <header class="ccaf-section-heading">
+        <p class="ccaf-kicker">03 / Practice</p>
+        <h2 id="ccaf-practice-title">Study through <span class="ccaf-accent">real scenarios.</span></h2>
+        <p>Use these as prompts to test how the domains work together. They are study examples, not official exam questions.</p>
+      </header>
+      <div class="ccaf-scenarios">
+        {scenarios.map(([title, description, domainNumbers], index) => {
+          const [lead, accent] = splitTitle(title);
+          return (
+          <article>
+            <span class="ccaf-index">0{index + 1}</span>
+            <div><h3>{lead && `${lead} `}<span class="ccaf-accent">{accent}</span></h3><p>{description}</p></div>
+            <span class="ccaf-scenario-domains">Domains {domainNumbers}</span>
+          </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section id="resources" class="ccaf-section" aria-labelledby="ccaf-resources-title">
+      <header class="ccaf-section-heading">
+        <p class="ccaf-kicker">04 / Resources</p>
+        <h2 id="ccaf-resources-title">Start with <span class="ccaf-accent">the source.</span></h2>
+        <p>Official registration, courses, and documentation, grouped by what you need next.</p>
+      </header>
+      <div class="ccaf-resources">
+        <div><h3><span class="ccaf-accent">Register</span></h3><ul>{registration.map(([title, href]) => <li><a href={href} target="_blank" rel="noopener noreferrer">{title}<span aria-hidden="true">↗</span></a></li>)}</ul></div>
+        <div><h3><span class="ccaf-accent">Build foundations</span></h3><ul>{foundations.map(([title, href]) => <li><a href={href} target="_blank" rel="noopener noreferrer">{title}<span aria-hidden="true">↗</span></a></li>)}</ul></div>
+        <div><h3><span class="ccaf-accent">Go deeper</span></h3><ul>{advanced.map(([title, href]) => <li><a href={href} target="_blank" rel="noopener noreferrer">{title}<span aria-hidden="true">↗</span></a></li>)}</ul></div>
+      </div>
+      <p class="ccaf-resource-note">The Anthropic Skilljar courses for Bedrock, Vertex AI, and the Claude API include foundation and advanced material. Check the official certification page for current access, pricing, and exam details.</p>
+    </section>
   </div>
-          <h1 class="text-balance text-5xl font-semibold leading-[1.05] tracking-tight md:text-6xl">
-            Your <span class="text-gradient">passport</span> to building production AI with Claude.
-          </h1>
-          <p class="text-pretty text-lg leading-relaxed text-muted-foreground">
-            CCA-F is designed to assess foundational Claude architecture knowledge for practitioners at Anthropic Partner companies. This overview summarizes the public study areas and points you to official Anthropic resources.
-          </p>
-          <div class="flex flex-wrap gap-3 pt-2">
-            <a href="#domains" class="btn btn-hero btn-xl">
-              Explore the syllabus <i data-lucide="arrow-down" class="!w-4 !h-4"></i>
-            </a>
-            <a href="#resources" class="btn btn-outline btn-xl">
-              Study resources <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-            </a>
-          </div>
-        </div>
-        <!-- Exam card visual -->
-        <div class="hidden lg:block">
-          <div class="relative w-96 rounded-3xl border border-border bg-card p-6 shadow-lg" style="box-shadow:0 0 60px hsl(265 85% 58% / 0.12)">
-            <div class="flex items-center gap-3">
-              <div class="grid h-10 w-10 place-items-center rounded-xl text-white" style="background:#d97757">
-                <i data-lucide="award" class="!w-5 !h-5"></i>
-              </div>
-              <div>
-                <p class="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Study overview</p>
-                <p class="text-sm font-bold">CCA-F resources</p>
-              </div>
-            </div>
-            <div class="my-5 h-px bg-border"></div>
-            <div class="space-y-3">
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="list-checks" class="!w-3.5 !h-3.5"></i> Format</span>
-                  <span class="font-semibold">60 MCQ</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="clock" class="!w-3.5 !h-3.5"></i> Duration</span>
-                  <span class="font-semibold">120 minutes</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="shield-check" class="!w-3.5 !h-3.5"></i> Delivery</span>
-                  <span class="font-semibold">Pearson VUE — online or test center</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="trophy" class="!w-3.5 !h-3.5"></i> Pass score</span>
-                  <span class="font-semibold">720 (scaled 100–1,000)</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="dollar-sign" class="!w-3.5 !h-3.5"></i> Price</span>
-                  <span class="font-semibold">$125 / attempt</span>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                  <span class="flex items-center gap-2 text-muted-foreground"><i data-lucide="layers" class="!w-3.5 !h-3.5"></i> Domains</span>
-                  <span class="font-semibold">5 domains</span>
-                </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== DOMAINS + SCENARIOS BOXES ========== -->
-  <section class="pb-4 lg:pb-6">
-    <div class="container-x">
-      <div class="grid gap-5 md:grid-cols-2 items-stretch">
-        <!-- Certification Domains box -->
-        <div class="rounded-3xl border border-border bg-card p-5 flex flex-col">
-          <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-foreground">Certification domains</p>
-          <div class="flex flex-col flex-1 justify-between gap-2">
-
-              <div class="group/dcard rounded-xl px-3 py-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
-                style="background:hsl(265 85% 58% / 0.06);border:1px solid hsl(265 85% 58% / 0.15)"
-                data-open-domain="0" role="button" tabindex="0">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-xs font-semibold">Agentic Architecture & Orchestration</span>
-                  <span class="text-xs font-bold opacity-0 group-hover/dcard:opacity-100 transition-opacity duration-200" style="color:hsl(265 85% 58%)">27%</span>
-                </div>
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                  <div class="h-full rounded-full transition-all duration-500" style="width:27%;background:hsl(265 85% 58%)"></div>
-                </div>
-              </div>
-
-              <div class="group/dcard rounded-xl px-3 py-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
-                style="background:hsl(210 85% 52% / 0.06);border:1px solid hsl(210 85% 52% / 0.15)"
-                data-open-domain="1" role="button" tabindex="0">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-xs font-semibold">Tool Design & MCP Integration</span>
-                  <span class="text-xs font-bold opacity-0 group-hover/dcard:opacity-100 transition-opacity duration-200" style="color:hsl(210 85% 52%)">18%</span>
-                </div>
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                  <div class="h-full rounded-full transition-all duration-500" style="width:18%;background:hsl(210 85% 52%)"></div>
-                </div>
-              </div>
-
-              <div class="group/dcard rounded-xl px-3 py-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
-                style="background:hsl(155 65% 40% / 0.06);border:1px solid hsl(155 65% 40% / 0.15)"
-                data-open-domain="2" role="button" tabindex="0">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-xs font-semibold">Claude Code Configuration & Workflows</span>
-                  <span class="text-xs font-bold opacity-0 group-hover/dcard:opacity-100 transition-opacity duration-200" style="color:hsl(155 65% 40%)">20%</span>
-                </div>
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                  <div class="h-full rounded-full transition-all duration-500" style="width:20%;background:hsl(155 65% 40%)"></div>
-                </div>
-              </div>
-
-              <div class="group/dcard rounded-xl px-3 py-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
-                style="background:hsl(38 90% 50% / 0.06);border:1px solid hsl(38 90% 50% / 0.15)"
-                data-open-domain="3" role="button" tabindex="0">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-xs font-semibold">Prompt Engineering & Structured Output</span>
-                  <span class="text-xs font-bold opacity-0 group-hover/dcard:opacity-100 transition-opacity duration-200" style="color:hsl(38 90% 50%)">20%</span>
-                </div>
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                  <div class="h-full rounded-full transition-all duration-500" style="width:20%;background:hsl(38 90% 50%)"></div>
-                </div>
-              </div>
-
-              <div class="group/dcard rounded-xl px-3 py-4 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md"
-                style="background:hsl(320 65% 52% / 0.06);border:1px solid hsl(320 65% 52% / 0.15)"
-                data-open-domain="4" role="button" tabindex="0">
-                <div class="mb-1.5 flex items-center justify-between">
-                  <span class="text-xs font-semibold">Context Management & Reliability</span>
-                  <span class="text-xs font-bold opacity-0 group-hover/dcard:opacity-100 transition-opacity duration-200" style="color:hsl(320 65% 52%)">15%</span>
-                </div>
-                <div class="relative h-1.5 w-full overflow-hidden rounded-full bg-secondary">
-                  <div class="h-full rounded-full transition-all duration-500" style="width:15%;background:hsl(320 65% 52%)"></div>
-                </div>
-              </div>
-
-          </div>
-        </div>
-        <!-- Scenarios box -->
-        <div class="rounded-3xl border border-border bg-card p-5 flex flex-col">
-          <div class="mb-3 flex items-center justify-between">
-            <p class="text-xs font-semibold uppercase tracking-widest text-foreground">Scenarios</p>
-            <span class="rounded-full bg-secondary px-2 py-0.5 text-xs text-muted-foreground">Practice prompts</span>
-          </div>
-          <div class="flex flex-col flex-1 justify-between gap-2">
-
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="0" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(265 85% 58%)">01</span>
-                  <p class="text-xs font-semibold leading-snug">Support automation</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(265 85% 58% / 0.12);color:hsl(265 85% 58%);border:1px solid hsl(265 85% 58% / 0.25)"
-                  data-open-domain="0" role="button" tabindex="0"
-                >Agentic Architecture</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(210 85% 52% / 0.12);color:hsl(210 85% 52%);border:1px solid hsl(210 85% 52% / 0.25)"
-                  data-open-domain="1" role="button" tabindex="0"
-                >Tool Design</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-                  data-open-domain="4" role="button" tabindex="0"
-                >Context Management</span></div>
-              </div>
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="1" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(210 85% 52%)">02</span>
-                  <p class="text-xs font-semibold leading-snug">Developer workflow</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(155 65% 40% / 0.12);color:hsl(155 65% 40%);border:1px solid hsl(155 65% 40% / 0.25)"
-                  data-open-domain="2" role="button" tabindex="0"
-                >Claude Code</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-                  data-open-domain="4" role="button" tabindex="0"
-                >Context Management</span></div>
-              </div>
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="2" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(155 65% 40%)">03</span>
-                  <p class="text-xs font-semibold leading-snug">Research orchestration</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(265 85% 58% / 0.12);color:hsl(265 85% 58%);border:1px solid hsl(265 85% 58% / 0.25)"
-                  data-open-domain="0" role="button" tabindex="0"
-                >Agentic Architecture</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(210 85% 52% / 0.12);color:hsl(210 85% 52%);border:1px solid hsl(210 85% 52% / 0.25)"
-                  data-open-domain="1" role="button" tabindex="0"
-                >Tool Design</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-                  data-open-domain="4" role="button" tabindex="0"
-                >Context Management</span></div>
-              </div>
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="3" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(38 90% 50%)">04</span>
-                  <p class="text-xs font-semibold leading-snug">Productivity automation</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(210 85% 52% / 0.12);color:hsl(210 85% 52%);border:1px solid hsl(210 85% 52% / 0.25)"
-                  data-open-domain="1" role="button" tabindex="0"
-                >Tool Design</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(155 65% 40% / 0.12);color:hsl(155 65% 40%);border:1px solid hsl(155 65% 40% / 0.25)"
-                  data-open-domain="2" role="button" tabindex="0"
-                >Claude Code</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(265 85% 58% / 0.12);color:hsl(265 85% 58%);border:1px solid hsl(265 85% 58% / 0.25)"
-                  data-open-domain="0" role="button" tabindex="0"
-                >Agentic Architecture</span></div>
-              </div>
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="4" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(320 65% 52%)">05</span>
-                  <p class="text-xs font-semibold leading-snug">CI/CD assistance</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(155 65% 40% / 0.12);color:hsl(155 65% 40%);border:1px solid hsl(155 65% 40% / 0.25)"
-                  data-open-domain="2" role="button" tabindex="0"
-                >Claude Code</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(38 90% 50% / 0.12);color:hsl(38 90% 50%);border:1px solid hsl(38 90% 50% / 0.25)"
-                  data-open-domain="3" role="button" tabindex="0"
-                >Prompt Engineering</span></div>
-              </div>
-              <div class="group/scard flex flex-col gap-1.5 rounded-xl px-3 py-2.5 cursor-pointer transition-all duration-200 hover:scale-[1.02] hover:shadow-md border border-border bg-secondary/50"
-                data-scroll-scenario="5" role="button" tabindex="0">
-                <div class="flex items-center gap-2">
-                  <span class="shrink-0 text-xs font-bold tabular-nums" style="color:hsl(265 85% 58%)">06</span>
-                  <p class="text-xs font-semibold leading-snug">Document extraction</p>
-                </div>
-                <div class="flex flex-wrap gap-1 pl-5"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(38 90% 50% / 0.12);color:hsl(38 90% 50%);border:1px solid hsl(38 90% 50% / 0.25)"
-                  data-open-domain="3" role="button" tabindex="0"
-                >Prompt Engineering</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105 hover:shadow-sm"
-                  style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-                  data-open-domain="4" role="button" tabindex="0"
-                >Context Management</span></div>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PLAIN ENGLISH ========== -->
-  <section class="py-12 lg:py-16">
-    <div class="container-x">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>In plain English
-  </div>
-      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">What is the CCA-F certification, really?</h2>
-      <p class="mt-3 max-w-2xl text-muted-foreground">No jargon. If you're new to AI certifications, start here.</p>
-      <div class="mt-10 grid gap-5 md:grid-cols-3">
-        <div class="rounded-3xl border border-border bg-card p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="shrink-0 grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="award" class="!w-6 !h-6"></i></div>
-            <h3 class="text-lg font-semibold">What is Claude?</h3>
-          </div>
-          <p class="text-sm leading-relaxed text-muted-foreground">Claude is Anthropic's AI model — similar to ChatGPT but built for developers who want to embed AI into real products. Think of it as a very capable digital brain you can program to do complex tasks.</p>
-        </div>
-        <div class="rounded-3xl border border-border bg-card p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="shrink-0 grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-6 !h-6"></i></div>
-            <h3 class="text-lg font-semibold">What does this certification assess?</h3>
-          </div>
-          <p class="text-sm leading-relaxed text-muted-foreground">It focuses on the systems <em>behind</em> an AI product — not just day-to-day chatbot use. Think: agent workflows, tool boundaries, structured output, and reliability tradeoffs.</p>
-        </div>
-        <div class="rounded-3xl border border-border bg-card p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="shrink-0 grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="building-2" class="!w-6 !h-6"></i></div>
-            <h3 class="text-lg font-semibold">Who is this for?</h3>
-          </div>
-          <p class="text-sm leading-relaxed text-muted-foreground">Practitioners at <strong>Anthropic Partner companies</strong> ready to demonstrate applied expertise. Think developers, architects, and technical leads — ~301 level, hands-on Claude experience required.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== EXAM AT A GLANCE ========== -->
-
-  <!-- ========== DOMAIN WEIGHT MAP ========== -->
-  <section id="domains" class="py-12 lg:py-16">
-    <div class="container-x">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>5 certification domains
-  </div>
-      <div class="mt-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-        <h2 class="text-3xl font-semibold tracking-tight md:text-4xl">Where your study time should go.</h2>
-        <p class="text-sm text-muted-foreground">Weightages published by Anthropic</p>
-      </div>
-      <!-- Weight bars -->
-      <div class="mt-10 space-y-4">
-
-          <button
-            data-ccaf-domain="0"
-            data-toggle-domain="0" aria-expanded="false" aria-controls="ccaf-panel-0"
-            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
-            style="--dc:hsl(265 85% 58%)"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4 min-w-0">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(265 85% 58%)">01</span>
-                <div class="min-w-0">
-                  <p class="truncate font-semibold">Agentic Architecture & Orchestration</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">7 task statements</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 sm:shrink-0">
-                <div class="w-32 lg:w-48">
-                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
-                    <div class="h-full rounded-full transition-all duration-700" style="width:27%;background:hsl(265 85% 58%)"></div>
-                  </div>
-                </div>
-                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(265 85% 58%)">27%</span>
-                <span data-ccaf-chevron="0" class="shrink-0 text-muted-foreground transition-transform duration-200"><i data-lucide="chevron-down" class="!w-5 !h-5"></i></span>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">Design agentic loops, orchestrate multi-agent systems with coordinator-subagent patterns, implement task decomposition, and manage session state and workflow enforcement.</p>
-            <!-- Expandable task statements -->
-            <div id="ccaf-panel-0" data-ccaf-panel="0" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(265 85% 58% / 0.25)">
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.1</span>
-                      <div>
-                        <p class="font-semibold">Design and implement agentic loops</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Agentic loop lifecycle · stop_reason (tool_use vs end_turn) · tool result appending · loop termination anti-patterns</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.2</span>
-                      <div>
-                        <p class="font-semibold">Orchestrate multi-agent systems</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Hub-and-spoke coordinator architecture · task decomposition · subagent delegation · result aggregation</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.3</span>
-                      <div>
-                        <p class="font-semibold">Configure subagent invocation and context passing</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Task tool · AgentDefinition · allowedTools · explicit context injection · parallel subagent spawning</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.4</span>
-                      <div>
-                        <p class="font-semibold">Implement multi-step workflows with enforcement</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Programmatic prerequisite gates · structured handoff summaries · enforcement vs prompt-based guidance</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.5</span>
-                      <div>
-                        <p class="font-semibold">Apply Agent SDK hooks</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">PostToolUse hooks · tool call interception · data normalisation · deterministic compliance guarantees</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.6</span>
-                      <div>
-                        <p class="font-semibold">Design task decomposition strategies</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Prompt chaining vs dynamic decomposition · per-file analysis passes · open-ended investigation planning</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(265 85% 58% / 0.15);background:hsl(265 85% 58% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(265 85% 58%)">1.7</span>
-                      <div>
-                        <p class="font-semibold">Manage session state, resumption, and forking</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">--resume flag · fork_session · stale context detection · structured summary injection</p>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
-            </div>
-          </button>
-
-          <button
-            data-ccaf-domain="1"
-            data-toggle-domain="1" aria-expanded="false" aria-controls="ccaf-panel-1"
-            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
-            style="--dc:hsl(210 85% 52%)"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4 min-w-0">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(210 85% 52%)">02</span>
-                <div class="min-w-0">
-                  <p class="truncate font-semibold">Tool Design & MCP Integration</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">5 task statements</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 sm:shrink-0">
-                <div class="w-32 lg:w-48">
-                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
-                    <div class="h-full rounded-full transition-all duration-700" style="width:18%;background:hsl(210 85% 52%)"></div>
-                  </div>
-                </div>
-                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(210 85% 52%)">18%</span>
-                <span data-ccaf-chevron="1" class="shrink-0 text-muted-foreground transition-transform duration-200"><i data-lucide="chevron-down" class="!w-5 !h-5"></i></span>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">Design effective tool interfaces with clear boundaries, implement structured error responses, integrate MCP servers, and distribute tools appropriately across agents.</p>
-            <!-- Expandable task statements -->
-            <div id="ccaf-panel-1" data-ccaf-panel="1" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(210 85% 52% / 0.25)">
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(210 85% 52% / 0.15);background:hsl(210 85% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(210 85% 52%)">2.1</span>
-                      <div>
-                        <p class="font-semibold">Design effective tool interfaces</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Tool descriptions for LLM selection · input formats · edge cases · eliminating tool overlap · boundary explanations</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(210 85% 52% / 0.15);background:hsl(210 85% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(210 85% 52%)">2.2</span>
-                      <div>
-                        <p class="font-semibold">Implement structured error responses for MCP tools</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">isError flag · errorCategory (transient/validation/permission) · isRetryable metadata · partial results</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(210 85% 52% / 0.15);background:hsl(210 85% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(210 85% 52%)">2.3</span>
-                      <div>
-                        <p class="font-semibold">Distribute tools across agents and configure tool choice</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Scoped tool access · tool_choice (auto / any / forced) · cross-role specialisation · constrained alternatives</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(210 85% 52% / 0.15);background:hsl(210 85% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(210 85% 52%)">2.4</span>
-                      <div>
-                        <p class="font-semibold">Integrate MCP servers into Claude Code and agent workflows</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">.mcp.json scoping · environment variable expansion · MCP resources · tool description enhancement</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(210 85% 52% / 0.15);background:hsl(210 85% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(210 85% 52%)">2.5</span>
-                      <div>
-                        <p class="font-semibold">Select and apply built-in tools effectively</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Grep vs Glob distinction · Read/Write vs Edit · incremental codebase exploration patterns</p>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
-            </div>
-          </button>
-
-          <button
-            data-ccaf-domain="2"
-            data-toggle-domain="2" aria-expanded="false" aria-controls="ccaf-panel-2"
-            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
-            style="--dc:hsl(155 65% 40%)"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4 min-w-0">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(155 65% 40%)">03</span>
-                <div class="min-w-0">
-                  <p class="truncate font-semibold">Claude Code Configuration & Workflows</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">6 task statements</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 sm:shrink-0">
-                <div class="w-32 lg:w-48">
-                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
-                    <div class="h-full rounded-full transition-all duration-700" style="width:20%;background:hsl(155 65% 40%)"></div>
-                  </div>
-                </div>
-                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(155 65% 40%)">20%</span>
-                <span data-ccaf-chevron="2" class="shrink-0 text-muted-foreground transition-transform duration-200"><i data-lucide="chevron-down" class="!w-5 !h-5"></i></span>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">Configure CLAUDE.md hierarchies, create custom slash commands, apply path-specific rules, know when to use plan mode, and integrate into CI/CD pipelines.</p>
-            <!-- Expandable task statements -->
-            <div id="ccaf-panel-2" data-ccaf-panel="2" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(155 65% 40% / 0.25)">
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.1</span>
-                      <div>
-                        <p class="font-semibold">Configure CLAUDE.md files with hierarchy and modular organisation</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">User-level vs project-level vs directory-level · @import syntax · .claude/rules/ organisation</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.2</span>
-                      <div>
-                        <p class="font-semibold">Create and configure custom slash commands and skills</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">.claude/commands/ vs ~/.claude/commands/ · context: fork · allowed-tools · argument-hint frontmatter</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.3</span>
-                      <div>
-                        <p class="font-semibold">Apply path-specific rules for conditional convention loading</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">.claude/rules/ YAML frontmatter · glob patterns · cross-directory convention spanning</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.4</span>
-                      <div>
-                        <p class="font-semibold">Determine when to use plan mode vs direct execution</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Plan mode for architectural decisions · direct execution for well-scoped changes · Explore subagent</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.5</span>
-                      <div>
-                        <p class="font-semibold">Apply iterative refinement techniques</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Concrete examples · test-driven iteration · interview pattern · interacting vs independent issue handling</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(155 65% 40% / 0.15);background:hsl(155 65% 40% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(155 65% 40%)">3.6</span>
-                      <div>
-                        <p class="font-semibold">Integrate Claude Code into CI/CD pipelines</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">-p flag (non-interactive) · --output-format json · --json-schema · session isolation for code review</p>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
-            </div>
-          </button>
-
-          <button
-            data-ccaf-domain="3"
-            data-toggle-domain="3" aria-expanded="false" aria-controls="ccaf-panel-3"
-            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
-            style="--dc:hsl(38 90% 50%)"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4 min-w-0">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(38 90% 50%)">04</span>
-                <div class="min-w-0">
-                  <p class="truncate font-semibold">Prompt Engineering & Structured Output</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">6 task statements</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 sm:shrink-0">
-                <div class="w-32 lg:w-48">
-                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
-                    <div class="h-full rounded-full transition-all duration-700" style="width:20%;background:hsl(38 90% 50%)"></div>
-                  </div>
-                </div>
-                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(38 90% 50%)">20%</span>
-                <span data-ccaf-chevron="3" class="shrink-0 text-muted-foreground transition-transform duration-200"><i data-lucide="chevron-down" class="!w-5 !h-5"></i></span>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">Design prompts with explicit criteria, apply few-shot techniques, enforce structured output with JSON schemas, and implement validation and retry loops.</p>
-            <!-- Expandable task statements -->
-            <div id="ccaf-panel-3" data-ccaf-panel="3" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(38 90% 50% / 0.25)">
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.1</span>
-                      <div>
-                        <p class="font-semibold">Design prompts with explicit criteria to reduce false positives</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Specific categorical criteria · severity definitions with code examples · disabling high-FP categories</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.2</span>
-                      <div>
-                        <p class="font-semibold">Apply few-shot prompting for consistency and quality</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">2–4 targeted examples · ambiguous-case demonstrations · hallucination reduction · format specification</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.3</span>
-                      <div>
-                        <p class="font-semibold">Enforce structured output using tool use and JSON schemas</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">tool_use for schema compliance · tool_choice (auto/any/forced) · optional nullable fields · enum + detail patterns</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.4</span>
-                      <div>
-                        <p class="font-semibold">Implement validation, retry, and feedback loops</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Retry-with-error-feedback · retry effectiveness limits · semantic vs schema errors · detected_pattern tracking</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.5</span>
-                      <div>
-                        <p class="font-semibold">Design efficient batch processing strategies</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Message Batches API · 50% cost savings · 24h window · custom_id correlation · latency-tolerant workloads</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(38 90% 50% / 0.15);background:hsl(38 90% 50% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(38 90% 50%)">4.6</span>
-                      <div>
-                        <p class="font-semibold">Design multi-instance and multi-pass review architectures</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Independent review instances · multi-pass local + cross-file analysis · self-review limitations</p>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
-            </div>
-          </button>
-
-          <button
-            data-ccaf-domain="4"
-            data-toggle-domain="4" aria-expanded="false" aria-controls="ccaf-panel-4"
-            class="group w-full rounded-2xl border border-border bg-card p-5 text-left transition-all hover:border-primary/30 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30"
-            style="--dc:hsl(320 65% 52%)"
-          >
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div class="flex items-center gap-4 min-w-0">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl text-sm font-bold text-white" style="background:hsl(320 65% 52%)">05</span>
-                <div class="min-w-0">
-                  <p class="truncate font-semibold">Context Management & Reliability</p>
-                  <p class="text-xs text-muted-foreground mt-0.5">4 task statements</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-4 sm:shrink-0">
-                <div class="w-32 lg:w-48">
-                  <div class="h-2 overflow-hidden rounded-full bg-secondary">
-                    <div class="h-full rounded-full transition-all duration-700" style="width:15%;background:hsl(320 65% 52%)"></div>
-                  </div>
-                </div>
-                <span class="w-10 shrink-0 text-right text-lg font-bold" style="color:hsl(320 65% 52%)">15%</span>
-                <span data-ccaf-chevron="4" class="shrink-0 text-muted-foreground transition-transform duration-200"><i data-lucide="chevron-down" class="!w-5 !h-5"></i></span>
-              </div>
-            </div>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground pl-14">Preserve critical information across long interactions, design escalation patterns, manage error propagation in multi-agent systems, and handle uncertainty with confidence calibration.</p>
-            <!-- Expandable task statements -->
-            <div id="ccaf-panel-4" data-ccaf-panel="4" class="ccaf-panel hidden mt-4 pl-14">
-              <div class="rounded-xl border overflow-hidden" style="border-color:hsl(320 65% 52% / 0.25)">
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(320 65% 52% / 0.15);background:hsl(320 65% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(320 65% 52%)">5.1</span>
-                      <div>
-                        <p class="font-semibold">Manage conversation context across long interactions</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Case facts blocks · 'lost in the middle' mitigation · tool output trimming · progressive summarisation risks</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(320 65% 52% / 0.15);background:hsl(320 65% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(320 65% 52%)">5.2</span>
-                      <div>
-                        <p class="font-semibold">Design escalation and ambiguity resolution patterns</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Explicit escalation triggers · customer-requested escalation · multiple-match disambiguation · policy gap handling</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(320 65% 52% / 0.15);background:hsl(320 65% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(320 65% 52%)">5.3</span>
-                      <div>
-                        <p class="font-semibold">Implement error propagation strategies across multi-agent systems</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Structured error context · access failures vs empty results · local recovery · coverage annotations</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="border-b p-4 last:border-b-0 text-sm" style="border-color:hsl(320 65% 52% / 0.15);background:hsl(320 65% 52% / 0.04)">
-                    <div class="flex items-start gap-3">
-                      <span class="shrink-0 rounded px-1.5 py-0.5 text-xs font-bold text-white" style="background:hsl(320 65% 52%)">5.4</span>
-                      <div>
-                        <p class="font-semibold">Manage context in large codebase exploration</p>
-                        <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Context degradation · scratchpad files · subagent delegation · structured state persistence for crash recovery</p>
-                      </div>
-                    </div>
-                  </div>
-
-              </div>
-              <p class="mt-3 text-xs text-muted-foreground">Click anywhere on the card to collapse.</p>
-            </div>
-          </button>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== EXAM SCENARIOS ========== -->
-  <section class="py-12 lg:py-16 bg-secondary/40">
-    <div class="container-x">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Certification scenarios
-  </div>
-      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Practice common production scenarios.</h2>
-      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">Use these as study prompts for the major domain combinations. The official certification page remains the source of truth for exam structure.</p>
-      <style>
-        .ccaf-badge-wrap { position:relative; display:inline-block; }
-        .ccaf-domain-tooltip {
-          opacity:0;
-          transform:translateY(6px) scale(0.97);
-          pointer-events:none;
-          transition:opacity 0.18s ease, transform 0.18s ease;
-        }
-        .ccaf-badge-wrap:hover .ccaf-domain-tooltip {
-          opacity:1;
-          transform:translateY(0) scale(1);
-          pointer-events:auto;
-        }
-      </style>
-      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
-          <div id="scenario-0" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(265 85% 58%)">01</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(265 85% 58%);border-color:hsl(265 85% 58% / 0.3);background:hsl(265 85% 58% / 0.07)">Domain 1 · 2 · 5</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(265 85% 58% / 0.25);box-shadow:0 8px 32px hsl(265 85% 58% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(265 85% 58%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(265 85% 58%)">D1</span>
-              <span class="text-xs leading-snug" style="color:hsl(265 85% 58% / 0.85)">Agentic Architecture & Orchestration</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(210 85% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(210 85% 52%)">D2</span>
-              <span class="text-xs leading-snug" style="color:hsl(210 85% 52% / 0.85)">Tool Design & MCP Integration</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(320 65% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(320 65% 52%)">D5</span>
-              <span class="text-xs leading-snug" style="color:hsl(320 65% 52% / 0.85)">Context Management & Reliability</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">Support automation</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice designing agents that resolve user requests, call tools, and escalate when confidence is low.</p>
-          </div>
-
-          <div id="scenario-1" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(210 85% 52%)">02</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(210 85% 52%);border-color:hsl(210 85% 52% / 0.3);background:hsl(210 85% 52% / 0.07)">Domain 3 · 5</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(210 85% 52% / 0.25);box-shadow:0 8px 32px hsl(210 85% 52% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(155 65% 40%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(155 65% 40%)">D3</span>
-              <span class="text-xs leading-snug" style="color:hsl(155 65% 40% / 0.85)">Claude Code Configuration & Workflows</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(320 65% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(320 65% 52%)">D5</span>
-              <span class="text-xs leading-snug" style="color:hsl(320 65% 52% / 0.85)">Context Management & Reliability</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">Developer workflow</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice configuring Claude Code, team conventions, and context management for codebase work.</p>
-          </div>
-
-          <div id="scenario-2" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(155 65% 40%)">03</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(155 65% 40%);border-color:hsl(155 65% 40% / 0.3);background:hsl(155 65% 40% / 0.07)">Domain 1 · 2 · 5</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(155 65% 40% / 0.25);box-shadow:0 8px 32px hsl(155 65% 40% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(265 85% 58%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(265 85% 58%)">D1</span>
-              <span class="text-xs leading-snug" style="color:hsl(265 85% 58% / 0.85)">Agentic Architecture & Orchestration</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(210 85% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(210 85% 52%)">D2</span>
-              <span class="text-xs leading-snug" style="color:hsl(210 85% 52% / 0.85)">Tool Design & MCP Integration</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(320 65% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(320 65% 52%)">D5</span>
-              <span class="text-xs leading-snug" style="color:hsl(320 65% 52% / 0.85)">Context Management & Reliability</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">Research orchestration</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice coordinating specialist agents, tool access, source handling, and synthesis.</p>
-          </div>
-
-          <div id="scenario-3" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(38 90% 50%)">04</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(38 90% 50%);border-color:hsl(38 90% 50% / 0.3);background:hsl(38 90% 50% / 0.07)">Domain 2 · 3 · 1</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(38 90% 50% / 0.25);box-shadow:0 8px 32px hsl(38 90% 50% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(210 85% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(210 85% 52%)">D2</span>
-              <span class="text-xs leading-snug" style="color:hsl(210 85% 52% / 0.85)">Tool Design & MCP Integration</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(155 65% 40%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(155 65% 40%)">D3</span>
-              <span class="text-xs leading-snug" style="color:hsl(155 65% 40% / 0.85)">Claude Code Configuration & Workflows</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(265 85% 58%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(265 85% 58%)">D1</span>
-              <span class="text-xs leading-snug" style="color:hsl(265 85% 58% / 0.85)">Agentic Architecture & Orchestration</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">Productivity automation</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice choosing tool boundaries, prompts, and workflows for repeated knowledge-work tasks.</p>
-          </div>
-
-          <div id="scenario-4" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(320 65% 52%)">05</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(320 65% 52%);border-color:hsl(320 65% 52% / 0.3);background:hsl(320 65% 52% / 0.07)">Domain 3 · 4</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(320 65% 52% / 0.25);box-shadow:0 8px 32px hsl(320 65% 52% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(155 65% 40%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(155 65% 40%)">D3</span>
-              <span class="text-xs leading-snug" style="color:hsl(155 65% 40% / 0.85)">Claude Code Configuration & Workflows</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(38 90% 50%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(38 90% 50%)">D4</span>
-              <span class="text-xs leading-snug" style="color:hsl(38 90% 50% / 0.85)">Prompt Engineering & Structured Output</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">CI/CD assistance</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice using structured output, review criteria, and non-interactive execution in pipelines.</p>
-          </div>
-
-          <div id="scenario-5" class="rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-3xl font-bold tracking-tight" style="color:hsl(265 85% 58%)">06</span>
-              <div class="ccaf-badge-wrap">
-                <span class="cursor-help rounded-full border px-2.5 py-1 text-xs font-semibold select-none" style="color:hsl(265 85% 58%);border-color:hsl(265 85% 58% / 0.3);background:hsl(265 85% 58% / 0.07)">Domain 4 · 5</span>
-                <div class="ccaf-domain-tooltip absolute right-0 top-full mt-2 z-50 min-w-max rounded-2xl border bg-card p-3 shadow-xl" style="border-color:hsl(265 85% 58% / 0.25);box-shadow:0 8px 32px hsl(265 85% 58% / 0.12)">
-                  <p class="mb-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Domains tested</p>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(38 90% 50%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(38 90% 50%)">D4</span>
-              <span class="text-xs leading-snug" style="color:hsl(38 90% 50% / 0.85)">Prompt Engineering & Structured Output</span>
-            </div>
-
-            <div class="flex items-center gap-2.5 py-1">
-              <span class="shrink-0 h-2 w-2 rounded-full" style="background:hsl(320 65% 52%)"></span>
-              <span class="shrink-0 text-xs font-bold" style="color:hsl(320 65% 52%)">D5</span>
-              <span class="text-xs leading-snug" style="color:hsl(320 65% 52% / 0.85)">Context Management & Reliability</span>
-            </div>
-
-                </div>
-              </div>
-            </div>
-            <h3 class="mt-3 font-semibold leading-snug">Document extraction</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Practice schema design, validation, retry handling, and reliable context use for messy inputs.</p>
-          </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== STUDY ROADMAP ========== -->
-  <section class="py-12 lg:py-16">
-    <div class="container-x">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Study roadmap
-  </div>
-      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">A practical study path, step by step.</h2>
-      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">No matter your background — developer, tech lead, or just curious — here's a study path that prioritises the highest-weight topics first.</p>
-      <div class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">01</span>
-
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Understand what Claude actually is</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Claude is Anthropic's AI model. This certification tests whether you can architect real systems with it — not just chat. Start at Anthropic Academy.</p>
-          </div>
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">02</span>
-
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Work through the Anthropic Skilljar catalog</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Skilljar hosts the full Academy catalog — from L100 foundations (Claude 101, AI Fluency) through L200 intermediate (MCP, Claude Code in Action, Bedrock, Vertex AI) to L300 advanced topics. Complete the tracks relevant to your role before attempting the certification.</p>
-          </div>
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">03</span>
-              <div class="flex flex-wrap gap-1 justify-end"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(265 85% 58% / 0.12);color:hsl(265 85% 58%);border:1px solid hsl(265 85% 58% / 0.25)"
-              data-open-domain="0" role="button" tabindex="0"
-            >Agentic Architecture</span></div>
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Deep-dive Domain 1 first (27%)</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agentic Architecture is the biggest slice of the certification. Master agentic loops, coordinator-subagent patterns, hooks, and session management.</p>
-          </div>
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">04</span>
-              <div class="flex flex-wrap gap-1 justify-end"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(155 65% 40% / 0.12);color:hsl(155 65% 40%);border:1px solid hsl(155 65% 40% / 0.25)"
-              data-open-domain="2" role="button" tabindex="0"
-            >Claude Code</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(38 90% 50% / 0.12);color:hsl(38 90% 50%);border:1px solid hsl(38 90% 50% / 0.25)"
-              data-open-domain="3" role="button" tabindex="0"
-            >Prompt Engineering</span></div>
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Study Domains 3 & 4 together (20% each)</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Claude Code workflows and Prompt Engineering together cover 40% of scored content. Practice CI/CD integration and structured output with JSON schemas.</p>
-          </div>
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">05</span>
-              <div class="flex flex-wrap gap-1 justify-end"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(210 85% 52% / 0.12);color:hsl(210 85% 52%);border:1px solid hsl(210 85% 52% / 0.25)"
-              data-open-domain="1" role="button" tabindex="0"
-            >Tool Design</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-              data-open-domain="4" role="button" tabindex="0"
-            >Context Management</span></div>
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Cover Domain 2 & 5 (18% + 15%)</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Tool design, MCP integration, context management, and reliability patterns. Study scenario 1 (Customer Support) — it covers all three.</p>
-          </div>
-          <div class="relative rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/20 hover:shadow-md">
-            <div class="flex items-start justify-between gap-3">
-              <span class="text-4xl font-bold tracking-tight text-primary/20">06</span>
-              <div class="flex flex-wrap gap-1 justify-end"><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(265 85% 58% / 0.12);color:hsl(265 85% 58%);border:1px solid hsl(265 85% 58% / 0.25)"
-              data-open-domain="0" role="button" tabindex="0"
-            >Agentic Architecture</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(210 85% 52% / 0.12);color:hsl(210 85% 52%);border:1px solid hsl(210 85% 52% / 0.25)"
-              data-open-domain="1" role="button" tabindex="0"
-            >Tool Design</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(155 65% 40% / 0.12);color:hsl(155 65% 40%);border:1px solid hsl(155 65% 40% / 0.25)"
-              data-open-domain="2" role="button" tabindex="0"
-            >Claude Code</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(38 90% 50% / 0.12);color:hsl(38 90% 50%);border:1px solid hsl(38 90% 50% / 0.25)"
-              data-open-domain="3" role="button" tabindex="0"
-            >Prompt Engineering</span><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold whitespace-nowrap cursor-pointer transition-all duration-150 hover:scale-105"
-              style="background:hsl(320 65% 52% / 0.12);color:hsl(320 65% 52%);border:1px solid hsl(320 65% 52% / 0.25)"
-              data-open-domain="4" role="button" tabindex="0"
-            >Context Management</span></div>
-            </div>
-            <h3 class="mt-2 font-semibold leading-snug">Practice scenario-style questions</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Use the scenario prompts below to test domain combinations. Build mini-projects for at least two workflows before sitting the certification.</p>
-          </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== RESOURCES ========== -->
-  <section id="resources" class="py-12 lg:py-16 bg-secondary/40">
-    <div class="container-x">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Study resources
-  </div>
-      <h2 class="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Everything you need to prepare.</h2>
-      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">All links go to official Anthropic sources. Start with the access request, then the Academy course — everything else builds on those.</p>
-      <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
-          <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/5 to-primary/10 p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="key" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Request Certification Access</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Register</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Exclusive for Anthropic Partners. Register here to access the CCA-F — 60 MCQ, 120 min, $125/attempt.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-primary/40 bg-gradient-to-br from-primary/5 to-primary/10 p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="award" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Take the Certification</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Official CCA-F page on Anthropic's Partner Skilljar platform. Register and pay here, then watch for two Pearson VUE emails (username + temporary password) to schedule your exam — the test itself is delivered by Pearson, not on Skilljar.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://pearsonvue.com/us/en/anthropic" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="calendar-check" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Schedule Your Exam (Pearson VUE)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Pearson</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">After registering on Skilljar, sign in here to set your password and book online proctoring or an in-person test center slot. 60 MCQ, 120 minutes.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/ai-fluency-framework-foundations" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="sparkles" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">AI Fluency: Framework & Foundations</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L100</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Learn to collaborate with AI systems effectively, efficiently, ethically, and safely. For professionals and personal use.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-101" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="message-circle" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude 101</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L100</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Learn how to use Claude for everyday work tasks, understand core features, and explore resources for more advanced learning.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-in-amazon-bedrock" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cloud" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude with Amazon Bedrock</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L100</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Introduction to Anthropic models on Bedrock — setup, authentication, prompt engineering and evaluations. First 4 sections.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-with-google-vertex" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cloud" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude with Google Cloud Vertex AI</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L100</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Introduction to Anthropic models on Vertex AI — setup, authentication, prompt engineering and evaluations. First 4 sections.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="book-open" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Building with the Claude API (Foundations)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L100</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Authentication, basic prompting, and core functionality including prompt engineering and evaluations. First 4 sections.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/introduction-to-model-context-protocol" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="server" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Introduction to Model Context Protocol</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L200</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Build MCP servers and clients from scratch using Python. Master tools, resources, and prompts to connect Claude with external services.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-in-amazon-bedrock" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cloud" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude with Amazon Bedrock (Advanced)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L200</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Advanced Bedrock topics including tool use, RAG, building agents, production patterns and optimization techniques.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-with-google-vertex" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cloud" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude with Google Cloud Vertex AI (Advanced)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L200</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Advanced Vertex AI topics including tool use, RAG, building agents, production patterns and optimization techniques.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-with-the-anthropic-api" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="book-open" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Building with the Claude API (Advanced)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L200</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Advanced API topics including tool use, RAG, building agents, production patterns and optimization techniques.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/claude-code-in-action" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="terminal" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude Code in Action</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L200</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Practical guide to integrating Claude Code into development workflows — context management, hooks, custom commands and the Agent SDK.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://anthropic.skilljar.com/model-context-protocol-advanced-topics" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="layers" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Model Context Protocol: Advanced Topics</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Skilljar</span>
-                  <span class="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">L300</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Advanced MCP patterns including sampling, notifications, file system access, and transport mechanisms for production server development.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://www.anthropic.com/learn" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="graduation-cap" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Anthropic Academy</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Academy</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Official learning hub. Start here — complete the free course before anything else.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://docs.anthropic.com" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="code-2" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude API Documentation</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Docs</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Complete API reference for messages, tools, streaming, and model configuration.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://docs.anthropic.com/en/docs/claude-code" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="terminal" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude Code Docs</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Docs</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">CLAUDE.md, slash commands, skills, plan mode, and CI/CD integration guide.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://modelcontextprotocol.io" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="network" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Model Context Protocol (MCP)</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">Spec</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Official MCP specification — tool and resource interfaces for backend integration.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-          <a href="https://docs.anthropic.com/en/docs/claude-code/sdk" target="_blank" rel="noopener noreferrer" class="group flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md">
-            <div class="flex items-center justify-between gap-3">
-              <div class="flex items-center gap-3 min-w-0">
-                <div class="shrink-0 grid h-11 w-11 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cpu" class="!w-5 !h-5"></i></div>
-                <h3 class="font-semibold leading-snug">Claude Agent SDK</h3>
-              </div>
-              <div class="shrink-0 flex flex-col items-end gap-1">
-
-                  <span class="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-xs font-semibold text-primary">SDK</span>
-
-              </div>
-            </div>
-            <p class="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">Build multi-agent systems with coordinator-subagent patterns and lifecycle hooks.</p>
-            <span class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all group-hover:gap-2.5">Open <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i></span>
-          </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PREREQUISITES ========== -->
-  <section class="py-12 lg:py-16">
-    <div class="container-x">
-      <div class="rounded-3xl border border-border bg-card p-8 lg:p-10">
-        <div class="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div>
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Before you register
-  </div>
-            <h2 class="mt-3 text-2xl font-semibold tracking-tight">Who is this certification built for?</h2>
-            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">The CCA-F is exclusive to practitioners at <strong>Anthropic Partner companies</strong> — a ~301 level certification for those with foundational knowledge who are ready to demonstrate deeper, applied expertise in Claude systems.</p>
-          </div>
-          <div class="grid gap-4 sm:grid-cols-2">
-
-              <div class="flex gap-4 rounded-2xl border border-border bg-background/60 p-5">
-                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="code-2" class="!w-5 !h-5"></i></div>
-                <div>
-                  <p class="font-semibold text-sm">Python or TypeScript</p>
-                  <p class="mt-1 text-xs leading-relaxed text-muted-foreground">The exam scenarios assume you can read and reason about code. You don't need to memorise syntax, but you need to understand it.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-4 rounded-2xl border border-border bg-background/60 p-5">
-                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="braces" class="!w-5 !h-5"></i></div>
-                <div>
-                  <p class="font-semibold text-sm">Comfortable with JSON</p>
-                  <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Tool schemas, API payloads, and structured output all use JSON. You should be able to read and write it without looking it up.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-4 rounded-2xl border border-border bg-background/60 p-5">
-                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="hard-hat" class="!w-5 !h-5"></i></div>
-                <div>
-                  <p class="font-semibold text-sm">Anthropic Partner company</p>
-                  <p class="mt-1 text-xs leading-relaxed text-muted-foreground">Access is restricted to practitioners at verified Anthropic Partner organisations. Not yet a partner? Apply at anthropic.com/partners.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-4 rounded-2xl border border-border bg-background/60 p-5">
-                <div class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="lightbulb" class="!w-5 !h-5"></i></div>
-                <div>
-                  <p class="font-semibold text-sm">Architectural thinking</p>
-                  <p class="mt-1 text-xs leading-relaxed text-muted-foreground">This exam is about tradeoffs and decisions, not memorisation. If you've designed systems — even small ones — you'll find this natural.</p>
-                </div>
-              </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== CTA BAND ========== -->
-  <section class="py-12 lg:py-16">
-    <div class="container-x">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-14">
-        <style>
-          .ccaf-dark-outline:hover {
-            background: rgba(255, 255, 255, 0.14) !important;
-            border-color: rgba(255, 255, 255, 0.55) !important;
-            color: #fff !important;
-          }
-        </style>
-        <div class="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-20" style="background:radial-gradient(circle, hsl(var(--primary-glow)), transparent)"></div>
-        <div class="relative flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
-          <div class="max-w-lg">
-            <div class="flex items-center gap-3 mb-3">
-              <div class="grid h-9 w-9 place-items-center rounded-lg bg-white/10">
-                <i data-lucide="award" class="!w-5 !h-5"></i>
-              </div>
-              <p class="text-xs font-semibold uppercase tracking-widest opacity-60">Certification resource</p>
-            </div>
-            <h2 class="text-3xl font-semibold leading-snug md:text-4xl">Use the official Skilljar pages when you register.</h2>
-            <div class="mt-5 flex flex-wrap gap-2">
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="users" class="!w-3.5 !h-3.5"></i>
-                  Anthropic Partners
-                </span>
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="list-checks" class="!w-3.5 !h-3.5"></i>
-                  60 MCQ
-                </span>
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="clock" class="!w-3.5 !h-3.5"></i>
-                  120 minutes
-                </span>
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="shield-check" class="!w-3.5 !h-3.5"></i>
-                  Pearson VUE — online or test center
-                </span>
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="dollar-sign" class="!w-3.5 !h-3.5"></i>
-                  $125 per attempt
-                </span>
-
-                <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white/85 backdrop-blur">
-                  <i data-lucide="award" class="!w-3.5 !h-3.5"></i>
-                  Digital certificate
-                </span>
-
-            </div>
-          </div>
-          <div class="flex flex-col gap-3 sm:flex-row">
-            <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-access-request" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-xl whitespace-nowrap">
-              Request access <i data-lucide="arrow-up-right" class="!w-4 !h-4"></i>
-            </a>
-            <a href="https://anthropic-partners.skilljar.com/claude-certified-architect-foundations-certification" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-xl whitespace-nowrap ccaf-dark-outline" style="color:white;border-color:rgba(255,255,255,0.3)">
-              Take the certification <i data-lucide="award" class="!w-4 !h-4"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<script>
-  const notice = document.querySelector<HTMLElement>('[data-ccaf-notice]');
-  try {
-    if (localStorage.getItem('algorims-ccaf-notice-dismissed') === '1') notice?.remove();
-  } catch { /* Storage may be unavailable. */ }
-
-  function toggleDomain(index: string, openOnly = false) {
-    const panel = document.querySelector<HTMLElement>(`[data-ccaf-panel="${index}"]`);
-    if (!panel) return;
-    const wasOpen = !panel.classList.contains('hidden');
-    document.querySelectorAll<HTMLElement>('[data-ccaf-panel]').forEach(item => item.classList.add('hidden'));
-    document.querySelectorAll<HTMLElement>('[data-ccaf-chevron]').forEach(item => item.style.transform = '');
-    document.querySelectorAll<HTMLElement>('[data-toggle-domain]').forEach(item => item.setAttribute('aria-expanded', 'false'));
-    if (!wasOpen || openOnly) {
-      panel.classList.remove('hidden');
-      document.querySelector<HTMLElement>(`[data-ccaf-chevron="${index}"]`)?.style.setProperty('transform', 'rotate(180deg)');
-      document.querySelector<HTMLElement>(`[data-toggle-domain="${index}"]`)?.setAttribute('aria-expanded', 'true');
-    }
-  }
-
-  function activate(target: HTMLElement) {
-    if (target.matches('[data-dismiss-notice]')) {
-      try { localStorage.setItem('algorims-ccaf-notice-dismissed', '1'); } catch { /* Storage may be unavailable. */ }
-      notice?.remove();
-    } else if (target.matches('[data-toggle-domain]')) {
-      toggleDomain(target.dataset.toggleDomain!);
-    } else if (target.matches('[data-open-domain]')) {
-      const index = target.dataset.openDomain!;
-      toggleDomain(index, true);
-      const button = document.querySelector<HTMLElement>(`[data-toggle-domain="${index}"]`);
-      if (button) {
-        button.style.scrollMarginTop = '7rem';
-        button.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    } else if (target.matches('[data-scroll-scenario]')) {
-      document.getElementById(`scenario-${target.dataset.scrollScenario}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  const controls = '[data-dismiss-notice], [data-toggle-domain], [data-open-domain], [data-scroll-scenario]';
-  document.addEventListener('click', event => {
-    const target = (event.target as Element).closest<HTMLElement>(controls);
-    if (target) activate(target);
-  });
-  document.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const target = (event.target as Element).closest<HTMLElement>('[data-open-domain], [data-scroll-scenario]');
-    if (target) {
-      event.preventDefault();
-      activate(target);
-    }
-  });
-</script>
 </BaseLayout>
+
+<style>
+  .ccaf { background: hsl(var(--background)); }
+  .ccaf-hero { padding: 46px 1.5rem 5rem; text-align: center; }
+  .ccaf-kicker { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .ccaf-hero h1 { max-width: 880px; margin: 1.35rem auto 1.5rem; font-size: clamp(3rem, 6.7vw, 6rem); font-weight: 600; line-height: 1.04; letter-spacing: -.055em; text-wrap: balance; }
+  .ccaf-accent { color: hsl(var(--primary)); }
+  .ccaf-lede { max-width: 620px; margin: 0 auto; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.65; }
+  .ccaf-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin: 26px 0; }
+  .ccaf-action { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 25px; border: 1px solid hsl(var(--foreground)); border-radius: 9999px; font-weight: 600; }
+  .ccaf-action:not(.primary):hover { border-color: hsl(var(--primary)); }
+  .ccaf-action.primary { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .ccaf a:not(.ccaf-action):hover { color: hsl(var(--primary)); }
+  .ccaf-note { max-width: 650px; margin: 3.5rem auto 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
+  .ccaf-facts { display: grid; grid-template-columns: repeat(4, 1fr); margin: 0 clamp(1.5rem, 5vw, 5rem); overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .ccaf-facts div { display: flex; flex-direction: column; gap: .35rem; padding: 2rem 1.5rem; text-align: center; }
+  .ccaf-facts div + div { border-left: 1px solid hsl(var(--border)); }
+  .ccaf-facts strong { font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1; font-weight: 600; letter-spacing: -.04em; }
+  .ccaf-facts div > span { color: hsl(var(--muted-foreground)); font-size: .78rem; }
+  .ccaf-section { padding: clamp(4rem, 7vw, 7rem) clamp(1.5rem, 5vw, 5rem); border-bottom: 1px solid hsl(var(--border)); scroll-margin-top: 5rem; }
+  .ccaf-section:last-child { border-bottom: 0; }
+  .ccaf-section h2 { max-width: 650px; margin: .8rem 0 0; font-size: clamp(2.25rem, 4.2vw, 4rem); font-weight: 600; line-height: 1.12; letter-spacing: -.045em; text-wrap: balance; }
+  .ccaf-section-heading { max-width: 720px; margin: 0 auto 3rem; text-align: center; }
+  .ccaf-section-heading h2 { margin-left: auto; margin-right: auto; }
+  .ccaf-section-heading > p:last-child { margin-top: 1rem; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .ccaf-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .ccaf-prose { max-width: 600px; color: hsl(var(--muted-foreground)); line-height: 1.75; }
+  .ccaf-prose p + p { margin-top: 1rem; }
+  .ccaf-prose strong { color: hsl(var(--foreground)); }
+  .ccaf-prose a { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 3px; }
+  .ccaf-domain-list { border-top: 1px solid hsl(var(--border)); }
+  .ccaf-domain { border-bottom: 1px solid hsl(var(--border)); }
+  .ccaf-domain summary { display: grid; grid-template-columns: 2.5rem 1fr auto 1.5rem; align-items: start; gap: 1.25rem; padding: 1.5rem 0; cursor: pointer; list-style: none; }
+  .ccaf-domain summary::-webkit-details-marker { display: none; }
+  .ccaf-domain summary:hover .ccaf-domain-main strong { color: hsl(var(--primary)); }
+  .ccaf-index { color: hsl(var(--primary)); font-size: .76rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .ccaf-domain-main { display: flex; flex-direction: column; gap: .4rem; }
+  .ccaf-domain-main strong { font-size: clamp(1.05rem, 1.8vw, 1.4rem); font-weight: 600; line-height: 1.3; }
+  .ccaf-domain-main small { color: hsl(var(--muted-foreground)); font-size: .88rem; line-height: 1.55; }
+  .ccaf-weight { font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ccaf-plus { font-size: 1.4rem; line-height: 1; text-align: right; }
+  .ccaf-domain[open] .ccaf-plus { transform: rotate(45deg); }
+  .ccaf-tasks { margin: 0 2.7rem 1.8rem 3.75rem; padding-left: 1.3rem; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.65; }
+  .ccaf-tasks li + li { margin-top: .45rem; }
+  .ccaf-scenarios { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .ccaf-scenarios article { display: grid; grid-template-columns: 2rem 1fr; column-gap: 1rem; padding: 1.5rem; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .ccaf-scenarios h3 { font-size: 1.1rem; font-weight: 600; }
+  .ccaf-scenarios p { margin-top: .4rem; color: hsl(var(--muted-foreground)); font-size: .88rem; line-height: 1.6; }
+  .ccaf-scenario-domains { grid-column: 2; margin-top: .8rem; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .ccaf-resources { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; }
+  .ccaf-resources > div { padding: 1.5rem; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .ccaf-resources h3 { padding-bottom: 1rem; border-bottom: 1px solid hsl(var(--border)); font-size: 1.05rem; font-weight: 600; }
+  .ccaf-resources ul { list-style: none; margin: 0; padding: 0; }
+  .ccaf-resources li + li { border-top: 1px solid hsl(var(--border)); }
+  .ccaf-resources a { display: flex; justify-content: space-between; gap: 1rem; padding: .9rem 0; font-size: .85rem; line-height: 1.45; }
+  .ccaf-resources a span { color: hsl(var(--primary)); }
+  .ccaf-resource-note { max-width: 730px; margin-top: 2.5rem; color: hsl(var(--muted-foreground)); font-size: .8rem; line-height: 1.6; }
+  @media (max-width: 760px) {
+    .ccaf-hero { padding: 44px 18px 4rem; }
+    .ccaf-facts { grid-template-columns: repeat(2, 1fr); }
+    .ccaf-facts div:nth-child(3) { border-left: 0; }
+    .ccaf-facts div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); }
+    .ccaf-intro, .ccaf-scenarios, .ccaf-resources { grid-template-columns: 1fr; }
+    .ccaf-intro, .ccaf-resources { gap: 2rem; }
+    .ccaf-domain summary { grid-template-columns: 1.5rem 1fr auto 1rem; gap: .7rem; }
+    .ccaf-domain-main small { font-size: .8rem; }
+    .ccaf-tasks { margin-left: 2.2rem; margin-right: 0; }
+  }
+</style>

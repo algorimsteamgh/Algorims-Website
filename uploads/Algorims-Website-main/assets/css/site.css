@@ -450,7 +450,7 @@
   .rot-center-mark {
     width: 64px; height: 64px;
     border-radius: 9999px;
-    background: hsl(0 0% 100% / 0.95) url('/assets/algorims-logo.png') no-repeat center center;
+    background: hsl(0 0% 100% / 0.95) url('/assets/algorims-logo.webp') no-repeat center center;
     background-size: 280% auto;
     background-position: 6% center;
     backdrop-filter: blur(8px);

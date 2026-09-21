@@ -6,6 +6,7 @@ node_modules/
 
 # Astro generated types/cache
 .astro/
+.playwright-cli/
 
 # logs
 npm-debug.log*

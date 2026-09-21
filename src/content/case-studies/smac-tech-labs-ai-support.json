@@ -10,7 +10,7 @@
   "glyph": "message-circle",
   "accent": "hsl(265 85% 58%)",
   "clientLogo": {
-    "src": "/assets/case-studies/clients/smac-tech-labs-logo.png",
+    "src": "/assets/case-studies/clients/smac-tech-labs-logo.webp",
     "alt": "SMAC Tech Labs",
     "name": "SMAC Tech Labs"
   },

@@ -1,7 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import DetailPage from "../../components/content/DetailPage.astro";
+import CaseStudyPage from "../../components/case-studies/CaseStudyPage.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("case-studies");
@@ -20,5 +20,5 @@ const seo: Record<string, { title?: string; description?: string }> = {
 };
 ---
 <BaseLayout title={`${seo[entry.id]?.title ?? entry.data.title} — Algorims`} description={seo[entry.id]?.description ?? entry.data.subtitle}>
-  <DetailPage entry={entry} />
+  <CaseStudyPage entry={entry} />
 </BaseLayout>

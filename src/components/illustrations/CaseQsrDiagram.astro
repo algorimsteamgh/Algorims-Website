@@ -1,0 +1,349 @@
+---
+// src/components/illustrations/CaseQsrDiagram.astro
+---
+
+<div class="case-diagram-wrapper" aria-label="Isometric architecture diagram: Transaction, staffing, and store data feed Algorims conversational analytics, producing actionable workforce intelligence.">
+  <svg
+    class="case-svg"
+    viewBox="0 0 880 500"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+  >
+    <defs>
+      <!-- Central Ambient Glow -->
+      <radialGradient id="qsr-core-glow" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="var(--violet-core)" stop-opacity="0.32" />
+        <stop offset="60%" stop-color="var(--violet-core)" stop-opacity="0.08" />
+        <stop offset="100%" stop-color="var(--violet-core)" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Faint Construction Grid Pattern -->
+      <pattern id="qsr-grid" width="40" height="23" patternUnits="userSpaceOnUse">
+        <path d="M 0 23 L 40 0 M 0 0 L 40 23" stroke="var(--canvas-grid)" stroke-width="0.75" stroke-opacity="0.7" />
+      </pattern>
+    </defs>
+
+    <!-- Background Blueprint Grid -->
+    <rect width="880" height="500" fill="url(#qsr-grid)" opacity="0.65" />
+
+    <!-- Registration Crosshairs at corners -->
+    <g class="crosshairs" stroke="var(--crosshair)" stroke-width="1">
+      <path d="M 28 22 V 34 M 22 28 H 34" />
+      <path d="M 852 22 V 34 M 846 28 H 858" />
+      <path d="M 28 466 V 478 M 22 472 H 34" />
+      <path d="M 852 466 V 478 M 846 472 H 858" />
+    </g>
+
+    <!-- Ambient Core Radial Glow -->
+    <ellipse cx="440" cy="270" rx="200" ry="120" fill="url(#qsr-core-glow)" />
+
+    <!-- ================= CONNECTOR WIRES ================= -->
+    <g class="connector-wires">
+      <!-- Input 1 Wire (Transactions) -->
+      <path d="M 235 125 H 330 V 230 H 375" stroke="var(--wire-stroke)" stroke-width="1.25" fill="none" stroke-linejoin="round" />
+      <path d="M 330 230 H 375" stroke="var(--violet-core)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+
+      <!-- Input 2 Wire (Staffing) -->
+      <path d="M 225 260 H 375" stroke="var(--wire-stroke)" stroke-width="1.25" fill="none" />
+      <path d="M 300 260 H 375" stroke="var(--violet-core)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+
+      <!-- Input 3 Wire (Store Ops) -->
+      <path d="M 235 395 H 330 V 290 H 375" stroke="var(--wire-stroke)" stroke-width="1.25" fill="none" stroke-linejoin="round" />
+      <path d="M 330 290 H 375" stroke="var(--violet-core)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+
+      <!-- Output Wire (Workforce Intelligence) -->
+      <path d="M 505 260 H 645" stroke="var(--wire-stroke)" stroke-width="1.25" fill="none" />
+      <path d="M 505 260 H 575" stroke="var(--violet-core)" stroke-width="1.5" stroke-dasharray="3 3" fill="none" />
+    </g>
+
+    <!-- Junction Cubes (Ports) -->
+    <g class="port-anchors">
+      <!-- On Input 1 wire -->
+      <g transform="translate(235, 125)">
+        <polygon points="0,-4 5,-1.5 0,1 -5,-1.5" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-5,-1.5 0,1 0,6 -5,3.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1 5,-1.5 5,3.5 0,6" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <!-- On Input 2 wire -->
+      <g transform="translate(225, 260)">
+        <polygon points="0,-4 5,-1.5 0,1 -5,-1.5" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-5,-1.5 0,1 0,6 -5,3.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1 5,-1.5 5,3.5 0,6" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <!-- On Input 3 wire -->
+      <g transform="translate(235, 395)">
+        <polygon points="0,-4 5,-1.5 0,1 -5,-1.5" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-5,-1.5 0,1 0,6 -5,3.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1 5,-1.5 5,3.5 0,6" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <!-- On Center Left Entry Ports -->
+      <g transform="translate(375, 230)">
+        <polygon points="0,-3.5 4,-1 0,1.5 -4,-1" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-4,-1 0,1.5 0,5 -4,2.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1.5 4,-1 4,2.5 0,5" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <g transform="translate(375, 260)">
+        <polygon points="0,-3.5 4,-1 0,1.5 -4,-1" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-4,-1 0,1.5 0,5 -4,2.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1.5 4,-1 4,2.5 0,5" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <g transform="translate(375, 290)">
+        <polygon points="0,-3.5 4,-1 0,1.5 -4,-1" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-4,-1 0,1.5 0,5 -4,2.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1.5 4,-1 4,2.5 0,5" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <!-- On Output Exit Port -->
+      <g transform="translate(505, 260)">
+        <polygon points="0,-3.5 4,-1 0,1.5 -4,-1" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-4,-1 0,1.5 0,5 -4,2.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1.5 4,-1 4,2.5 0,5" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+      <!-- On Output Node Entry -->
+      <g transform="translate(645, 260)">
+        <polygon points="0,-4 5,-1.5 0,1 -5,-1.5" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="-5,-1.5 0,1 0,6 -5,3.5" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="0.8" />
+        <polygon points="0,1 5,-1.5 5,3.5 0,6" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="0.8" />
+      </g>
+    </g>
+
+    <!-- ================= CENTRAL PLATFORM & CUBE ================= -->
+    <g class="central-platform" transform="translate(440, 260)">
+      <!-- Lower Tier Plinth Base -->
+      <g transform="translate(0, 48)">
+        <polygon points="0,-36 94,14 0,64 -94,14" fill="var(--plinth-top)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+        <polygon points="-94,14 0,64 0,76 -94,26" fill="var(--plinth-left)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+        <polygon points="0,64 94,14 94,26 0,76" fill="var(--plinth-right)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+      </g>
+
+      <!-- Upper Tier Plinth -->
+      <g transform="translate(0, 32)">
+        <polygon points="0,-30 80,12 0,54 -80,12" fill="var(--plinth-top)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+        <polygon points="-80,12 0,54 0,64 -80,22" fill="var(--plinth-left)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+        <polygon points="0,54 80,12 80,22 0,64" fill="var(--plinth-right)" stroke="var(--plinth-stroke)" stroke-width="1.25" />
+        <!-- Neon Edge Violet Accent line under cube -->
+        <path d="M -60 16 L 0 46 L 60 16" stroke="var(--violet-core)" stroke-width="2" fill="none" opacity="0.85" />
+      </g>
+
+      <!-- Central Charcoal 3D Cube -->
+      <g transform="translate(0, -6)">
+        <!-- Cube Top Face -->
+        <polygon points="0,-48 65,-14 0,20 -65,-14" fill="var(--cube-top)" stroke="var(--cube-stroke)" stroke-width="1.5" />
+        <!-- Cube Left Face -->
+        <polygon points="-65,-14 0,20 0,66 -65,32" fill="var(--cube-left)" stroke="var(--cube-stroke)" stroke-width="1.5" />
+        <!-- Cube Right Face -->
+        <polygon points="0,20 65,-14 65,32 0,66" fill="var(--cube-right)" stroke="var(--cube-stroke)" stroke-width="1.5" />
+
+        <!-- Front Left Face Label: ALGORIMS -->
+        <text
+          x="-32"
+          y="42"
+          transform="rotate(27, -32, 42) skewX(-26)"
+          fill="#FFFFFF"
+          font-family="DM Sans, system-ui, sans-serif"
+          font-size="11"
+          font-weight="800"
+          letter-spacing="0.18em"
+          text-anchor="middle"
+          opacity="0.92"
+        >ALGORIMS</text>
+
+        <!-- Top Face Isometric Circuit Glyphs -->
+        <g transform="translate(0, -14) scale(0.9, 0.48) rotate(45)">
+          <rect x="-18" y="-18" width="36" height="36" rx="6" fill="none" stroke="var(--violet-core)" stroke-width="2.5" />
+          <path d="M -12 -12 H -2 V 8 H 12" stroke="var(--violet-bright)" stroke-width="2" fill="none" stroke-linecap="round" />
+          <path d="M 12 -4 H 4 V 4" stroke="var(--violet-bright)" stroke-width="2" fill="none" stroke-linecap="round" />
+          <circle cx="-12" cy="-12" r="2.5" fill="var(--violet-bright)" />
+          <circle cx="12" cy="8" r="2.5" fill="var(--violet-bright)" />
+          <circle cx="0" cy="0" r="3.5" fill="var(--violet-bright)" />
+        </g>
+      </g>
+
+      <!-- Center Hub Badge Above Cube -->
+      <g transform="translate(0, -96)">
+        <line x1="0" y1="28" x2="0" y2="42" stroke="var(--wire-stroke)" stroke-width="1" stroke-dasharray="2 2" />
+        <rect x="-92" y="0" width="184" height="28" rx="6" fill="var(--badge-bg)" stroke="var(--badge-border)" stroke-width="1" />
+        <circle cx="-74" cy="14" r="3.5" fill="var(--violet-core)" />
+        <text x="-62" y="18" fill="var(--badge-text)" font-family="DM Sans, system-ui, sans-serif" font-size="10.5" font-weight="700" letter-spacing="0.12em">CONVERSATIONAL AI CORE</text>
+      </g>
+    </g>
+
+    <!-- ================= INPUT 1: TRANSACTIONS & POS ================= -->
+    <g class="node-input-1" transform="translate(180, 125)">
+      <!-- Isometric Tile -->
+      <g class="isometric-tile">
+        <polygon points="0,-28 48,-2 0,24 -48,-2" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="-48,-2 0,24 0,36 -48,10" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="0,24 48,-2 48,10 0,36" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="1.25" />
+
+        <!-- Icon: POS Bar Chart -->
+        <g transform="translate(0, -2) scale(1, 0.58) rotate(45)">
+          <rect x="-10" y="2" width="5" height="12" rx="1.5" fill="var(--violet-core)" />
+          <rect x="-2" y="-4" width="5" height="18" rx="1.5" fill="var(--violet-core)" />
+          <rect x="6" y="-12" width="5" height="26" rx="1.5" fill="var(--violet-bright)" />
+        </g>
+      </g>
+
+      <!-- Label Badge -->
+      <g transform="translate(-62, -2)">
+        <rect x="-115" y="-18" width="120" height="36" rx="6" fill="var(--badge-bg)" stroke="var(--badge-border)" stroke-width="1" />
+        <text x="-55" y="-3" fill="var(--badge-text)" font-family="DM Sans, system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em" text-anchor="middle">TRANSACTIONS & POS</text>
+        <text x="-55" y="10" fill="var(--badge-sub)" font-family="DM Sans, system-ui, sans-serif" font-size="8.5" font-weight="500" letter-spacing="0.04em" text-anchor="middle">490K+ Sales Streams</text>
+      </g>
+    </g>
+
+    <!-- ================= INPUT 2: STAFFING ROSTERS ================= -->
+    <g class="node-input-2" transform="translate(170, 260)">
+      <!-- Isometric Tile -->
+      <g class="isometric-tile">
+        <polygon points="0,-28 48,-2 0,24 -48,-2" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="-48,-2 0,24 0,36 -48,10" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="0,24 48,-2 48,10 0,36" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="1.25" />
+
+        <!-- Icon: Team / Workforce -->
+        <g transform="translate(0, -2) scale(1, 0.58) rotate(45)">
+          <circle cx="-5" cy="-5" r="4" fill="none" stroke="var(--violet-core)" stroke-width="2" />
+          <path d="M -11 9 C -11 4 -3 4 -3 9" fill="none" stroke="var(--violet-core)" stroke-width="2" stroke-linecap="round" />
+          <circle cx="5" cy="1" r="3.5" fill="none" stroke="var(--violet-bright)" stroke-width="2" />
+          <path d="M 0 13 C 0 9 8 9 8 13" fill="none" stroke="var(--violet-bright)" stroke-width="2" stroke-linecap="round" />
+        </g>
+      </g>
+
+      <!-- Label Badge -->
+      <g transform="translate(-62, -2)">
+        <rect x="-115" y="-18" width="120" height="36" rx="6" fill="var(--badge-bg)" stroke="var(--badge-border)" stroke-width="1" />
+        <text x="-55" y="-3" fill="var(--badge-text)" font-family="DM Sans, system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em" text-anchor="middle">STAFFING ROSTERS</text>
+        <text x="-55" y="10" fill="var(--badge-sub)" font-family="DM Sans, system-ui, sans-serif" font-size="8.5" font-weight="500" letter-spacing="0.04em" text-anchor="middle">Store Shift Allocations</text>
+      </g>
+    </g>
+
+    <!-- ================= INPUT 3: STORE OPERATIONS ================= -->
+    <g class="node-input-3" transform="translate(180, 395)">
+      <!-- Isometric Tile -->
+      <g class="isometric-tile">
+        <polygon points="0,-28 48,-2 0,24 -48,-2" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="-48,-2 0,24 0,36 -48,10" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="1.25" />
+        <polygon points="0,24 48,-2 48,10 0,36" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="1.25" />
+
+        <!-- Icon: Storefront -->
+        <g transform="translate(0, -2) scale(1, 0.58) rotate(45)">
+          <path d="M -10 -4 L -8 -11 L 8 -11 L 10 -4" fill="none" stroke="var(--violet-core)" stroke-width="2" stroke-linejoin="round" />
+          <path d="M -10 -4 L 10 -4" fill="none" stroke="var(--violet-core)" stroke-width="2" />
+          <rect x="-8" y="-4" width="16" height="15" fill="none" stroke="var(--violet-bright)" stroke-width="2" />
+          <rect x="-2" y="3" width="4" height="8" fill="var(--violet-core)" />
+        </g>
+      </g>
+
+      <!-- Label Badge -->
+      <g transform="translate(-62, -2)">
+        <rect x="-115" y="-18" width="120" height="36" rx="6" fill="var(--badge-bg)" stroke="var(--badge-border)" stroke-width="1" />
+        <text x="-55" y="-3" fill="var(--badge-text)" font-family="DM Sans, system-ui, sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em" text-anchor="middle">STORE OPERATIONS</text>
+        <text x="-55" y="10" fill="var(--badge-sub)" font-family="DM Sans, system-ui, sans-serif" font-size="8.5" font-weight="500" letter-spacing="0.04em" text-anchor="middle">Multi-Outlet Metrics</text>
+      </g>
+    </g>
+
+    <!-- ================= OUTCOME: WORKFORCE INTELLIGENCE ================= -->
+    <g class="node-outcome" transform="translate(700, 260)">
+      <!-- Prominent Isometric Outcome Tile -->
+      <g class="isometric-tile">
+        <polygon points="0,-34 58,-2 0,30 -58,-2" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="1.5" />
+        <polygon points="-58,-2 0,30 0,44 -58,12" fill="var(--node-left)" stroke="var(--node-stroke)" stroke-width="1.5" />
+        <polygon points="0,30 58,-2 58,12 0,44" fill="var(--node-right)" stroke="var(--node-stroke)" stroke-width="1.5" />
+
+        <!-- Violet halo on outcome tile -->
+        <polygon points="0,-32 54,-2 0,28 -54,-2" fill="none" stroke="var(--violet-core)" stroke-width="1" opacity="0.6" />
+
+        <!-- Icon: Trend Analytics with Upward Arrow -->
+        <g transform="translate(0, -2) scale(1, 0.58) rotate(45)">
+          <path d="M -12 12 L -4 4 L 3 9 L 14 -3" fill="none" stroke="var(--violet-core)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M 6 -3 H 14 V 5" fill="none" stroke="var(--violet-bright)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="14" cy="-3" r="2" fill="var(--violet-bright)" />
+        </g>
+      </g>
+
+      <!-- Label Badge -->
+      <g transform="translate(0, -56)">
+        <rect x="-85" y="-18" width="170" height="36" rx="6" fill="var(--badge-bg)" stroke="var(--badge-border)" stroke-width="1" />
+        <text x="0" y="-3" fill="var(--violet-core)" font-family="DM Sans, system-ui, sans-serif" font-size="10.5" font-weight="800" letter-spacing="0.14em" text-anchor="middle">WORKFORCE INTELLIGENCE</text>
+        <text x="0" y="10" fill="var(--badge-sub)" font-family="DM Sans, system-ui, sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.04em" text-anchor="middle">Live Decisions & 46% Gap Solved</text>
+      </g>
+    </g>
+  </svg>
+</div>
+
+<style>
+.case-diagram-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.case-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 880 / 500;
+  max-height: 480px;
+
+  /* Theme Tokens - Light Mode Default */
+  --canvas-grid: #E8E9EC;
+  --node-top: #FFFFFF;
+  --node-left: #ECEFF4;
+  --node-right: #DFE3EB;
+  --node-stroke: #C9CBD1;
+  --wire-stroke: #4F535C;
+  --wire-dim: #A4AAB6;
+  --cube-top: #22252B;
+  --cube-left: #16181C;
+  --cube-right: #0E1013;
+  --cube-stroke: #333842;
+  --plinth-top: #FFFFFF;
+  --plinth-left: #ECEEF2;
+  --plinth-right: #DFE2E8;
+  --plinth-stroke: #CCD0D8;
+  --violet-core: #6D30CB;
+  --violet-bright: #8B44FF;
+  --badge-bg: #FFFFFF;
+  --badge-border: #D2D5DC;
+  --badge-text: #15161A;
+  --badge-sub: #5F6470;
+  --crosshair: #B0B5C0;
+}
+
+/* Theme Tokens - Dark Mode */
+:global(.dark) .case-svg {
+  --canvas-grid: #1D232D;
+  --node-top: #1B2029;
+  --node-left: #13171E;
+  --node-right: #0F1218;
+  --node-stroke: #3B4454;
+  --wire-stroke: #727D8F;
+  --wire-dim: #353E4C;
+  --cube-top: #181B22;
+  --cube-left: #101217;
+  --cube-right: #0A0C10;
+  --cube-stroke: #2D3340;
+  --plinth-top: #141820;
+  --plinth-left: #0E1116;
+  --plinth-right: #090B0E;
+  --plinth-stroke: #2B3240;
+  --violet-core: #AF7AFF;
+  --violet-bright: #C79DFF;
+  --badge-bg: #14171F;
+  --badge-border: #2C3444;
+  --badge-text: #F7F7FA;
+  --badge-sub: #9EA6B5;
+  --crosshair: #3B4454;
+}
+
+@media (max-width: 600px) {
+  .case-diagram-wrapper {
+    padding: 4px;
+  }
+}
+</style>

@@ -14,8 +14,9 @@ for (let index = 0; index < 5; index++) {
   assert.match(ccaf, new RegExp(`data-open-domain="${index}"`));
 }
 for (let index = 0; index < 6; index++) assert.match(ccaf, new RegExp(`data-scroll-scenario="${index}"`));
-assert.match(agentic, /id="hero-spline"/);
-assert.match(agentic, /id="spline-loader"/);
+assert.match(agentic, /id="agentic-title"/);
+assert.match(agentic, /id="how-it-works"/);
+assert.doesNotMatch(agentic, /spline-viewer/);
 assert.match(notFound, /404 · Page not found/);
 for (const path of ['/', '/services', '/contact']) assert.match(notFound, new RegExp(`href="${path}"`));
 console.log('Migrated static pages: controls and 404 links OK');

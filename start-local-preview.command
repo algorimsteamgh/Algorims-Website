@@ -3,4 +3,9 @@ cd "$(dirname "$0")"
 echo "Starting local preview server..."
 echo "Open http://localhost:4173 in your browser."
 echo "Press Ctrl+C in this window to stop the server."
+if ! npm run build; then
+  echo "Build failed; preview not started."
+  exit 1
+fi
+cd dist
 python3 -m http.server 4173

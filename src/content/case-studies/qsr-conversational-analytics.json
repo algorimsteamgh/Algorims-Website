@@ -78,7 +78,7 @@
     "AWS KMS"
   ],
   "architecture": {
-    "src": "/assets/case-studies/qsr-architecture.png",
+    "src": "/assets/case-studies/qsr-architecture.webp",
     "alt": "QSR conversational analytics architecture on AWS — S3, Glue, Athena, Amazon Q and QuickSight",
     "caption": "Raw labour and transaction data flows from source systems into Amazon S3, is catalogued and transformed by AWS Glue, queried through Amazon Athena, and surfaced to business users through Amazon Q natural-language queries and QuickSight dashboards."
   },

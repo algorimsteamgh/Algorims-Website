@@ -1,0 +1,20 @@
+---
+interface Props {
+  kind: "sales" | "devops" | "knowledge" | "supply";
+  description: string;
+}
+
+const { kind, description } = Astro.props;
+const images = {
+  sales: "/assets/illustrations/agent-sales-copilot.webp",
+  devops: "/assets/illustrations/agent-devops-sre.webp",
+  knowledge: "/assets/illustrations/agent-knowledge.webp",
+  supply: "/assets/illustrations/agent-supply-chain.webp",
+};
+---
+
+<img class="case-diagram" src={images[kind]} alt={description} width="1536" height="1024" loading="lazy" decoding="async" />
+
+<style>
+  .case-diagram { display: block; width: 100%; height: 100%; object-fit: contain; }
+</style>

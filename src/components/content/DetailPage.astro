@@ -31,6 +31,24 @@ const results = "results" in data ? data.results : undefined;
 const faqs = "faqs" in data ? data.faqs : undefined;
 const clientLogo = "clientLogo" in data ? data.clientLogo : undefined;
 const scene = entry.id in caseScenes ? caseScenes[entry.id as keyof typeof caseScenes] : undefined;
+const isSolution = entry.collection === "solutions";
+const isOperations = entry.id === "operations-automation";
+const titleAccents: Record<string, string> = {
+  "autonomous-customer-operations": "with Amazon Connect",
+  "intelligent-document-processing": "with AI on AWS",
+  "operations-automation": "for Singapore SMBs",
+  "ai-school-scheduler": "with intelligent automation",
+  "cicd-release-automation": "secure, high-quality software automatically",
+  "enterprise-knowledge-mining": "answers questions — not just returns files",
+  "finance-document-automation": "invoices to ERP in minutes",
+  "qsr-conversational-analytics": "real-time intelligence for a Singapore QSR chain",
+  "smac-tech-labs-ai-support": "Running SMAC Tech Labs' Own Customer Service",
+  "syslatech-intelligent-document-processing": "Automated Document Processing with AWS",
+};
+const accentPhrase = titleAccents[entry.id];
+const titleAccent = accentPhrase && data.title.endsWith(accentPhrase) ? accentPhrase : undefined;
+const titleLead = titleAccent ? data.title.slice(0, -titleAccent.length).trim() : data.title;
+const backLink = isSolution ? { href: "/solutions", label: "Solutions" } : data.source;
 const collections = await Promise.all([
   getCollection("case-studies"), getCollection("solutions"), getCollection("products"),
 ]);
@@ -42,17 +60,31 @@ const related = data.related.flatMap((slug) => {
   return [];
 });
 ---
+<div class={isSolution ? `solution-detail${isOperations ? " operations-page" : ""}` : "case-detail"}>
 {entry.collection === "products" ? <ProductHero entry={entry} /> : <>
 <section class="pt-8 pb-4">
   <div class="container-x">
-    <a href={data.source.href} class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-      <i data-lucide="arrow-left" class="!w-4 !h-4" /> {data.source.label}
+    <a href={backLink.href} class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+      <i data-lucide="arrow-left" class="!w-4 !h-4" /> {backLink.label}
     </a>
   </div>
 </section>
 
-<section class="pt-6 pb-10">
+<section class={isSolution ? "solution-hero" : "pt-6 pb-10"}>
   <div class="container-x">
+    {isSolution ? <>
+      <div class="solution-hero-layout">
+        <div class="solution-hero-copy">
+          <p class="solution-kicker">{data.tag}</p>
+          <h1 class="text-balance">{titleLead} {titleAccent && <span>{titleAccent}</span>}</h1>
+          <p class="solution-hero-lead">{data.subtitle}</p>
+        </div>
+        <figure class="solution-hero-art">
+          <img src={`/assets/illustrations/solution-${entry.id}.webp`} alt={`${data.title} — system workflow illustration`} width="1254" height="1254" fetchpriority="high" />
+          <img class="solution-hero-art-dark" src={`/assets/illustrations/solution-${entry.id}-dark.webp`} alt="" aria-hidden="true" width="1254" height="1254" fetchpriority="high" />
+        </figure>
+      </div>
+    </> :
     <div class="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
       <div class="space-y-6 lg:col-span-7">
         <div class="flex flex-wrap items-center gap-3">
@@ -63,7 +95,7 @@ const related = data.related.flatMap((slug) => {
           <div class="relative flex h-14 items-center rounded-2xl border border-border bg-white px-3"><img src={clientLogo.src} alt={clientLogo.alt} class="h-7 w-auto object-contain" /></div>
           <div><p class="text-xs font-medium uppercase tracking-widest text-muted-foreground">Deployed for</p><p class="text-xl font-semibold text-foreground">{clientLogo.name}</p></div>
         </div>}
-        <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">{data.title}</h1>
+        <h1 class="text-balance text-4xl font-semibold leading-[1.06] tracking-tight md:text-5xl">{titleLead} {titleAccent && <span>{titleAccent}</span>}</h1>
         <p class="text-pretty text-lg leading-relaxed text-muted-foreground">{data.subtitle}</p>
         <div class="flex flex-wrap gap-3 pt-1">
           <a href="/contact" class="btn btn-hero btn-lg">Talk to an architect <i data-lucide="arrow-right" /></a>
@@ -82,35 +114,104 @@ const related = data.related.flatMap((slug) => {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
   </div>
 </section>
 
 {data.metrics.length > 0 && <section class="pb-12"><div class="container-x"><div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">{data.metrics.map((metric) => <MetricCard value={metric.value!} label={metric.label!} />)}</div></div></section>}
 </>}
 
-{data.intro.length > 0 && <section class="pb-4"><div class="container-x max-w-3xl"><Eyebrow text="Overview" /><div class="mt-5 space-y-5">{data.intro.map((paragraph) => <p class="text-[17px] leading-[1.75] text-foreground/85" set:html={paragraph} />)}</div></div></section>}
+{data.intro.length > 0 && (isOperations ? <section class="operations-section operations-overview"><div class="container-x"><Eyebrow text="Overview" /><h2>Automation that understands the operating context.</h2><div class="mt-7 max-w-3xl space-y-5">{data.intro.map((paragraph) => <p set:html={paragraph} />)}</div></div></section> : <section class="pb-4"><div class="container-x max-w-3xl"><Eyebrow text="Overview" /><div class="mt-5 space-y-5">{data.intro.map((paragraph) => <p class="text-[17px] leading-[1.75] text-foreground/85" set:html={paragraph} />)}</div></div></section>)}
 
-{flow && <section class="py-12"><div class="container-x"><FlowDiagram title={flow.title!} desc={flow.desc!} stages={flow.stages! as { icon: string; title: string; subtitle: string; items?: string[] }[]} footer={flow.footer} /></div></section>}
+{!isSolution && flow && <section class="py-12"><div class="container-x"><FlowDiagram title={flow.title!} desc={flow.desc!} stages={flow.stages! as { icon: string; title: string; subtitle: string; items?: string[] }[]} footer={flow.footer} /></div></section>}
 
-{scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={`/assets/case-studies/scenes/${entry.id}.webp`} srcset={`/assets/case-studies/scenes/${entry.id}-800.webp 800w, /assets/case-studies/scenes/${entry.id}.webp 1600w`} sizes="(min-width: 1536px) 1472px, 100vw" width="1600" height="900" alt={scene.alt} loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
+{scene && <section class="pt-2 pb-6"><div class="container-x"><figure><img src={scene.src} srcset={`${scene.src.replace(".webp", "-600.webp")} 600w, ${scene.src} 1200w`} sizes="(min-width: 900px) 880px, 100vw" width="1200" height="675" alt={scene.alt} loading="lazy" class="mx-auto w-full max-w-[880px] h-auto rounded-3xl border border-border shadow-sm" /><figcaption class="mx-auto mt-4 max-w-[880px] text-sm leading-relaxed text-muted-foreground">{scene.caption}</figcaption></figure></div></section>}
 
-<section class="py-12"><div class="container-x max-w-3xl"><ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
+<section class={isOperations ? "operations-section operations-challenge" : "py-12"}><div class="container-x max-w-3xl">{isOperations && <h2 class="operations-section-title">Where manual operations slow growth</h2>}<ChallengeList lead={data.challenge.lead!} items={data.challenge.items!} /></div></section>
 
-{data.solution.length > 0 && <section id={entry.collection === "products" ? "workflow" : undefined} class="py-12 bg-secondary/40"><div class="container-x"><SolutionSteps title={data.solutionTitle} lead={data.solutionLead} steps={data.solution as { h: string; p: string }[]} /></div></section>}
+{data.solution.length > 0 && <section id={entry.collection === "products" ? "workflow" : undefined} class={isOperations ? "operations-section operations-steps" : "py-12 bg-secondary/40"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Six workflows. One connected system.</h2>}<SolutionSteps title={data.solutionTitle} lead={data.solutionLead} steps={data.solution as { h: string; p: string }[]} /></div></section>}
 
-{aws && aws.length > 0 && <section class="py-12"><div class="container-x"><AwsServices title={awsTitle} lead={awsLead} services={aws as { name: string; desc: string }[]} /></div></section>}
+{aws && aws.length > 0 && <section class={isOperations ? "operations-section operations-aws" : "py-12"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Built inside your AWS account.</h2>}<AwsServices title={awsTitle} lead={awsLead} services={aws as { name: string; desc: string }[]} /></div></section>}
 
 {architecture && <section class="py-12"><div class="container-x"><ArchitectureFigure src={architecture.src!} alt={architecture.alt!} caption={architecture.caption} /></div></section>}
 
 {tech && tech.length > 0 && <section class="py-12"><div class="container-x max-w-4xl"><TechStack items={tech} /></div></section>}
 
-{results && results.length > 0 && <section class="py-12 bg-secondary/40"><div class="container-x"><ResultsGrid items={results} /></div></section>}
+{results && results.length > 0 && <section class={isOperations ? "operations-section operations-results" : "py-12 bg-secondary/40"}><div class="container-x">{isOperations && <h2 class="operations-section-title">Less manual work. More control.</h2>}<ResultsGrid items={results} /></div></section>}
 
 {faqs && faqs.length > 0 && <section class="py-12"><div class="container-x max-w-3xl"><Faqs items={faqs as { q: string; a: string }[]} /></div></section>}
 
 {entry.collection === "products" && <ProductDetails slug={entry.id} part="more" />}
 
-{related.length > 0 && <section class="pb-16"><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4"><h3 class="text-2xl font-semibold tracking-tight">Related work</h3></div><RelatedWork items={related} /></div></section>}
+{related.length > 0 && <section class={isOperations ? "operations-section operations-related" : "pb-16"}><div class="container-x"><div class="mb-8 flex items-end justify-between gap-4">{isOperations ? <><Eyebrow text="Related work" /><h2 class="operations-section-title">More systems, built for real operations.</h2></> : <h3 class="text-2xl font-semibold tracking-tight">Related work</h3>}</div><RelatedWork items={related} /></div></section>}
 
-{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : <ConsultationCta />}
+{entry.collection === "products" ? <ProductDetails slug={entry.id} part="cta" /> : !isOperations && <ConsultationCta />}
+</div>
+<style is:global>
+  .solution-detail .solution-hero { padding: 18px 0 0; }
+  .solution-detail .solution-hero-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, .9fr); align-items: center; gap: clamp(32px, 7vw, 112px); padding: 18px 0 36px; }
+  .solution-detail .solution-hero-copy { max-width: none; margin: 0; padding: 0; text-align: left; }
+  .solution-detail .solution-kicker, .solution-detail .inline-flex.rounded-full { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .solution-detail .solution-kicker { margin: 0 0 18px; }
+  .solution-detail .inline-flex.rounded-full { padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .solution-detail .inline-flex.rounded-full > span:first-child { display: none; }
+  .solution-detail h1 { margin: 0 auto; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
+  .solution-detail h1 span, .case-detail h1 span { color: hsl(var(--primary)); }
+  .solution-detail .solution-hero-lead { max-width: 640px; margin: 22px 0 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.65; }
+  .solution-detail .solution-hero-art { margin: 0; }
+  .solution-detail .solution-hero-art img { display: block; width: 100%; height: auto; }
+  .solution-detail .solution-hero-art-dark { display: none !important; }
+  :root.dark .solution-detail .solution-hero-art > img:not(.solution-hero-art-dark) { display: none; }
+  :root.dark .solution-detail .solution-hero-art > .solution-hero-art-dark { display: block !important; }
+  .solution-detail .solution-hero + section .grid { gap: 0; border: 1px solid hsl(var(--border)); border-top: 0; }
+  .solution-detail .solution-hero + section .grid > div { border: 0; border-radius: 0; box-shadow: none; }
+  .solution-detail .solution-hero + section .grid > div:nth-child(3n+2), .solution-detail .solution-hero + section .grid > div:nth-child(3n+3) { border-left: 1px solid hsl(var(--border)); }
+  .solution-detail .solution-hero + section .grid > div:nth-child(n+4) { border-top: 1px solid hsl(var(--border)); }
+  .solution-detail:not(.operations-page) section:has(.inline-flex.rounded-full) { border-top: 1px solid hsl(var(--border)); }
+  .solution-detail:not(.operations-page) section:has(.inline-flex.rounded-full) .container-x { padding-top: 28px; padding-bottom: 28px; }
+  .solution-detail section.bg-secondary\/40 { background: hsl(var(--background)); }
+  .solution-detail .text-gradient { background: none; color: hsl(var(--primary)); }
+  .operations-page .solution-hero-copy { padding: 10px 0 36px; }
+  .operations-page > section:not(.solution-hero):not(:first-child) { border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-section { padding: clamp(72px, 8vw, 108px) 0; }
+  .operations-page .operations-section-title { max-width: 850px; margin: 0 0 24px; font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; text-wrap: balance; }
+  .operations-page .operations-overview { padding-top: clamp(72px, 8vw, 108px); }
+  .operations-page .operations-overview h2 { max-width: 680px; margin: 18px 0 0; font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; text-wrap: balance; }
+  .operations-page .operations-overview p { font-size: 1rem; line-height: 1.75; }
+  .operations-page .operations-section .inline-flex.rounded-full { display: none; }
+  .operations-page .operations-section p { max-width: 760px; }
+  .operations-page .operations-challenge .container-x { max-width: 80rem; }
+  .operations-page .operations-challenge ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin-top: 38px; border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-challenge li { align-items: flex-start; min-height: 92px; margin-top: 0 !important; padding: 22px 4px; border: 0; border-bottom: 1px solid hsl(var(--border)); border-radius: 0; background: transparent; }
+  .operations-page .operations-challenge li span:last-child { color: hsl(var(--foreground)); font-size: 1rem; }
+  .operations-page .operations-steps .mt-10.space-y-5 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 42px; border: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div { display: block; min-width: 0; margin: 0; padding: 32px; border: 0; border-radius: 0; background: hsl(var(--background)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(even) { border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-steps .mt-10.space-y-5 > div > p { margin-top: 22px; font-size: .96rem; line-height: 1.72; }
+  .operations-page .operations-steps h3 { font-size: 1.25rem; }
+  .operations-page .operations-steps .bg-gradient-primary { border-radius: 0; box-shadow: none; }
+  .operations-page .operations-aws .mt-8.grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 38px; border-top: 1px solid hsl(var(--border)); border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-aws .mt-8.grid > div { padding: 22px; border: 0; border-right: 1px solid hsl(var(--border)); border-bottom: 1px solid hsl(var(--border)); border-radius: 0; box-shadow: none; }
+  .operations-page .operations-aws .mt-8.grid > div p:last-child { font-size: .87rem; }
+  .operations-page .operations-results .mt-8.grid { gap: 0; margin-top: 38px; border-top: 1px solid hsl(var(--border)); }
+  .operations-page .operations-results .mt-8.grid > div { padding: 22px 18px; border: 0; border-bottom: 1px solid hsl(var(--border)); border-radius: 0; background: transparent; }
+  .operations-page .operations-results .mt-8.grid > div:nth-child(odd) { border-right: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related { padding-bottom: clamp(72px, 8vw, 108px); }
+  .operations-page .operations-related .mb-8 { display: block; }
+  .operations-page .operations-related .inline-flex.rounded-full { display: inline-flex; margin-bottom: 18px; }
+  .operations-page .operations-related .grid { gap: 0; border: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related .grid > a { min-height: 210px; padding: 28px; border: 0; border-radius: 0; box-shadow: none; background: transparent; }
+  .operations-page .operations-related .grid > a + a { border-left: 1px solid hsl(var(--border)); }
+  .operations-page .operations-related .grid > a:hover { border-color: transparent; background: hsl(var(--secondary)); box-shadow: none; }
+  .operations-page .operations-related .grid > a > div:first-child { display: none; }
+  .operations-page .operations-related h4 { max-width: 24rem; font-size: 1.5rem; }
+  .operations-page details { border-radius: 0; }
+  .operations-page .operations-section + section .rounded-3xl { border-radius: 0; }
+  @media (max-width: 900px) { .operations-page .operations-aws .mt-8.grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 650px) { .operations-page .operations-challenge ul, .operations-page .operations-steps .mt-10.space-y-5, .operations-page .operations-aws .mt-8.grid, .operations-page .operations-results .mt-8.grid { grid-template-columns: 1fr; } .operations-page .operations-steps .mt-10.space-y-5 > div { padding: 26px 20px; } .operations-page .operations-steps .mt-10.space-y-5 > div:nth-child(even), .operations-page .operations-results .mt-8.grid > div:nth-child(odd), .operations-page .operations-related .grid > a + a { border-left: 0; border-right: 0; } .operations-page .operations-steps .mt-10.space-y-5 > div + div, .operations-page .operations-related .grid > a + a { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 800px) { .solution-detail .solution-hero-layout { grid-template-columns: 1fr; } .solution-detail .solution-hero-layout .solution-hero-copy { text-align: center; } .solution-detail .solution-hero-lead { margin-inline: auto; } .solution-detail .solution-hero-art { max-width: 580px; margin-inline: auto; } }
+  @media (min-width: 640px) and (max-width: 1023px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div:nth-child(even) { border-left: 1px solid hsl(var(--border)) !important; } .solution-detail .solution-hero + section .grid > div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 639px) { .solution-detail .solution-hero + section .grid > div { border-left: 0 !important; border-top: 0; } .solution-detail .solution-hero + section .grid > div + div { border-top: 1px solid hsl(var(--border)); } }
+  @media (max-width: 600px) { .solution-detail h1 { font-size: 2.4rem; } }
+</style>

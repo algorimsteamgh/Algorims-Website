@@ -19,6 +19,8 @@ const { post, related } = Astro.props as {
   post: CollectionEntry<"blog">;
   related: CollectionEntry<"blog">[];
 };
+const titleWords = post.data.title.split(" ");
+const titleAccent = titleWords.splice(-2).join(" ");
 ---
 <BaseLayout title={`${post.data.title} — Algorims`} description={post.data.excerpt}>
   <section class="pt-8 pb-4">
@@ -35,7 +37,7 @@ const { post, related } = Astro.props as {
         <span class="rounded-full bg-primary/10 px-3 py-1 font-medium text-primary">{post.data.category}</span>
         <span class="flex items-center gap-1 text-muted-foreground"><i data-lucide="clock" class="!w-3 !h-3"></i> {post.data.read}</span>
       </div>
-      <h1 class="mt-5 text-balance text-4xl font-semibold leading-[1.08] tracking-tight md:text-5xl">{post.data.title}</h1>
+      <h1 class="mt-5 text-balance text-4xl font-semibold leading-[1.08] tracking-tight md:text-5xl">{titleWords.join(" ")} <span class="text-primary">{titleAccent}</span></h1>
       <p class="mt-5 text-lg leading-relaxed text-muted-foreground text-pretty">{post.data.excerpt}</p>
       <div class="mt-7 flex items-center gap-3 border-t border-b border-border py-4">
         <div class="grid h-10 w-10 place-items-center rounded-full bg-gradient-primary text-white text-xs font-bold">A</div>
@@ -54,8 +56,8 @@ const { post, related } = Astro.props as {
   </section>
 
   <section class="pb-10">
-    <div class="container-x max-w-5xl">
-      <div class="aspect-[21/9] overflow-hidden rounded-3xl border border-border"><BlogArt kind={post.data.art} /></div>
+    <div class="container-x max-w-3xl">
+      <div class="overflow-hidden rounded-3xl border border-border"><BlogArt kind={post.data.art} labeled /></div>
     </div>
   </section>
 

@@ -1,744 +1,345 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import AgentUseCaseArt from "../components/illustrations/AgentUseCaseArt.astro";
+
+const problems = [
+  ["Knowledge is buried", "Critical insights locked inside siloed systems and disconnected data sources — invisible to the people who need them most."],
+  ["Operations are expensive", "Manual workflows and repetitive tasks consuming time, budget, and talent that should be focused on higher-value work."],
+  ["Decisions are delayed", "Without real-time intelligence, leaders make critical decisions on outdated information — slowing growth and increasing risk."],
+];
+const capabilities = [
+  ["Reason", "Mines your enterprise knowledge, decomposes complex operational problems, and plans multi-step actions — all without human prompting."],
+  ["Act", "Connects to your APIs, tools, and enterprise systems to execute tasks, reduce manual workload, and deliver outcomes autonomously."],
+  ["Remember", "Retains organisational knowledge, learned behaviours, and operational context across every session — getting smarter with every interaction."],
+  ["Govern", "Enterprise-grade guardrails, cost controls, evaluation frameworks, and full observability — built in from day one."],
+];
+const useCases = [
+  ["Autonomous customer operations", "Agents that triage, resolve, and escalate across channels with full auditability.", "/solutions/autonomous-customer-operations"],
+  ["Intelligent document processing", "Reasoning agents that extract, validate, and act on enterprise documents end-to-end.", "/solutions/intelligent-document-processing"],
+  ["Sales & revenue copilots", "Research accounts, draft tailored outreach, update CRM records, and schedule follow-ups.", null, "An agent can bring account context and recent interactions into one workflow, prepare a draft for review, then record approved activity in the CRM so the next step stays visible."],
+  ["DevOps & SRE agents", "Detect incidents, diagnose failures, restore service, and record what happened.", null, "Connect alerts, deployment history, and runbooks so an agent can investigate the likely cause, take approved recovery steps, and leave an incident record for the team."],
+  ["Knowledge agents", "Retrieve relevant records and answer questions with links to the source passages.", null, "Search across approved internal sources, surface the passages behind each answer, and make it easier for people to check the evidence before acting."],
+  ["Supply chain orchestration", "Forecast demand from stock signals, plan replenishment, and coordinate delivery.", null, "Combine demand and inventory signals to flag gaps early, propose replenishment, and pass approved plans to the systems that coordinate suppliers and delivery."],
+];
+const caseArt = [
+  ["sales", "Account research and a CRM contact record feed an agent that drafts tailored outreach and updates the CRM."],
+  ["devops", "Server alerts and deployment warnings feed an agent that diagnoses the issue, repairs it, and records the incident."],
+  ["knowledge", "A question and internal records feed an agent that retrieves source passages and returns an answer with citations."],
+  ["supply", "Demand trends and supplier stock feed an agent that plans replenishment and coordinates deliveries."],
+] as const;
+const caseLabels = [
+  [["Inputs", "Voice · Chat"], ["Agent", "Customer operations"], ["Outcome", "Resolved interactions"]],
+  [["Inputs", "Business documents"], ["Agent", "Document processing"], ["Outcome", "Validated information"]],
+  [["Inputs", "Accounts · CRM"], ["Agent", "Revenue copilot"], ["Outcome", "Prepared outreach"]],
+  [["Inputs", "Alerts · Deployments"], ["Agent", "SRE operations"], ["Outcome", "Restored service"]],
+  [["Inputs", "Questions · Records"], ["Agent", "Knowledge retrieval"], ["Outcome", "Cited answers"]],
+  [["Inputs", "Demand · Stock"], ["Agent", "Supply planning"], ["Outcome", "Coordinated delivery"]],
+];
+const services = [
+  ["Amazon Nova", "Foundation model family", "Frontier multimodal reasoning — purpose-built for fast, cost-effective agentic workloads at enterprise scale."],
+  ["Amazon Kendra", "Intelligent enterprise search", "Natural-language retrieval across every system of record — turning siloed documents into instant, governed answers."],
+  ["Amazon S3 Vectors", "Native vector storage", "Massive-scale embeddings on durable S3 storage — semantic memory for agents without the cost of a separate database."],
+  ["AWS Bedrock", "Managed model platform", "Model-agnostic by design. Anthropic, Nova, Llama, Mistral and more — orchestrated through a single, secure API."],
+  ["Amazon SageMaker", "Custom ML & fine-tuning", "Train, tune, and host domain-specific models — closing the gap between generic intelligence and your unique data."],
+  ["Amazon Textract", "Document AI", "Extract structured signal from contracts, forms and scans — the connective tissue between paperwork and autonomous workflows."],
+];
+const steps = [
+  ["Discover", "Week 1", "We immerse in your business — understanding goals, challenges, and where AI can create the most value."],
+  ["Architect", "Week 2", "We design your agentic AI blueprint — selecting the right AWS services, agents, and workflows for your needs."],
+  ["Build & Deploy", "Weeks 3–8", "Our engineers build, test, and deploy production-grade AI agents — fast, precise, and built to last."],
+  ["Optimise", "Ongoing", "We continuously monitor and improve your systems — ensuring they get smarter and more valuable over time."],
+];
+const outcomes = [
+  ["40–80%", "Reduction in handling time"],
+  ["3–10×", "Throughput on knowledge work"],
+  ["24/7", "Always-on operations"],
+  ["100%", "Auditable decision trails"],
+];
+const architecture = [
+  ["Model & vendor agnostic", "Bedrock, OpenAI, Anthropic, open-source — composable by design."],
+  ["Safety & governance", "Policy guardrails, evaluation, and red-teaming workflows."],
+  ["Tool & API orchestration", "Plug agents into your existing systems of record and APIs."],
+];
 ---
 
 <BaseLayout title="Agentic AI — Algorims" description="Beyond automation: Algorims builds agentic AI systems that reason, decide, and act autonomously on Amazon Nova, Kendra and S3 Vectors.">
-<section class="relative overflow-hidden surface-hero pt-10 pb-20 lg:pt-16 lg:pb-28">
-    <div class="absolute inset-0 grid-bg opacity-40"></div>
-    <div class="container-x relative">
-      <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
-        <div class="space-y-6 animate-fade-up">
+  <div class="agentic-page">
+    <section class="hero" aria-labelledby="agentic-title"><div class="container-x">
+      <p class="eyebrow">Agentic AI Practice</p>
+      <h1 id="agentic-title">Beyond automation. Towards<br /><span>Intelligent autonomy.</span></h1>
+      <p class="hero-copy">We build AI agents that connect enterprise knowledge to action. They reason across your data, use your tools, and automate operational work with clear controls.</p>
+      <div class="actions"><a class="btn btn-hero btn-lg" href="/contact">Talk to our AI team</a><a class="btn btn-outline btn-lg" href="/case-studies">See agentic case studies</a></div>
+    </div></section>
 
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Agentic AI Practice
-  </div>
-          <h1 class="text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">Beyond automation. <span class="text-gradient">Toward Intelligent autonomy.</span></h1>
-          <p class="text-lg leading-relaxed text-muted-foreground md:text-xl">Agentic AI is the shift from systems that store information to systems that mine it, reason through it, and act on it — autonomously. We help enterprises unlock the value buried in their data, eliminate costly operational workload, and deploy cost-effective AI agents built on Amazon Nova, Kendra, and S3 Vectors.</p>
-          <div class="flex flex-wrap gap-3 pt-2">
-            <a href="/contact" class="btn btn-hero btn-lg">Talk to our AI team <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
-            <a href="/case-studies" class="btn btn-outline btn-lg">See agentic case studies</a>
-          </div>
-        </div>
+    <section class="section" aria-labelledby="problem-title"><div class="container-x problem-layout">
+      <div class="problem-intro"><p class="eyebrow">The challenge</p><h2 id="problem-title">Enterprise knowledge is <span>hard to use.</span></h2><p>Data, documents, and operational workflows sit across disconnected systems. Teams spend time finding information, processing documents, and repeating tasks before they can act.</p></div>
+      <div class="problem-rows">{problems.map(([title, description]) => <article><h3>{title}</h3><p>{description}</p></article>)}</div>
+    </div></section>
 
-        <!-- Interactive 3D Spline scene -->
-        <div class="relative h-[480px] w-full overflow-hidden rounded-3xl border border-primary/20 shadow-2xl animate-fade-up"
-             style="background:var(--gradient-dark);animation-delay:200ms">
-          <!-- Soft brand-tinted spotlight wash -->
-          <svg class="animate-spotlight pointer-events-none absolute z-[1] h-[169%] w-[138%] lg:w-[100%] opacity-0 -top-40 left-0 md:left-40 md:-top-20"
-               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none" aria-hidden="true">
-            <g filter="url(#hero-spotlight)">
-              <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
-                       transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
-                       fill="hsl(280 95% 70%)" fill-opacity="0.28"></ellipse>
-            </g>
-            <defs>
-              <filter id="hero-spotlight" x="0.86" y="0.84" width="3785.16" height="2840.26"
-                      filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
-                <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"></feBlend>
-                <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"></feGaussianBlur>
-              </filter>
-            </defs>
-          </svg>
+    <section class="section" id="how-it-works" aria-labelledby="capabilities-title"><div class="container-x">
+      <div class="section-heading"><p class="eyebrow">What is Agentic AI</p><h2 id="capabilities-title">Solution that <span>mines, decides, and acts for your business</span></h2><p>Agentic AI pairs a powerful reasoning engine with your enterprise knowledge — continuously mining insights, reducing operational workload, and taking autonomous action to drive measurable business outcomes.</p></div>
+      <div class="capability-grid">{capabilities.map(([title, description]) => <article><div><h3>{title}</h3><p>{description}</p></div><span class="capability-mark" aria-hidden="true">↗</span></article>)}</div>
+    </div></section>
 
-          <!-- Brand-mesh overlay for color cohesion -->
-          <div class="absolute inset-0 pointer-events-none opacity-50" style="background:var(--gradient-mesh)"></div>
+    <section class="section use-cases" aria-labelledby="use-cases-title"><div class="container-x">
+      <div class="section-heading"><p class="eyebrow">Use cases</p><h2 id="use-cases-title">Where agents <span>help teams act.</span></h2><p>Six ways connected agents can put enterprise knowledge to work across operations.</p></div>
+      <div class="case-showcase">
+      <div class="case-picker" role="tablist" aria-label="Choose a use case">{useCases.map(([title], index) =>
+        <button type="button" role="tab" id={`case-tab-${index}`} aria-controls={`case-panel-${index}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}>{title}</button>)}</div>
+      <div class="featured-cases">{useCases.map(([title, description, href, more], index) =>
+        <article class="featured-case" id={`case-panel-${index}`} role="tabpanel" aria-labelledby={`case-tab-${index}`} data-index={index}>
+          <div class="featured-copy"><h3>{title.slice(0, title.lastIndexOf(" "))} <span>{title.slice(title.lastIndexOf(" ") + 1)}</span></h3><p>{description}</p>{href ? <a href={href}>Read more <i data-lucide="arrow-right" class="!h-4 !w-4" /></a> : <details><summary><span class="when-closed">Read more</span><span class="when-open">Read less</span><i data-lucide="arrow-right" class="!h-4 !w-4" /></summary><p>{more}</p></details>}</div>
+          {index < 2 ?
+            <figure>
+              <img class="case-art-light" src={index === 0 ? "/assets/illustrations/solution-autonomous-customer-operations.webp" : "/assets/illustrations/solution-intelligent-document-processing.webp"} alt={index === 0 ? "Voice and chat inputs connect through an autonomous customer operations system to resolved interactions." : "Business documents flow through an intelligent processing system to validated information."} width="1254" height="1254" loading="lazy" />
+              <img class="case-art-dark" src={index === 0 ? "/assets/illustrations/solution-autonomous-customer-operations-dark.webp" : "/assets/illustrations/solution-intelligent-document-processing-dark.webp"} alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
+              <figcaption>{caseLabels[index].map(([label, value]) => <span><b>{label}</b>{value}</span>)}</figcaption>
+            </figure> :
+            <figure class="generated-art"><AgentUseCaseArt kind={caseArt[index - 2][0]} description={caseArt[index - 2][1]} /><figcaption>{caseLabels[index].map(([label, value]) => <span><b>{label}</b>{value}</span>)}</figcaption></figure>}
+        </article>)}</div></div>
+    </div></section>
 
-          <!-- Loading state: lightweight animated robot (instant, no network).
-               Crossfades out when the real 3D scene finishes loading. -->
-          <div id="spline-loader" class="absolute inset-0 z-[2] grid place-items-center transition-opacity duration-700">
-            <div class="flex flex-col items-center gap-5">
-              <svg width="240" height="260" viewBox="0 0 240 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="drop-shadow-[0_20px_40px_rgba(168,85,247,0.35)]">
-                <defs>
-                  <linearGradient id="rb-body" x1="60" y1="40" x2="180" y2="230" gradientUnits="userSpaceOnUse">
-                    <stop offset="0" stop-color="hsl(265 40% 22%)"></stop>
-                    <stop offset="1" stop-color="hsl(265 45% 13%)"></stop>
-                  </linearGradient>
-                  <radialGradient id="rb-screen" cx="0.5" cy="0.45" r="0.7">
-                    <stop offset="0" stop-color="hsl(270 50% 16%)"></stop>
-                    <stop offset="1" stop-color="hsl(270 55% 9%)"></stop>
-                  </radialGradient>
-                  <radialGradient id="rb-coreg" cx="0.5" cy="0.5" r="0.5">
-                    <stop offset="0" stop-color="hsl(280 95% 80%)"></stop>
-                    <stop offset="1" stop-color="hsl(280 95% 62%)"></stop>
-                  </radialGradient>
-                </defs>
+    <section class="section" aria-labelledby="stack-title"><div class="container-x">
+      <div class="stack-layout"><div class="stack-intro"><p class="eyebrow">Our AWS AI stack</p><h2 id="stack-title">AWS services for <span>production agents.</span></h2><p>We select the services each system needs for search, reasoning, storage, and document processing.</p></div>
+      <div class="stack-list">{services.map(([title, category, description]) => <article><p class="service-category">{category}</p><h3>{title}</h3><p>{description}</p></article>)}</div></div>
+    </div></section>
 
-                <!-- soft ground glow -->
-                <ellipse class="rb-glow" cx="120" cy="238" rx="74" ry="12" fill="hsl(280 95% 65%)" opacity="0.5" filter="blur(2px)"></ellipse>
+    <section class="section delivery" aria-labelledby="delivery-title"><div class="container-x">
+      <div class="section-heading"><p class="eyebrow">How We Deliver It</p><h2 id="delivery-title">From first conversation to <span>autonomous operation</span>.</h2><p>A senior, hands-on delivery model — measured in weeks, not quarters — purpose-built to take agentic AI from blueprint to production with minimal disruption to your teams.</p></div>
+      <ol>{steps.map(([title, period, description], index) => <li><span class="item-number">0{index + 1}</span><h3>{title}</h3><span class="period">{period}</span><p>{description}</p></li>)}</ol>
+    </div></section>
 
-                <!-- orbiting particles -->
-                <g class="rb-orbit">
-                  <circle cx="120" cy="46" r="4" fill="hsl(280 95% 72%)"></circle>
-                  <circle cx="120" cy="230" r="3" fill="hsl(265 90% 68%)" opacity="0.8"></circle>
-                </g>
-                <g class="rb-orbit rb-orbit-rev">
-                  <circle cx="26" cy="138" r="3.5" fill="hsl(290 90% 72%)" opacity="0.9"></circle>
-                  <circle cx="214" cy="138" r="3" fill="hsl(280 95% 72%)" opacity="0.7"></circle>
-                </g>
+    <section class="section" aria-labelledby="value-title"><div class="container-x value-grid">
+      <div><p class="eyebrow">Enterprise value</p><h2 id="value-title">More capacity for <span>higher-value work.</span></h2><p>Connected agents can reduce repetitive work, improve response times, and make decisions easier to trace.</p></div>
+      <div class="outcome-grid">{outcomes.map(([figure, label]) => <div><strong data-counter>{figure}</strong><p>{label}</p></div>)}</div>
+    </div></section>
 
-                <g class="rb-stage">
-                  <!-- antenna -->
-                  <line x1="120" y1="40" x2="120" y2="20" stroke="hsl(280 60% 55%)" stroke-width="3" stroke-linecap="round"></line>
-                  <circle class="rb-antenna-tip" cx="120" cy="15" r="5" fill="hsl(280 95% 75%)"></circle>
-
-                  <!-- head -->
-                  <rect x="58" y="40" width="124" height="98" rx="28" fill="url(#rb-body)" stroke="hsl(280 70% 60%)" stroke-opacity="0.5" stroke-width="2"></rect>
-                  <!-- face screen -->
-                  <rect x="74" y="58" width="92" height="62" rx="18" fill="url(#rb-screen)" stroke="hsl(280 80% 65%)" stroke-opacity="0.35"></rect>
-                  <!-- eyes -->
-                  <circle class="rb-eye" cx="100" cy="86" r="9" fill="url(#rb-coreg)"></circle>
-                  <circle class="rb-eye rb-eye-r" cx="140" cy="86" r="9" fill="url(#rb-coreg)"></circle>
-                  <!-- mouth -->
-                  <rect class="rb-mouth" x="104" y="104" width="32" height="6" rx="3" fill="hsl(280 90% 70%)"></rect>
-
-                  <!-- ears -->
-                  <rect x="48" y="78" width="10" height="24" rx="5" fill="hsl(265 40% 26%)"></rect>
-                  <rect x="182" y="78" width="10" height="24" rx="5" fill="hsl(265 40% 26%)"></rect>
-
-                  <!-- neck -->
-                  <rect x="104" y="138" width="32" height="12" rx="5" fill="hsl(265 40% 24%)"></rect>
-
-                  <!-- body -->
-                  <rect x="72" y="150" width="96" height="72" rx="22" fill="url(#rb-body)" stroke="hsl(280 70% 60%)" stroke-opacity="0.4" stroke-width="2"></rect>
-                  <!-- arms -->
-                  <rect x="52" y="158" width="14" height="46" rx="7" fill="hsl(265 40% 24%)"></rect>
-                  <rect x="174" y="158" width="14" height="46" rx="7" fill="hsl(265 40% 24%)"></rect>
-                  <!-- chest core -->
-                  <circle class="rb-core-ring" cx="120" cy="186" r="16" fill="none" stroke="hsl(280 95% 72%)" stroke-width="2"></circle>
-                  <circle class="rb-core" cx="120" cy="186" r="14" fill="url(#rb-coreg)"></circle>
-                </g>
-              </svg>
-              <span class="text-[10px] uppercase tracking-[0.3em] text-white/60">Initializing agent…</span>
-            </div>
-          </div>
-
-          <spline-viewer
-            id="hero-spline"
-            url="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-            events-target="global"
-            class="relative z-10"
-            style="background:transparent"></spline-viewer>
-        </div>
-      </div>
+    <section class="section architecture-section" aria-labelledby="architecture-title"><div class="container-x"><div class="architecture-grid">
+      <div><p class="eyebrow">Future-ready architecture</p><h2 id="architecture-title">Built on a reference architecture for <span>production agents</span>.</h2><p>Model-agnostic. Tool-rich. Observable by default. Our reference architecture brings together planning, memory, evaluation, and governance — so you ship agents you can trust.</p></div>
+      <div class="architecture-layers">{architecture.map(([title, description]) => <div><strong>{title}</strong><p>{description}</p></div>)}</div>
     </div>
-  </section>
-
-  <section class="py-12 lg:py-16">
-    <div class="container-x">
-      <div class="mx-auto max-w-4xl space-y-6 text-center">
-        <h2 class="text-balance text-4xl font-semibold leading-[1.1] tracking-tight md:text-5xl">Your Enterprise Is Sitting On A <span class="text-gradient">Goldmine</span>. But Can't Access It.</h2>
-        <p class="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">Most enterprises are drowning in data, documents, and operational complexity — yet the intelligence locked inside remains out of reach. Teams spend hours manually searching for information, processing documents, and executing repetitive tasks that drain resources and slow decision-making.</p>
-      </div>
-
-      <div class="mx-auto mt-12 max-w-4xl divide-y divide-border overflow-hidden rounded-3xl border border-border bg-card">
-
-          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
-            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="database" class="!w-5 !h-5"></i></div>
-            <div class="min-w-0">
-              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Knowledge is buried</h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Critical insights locked inside siloed systems and disconnected data sources — invisible to the people who need them most.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
-            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="banknote" class="!w-5 !h-5"></i></div>
-            <div class="min-w-0">
-              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Operations are expensive</h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Manual workflows and repetitive tasks consuming time, budget, and talent that should be focused on higher-value work.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-5 p-7 transition-colors hover:bg-secondary/40 md:p-8">
-            <div class="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="clock-alert" class="!w-5 !h-5"></i></div>
-            <div class="min-w-0">
-              <h3 class="text-lg font-semibold tracking-tight md:text-xl">Decisions are delayed</h3>
-              <p class="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">Without real-time intelligence, leaders make critical decisions on outdated information — slowing growth and increasing risk.</p>
-            </div>
-          </div>
-
-      </div>
-
-      <div class="mx-auto mt-10 max-w-3xl text-center">
-        <p class="text-lg font-medium text-foreground md:text-xl">This is not a data problem. It is not a talent problem.</p>
-        <p class="mt-3 text-lg leading-relaxed text-muted-foreground md:text-xl">It is an <span class="text-gradient font-semibold">intelligence problem</span> — and agentic AI is the answer.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-
-  <div class="max-w-3xl space-y-5 mx-auto text-center">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>What is Agentic AI
+    </div></section>
   </div>
-    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Solution that <span class="text-gradient">mines, decides, and acts for your business</span></h2>
-    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Agentic AI pairs a powerful reasoning engine with your enterprise knowledge — continuously mining insights, reducing operational workload, and taking autonomous action to drive measurable business outcomes.</p>
-  </div>
-      <div class="mt-14 grid gap-6 md:grid-cols-4">
-
-          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="brain" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-lg font-semibold">Reason</h3>
-            <p class="mt-2 text-sm text-muted-foreground">Mines your enterprise knowledge, decomposes complex operational problems, and plans multi-step actions — all without human prompting.</p>
-          </div>
-
-          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="workflow" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-lg font-semibold">Act</h3>
-            <p class="mt-2 text-sm text-muted-foreground">Connects to your APIs, tools, and enterprise systems to execute tasks, reduce manual workload, and deliver outcomes autonomously.</p>
-          </div>
-
-          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="layers" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-lg font-semibold">Remember</h3>
-            <p class="mt-2 text-sm text-muted-foreground">Retains organisational knowledge, learned behaviours, and operational context across every session — getting smarter with every interaction.</p>
-          </div>
-
-          <div class="rounded-3xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-lg font-semibold">Govern</h3>
-            <p class="mt-2 text-sm text-muted-foreground">Enterprise-grade guardrails, cost controls, evaluation frameworks, and full observability — built in from day one.</p>
-          </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="py-10 lg:py-14 bg-secondary/40">
-    <div class="container-x">
-
-  <div class="max-w-3xl space-y-5 mx-auto text-center">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Use cases
-  </div>
-    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">Where agentic <span class="text-gradient">Transforms Enterprise Operations</span></h2>
-    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">Real-world deployments where intelligent agents have eliminated operational bottlenecks, unlocked hidden knowledge, and delivered measurable cost savings across industries.</p>
-  </div>
-      <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">Autonomous customer operations</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agents that triage, resolve, and escalate across channels with full auditability.</p>
-            <a href="/solutions/autonomous-customer-operations" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all hover:gap-2.5">Read more <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
-          </div>
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">Intelligent document processing</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Reasoning agents that extract, validate, and act on enterprise documents end-to-end.</p>
-            <a href="/solutions/intelligent-document-processing" class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-primary transition-all hover:gap-2.5">Read more <i data-lucide="arrow-right" class="!w-4 !h-4"></i></a>
-          </div>
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">Sales & revenue copilots</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agentic copilots that research accounts, draft outreach, and update CRM — autonomously.</p>
-
-          </div>
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">DevOps & SRE agents</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Self-healing systems: agents that detect, diagnose, and remediate production incidents.</p>
-
-          </div>
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">Knowledge agents</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Enterprise RAG plus tool use — answers grounded in your systems of record.</p>
-
-          </div>
-
-          <div class="group rounded-3xl border border-border bg-card p-7 transition-all hover:border-primary/30 hover:shadow-md">
-            <div class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-primary text-white shadow-glow"><i data-lucide="bot" class="!w-5 !h-5"></i></div>
-            <h3 class="mt-5 text-xl font-semibold tracking-tight">Supply chain orchestration</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">Agents that monitor signals, forecast demand, and coordinate across partners.</p>
-
-          </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ Our AWS AI Stack ============ -->
-  <section class="relative py-12 lg:py-20 overflow-hidden">
-    <!-- ambient mesh -->
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 surface-mesh opacity-40"></div>
-    <div aria-hidden="true" class="pointer-events-none absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.18), transparent 70%)"></div>
-
-    <div class="container-x relative">
-      <div class="grid items-end gap-8 md:grid-cols-12">
-        <div class="md:col-span-7 space-y-5">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Our AWS AI Stack
-  </div>
-          <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">
-            Built on the most advanced <span class="text-gradient">AWS AI services</span>.
-          </h2>
-        </div>
-        <div class="md:col-span-5">
-          <p class="text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-            As an AWS Advanced Consulting Partner, we build on the most powerful and trusted AWS AI services — purpose-selected for knowledge mining, reasoning, and enterprise-scale autonomous operations.
-          </p>
-        </div>
-      </div>
-
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg lg:row-span-1">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="sparkles" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">01</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">Amazon Nova</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Foundation model family</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Frontier multimodal reasoning — purpose-built for fast, cost-effective agentic workloads at enterprise scale.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="search" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">02</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">Amazon Kendra</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Intelligent enterprise search</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Natural-language retrieval across every system of record — turning siloed documents into instant, governed answers.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="database-zap" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">03</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">Amazon S3 Vectors</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Native vector storage</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Massive-scale embeddings on durable S3 storage — semantic memory for agents without the cost of a separate database.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="layers" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">04</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">AWS Bedrock</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Managed model platform</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Model-agnostic by design. Anthropic, Nova, Llama, Mistral and more — orchestrated through a single, secure API.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="brain-circuit" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">05</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">Amazon SageMaker</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Custom ML & fine-tuning</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Train, tune, and host domain-specific models — closing the gap between generic intelligence and your unique data.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-          <div class="group relative overflow-hidden rounded-3xl border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-lg ">
-            <!-- corner glow on hover -->
-            <div aria-hidden="true" class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" style="background:radial-gradient(circle, hsl(280 95% 70% / 0.45), transparent 70%)"></div>
-
-            <div class="flex items-start justify-between">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                <i data-lucide="scan-text" class="!w-5 !h-5"></i>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">06</span>
-                <span class="h-3 w-px bg-border"></span>
-                <span class="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-primary">AWS</span>
-              </div>
-            </div>
-
-            <div class="mt-7">
-              <h3 class="text-xl font-semibold tracking-tight">Amazon Textract</h3>
-              <p class="mt-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-primary/80">Document AI</p>
-              <p class="mt-4 text-sm leading-relaxed text-muted-foreground">Extract structured signal from contracts, forms and scans — the connective tissue between paperwork and autonomous workflows.</p>
-            </div>
-
-            <!-- bottom accent line that grows on hover -->
-            <div aria-hidden="true" class="absolute bottom-0 left-7 right-7 h-px origin-left scale-x-0 bg-gradient-primary transition-transform duration-500 group-hover:scale-x-100"></div>
-          </div>
-
-      </div>
-
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-3 text-xs text-muted-foreground">
-        <span class="inline-flex items-center gap-2">
-          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-3 !h-3"></i></span>
-          AWS Well-Architected
-        </span>
-        <span class="h-1 w-1 rounded-full bg-border"></span>
-        <span class="inline-flex items-center gap-2">
-          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="shield-check" class="!w-3 !h-3"></i></span>
-          Secure by default
-        </span>
-        <span class="h-1 w-1 rounded-full bg-border"></span>
-        <span class="inline-flex items-center gap-2">
-          <span class="grid h-5 w-5 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="globe" class="!w-3 !h-3"></i></span>
-          Region-flexible deployment
-        </span>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ How We Deliver It ============ -->
-  <section class="relative bg-secondary/40 py-12 lg:py-20 overflow-hidden">
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 grid-bg opacity-50"></div>
-    <div class="container-x relative">
-
-  <div class="max-w-3xl space-y-5 mx-auto text-center">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>How We Deliver It
-  </div>
-    <h2 class="text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">From first conversation to <span class="text-gradient">autonomous operation</span>.</h2>
-    <p class="text-pretty text-lg leading-relaxed text-muted-foreground">A senior, hands-on delivery model — measured in weeks, not quarters — purpose-built to take agentic AI from blueprint to production with minimal disruption to your teams.</p>
-  </div>
-
-      <!-- desktop: 4 steps with connecting flow line -->
-      <div class="relative mt-16">
-        <!-- connector line (desktop only) -->
-        <div aria-hidden="true" class="absolute left-[12.5%] right-[12.5%] top-[58px] hidden h-px lg:block">
-          <div class="relative h-full w-full overflow-hidden rounded-full bg-border">
-            <div class="hwd-flow absolute inset-y-0 left-0 w-1/3 rounded-full bg-gradient-primary opacity-70"></div>
-          </div>
-        </div>
-
-        <ol class="relative grid gap-8 lg:grid-cols-4 lg:gap-6">
-
-            <li class="relative">
-              <!-- step card -->
-              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
-                <!-- numbered node sitting on the connector -->
-                <div class="relative z-10">
-                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
-                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
-                    <i data-lucide="search-check" class="!w-6 !h-6"></i>
-                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">01</span>
-                  </div>
-                </div>
-
-                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
-                  <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold tracking-tight">Discover</h3>
-                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Week 1</span>
-                  </div>
-                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We immerse in your business — understanding goals, challenges, and where AI can create the most value.</p>
-
-
-                    <!-- mobile chevron between steps -->
-                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
-                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
-                    </div>
-
-                </div>
-              </div>
-            </li>
-
-            <li class="relative">
-              <!-- step card -->
-              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
-                <!-- numbered node sitting on the connector -->
-                <div class="relative z-10">
-                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
-                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
-                    <i data-lucide="pencil-ruler" class="!w-6 !h-6"></i>
-                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">02</span>
-                  </div>
-                </div>
-
-                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
-                  <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold tracking-tight">Architect</h3>
-                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Week 2</span>
-                  </div>
-                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We design your agentic AI blueprint — selecting the right AWS services, agents, and workflows for your needs.</p>
-
-
-                    <!-- mobile chevron between steps -->
-                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
-                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
-                    </div>
-
-                </div>
-              </div>
-            </li>
-
-            <li class="relative">
-              <!-- step card -->
-              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
-                <!-- numbered node sitting on the connector -->
-                <div class="relative z-10">
-                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
-                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
-                    <i data-lucide="rocket" class="!w-6 !h-6"></i>
-                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">03</span>
-                  </div>
-                </div>
-
-                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
-                  <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold tracking-tight">Build & Deploy</h3>
-                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Weeks 3–8</span>
-                  </div>
-                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">Our engineers build, test, and deploy production-grade AI agents — fast, precise, and built to last.</p>
-
-
-                    <!-- mobile chevron between steps -->
-                    <div aria-hidden="true" class="mt-5 flex justify-center lg:hidden">
-                      <span class="grid h-7 w-7 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="chevron-down" class="!w-4 !h-4"></i></span>
-                    </div>
-
-                </div>
-              </div>
-            </li>
-
-            <li class="relative">
-              <!-- step card -->
-              <div class="group relative flex flex-col items-center text-center lg:items-start lg:text-left">
-                <!-- numbered node sitting on the connector -->
-                <div class="relative z-10">
-                  <span aria-hidden="true" class="absolute inset-0 -m-2 rounded-full bg-primary/15 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100"></span>
-                  <div class="relative grid h-[58px] w-[58px] place-items-center rounded-full border-2 border-card bg-gradient-primary text-white shadow-glow transition-transform duration-500 group-hover:scale-105">
-                    <i data-lucide="line-chart" class="!w-6 !h-6"></i>
-                    <span class="absolute -bottom-1.5 -right-1.5 grid h-6 w-6 place-items-center rounded-full border-2 border-card bg-card font-mono text-[10px] font-bold text-primary shadow-sm">04</span>
-                  </div>
-                </div>
-
-                <div class="mt-6 w-full rounded-2xl border border-border bg-card p-6 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-primary/40 group-hover:shadow-md">
-                  <div class="flex items-center justify-between gap-3">
-                    <h3 class="text-xl font-semibold tracking-tight">Optimise</h3>
-                    <span class="shrink-0 rounded-full border border-border bg-background px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Ongoing</span>
-                  </div>
-                  <p class="mt-3 text-sm leading-relaxed text-muted-foreground">We continuously monitor and improve your systems — ensuring they get smarter and more valuable over time.</p>
-
-
-                </div>
-              </div>
-            </li>
-
-        </ol>
-      </div>
-
-      <!-- bottom summary strip -->
-      <div class="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-full border border-border bg-card px-6 py-3 text-sm shadow-sm">
-        <span class="inline-flex items-center gap-2 text-foreground">
-          <i data-lucide="zap" class="!w-4 !h-4 text-primary"></i>
-          <span class="font-semibold">First agent in production</span>
-        </span>
-        <span class="font-mono text-xs text-muted-foreground">in as little as 6 weeks</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-      <div class="grid gap-12 md:grid-cols-12 md:items-center">
-        <div class="md:col-span-5 space-y-5">
-
-  <div class="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-    <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>Enterprise value
-  </div>
-          <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Compounding <span class="text-gradient">capability</span>, not just productivity.</h2>
-          <p class="text-base leading-relaxed text-muted-foreground">Agentic AI doesn't just speed up existing workflows — it lets you redesign them. The result: lower cost-to-serve, higher quality, and new categories of customer experience.</p>
-        </div>
-        <div class="md:col-span-7 grid grid-cols-2 gap-4">
-
-            <div class="rounded-2xl border border-border bg-card p-6">
-              <p class="text-3xl font-semibold text-gradient">40–80%</p>
-              <p class="mt-1 text-sm text-muted-foreground">Reduction in handling time</p>
-            </div>
-
-            <div class="rounded-2xl border border-border bg-card p-6">
-              <p class="text-3xl font-semibold text-gradient">3–10×</p>
-              <p class="mt-1 text-sm text-muted-foreground">Throughput on knowledge work</p>
-            </div>
-
-            <div class="rounded-2xl border border-border bg-card p-6">
-              <p class="text-3xl font-semibold text-gradient">24/7</p>
-              <p class="mt-1 text-sm text-muted-foreground">Always-on operations</p>
-            </div>
-
-            <div class="rounded-2xl border border-border bg-card p-6">
-              <p class="text-3xl font-semibold text-gradient">100%</p>
-              <p class="mt-1 text-sm text-muted-foreground">Auditable decision trails</p>
-            </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="pb-20 lg:pb-28">
-    <div class="container-x">
-      <div class="relative overflow-hidden rounded-3xl border border-border bg-gradient-dark p-10 text-white md:p-14">
-        <div class="absolute inset-0 surface-mesh opacity-60"></div>
-        <div class="relative grid gap-10 md:grid-cols-2 md:items-center">
-          <div class="space-y-5">
-            <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
-              <i data-lucide="sparkles" class="!w-3 !h-3"></i> <span style="color:hsl(var(--primary-glow))">Future-ready architecture</span>
-            </div>
-            <h2 class="text-4xl font-semibold tracking-tight md:text-5xl">Built on a reference architecture for <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">production agents</span>.</h2>
-            <p class="text-base leading-relaxed text-white/75">Model-agnostic. Tool-rich. Observable by default. Our reference architecture brings together planning, memory, evaluation, and governance — so you ship agents you can trust.</p>
-          </div>
-          <div class="grid gap-4">
-
-              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
-                <i data-lucide="network" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
-                <p class="mt-3 font-semibold">Model & vendor agnostic</p>
-                <p class="mt-1 text-sm text-white/70">Bedrock, OpenAI, Anthropic, open-source — composable by design.</p>
-              </div>
-
-              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
-                <i data-lucide="shield-check" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
-                <p class="mt-3 font-semibold">Safety & governance</p>
-                <p class="mt-1 text-sm text-white/70">Policy guardrails, evaluation, and red-teaming workflows.</p>
-              </div>
-
-              <div class="rounded-2xl border border-white/15 bg-white/5 p-5 backdrop-blur">
-                <i data-lucide="workflow" class="!w-5 !h-5"></i><span style="display:inline-block;color:hsl(var(--primary-glow));margin-right:.4rem"></span>
-                <p class="mt-3 font-semibold">Tool & API orchestration</p>
-                <p class="mt-1 text-sm text-white/70">Plug agents into your existing systems of record and APIs.</p>
-              </div>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ AI page CTA ============ -->
-  <section class="py-10 lg:py-14">
-    <div class="container-x">
-      <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
-        <div class="absolute inset-0 surface-mesh opacity-60"></div>
-        <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)"></div>
-        <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)"></div>
-
-        <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
-          <div class="md:col-span-3 space-y-5">
-            <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs">
-              <span class="h-1.5 w-1.5 rounded-full animate-pulse" style="background:hsl(var(--primary-glow))"></span>
-              Ready when you are
-            </div>
-            <h2 class="text-balance text-4xl font-semibold leading-[1.05] md:text-5xl">
-              Ready to <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">unlock the intelligence</span> inside your enterprise?
-            </h2>
-            <p class="max-w-xl text-base leading-relaxed text-white/75 md:text-lg">
-              Let's build your agentic AI system together — cost-effective, production-grade, and built to last.
-            </p>
-          </div>
-          <div class="md:col-span-2 flex flex-col gap-3 md:items-end">
-            <a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">
-              Let's build together <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-            </a>
-            <a href="/case-studies" class="btn btn-ghost btn-lg rounded-full" style="color:white">See all case studies</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-<script>
-  const viewer = document.getElementById('hero-spline');
-  const loader = document.getElementById('spline-loader');
-  if (viewer && loader) {
-    const hideLoader = () => {
-      loader.style.opacity = '0';
-      setTimeout(() => loader.remove(), 700);
-    };
-    const stripWatermark = () => {
-      const root = viewer.shadowRoot;
-      if (!root) return;
-      root.querySelectorAll("#logo, a[href*='spline'], #spline-logo, .spline-logo").forEach(item => item.remove());
-    };
-    const onLoad = () => { hideLoader(); stripWatermark(); };
-    viewer.addEventListener('load', onLoad, { once: true });
-    viewer.addEventListener('load-complete', onLoad, { once: true });
-    const poll = setInterval(stripWatermark, 200);
-    setTimeout(() => clearInterval(poll), 12000);
-    setTimeout(hideLoader, 8000);
-  }
-</script>
 </BaseLayout>
+
+
+<style>
+.agentic-page { background: hsl(var(--background)); color: hsl(var(--foreground)); }
+.agentic-page h1, .agentic-page h2, .agentic-page h3 { margin: 0; font-weight: 600; letter-spacing: -.05em; }
+.agentic-page h1 { font-size: clamp(2.7rem, 5.2vw, 4.8rem); line-height: 1; letter-spacing: -.06em; }
+.agentic-page h2 { max-width: 850px; font-size: clamp(2.2rem, 3.7vw, 3.7rem); line-height: 1.06; text-wrap: balance; }
+.agentic-page h3 { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.2; }
+.agentic-page p { line-height: 1.65; }
+.agentic-page h1 span, .agentic-page h2 span { color: hsl(var(--primary)); }
+.eyebrow, .item-number { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+.eyebrow { margin: 0 0 18px; }
+.section { padding: clamp(64px, 7vw, 96px) 0; border-top: 1px solid hsl(var(--border)); }
+.section-heading, .problem-intro, .stack-intro, .value-grid > div:first-child { max-width: 850px; margin: 0 auto 46px; text-align: center; }
+.section-heading h2, .problem-intro h2, .stack-intro h2, .value-grid h2, .architecture-grid h2 { margin-inline: auto; }
+.section-heading > p:last-child, .problem-intro > p:last-child, .stack-intro > p:last-child, .value-grid > div:first-child > p:last-child, .architecture-grid > div:first-child > p:last-child { max-width: 720px; margin: 22px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); }
+
+.hero { padding: 48px 0; text-align: center; }
+.hero + .section { padding-top: 48px; }
+.hero h1 { max-width: 1050px; margin: 0 auto; }
+.hero-copy { max-width: 790px; margin: 25px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); text-wrap: balance; }
+.actions { display: flex; justify-content: center; gap: 14px; margin-top: 28px; }
+.hero .btn-outline { color: hsl(var(--foreground)); }
+
+.problem-rows { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; border-top: 1px solid hsl(var(--border)); counter-reset: problem; }
+.problem-rows article { position: relative; padding: 58px 18px 20px 0; counter-increment: problem; transition: transform .2s ease; }
+.problem-rows article::before { position: absolute; top: 22px; left: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; content: "0" counter(problem); }
+.problem-rows article:hover { transform: translateY(-4px); }
+.problem-rows h3 { font-size: 1.25rem; }
+.problem-rows p, .capability-grid p, .stack-list article p:last-child, .delivery li p, .architecture-layers p { margin: 9px 0 0; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.65; }
+
+.capability-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid hsl(var(--border)); border-radius: 1.25rem; counter-reset: capability; overflow: hidden; }
+.capability-grid article { position: relative; display: flex; flex-direction: column; min-height: 250px; padding: 25px 26px 22px; counter-increment: capability; transition: background .2s ease; }
+.capability-grid article + article { padding-left: 26px; border-left: 1px solid hsl(var(--border)); }
+.capability-grid article::before { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; content: "0" counter(capability); }
+.capability-grid article:hover { background: hsl(var(--primary) / .045); }
+.capability-grid article > div { margin-top: auto; }
+.capability-grid h3 { margin-top: 0; }
+.capability-grid p { max-width: 260px; }
+.capability-mark { position: absolute; top: 24px; right: 24px; color: hsl(var(--primary) / .5); font-size: 1.1rem; }
+
+.use-cases { background: hsl(var(--secondary) / .28); }
+.case-picker { display: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 26px; }
+.is-enhanced .case-picker { display: grid; }
+.case-picker button { position: relative; min-height: 56px; padding: 12px 16px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .9rem; background: hsl(var(--background)); color: hsl(var(--muted-foreground)); font: inherit; font-size: .95rem; font-weight: 600; text-align: left; cursor: pointer; transition: color .2s ease, border-color .2s ease, background .2s ease; }
+.case-picker button:is(:hover, [aria-selected="true"]) { border-color: hsl(var(--primary) / .6); background: hsl(var(--primary) / .06); color: hsl(var(--primary)); }
+.is-cycling .case-picker button[aria-selected="true"]::after { position: absolute; inset: 0; padding: 2px; border-radius: inherit; background: conic-gradient(from -90deg, hsl(var(--primary)) var(--case-progress), transparent 0); content: ""; pointer-events: none; -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: case-ticker 4s linear forwards; }
+@property --case-progress { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes case-ticker { to { --case-progress: 360deg; } }
+.case-picker button:focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 3px; }
+.featured-cases { display: grid; gap: 22px; }
+.is-enhanced .featured-cases { display: grid; grid-template-columns: minmax(0, 1fr); padding-top: 34px; }
+.featured-case { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(28px, 3vw, 48px); min-height: 290px; padding: clamp(24px, 3vw, 38px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); transition: border-color .25s ease, transform .25s ease; }
+.case-showcase:not(.is-enhanced) .featured-case:hover { border-color: hsl(var(--primary) / .4); transform: translateY(-3px); }
+.is-enhanced .featured-case { grid-area: 1 / 1; min-height: 350px; transition: transform .6s cubic-bezier(.22, 1, .36, 1), opacity .4s ease, border-color .25s ease, visibility .4s; }
+.is-enhanced .featured-case[data-slot="0"] { z-index: 3; opacity: 1; transform: translate(0, 0) scale(1); }
+.is-enhanced .featured-case[data-slot="1"] { z-index: 2; opacity: .65; transform: translateY(-17px) scale(.97); }
+.is-enhanced .featured-case[data-slot="2"] { z-index: 1; opacity: .35; transform: translateY(-34px) scale(.94); }
+.is-enhanced .featured-case[data-slot="hidden"] { visibility: hidden; opacity: 0; transform: translateY(-42px) scale(.92); }
+.is-enhanced .featured-case[data-slot="0"]:hover { border-color: hsl(var(--primary) / .4); }
+.featured-case:nth-child(even) .featured-copy { order: 2; }
+.featured-case:nth-child(even) figure { order: 1; }
+.featured-copy { width: min(100%, 460px); margin: 0 auto; }
+.featured-case h3 { max-width: 450px; font-size: clamp(1.7rem, 3vw, 2.5rem); }
+.featured-case h3 span { color: hsl(var(--primary)); }
+.featured-case p { max-width: 440px; margin: 18px 0 0; color: hsl(var(--muted-foreground)); font-size: 1.05rem; }
+.featured-case a, .featured-case summary { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; margin-top: 16px; color: hsl(var(--primary)); font-weight: 600; text-decoration: none; cursor: pointer; }
+.featured-case summary { list-style: none; }
+.featured-case summary::-webkit-details-marker { display: none; }
+.featured-case a:hover, .featured-case summary:hover { text-decoration: underline; text-underline-offset: 4px; }
+.featured-case :is(a, summary) :global(svg) { transition: transform .2s ease; }
+.featured-case :is(a:hover, summary:hover) :global(svg), .featured-case details[open] :global(svg) { transform: translateX(4px); }
+.featured-case .when-open, .featured-case details[open] .when-closed { display: none; }
+.featured-case details[open] .when-open { display: inline; }
+.featured-case details p { margin-top: 4px; font-size: .98rem; }
+.featured-case figure { display: grid; grid-template-rows: 230px auto; gap: 12px; place-items: center; width: min(100%, 460px); margin: 0 auto; }
+.featured-case img { display: block; grid-row: 1; width: min(100%, 340px); height: 230px; object-fit: contain; }
+.featured-case figcaption { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; }
+.featured-case figcaption span { min-width: 0; padding: 8px 10px; border: 1px solid hsl(var(--border)); border-radius: .65rem; color: hsl(var(--muted-foreground)); font-size: .66rem; line-height: 1.35; }
+.featured-case figcaption b { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; }
+.featured-case .case-art-dark { display: none; }
+:global(:root.dark) .featured-case .case-art-light { display: none; }
+:global(:root.dark) .featured-case .case-art-dark { display: block; }
+
+.stack-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 42px; border-top: 1px solid hsl(var(--border)); }
+.stack-list article { padding: 22px 0 24px; border-bottom: 1px solid hsl(var(--border)); }
+.stack-list h3 { margin-top: 3px; font-size: 1.4rem; }
+.stack-list .service-category { margin: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.stack-list article p:last-child { max-width: 520px; margin-top: 9px; }
+
+.delivery { background: hsl(var(--secondary) / .28); }
+.delivery ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 26px; margin: 0; padding: 0; list-style: none; }
+.delivery li { position: relative; padding: 32px 15px 0 0; border-top: 1px solid hsl(var(--border)); }
+.delivery li::before { position: absolute; top: -5px; left: 0; width: 9px; height: 9px; background: hsl(var(--primary)); content: ""; }
+.delivery h3 { margin-top: 23px; font-size: 1.4rem; }
+.period { display: inline-block; margin-top: 8px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.delivery li p { margin-top: 16px; }
+
+.outcome-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 42px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+.outcome-grid div { min-height: 160px; padding: 30px 26px; transition: background .2s ease; }
+.outcome-grid div:hover { background: hsl(var(--primary) / .045); }
+.outcome-grid div + div { border-left: 1px solid hsl(var(--border)); }
+.outcome-grid strong { color: hsl(var(--primary)); font-size: clamp(1.9rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; }
+.outcome-grid p { max-width: 190px; margin: 8px 0 0; color: hsl(var(--muted-foreground)); font-size: .9rem; }
+
+.architecture-grid > div:first-child { max-width: 850px; margin: 0 auto 42px; text-align: center; }
+.architecture-grid > div:first-child > p:last-child { color: hsl(var(--muted-foreground)); }
+.architecture-layers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; border-top: 1px solid hsl(var(--border)); }
+.architecture-layers > div { padding: 24px 0; border-bottom: 1px solid hsl(var(--border)); }
+.architecture-layers strong { font-size: 1.05rem; font-weight: 600; }
+.architecture-layers p { margin: 9px 0 0; color: hsl(var(--muted-foreground)); font-size: .92rem; }
+
+.agentic-page :is(a, summary):focus-visible { outline: 2px solid hsl(var(--primary)); outline-offset: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-case, .case-picker button, .featured-case :is(a, summary) :global(svg), .problem-rows article, .capability-grid article, .outcome-grid div { transition: none; }
+  .featured-case:hover, .problem-rows article:hover, .featured-case :is(a:hover, summary:hover) :global(svg), .featured-case details[open] :global(svg) { transform: none; }
+  .is-cycling .case-picker button[aria-selected="true"]::after { animation: none; }
+}
+
+@media (max-width: 950px) {
+  .problem-rows, .architecture-layers { grid-template-columns: 1fr; gap: 0; }
+  .problem-rows article { padding: 54px 0 22px; border-bottom: 1px solid hsl(var(--border)); }
+  .capability-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .capability-grid article:nth-child(3) { padding-left: 0; border-left: 0; border-top: 1px solid hsl(var(--border)); }
+  .capability-grid article:nth-child(4) { border-top: 1px solid hsl(var(--border)); }
+  .outcome-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .outcome-grid div:nth-child(3) { border-left: 0; }
+  .outcome-grid div:nth-child(n+3) { border-top: 1px solid hsl(var(--border)); }
+}
+@media (max-width: 650px) {
+  .hero { padding-top: 44px; }
+  .hero h1 { font-size: 2.4rem; }
+  .actions { flex-direction: column; margin-inline: 20px; }
+  .section { padding: 65px 0; }
+  .capability-grid { grid-template-columns: 1fr; }
+  .capability-grid article, .capability-grid article + article, .capability-grid article:nth-child(3), .capability-grid article:nth-child(4) { min-height: 0; padding: 22px 0; border-left: 0; }
+  .capability-grid article + article { border-top: 1px solid hsl(var(--border)); }
+  .capability-grid article > div { margin-top: 0; }
+  .capability-grid h3 { margin-top: 0; }
+  .case-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .case-picker button { min-height: 62px; font-size: .82rem; }
+  .is-enhanced .featured-cases { padding-top: 30px; }
+  .featured-case { grid-template-columns: 1fr; gap: 8px; min-height: 0; padding: 26px; }
+  .is-enhanced .featured-case { min-height: 510px; }
+  .is-enhanced .featured-case[data-slot="1"] { transform: translateY(-12px) scale(.98); }
+  .is-enhanced .featured-case[data-slot="2"] { transform: translateY(-24px) scale(.96); }
+  .featured-case:nth-child(even) .featured-copy, .featured-case:nth-child(even) figure { order: initial; }
+  .featured-case figure { grid-template-rows: 190px auto; width: 100%; }
+  .featured-case img { height: 190px; }
+  .featured-case figcaption span { padding: 7px; font-size: .6rem; }
+  .stack-list { grid-template-columns: 1fr; }
+  .delivery ol { grid-template-columns: 1fr; gap: 0; }
+  .delivery li { padding: 22px 0; }
+  .delivery li + li { margin-top: 18px; }
+  .delivery h3 { margin-top: 13px; }
+  .outcome-grid div { min-height: 130px; padding: 20px; }
+}
+</style>
+
+<script>
+  function setupCaseShowcase() {
+    const showcase = document.querySelector<HTMLElement>('.case-showcase');
+    if (!showcase || showcase.dataset.ready) return;
+    showcase.dataset.ready = 'true';
+
+    const tabs = [...showcase.querySelectorAll<HTMLButtonElement>('.case-picker button')];
+    const cards = [...showcase.querySelectorAll<HTMLElement>('.featured-case')];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    let active = 0;
+    let visible = false;
+    let timer: number | undefined;
+
+    const stop = () => { clearInterval(timer); timer = undefined; showcase.classList.remove('is-cycling'); };
+    const select = (index: number) => {
+      active = index;
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+      });
+      cards.forEach((card, i) => {
+        const slot = (i - index + cards.length) % cards.length;
+        card.dataset.slot = slot < 3 ? String(slot) : 'hidden';
+        card.inert = slot !== 0;
+        card.setAttribute('aria-hidden', String(slot !== 0));
+      });
+    };
+    const start = () => {
+      stop();
+      if (visible && !reducedMotion.matches && document.visibilityState === 'visible' && !showcase.matches(':hover') && !showcase.contains(document.activeElement) && !showcase.querySelector('.featured-case[data-slot="0"] details[open]')) {
+        showcase.classList.add('is-cycling');
+        timer = window.setInterval(() => select((active + 1) % cards.length), 4000);
+      }
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => { select(i); start(); });
+      tab.addEventListener('keydown', (event) => {
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : event.key === 'ArrowRight' || event.key === 'ArrowDown' ? (active + 1) % tabs.length : event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? (active - 1 + tabs.length) % tabs.length : -1;
+        if (next < 0) return;
+        event.preventDefault();
+        select(next);
+        tabs[next].focus();
+      });
+    });
+    showcase.addEventListener('mouseenter', stop);
+    showcase.addEventListener('mouseleave', start);
+    showcase.addEventListener('focusin', stop);
+    showcase.addEventListener('focusout', () => requestAnimationFrame(start));
+    showcase.addEventListener('toggle', start, true);
+    reducedMotion.addEventListener('change', start);
+    document.addEventListener('visibilitychange', start);
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; start(); }, { threshold: .2 }).observe(showcase);
+
+    select(0);
+    showcase.classList.add('is-enhanced');
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setupCaseShowcase);
+  else setupCaseShowcase();
+  document.addEventListener('astro:page-load', setupCaseShowcase);
+</script>
