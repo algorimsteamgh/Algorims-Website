@@ -79,8 +79,6 @@
   .site-logo-wordmark { display: none; }
   :root.dark .site-logo-base { filter: none; }
   :root.dark .site-logo-wordmark { display: block; filter: brightness(0) invert(1); clip-path: inset(0 0 0 27%); }
-  .theme-toggle { display: inline-grid; place-items: center; width: 2.5rem; height: 2.5rem; border: 1px solid hsl(var(--border)); border-radius: 9999px; color: hsl(var(--foreground)); background: hsl(var(--background)); cursor: pointer; }
-  .theme-toggle:hover { border-color: hsl(var(--primary)); }
   body {
     font-family: "DM Sans", system-ui, sans-serif;
     background: hsl(var(--background));

@@ -40,12 +40,6 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<script is:inline>
-  try {
-    const saved = localStorage.getItem("algorims-theme");
-    document.documentElement.classList.toggle("dark", saved ? saved === "dark" : matchMedia("(prefers-color-scheme: dark)").matches);
-  } catch { document.documentElement.classList.toggle("dark", matchMedia("(prefers-color-scheme: dark)").matches); }
-</script>
 <title>{title}</title>
 
 {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
@@ -110,13 +104,11 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
         </nav>
 
         <div class="hidden lg:flex items-center gap-2">
-          <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Switch theme"><i data-lucide="moon" class="!w-4 !h-4"></i></button>
           <a href="/contact" class="btn btn-outline btn-default">Talk to us</a>
         </div>
 
         <!-- Mobile toggle -->
         <div class="flex items-center gap-2 lg:hidden">
-        <button type="button" class="theme-toggle" aria-label="Switch to dark theme" title="Switch theme"><i data-lucide="moon" class="!w-4 !h-4"></i></button>
         <button id="mobile-toggle" class="grid h-10 w-10 place-items-center rounded-full border border-border bg-card" aria-label="Toggle menu" aria-controls="mobile-menu" aria-expanded="false">
           <i data-lucide="menu" class="!w-5 !h-5"></i>
         </button>
@@ -228,20 +220,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
       mobileToggle.setAttribute("aria-expanded", String(opened));
     });
   }
-  const updateThemeButtons = () => {
-    const dark = document.documentElement.classList.contains("dark");
-    document.querySelectorAll<HTMLButtonElement>(".theme-toggle").forEach((button) => {
-      button.setAttribute("aria-label", `Switch to ${dark ? "light" : "dark"} theme`);
-      button.innerHTML = `<i data-lucide="${dark ? "sun" : "moon"}" class="!w-4 !h-4"></i>`;
-    });
-    (window as Window & { lucide?: { createIcons(): void } }).lucide?.createIcons();
-  };
-  document.querySelectorAll(".theme-toggle").forEach((button) => button.addEventListener("click", () => {
-    const dark = document.documentElement.classList.toggle("dark");
-    try { localStorage.setItem("algorims-theme", dark ? "dark" : "light"); } catch {}
-    updateThemeButtons();
-  }));
-  updateThemeButtons();
+  (window as Window & { lucide?: { createIcons(): void } }).lucide?.createIcons();
 </script>
 </body>
 </html>
