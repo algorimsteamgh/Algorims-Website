@@ -22,10 +22,10 @@ for (const collection of ['blog', 'case-studies', 'products', 'solutions']) {
 }
 
 const products = read('dist/products/index.html');
-assert.equal((products.match(/class="product-row\b/g) ?? []).length, 8);
-assert.equal((products.match(/data-more="true"/g) ?? []).length, 3);
-assert.equal((products.match(/href="#(?:cxiq|dociq|opsiq|payiq|operations-automation)"/g) ?? []).length, 5);
-assert.match(products, /Built by Algorims, <span[^>]*>used in the wild\.<\/span>/);
+assert.equal((products.match(/class="product-row\b/g) ?? []).length, 5);
+assert.equal((products.match(/class="app-slide\b/g) ?? []).length, 3);
+assert.equal((products.match(/data-app-tab=/g) ?? []).length, 3);
+assert.match(products, /id="products-title"/);
 
 for (const [slug, required] of Object.entries({
   cxiq: ['Conversation feed', 'Two stacks, one product', 'One layer between your conversations and your systems', 'Let AI handle the routine. Let your team handle what matters.'],
