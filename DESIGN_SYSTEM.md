@@ -1,6 +1,6 @@
 # Algorims design system
 
-This file is the implementation source of truth for new pages and redesign work. `design-options/ref-light-theme.png` defines page composition and palette. `design-options/ref-light-theme-1.png` defines illustration style only.
+This file is the implementation source of truth for new pages and redesign work. `design-options/ref-light-theme.webp` defines page composition and palette. `design-options/ref-light-theme-1.webp` defines illustration style only.
 
 ## Visual idea
 

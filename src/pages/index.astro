@@ -4,9 +4,9 @@ import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 import ApproachShowcase from "../components/illustrations/ApproachShowcase.astro";
 
 const logos = [
-  ...Array.from({length:7},(_,i)=>`/assets/trusted/logo-${String(i+1).padStart(2,"0")}.png`),
-  "/assets/trusted/logo-08.webp","/assets/trusted/logo-09.webp","/assets/trusted/logo-10.png","/assets/trusted/logo-11.svg",
-  ...Array.from({length:5},(_,i)=>`/assets/trusted/logo-${String(i+12).padStart(2,"0")}.${i===3?"webp":"png"}`),
+  ...Array.from({length:7},(_,i)=>`/assets/trusted/logo-${String(i+1).padStart(2,"0")}.webp`),
+  "/assets/trusted/logo-08.webp","/assets/trusted/logo-09.webp","/assets/trusted/logo-10.webp","/assets/trusted/logo-11.svg",
+  ...Array.from({length:5},(_,i)=>`/assets/trusted/logo-${String(i+12).padStart(2,"0")}.webp`),
 ];
 const stats=[["20+","Enterprises transformed"],["10+","Certified AI & Cloud engineers"],["7+","Industries and growing"],["99.99%","Enterprise-grade reliability"]];
 const serviceLabels=[
@@ -15,16 +15,16 @@ const serviceLabels=[
   ["Code changes","Automated delivery","Reliable operations"],
 ];
 const services=[
-  ["Development","AI-ready applications engineered by senior developers—built to perform, scale, and integrate intelligently from day one. From enterprise platforms and APIs to system integrations, we deliver production-grade software designed to work alongside your AI infrastructure.","/services#dev","/assets/illustrations/service-development.png","/assets/illustrations/service-development-3d-dark.webp","Requirements and APIs connect through application engineering to production software."],
-  ["Cloud Engineering","AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic asset—from landing zones and migrations to modernisation and cost optimisation.","/services#cloud","/assets/illustrations/service-cloud-engineering.png","/assets/illustrations/service-cloud-engineering-3d-dark.webp","Data and workloads connect through cloud engineering to resilient infrastructure."],
-  ["DevOps & Platform","CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together—from automated testing and observability to incident response.","/services#devops","/assets/illustrations/service-devops-platform.png","/assets/illustrations/service-devops-platform-3d-dark.webp","Code changes flow through automated delivery to reliable operations."],
+  ["Development","AI-ready applications engineered by senior developers—built to perform, scale, and integrate intelligently from day one. From enterprise platforms and APIs to system integrations, we deliver production-grade software designed to work alongside your AI infrastructure.","/services#dev","/assets/illustrations/service-development.webp","/assets/illustrations/service-development-3d-dark.webp","Requirements and APIs connect through application engineering to production software."],
+  ["Cloud Engineering","AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic asset—from landing zones and migrations to modernisation and cost optimisation.","/services#cloud","/assets/illustrations/service-cloud-engineering.webp","/assets/illustrations/service-cloud-engineering-3d-dark.webp","Data and workloads connect through cloud engineering to resilient infrastructure."],
+  ["DevOps & Platform","CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together—from automated testing and observability to incident response.","/services#devops","/assets/illustrations/service-devops-platform.webp","/assets/illustrations/service-devops-platform-3d-dark.webp","Code changes flow through automated delivery to reliable operations."],
 ];
 const alliances = [
   {
     partner: "AWS Partner Network",
     tier: "Advanced Tier Services",
     title: "AWS Advanced Consulting Partner",
-    logo: "/assets/aws-partner-badge.png",
+    logo: "/assets/aws-partner-badge.webp",
     alt: "AWS Partner — Advanced Tier Services",
     body: "Certified, enterprise-grade expertise across AI, data, and cloud infrastructure—bringing architectural rigour, GenAI innovation, and proven AWS specialisations to every engagement.",
     tags: ["Amazon Bedrock", "SageMaker", "Amazon EKS", "Well-Architected", "GenAI Competency"],

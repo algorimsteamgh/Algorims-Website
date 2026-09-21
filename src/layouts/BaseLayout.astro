@@ -27,7 +27,7 @@ export interface Props {
 const {
   title,
   description = "Algorims builds autonomous, agentic AI systems for the enterprise — AI & Generative AI, Data & Analytics, AWS cloud, DevOps, and managed services that unlock the value buried in your data.",
-  ogImage = "https://www.algorims.com/assets/algorims-icon-transparent.png",
+  ogImage = "https://www.algorims.com/assets/algorims-icon-transparent.webp",
   canonical = new URL(Astro.url.pathname, Astro.site).toString(),
   robots = "index, follow",
 } = Astro.props;
@@ -59,7 +59,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/assets/algorims-favicon-light.svg" />
 <link rel="shortcut icon" type="image/svg+xml" href="/assets/algorims-favicon-light.svg" />
-<link rel="apple-touch-icon" href="/assets/algorims-favicon.png" />
+<link rel="apple-touch-icon" href="/assets/algorims-favicon.webp" />
 
 <!-- Open Graph / social sharing -->
 <meta property="og:type" content="website" />

@@ -29,7 +29,7 @@ function handler(event) {
     // (no file extension in the last segment, so treat it as a directory)
     request.uri += "/index.html";
   }
-  // Paths with a file extension (.png, .css, .js, ...) or the root "/"
+  // Paths with a file extension (.webp, .css, .js, ...) or the root "/"
   // that already resolves to "index.html" are left untouched.
 
   return request;

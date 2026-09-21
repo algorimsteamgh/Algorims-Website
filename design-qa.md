@@ -2,8 +2,8 @@
 
 **Source visual truth**
 
-- `design-options/ref-light-theme.png` — 1487 × 1058 px; layout, hierarchy, framing, and palette reference.
-- `design-options/ref-light-theme-1.png` — 1487 × 1058 px; illustration style reference only.
+- `design-options/ref-light-theme.webp` — 1487 × 1058 px; layout, hierarchy, framing, and palette reference.
+- `design-options/ref-light-theme-1.webp` — 1487 × 1058 px; illustration style reference only.
 - Product-page content and relationships come from `src/content/products/*.json`.
 
 **Implementation evidence**

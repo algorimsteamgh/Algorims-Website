@@ -1,6 +1,6 @@
 # Website revamp — agent-ready task list
 
-Planning only. Do not treat this list as authorization to implement every task at once. The visual contract is in [DESIGN_SYSTEM_REVAMP.md](DESIGN_SYSTEM_REVAMP.md). References: Option 1 = dark UI, `ref-light-theme.png` = light homepage UI, Option 3 and `ref-light-theme-1.png` = illustration language only. Keep the current site navigable while replacing its visual language incrementally.
+Planning only. Do not treat this list as authorization to implement every task at once. The visual contract is in [DESIGN_SYSTEM_REVAMP.md](DESIGN_SYSTEM_REVAMP.md). References: Option 1 = dark UI, `ref-light-theme.webp` = light homepage UI, Option 3 and `ref-light-theme-1.webp` = illustration language only. Keep the current site navigable while replacing its visual language incrementally.
 
 ## Working rules for every agent
 

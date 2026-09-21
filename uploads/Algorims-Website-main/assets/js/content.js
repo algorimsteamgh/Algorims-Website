@@ -324,7 +324,7 @@ const CASE_STUDIES = [
     ],
     tech: ["Amazon S3", "AWS Glue", "Amazon Athena", "Amazon Q", "AWS QuickSight", "AWS IAM", "AWS KMS"],
     architecture: {
-      src: "/assets/case-studies/qsr-architecture.png",
+      src: "/assets/case-studies/qsr-architecture.webp",
       alt: "QSR conversational analytics architecture on AWS — S3, Glue, Athena, Amazon Q and QuickSight",
       caption: "Raw labour and transaction data flows from source systems into Amazon S3, is catalogued and transformed by AWS Glue, queried through Amazon Athena, and surfaced to business users through Amazon Q natural-language queries and QuickSight dashboards.",
     },
@@ -389,7 +389,7 @@ const CASE_STUDIES = [
     ],
     tech: ["GPT-4o", "Cloud-Native Architecture", "Role-Based Access Control", "Real-Time Conflict Detection", "Serverless Infrastructure", "Automated Reporting"],
     architecture: {
-      src: "/assets/case-studies/school-scheduler-architecture.png",
+      src: "/assets/case-studies/school-scheduler-architecture.webp",
       alt: "AI school scheduler architecture — user access portal, web application core, AI analyst engine and conflict detection",
       caption: "A role-based access portal feeds the web application core — authentication, schedule, and absence managers — with a GPT-4o AI analyst engine and conflict-detection layer reading and writing against a shared relational database, then generating reports and dashboards.",
     },
@@ -835,7 +835,7 @@ const SOLUTIONS = [
 ];
 
 /* Content-relevant product visuals shown on each case-study detail page.
-   Swap the PNGs in /assets/case-studies/scenes/ for real product screenshots anytime. */
+   Swap the WebPs in /assets/case-studies/scenes/ for real product screenshots anytime. */
 const CASE_SCENES = {
   "qsr-conversational-analytics": {
     alt: "Labour analytics dashboard with KPI tiles, a productivity bar chart and an Amazon Q natural-language query panel",

@@ -342,7 +342,7 @@ function pageHome() {
           <div class="flex w-max items-center gap-12 md:gap-16" style="animation:trusted-marquee 50s linear infinite">
             ${[1,2].map(() => Array.from({length: 16}, (_, i) => {
               const n = String(i+1).padStart(2,'0');
-              const ext = i === 10 ? 'svg' : 'png';
+              const ext = i === 10 ? 'svg' : 'webp';
               return `<img src="${BASE_PATH}/assets/trusted/logo-${n}.${ext}" alt="Algorims client logo" class="trusted-logo h-10 w-auto max-w-[140px] object-contain md:h-12" loading="lazy" />`;
             }).join("")).join("")}
           </div>
@@ -487,7 +487,7 @@ function pageHome() {
             <h2 class="text-4xl font-semibold leading-tight tracking-tight md:text-5xl">AWS <span class="text-gradient">Advanced Consulting Partner</span></h2>
             <p class="text-base leading-relaxed text-muted-foreground">As an AWS Advanced Consulting Partner, Algorims delivers certified, enterprise-grade expertise across AI, data, and cloud infrastructure — bringing architectural rigour, GenAI innovation, and proven AWS specialisations to every engagement.</p>
             <div class="flex items-center gap-5 pt-2">
-              <img src="${BASE_PATH}/assets/aws-partner-badge.png" alt="AWS Partner — Advanced Tier Services" class="h-28 w-28 shrink-0 object-contain" />
+              <img src="${BASE_PATH}/assets/aws-partner-badge.webp" alt="AWS Partner — Advanced Tier Services" class="h-28 w-28 shrink-0 object-contain" />
               <div class="flex flex-wrap gap-2">
                 ${["Bedrock","SageMaker","EKS","Well-Architected","GenAI Competency"].map(b => `<span class="rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground">${b}</span>`).join("")}
               </div>
@@ -1861,7 +1861,7 @@ function caseStudiesHeroAnim() {
 }
 
 function caseCover(slug) {
-  return `<img src="${BASE_PATH}/assets/case-studies/covers/${slug}.png" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />`;
+  return `<img src="${BASE_PATH}/assets/case-studies/covers/${slug}.webp" alt="" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />`;
 }
 
 function pageCaseStudies() {
@@ -2972,7 +2972,7 @@ function renderDetailPage(sol) {
   <section class="pt-2 pb-6">
     <div class="container-x">
       <figure>
-        <img src="${BASE_PATH}/assets/case-studies/scenes/${sol.slug}.png" alt="${CASE_SCENES[sol.slug].alt}" loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" />
+        <img src="${BASE_PATH}/assets/case-studies/scenes/${sol.slug}.webp" alt="${CASE_SCENES[sol.slug].alt}" loading="lazy" class="w-full h-auto rounded-3xl border border-border shadow-sm" />
         <figcaption class="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">${CASE_SCENES[sol.slug].caption}</figcaption>
       </figure>
     </div>
@@ -3225,7 +3225,7 @@ function radialOrbital() {
 
   return `
     <div class="rot-stage" data-rot-stage aria-label="Algorims orbital timeline">
-      <img class="rot-center-icon" src="${BASE_PATH}/assets/algorims-icon-transparent.png" alt="Algorims" />
+      <img class="rot-center-icon" src="${BASE_PATH}/assets/algorims-icon-transparent.webp" alt="Algorims" />
       ${nodes.map(nodeHtml).join("")}
     </div>
   `;
@@ -3338,7 +3338,7 @@ function pageProducts() {
       live: true,
       tagline: "A direct line from farm to buyer.",
       body: "Farmers list their produce. Buyers reach out directly — no middlemen, no markup. When either side needs it, transport is built right into the app.",
-      logo: `${BASE_PATH}/assets/products/algokisan.png`,
+      logo: `${BASE_PATH}/assets/products/algokisan.webp`,
       bgFrom: "hsl(140 60% 55% / 0.18)",
       bgTo:   "hsl(215 80% 55% / 0.18)",
       accent: "hsl(140 50% 38%)",
@@ -3357,7 +3357,7 @@ function pageProducts() {
       live: true,
       tagline: "Intercity travel, two ways.",
       body: "Carpool with people heading the same way, or hire a full vehicle and driver for the trip. Built for the long haul between cities — not for hopping across town.",
-      logo: `${BASE_PATH}/assets/products/algoride.png`,
+      logo: `${BASE_PATH}/assets/products/algoride.webp`,
       bgFrom: "hsl(212 90% 60% / 0.18)",
       bgTo:   "hsl(195 90% 60% / 0.18)",
       accent: "hsl(212 90% 48%)",
@@ -3380,7 +3380,7 @@ function pageProducts() {
       live: false,
       tagline: "Something's taking flight.",
       body: "We're not ready to talk about this one yet — but it's moving fast and it's almost here. Drop your email and we'll tell you the moment it lands.",
-      logo: `${BASE_PATH}/assets/products/algomart.png`,
+      logo: `${BASE_PATH}/assets/products/algomart.webp`,
       bgFrom: "hsl(140 70% 55% / 0.15)",
       bgTo:   "hsl(30 95% 60% / 0.15)",
       accent: "hsl(140 50% 40%)",
