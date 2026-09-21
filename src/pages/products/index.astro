@@ -31,7 +31,7 @@ const apps = listing.moreProducts as Listing[];
   <section class="products-hero" aria-labelledby="products-title">
     <div class="container-x">
       <p class="products-kicker">Our Products</p>
-      <h1 id="products-title">Built by Algorims. <span>Built for the real world.</span></h1>
+      <h1 id="products-title">Built by Algorims.<span class="products-title-line">Built for the <span class="products-title-accent">real world</span>.</span></h1>
       <p class="products-intro">Explore production-ready AI platforms for business operations and practical apps for everyday needs.</p>
       <div class="products-actions"><a class="btn btn-hero btn-lg" href="#enterprise-products">Explore platforms</a><a class="btn btn-outline btn-lg" href="/contact">Talk to our team</a></div>
     </div>
@@ -96,7 +96,8 @@ const apps = listing.moreProducts as Listing[];
   .products-hero { padding: 46px 0 50px; border-bottom: 1px solid hsl(var(--border)); text-align: center; }
   .products-kicker, .product-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
   .products-hero h1 { max-width: 1050px; margin: 14px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
-  .products-hero h1 span, .products-section-heading h2 span { color: hsl(var(--primary)); }
+  .products-title-line { display: block; }
+  .products-title-accent, .products-section-heading h2 span { color: hsl(var(--primary)); }
   .products-intro { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
   .products-actions { display: flex; justify-content: center; gap: 14px; margin-top: 26px; }
   .products-list { padding: clamp(64px, 7vw, 90px) 0; }
@@ -108,7 +109,7 @@ const apps = listing.moreProducts as Listing[];
   .product-row { min-width: 0; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; scroll-margin-top: 80px; transition: background .2s ease; }
   .product-row:hover { background: hsl(var(--muted) / .35); }
   .product-row { grid-column: 1 / -1; }
-  .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(32px, 6vw, 90px); max-width: none; padding: clamp(36px, 4vw, 58px); }
+  .product-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(24px, 4vw, 56px); max-width: none; padding: clamp(28px, 3vw, 40px); }
   .product-copy { min-width: 0; }
   .product-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
   .product-status { display: inline-flex; align-items: center; gap: 7px; color: hsl(var(--muted-foreground)); font-size: .68rem; letter-spacing: .07em; }
@@ -125,7 +126,7 @@ const apps = listing.moreProducts as Listing[];
   .product-link:is(:hover, :focus-visible) :global(svg) { transform: translateX(4px); }
   .product-notify { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .product-notify .field { width: auto; min-width: 140px; flex: 1; }
-  .product-figure { min-width: 0; margin: 0; }
+  .product-figure { justify-self: center; width: 100%; max-width: 400px; min-width: 0; margin: 0; }
   .product-art { display: grid; aspect-ratio: 1; }
   .product-art img { grid-area: 1 / 1; display: block; width: 100%; height: 100%; object-fit: contain; }
   .product-figure .art-dark { display: none; }
