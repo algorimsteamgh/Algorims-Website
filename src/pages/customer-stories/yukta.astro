@@ -1,0 +1,89 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Yukta customer story: invoice processing in about 20 seconds — Algorims"
+  description="See how Yukta Pte Ltd uses a Claude-powered accounts-payable pipeline built by Algorims to process invoices in about 20 seconds, with review for exceptions."
+>
+  <article class="story">
+    <header class="hero container-x">
+      <p class="eyebrow">Customer story <span aria-hidden="true">/</span> Yukta Pte Ltd</p>
+      <h1>From 30 minutes to <em>about 20 seconds</em> per invoice.</h1>
+      <p class="lede">How Yukta and Algorims put Claude to work on multilingual accounts payable, so the finance team can focus on the invoices that need a person.</p>
+      <dl class="details">
+        <div><dt>Customer</dt><dd>Yukta Pte Ltd</dd></div>
+        <div><dt>Industry</dt><dd>Financial services</dd></div>
+        <div><dt>Location</dt><dd>Singapore</dd></div>
+        <div><dt>Delivered by</dt><dd>Algorims</dd></div>
+      </dl>
+    </header>
+
+    <section class="results" aria-labelledby="results-heading">
+      <div class="container-x">
+        <h2 id="results-heading">The results</h2>
+        <dl>
+          <div><dt>~20 sec</dt><dd>Per invoice, down from 15–30 minutes by hand</dd></div>
+          <div><dt>65%</dt><dd>Of invoices posted without human intervention</dd></div>
+          <div><dt>200 / month</dt><dd>Invoices and receipts processed across three languages</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="narrative container-x">
+      <section aria-labelledby="challenge-heading">
+        <p class="eyebrow">01 / The challenge</p>
+        <h2 id="challenge-heading">Every document meant more manual work.</h2>
+        <p>Yukta’s finance team keyed every supplier invoice and receipt into the ledger by hand. Each document took 15–30 minutes to process across English, Bahasa and Chinese.</p>
+        <p>Template-based OCR broke when a new layout arrived, and errors often surfaced only at month-end.</p>
+      </section>
+
+      <section aria-labelledby="solution-heading">
+        <p class="eyebrow">02 / The solution</p>
+        <h2 id="solution-heading">An accounts-payable pipeline built around Claude.</h2>
+        <p>Algorims built and deployed an agentic accounts-payable pipeline with Claude at its core. It has run in production on AWS Singapore since September 2026.</p>
+        <p>Claude reads each emailed invoice, extracts and validates its fields, and scores its own confidence in one step. High-confidence invoices post directly to Xero or QuickBooks. The remaining invoices go to a finance reviewer. Both paths retain a full audit trail.</p>
+      </section>
+    </div>
+
+    <figure class="quote container-x">
+      <blockquote>“Claude now reads our invoices the moment they land in our inbox, and our team only steps in when something actually needs a human.”</blockquote>
+      <figcaption><strong>Sravan</strong><span>Tech Lead, Yukta Pte Ltd</span></figcaption>
+    </figure>
+  </article>
+</BaseLayout>
+
+<style>
+  .story { color: hsl(var(--foreground)); }
+  .hero { padding-top: clamp(56px, 8vw, 112px); padding-bottom: clamp(48px, 6vw, 84px); }
+  .eyebrow { margin: 0 0 20px; color: hsl(var(--primary)); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+  .eyebrow span { margin: 0 9px; color: hsl(var(--muted-foreground)); }
+  h1 { max-width: 1000px; margin: 0; font-size: clamp(3rem, 6.6vw, 6.5rem); font-weight: 600; letter-spacing: -.065em; line-height: 1.02; text-wrap: balance; }
+  h1 em { color: hsl(var(--primary)); font-style: normal; }
+  .lede { max-width: 750px; margin: 30px 0 0; color: hsl(var(--muted-foreground)); font-size: clamp(1.15rem, 1.7vw, 1.4rem); line-height: 1.6; }
+  .details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 66px 0 0; }
+  .details div { border-top: 1px solid hsl(var(--border)); padding-top: 15px; }
+  .details dt { color: hsl(var(--muted-foreground)); font-size: .78rem; }
+  .details dd { margin: 7px 0 0; font-size: .95rem; font-weight: 600; }
+  .results { border-block: 1px solid hsl(var(--border)); background: hsl(var(--secondary)); }
+  .results .container-x { padding-top: 34px; padding-bottom: 42px; }
+  .results h2 { margin: 0 0 26px; color: hsl(var(--muted-foreground)); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+  .results dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; }
+  .results dl div { padding-right: 35px; }
+  .results dl div + div { border-left: 1px solid hsl(var(--border)); padding-left: 35px; }
+  .results dt { color: hsl(var(--primary)); font-size: clamp(2.3rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.06em; line-height: 1; }
+  .results dd { max-width: 260px; margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .95rem; line-height: 1.55; }
+  .narrative { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 8vw, 130px); padding-top: clamp(66px, 8vw, 110px); padding-bottom: clamp(66px, 8vw, 110px); }
+  .narrative h2 { max-width: 540px; margin: 0 0 27px; font-size: clamp(2rem, 3vw, 3.3rem); font-weight: 600; letter-spacing: -.05em; line-height: 1.12; text-wrap: balance; }
+  .narrative p:not(.eyebrow) { max-width: 580px; margin: 0 0 17px; color: hsl(var(--muted-foreground)); font-size: 1.05rem; line-height: 1.75; }
+  .quote { margin-top: 0; margin-bottom: clamp(70px, 9vw, 130px); border-top: 1px solid hsl(var(--border)); padding-top: clamp(48px, 6vw, 80px); }
+  blockquote { max-width: 1000px; margin: 0; font-size: clamp(1.7rem, 3.2vw, 3.2rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.3; text-wrap: balance; }
+  figcaption { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; font-size: .95rem; }
+  figcaption span { color: hsl(var(--muted-foreground)); }
+  @media (max-width: 700px) {
+    .details { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; margin-top: 42px; }
+    .results dl { grid-template-columns: 1fr; gap: 24px; }
+    .results dl div + div { border-left: 0; border-top: 1px solid hsl(var(--border)); padding: 24px 0 0; }
+    .narrative { grid-template-columns: 1fr; }
+  }
+</style>
