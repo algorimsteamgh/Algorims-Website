@@ -11,7 +11,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
       <div class="hero-top"><p class="eyebrow">Customer story <span aria-hidden="true">/</span> Yukta Pte Ltd</p></div>
       <div class="hero-main">
         <div class="hero-copy">
-          <p class="customer-name">Yukta <span>Pte Ltd</span></p>
+          <p class="customer-name"><img src="/assets/customer-stories/yukta-property-icon.svg" width="40" height="40" alt="" />YUKTA <span>PTE LTD</span></p>
           <h1>Less time on invoices. <em>More time for the work that matters.</em></h1>
           <span class="hero-spark" aria-hidden="true">✳</span>
         </div>
@@ -74,8 +74,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
   .eyebrow span { margin-inline: 6px; color: hsl(var(--muted-foreground)); }
   .hero-main { display: grid; grid-template-columns: 1.45fr .55fr; align-items: end; gap: clamp(36px, 6vw, 100px); padding: clamp(56px, 8vw, 112px) 0 clamp(52px, 7vw, 96px); }
   .hero-copy { position: relative; animation: rise-in .75s both cubic-bezier(.2, .8, .2, 1); }
-  .customer-name { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 26px; padding: 9px 14px; border: 1px solid hsl(var(--primary) / .35); border-radius: 999px; background: hsl(var(--primary) / .06); color: hsl(var(--primary)); font-size: .82rem; font-weight: 700; letter-spacing: .02em; transform: rotate(-3deg); }
-  .customer-name span { color: hsl(var(--muted-foreground)); font-weight: 500; }
+  .customer-name { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 26px; padding: 8px 16px 8px 8px; border: 1px solid #0b4a66; border-radius: 999px; background: #fff; color: #0b4a66; font-size: .9rem; font-weight: 800; letter-spacing: .08em; }
+  .customer-name img { display: block; width: 40px; height: 40px; flex: none; border-radius: 9px; }
+  .customer-name span { color: #30363d; font-weight: 700; }
   h1 { max-width: 900px; margin: 0; font-size: clamp(3.2rem, 6.2vw, 6rem); font-weight: 600; letter-spacing: -.067em; line-height: 1.02; text-wrap: balance; }
   h1 em { color: hsl(var(--primary)); font-style: normal; text-decoration: underline; text-decoration-color: hsl(var(--primary) / .25); text-decoration-thickness: .085em; text-underline-offset: .09em; }
   .hero-spark { position: absolute; top: 3%; right: -4%; color: hsl(var(--primary)); font-size: clamp(3rem, 5vw, 5rem); line-height: 1; animation: spark-in 1.2s both cubic-bezier(.2, .8, .2, 1), spark-bob 4s 1.2s infinite ease-in-out; }
