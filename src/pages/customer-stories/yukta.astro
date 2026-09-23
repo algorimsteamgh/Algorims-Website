@@ -8,82 +8,157 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 >
   <article class="story">
     <header class="hero container-x">
-      <p class="eyebrow">Customer story <span aria-hidden="true">/</span> Yukta Pte Ltd</p>
-      <h1>From 30 minutes to <em>about 20 seconds</em> per invoice.</h1>
-      <p class="lede">How Yukta and Algorims put Claude to work on multilingual accounts payable, so the finance team can focus on the invoices that need a person.</p>
-      <dl class="details">
-        <div><dt>Customer</dt><dd>Yukta Pte Ltd</dd></div>
-        <div><dt>Industry</dt><dd>Financial services</dd></div>
-        <div><dt>Location</dt><dd>Singapore</dd></div>
-        <div><dt>Delivered by</dt><dd>Algorims</dd></div>
-      </dl>
+      <div class="hero-top"><p class="eyebrow">Customer story <span aria-hidden="true">/</span> Yukta Pte Ltd</p></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <p class="customer-name">Yukta <span>Pte Ltd</span></p>
+          <h1>Less time on invoices. <em>More time for the work that matters.</em></h1>
+          <span class="hero-spark" aria-hidden="true">✳</span>
+        </div>
+        <div class="intro-note"><span>The shift ↘</span><p class="lede">A Singapore finance team turned a multilingual, manual process into an accounts-payable workflow that handles routine invoices in about 20 seconds.</p></div>
+      </div>
+      <div class="hero-footer"><span>Financial services</span><span>Singapore</span><a href="#story">Read Yukta’s story <span aria-hidden="true">↓</span></a></div>
     </header>
 
-    <section class="results" aria-labelledby="results-heading">
-      <div class="container-x">
-        <h2 id="results-heading">The results</h2>
-        <dl>
-          <div><dt>~20 sec</dt><dd>Per invoice, down from 15–30 minutes by hand</dd></div>
-          <div><dt>65%</dt><dd>Of invoices posted without human intervention</dd></div>
-          <div><dt>200 / month</dt><dd>Invoices and receipts processed across three languages</dd></div>
-        </dl>
+    <section class="voice" aria-label="Customer perspective">
+      <div class="container-x voice-inner">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <figure>
+          <blockquote>Claude now reads our invoices the moment they land in our inbox, and our team only steps in when something actually needs a human.</blockquote>
+          <figcaption><strong>Sravan</strong><span>Tech Lead, Yukta Pte Ltd</span></figcaption>
+        </figure>
       </div>
     </section>
 
-    <div class="narrative container-x">
-      <section aria-labelledby="challenge-heading">
-        <p class="eyebrow">01 / The challenge</p>
-        <h2 id="challenge-heading">Every document meant more manual work.</h2>
-        <p>Yukta’s finance team keyed every supplier invoice and receipt into the ledger by hand. Each document took 15–30 minutes to process across English, Bahasa and Chinese.</p>
-        <p>Template-based OCR broke when a new layout arrived, and errors often surfaced only at month-end.</p>
-      </section>
+    <section id="story" class="story-section container-x" aria-labelledby="before-title">
+      <div class="section-label"><span>01</span><p>Before</p></div>
+      <div class="section-content"><h2 id="before-title">An inbox full of invoices. A ledger filled by hand.</h2><p>Yukta’s finance team keyed every supplier invoice and receipt into the ledger by hand. Each document took 15–30 minutes to process across English, Bahasa and Chinese.</p><p>Template-based OCR broke when a new layout arrived, and errors often surfaced only at month-end.</p></div>
+    </section>
 
-      <section aria-labelledby="solution-heading">
-        <p class="eyebrow">02 / The solution</p>
-        <h2 id="solution-heading">An accounts-payable pipeline built around Claude.</h2>
-        <p>Algorims built and deployed an agentic accounts-payable pipeline with Claude at its core. It has run in production on AWS Singapore since September 2026.</p>
-        <p>Claude reads each emailed invoice, extracts and validates its fields, and scores its own confidence in one step. High-confidence invoices post directly to Xero or QuickBooks. The remaining invoices go to a finance reviewer. Both paths retain a full audit trail.</p>
-      </section>
-    </div>
+    <section class="shift container-x" aria-label="Before and after invoice processing">
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/yukta-before.webp" width="1672" height="941" loading="lazy" alt="Invoices and receipts pass through a manual review step before they reach the ledger." /></div>
+        <figcaption><span>Before / Manual entry</span><strong>15–30 min</strong><p>Each invoice or receipt was keyed into the ledger by hand.</p></figcaption>
+      </figure>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/yukta-after.webp" width="1672" height="941" loading="lazy" alt="Invoices flow into a central AI platform, then branch to approved records or exceptions for human review." /></div>
+        <figcaption><span>After / AI with human review</span><strong>~20 sec</strong><p>Routine invoices post automatically; exceptions reach a reviewer.</p></figcaption>
+      </figure>
+    </section>
 
-    <figure class="quote container-x">
-      <blockquote>“Claude now reads our invoices the moment they land in our inbox, and our team only steps in when something actually needs a human.”</blockquote>
-      <figcaption><strong>Sravan</strong><span>Tech Lead, Yukta Pte Ltd</span></figcaption>
-    </figure>
+    <section class="story-section container-x" aria-labelledby="change-title">
+      <div class="section-label"><span>02</span><p>What changed</p></div>
+      <div class="section-content"><h2 id="change-title">Let the routine work move. Keep people in the loop.</h2><p>Algorims built and deployed an accounts-payable pipeline with Claude at its core. It has run in production on AWS Singapore since September 2026.</p><p>Claude reads each emailed invoice, extracts and validates its fields, and scores its confidence in one step. High-confidence invoices post directly to Xero or QuickBooks. The remaining invoices go to a finance reviewer. Both paths retain a full audit trail.</p></div>
+    </section>
+
+    <section class="outcomes" aria-labelledby="outcomes-title"><div class="container-x">
+      <div class="outcomes-heading"><p class="eyebrow">At a glance</p><h2 id="outcomes-title">A lighter day for finance.</h2></div>
+      <dl>
+        <div><dt>~20 sec</dt><dd>To process an invoice, down from 15–30 minutes by hand</dd></div>
+        <div><dt>65%</dt><dd>Of invoices posted without human intervention</dd></div>
+        <div><dt>200 / month</dt><dd>Invoices and receipts across three languages</dd></div>
+      </dl>
+    </div></section>
+
+    <div class="ending container-x"><p>Have a process your team is ready to rethink?</p><a href="/contact">Talk to us <span aria-hidden="true">↗</span></a></div>
   </article>
 </BaseLayout>
 
 <style>
   .story { color: hsl(var(--foreground)); }
-  .hero { padding-top: clamp(56px, 8vw, 112px); padding-bottom: clamp(48px, 6vw, 84px); }
-  .eyebrow { margin: 0 0 20px; color: hsl(var(--primary)); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-  .eyebrow span { margin: 0 9px; color: hsl(var(--muted-foreground)); }
-  h1 { max-width: 1000px; margin: 0; font-size: clamp(3rem, 6.6vw, 6.5rem); font-weight: 600; letter-spacing: -.065em; line-height: 1.02; text-wrap: balance; }
-  h1 em { color: hsl(var(--primary)); font-style: normal; }
-  .lede { max-width: 750px; margin: 30px 0 0; color: hsl(var(--muted-foreground)); font-size: clamp(1.15rem, 1.7vw, 1.4rem); line-height: 1.6; }
-  .details { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 66px 0 0; }
-  .details div { border-top: 1px solid hsl(var(--border)); padding-top: 15px; }
-  .details dt { color: hsl(var(--muted-foreground)); font-size: .78rem; }
-  .details dd { margin: 7px 0 0; font-size: .95rem; font-weight: 600; }
-  .results { border-block: 1px solid hsl(var(--border)); background: hsl(var(--secondary)); }
-  .results .container-x { padding-top: 34px; padding-bottom: 42px; }
-  .results h2 { margin: 0 0 26px; color: hsl(var(--muted-foreground)); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-  .results dl { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; }
-  .results dl div { padding-right: 35px; }
-  .results dl div + div { border-left: 1px solid hsl(var(--border)); padding-left: 35px; }
-  .results dt { color: hsl(var(--primary)); font-size: clamp(2.3rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.06em; line-height: 1; }
-  .results dd { max-width: 260px; margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .95rem; line-height: 1.55; }
-  .narrative { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(40px, 8vw, 130px); padding-top: clamp(66px, 8vw, 110px); padding-bottom: clamp(66px, 8vw, 110px); }
-  .narrative h2 { max-width: 540px; margin: 0 0 27px; font-size: clamp(2rem, 3vw, 3.3rem); font-weight: 600; letter-spacing: -.05em; line-height: 1.12; text-wrap: balance; }
-  .narrative p:not(.eyebrow) { max-width: 580px; margin: 0 0 17px; color: hsl(var(--muted-foreground)); font-size: 1.05rem; line-height: 1.75; }
-  .quote { margin-top: 0; margin-bottom: clamp(70px, 9vw, 130px); border-top: 1px solid hsl(var(--border)); padding-top: clamp(48px, 6vw, 80px); }
-  blockquote { max-width: 1000px; margin: 0; font-size: clamp(1.7rem, 3.2vw, 3.2rem); font-weight: 500; letter-spacing: -.04em; line-height: 1.3; text-wrap: balance; }
-  figcaption { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; font-size: .95rem; }
-  figcaption span { color: hsl(var(--muted-foreground)); }
-  @media (max-width: 700px) {
-    .details { grid-template-columns: repeat(2, 1fr); gap: 24px 18px; margin-top: 42px; }
-    .results dl { grid-template-columns: 1fr; gap: 24px; }
-    .results dl div + div { border-left: 0; border-top: 1px solid hsl(var(--border)); padding: 24px 0 0; }
-    .narrative { grid-template-columns: 1fr; }
+  .hero { padding-top: clamp(40px, 6vw, 82px); }
+  .hero-top, .hero-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .hero-top { padding-bottom: 20px; border-bottom: 1px solid hsl(var(--border)); }
+  .eyebrow { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .eyebrow span { margin-inline: 6px; color: hsl(var(--muted-foreground)); }
+  .hero-main { display: grid; grid-template-columns: 1.45fr .55fr; align-items: end; gap: clamp(36px, 6vw, 100px); padding: clamp(56px, 8vw, 112px) 0 clamp(52px, 7vw, 96px); }
+  .hero-copy { position: relative; animation: rise-in .75s both cubic-bezier(.2, .8, .2, 1); }
+  .customer-name { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 26px; padding: 9px 14px; border: 1px solid hsl(var(--primary) / .35); border-radius: 999px; background: hsl(var(--primary) / .06); color: hsl(var(--primary)); font-size: .82rem; font-weight: 700; letter-spacing: .02em; transform: rotate(-3deg); }
+  .customer-name span { color: hsl(var(--muted-foreground)); font-weight: 500; }
+  h1 { max-width: 900px; margin: 0; font-size: clamp(3.2rem, 6.2vw, 6rem); font-weight: 600; letter-spacing: -.067em; line-height: 1.02; text-wrap: balance; }
+  h1 em { color: hsl(var(--primary)); font-style: normal; text-decoration: underline; text-decoration-color: hsl(var(--primary) / .25); text-decoration-thickness: .085em; text-underline-offset: .09em; }
+  .hero-spark { position: absolute; top: 3%; right: -4%; color: hsl(var(--primary)); font-size: clamp(3rem, 5vw, 5rem); line-height: 1; animation: spark-in 1.2s both cubic-bezier(.2, .8, .2, 1), spark-bob 4s 1.2s infinite ease-in-out; }
+  @keyframes spark-in { from { opacity: 0; transform: rotate(-65deg) scale(.6); } to { opacity: 1; transform: rotate(-15deg) scale(1); } }
+  @keyframes spark-bob { 0%, 100% { transform: translateY(0) rotate(-15deg); } 50% { transform: translateY(-8px) rotate(0deg); } }
+  @keyframes rise-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+  .intro-note { padding: 20px 0 6px 23px; border-left: 2px solid hsl(var(--primary)); transform: rotate(2deg); animation: note-in .8s .18s both cubic-bezier(.2, .8, .2, 1); }
+  @keyframes note-in { from { opacity: 0; transform: translateY(18px) rotate(2deg); } to { opacity: 1; transform: translateY(0) rotate(2deg); } }
+  .intro-note > span { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .lede { max-width: 360px; margin: 0 0 8px; color: hsl(var(--muted-foreground)); font-size: clamp(1.08rem, 1.45vw, 1.3rem); line-height: 1.65; }
+  .intro-note .lede { margin-top: 14px; }
+  .hero-footer { padding: 18px 0; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; animation: rise-in .7s .35s both cubic-bezier(.2, .8, .2, 1); }
+  .hero-footer a { margin-left: auto; color: hsl(var(--primary)); }
+  .voice { position: relative; overflow: hidden; background: hsl(var(--primary) / .06); border-block: 1px solid hsl(var(--primary) / .16); }
+  .voice::after { position: absolute; right: -160px; bottom: -290px; width: 620px; height: 620px; border: 1px solid hsl(var(--primary) / .14); border-radius: 50%; box-shadow: 0 0 0 65px hsl(var(--primary) / .035), 0 0 0 130px hsl(var(--primary) / .025); content: ""; pointer-events: none; }
+  .voice-inner { display: grid; grid-template-columns: 110px 1fr; gap: clamp(20px, 5vw, 80px); padding-top: clamp(70px, 9vw, 130px); padding-bottom: clamp(70px, 9vw, 130px); }
+  .quote-mark { color: hsl(var(--primary)); font-size: 8rem; font-family: Georgia, serif; line-height: .8; }
+  .voice figure { position: relative; z-index: 1; max-width: 960px; margin: 0; }
+  blockquote { margin: 0; font-size: clamp(2rem, 3.6vw, 3.8rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.25; text-wrap: balance; }
+  .voice figcaption { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 34px; font-size: .9rem; }
+  .voice figcaption span { color: hsl(var(--muted-foreground)); }
+  .story-section { display: grid; grid-template-columns: .4fr 1fr; gap: clamp(48px, 9vw, 140px); padding-top: clamp(76px, 10vw, 140px); padding-bottom: clamp(76px, 10vw, 140px); }
+  .section-label { display: flex; align-items: center; gap: 14px; padding-top: 8px; color: hsl(var(--primary)); font-size: .75rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .section-label span { display: grid; width: 42px; height: 42px; flex: none; place-items: center; border: 1px solid hsl(var(--primary) / .35); border-radius: 50%; transform: rotate(-12deg); }
+  .section-label p { margin: 0; }
+  .section-content { max-width: 730px; }
+  .section-content h2 { margin: 0 0 36px; font-size: clamp(2.3rem, 4.3vw, 4.4rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.08; text-wrap: balance; }
+  .section-content p { max-width: 640px; margin: 0; color: hsl(var(--foreground) / .78); font-size: 1.08rem; line-height: 1.8; }
+  .section-content p + p { margin-top: 22px; }
+  .shift { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .shift-scene { min-width: 0; margin: 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 18px; background: hsl(var(--background)); }
+  .scene-art { overflow: hidden; border-bottom: 1px solid hsl(var(--border)); background: hsl(var(--primary) / .025); }
+  .scene-art img { display: block; width: 100%; height: auto; }
+  .shift-scene figcaption { display: grid; gap: 8px; min-height: 160px; padding: 22px 26px 26px; }
+  .shift-scene figcaption span { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  .shift-scene figcaption strong { font-size: clamp(2rem, 3vw, 3rem); font-weight: 600; letter-spacing: -.055em; line-height: 1; }
+  .shift-scene figcaption p { max-width: 360px; margin: 0; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.5; }
+  .shift-arrow { position: absolute; z-index: 1; top: 27%; left: 50%; display: grid; width: 52px; height: 52px; place-items: center; border: 1px solid hsl(var(--primary)); border-radius: 50%; background: hsl(var(--background)); color: hsl(var(--primary)); font-size: 1.7rem; transform: translate(-50%, -50%) rotate(-25deg); }
+  .outcomes { padding: clamp(70px, 9vw, 120px) 0; border-block: 1px solid hsl(var(--border)); background: hsl(var(--primary) / .035); }
+  .outcomes-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 42px; }
+  .outcomes h2 { max-width: 650px; margin: 0; font-size: clamp(2.2rem, 4vw, 4rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.1; }
+  .outcomes dl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0; }
+  .outcomes dl div { min-height: 210px; padding: 26px; border: 1px solid hsl(var(--border)); border-radius: 16px; background: hsl(var(--background)); }
+  .outcomes dl div:nth-child(2) { border-color: hsl(var(--primary) / .3); background: hsl(var(--primary) / .08); transform: translateY(14px) rotate(1.5deg); }
+  .outcomes dt { color: hsl(var(--primary)); font-size: clamp(2.2rem, 4vw, 3.7rem); font-weight: 600; letter-spacing: -.055em; line-height: 1.1; }
+  .outcomes dd { max-width: 260px; margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .92rem; line-height: 1.6; }
+  .ending { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-top: 42px; padding-bottom: 42px; }
+  .ending p { margin: 0; font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 600; letter-spacing: -.03em; }
+  .ending a { color: hsl(var(--primary)); font-size: .95rem; font-weight: 700; white-space: nowrap; }
+  .ending a span, .hero-footer a span { display: inline-block; transition: transform .25s ease; }
+  .ending a:hover span { transform: translate(3px, -3px); }
+  .hero-footer a:hover span { transform: translateY(4px); }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 800px) {
+    .hero-main { grid-template-columns: 1fr; gap: 28px; }
+    .hero-spark { right: 0; }
+    .intro-note { max-width: 650px; transform: none; animation-name: rise-in; }
+    .lede { max-width: 650px; }
+    .voice-inner { grid-template-columns: 1fr; gap: 0; }
+    .quote-mark { font-size: 5rem; }
+    .story-section { grid-template-columns: 1fr; gap: 24px; }
+  }
+  @media (max-width: 600px) {
+    .hero-spark { top: -12px; font-size: 3rem; }
+    .hero-footer { flex-wrap: wrap; }
+    .hero-footer a { width: 100%; margin: 8px 0 0; }
+    .shift { grid-template-columns: 1fr; gap: 22px; }
+    .shift-arrow { top: 50%; transform: translate(-50%, -50%) rotate(65deg); }
+    .outcomes-heading { align-items: flex-start; flex-direction: column; }
+    .outcomes dl { grid-template-columns: 1fr; gap: 36px; }
+    .outcomes dl div:nth-child(2) { transform: rotate(1deg); }
+    .ending { align-items: flex-start; flex-direction: column; }
+  }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .voice-inner, .story-section, .shift, .outcomes-heading, .outcomes dl { animation: scroll-in linear both; animation-timeline: view(); animation-range: entry 0% entry 28%; }
+      @keyframes scroll-in { from { opacity: .55; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-copy, .intro-note, .hero-footer, .hero-spark { animation: none; }
+    .hero-spark { transform: rotate(-15deg); }
+    .ending a span, .hero-footer a span { transition: none; }
+    .ending a:hover span, .hero-footer a:hover span { transform: none; }
   }
 </style>
