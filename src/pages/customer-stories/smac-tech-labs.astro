@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/customer-story.css";
+---
+
+<BaseLayout
+  title="SMAC Tech Labs customer story: support responses in about a second — Algorims"
+  description="SMAC Tech Labs cuts first-line support response from minutes to about a second with Claude. Delivered by Algorims, SMAC Support resolves 80% of tickets without human involvement."
+>
+  <article class="story">
+    <header class="hero container-x">
+      <div class="hero-top"><p class="eyebrow">Customer story <span aria-hidden="true">/</span> SMAC Tech Labs</p></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <p class="customer-name smac-name"><img src="/assets/case-studies/clients/smac-tech-labs-logo.webp" width="210" height="50" alt="SMAC Tech Labs" /></p>
+          <h1>First-line support. <em>From minutes to about a second with Claude.</em></h1>
+          <span class="hero-spark" aria-hidden="true">✳</span>
+        </div>
+        <div class="intro-note"><span>The shift ↘</span><p class="lede">SMAC Tech Labs Private Limited brings website, WhatsApp, and email support into one conversation record — with Claude handling routine questions and people ready to step in.</p></div>
+      </div>
+      <div class="hero-footer"><span>Delivered by Algorims</span><span>India</span><a href="#story">Read SMAC’s story <span aria-hidden="true">↓</span></a></div>
+    </header>
+
+    <section class="voice" aria-label="Customer perspective">
+      <div class="container-x voice-inner">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <figure>
+          <blockquote>The AI agent has genuinely saved us time and effort — it's taking care of more than 80% of our repetitive support tickets on its own.</blockquote>
+          <figcaption><strong>Pawan</strong><span>Project Manager, SMAC Tech Labs</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="story" class="story-section container-x" aria-labelledby="before-title">
+      <div class="section-label"><span>01</span><p>Before</p></div>
+      <div class="section-content"><h2 id="before-title">Repeat questions. Two engineers pulled away from their work.</h2><p>SMAC Tech Labs' first-line support was fully manual. Two engineers were pulled off their primary work every day, spending 1–3 hours combined answering support questions across the website, inbox, and WhatsApp — many of them repeat questions whose answers already existed in the company's own documentation.</p><p>Non-English-speaking customers waited longer than everyone else, and there was no unified record of a conversation across channels.</p></div>
+    </section>
+
+    <section class="shift container-x" aria-label="Before and after first-line support">
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/smac-before.png" width="1672" height="941" loading="lazy" alt="Website, WhatsApp, and email questions reach two engineers for manual replies, with a growing queue and delayed responses." /></div>
+        <figcaption><span>Before / Manual support</span><strong>5–10 min</strong><p>Engineers answered each ticket across three separate channels.</p></figcaption>
+      </figure>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/smac-after.png" width="1672" height="941" loading="lazy" alt="Website, WhatsApp, and email questions flow through Claude and SMAC’s published knowledge base to resolved replies or human handoff." /></div>
+        <figcaption><span>After / AI with human handoff</span><strong>~1 sec</strong><p>Claude answers from the knowledge base, with human help whenever needed.</p></figcaption>
+      </figure>
+    </section>
+
+    <section class="story-section container-x" aria-labelledby="change-title">
+      <div class="section-label"><span>02</span><p>What changed</p></div>
+      <div class="section-content"><h2 id="change-title">One support agent. A person when it matters.</h2><p>Algorims designed and deployed SMAC Support, a single-tenant AI support agent with Claude at its core, in production since August 2026.</p><p>Claude answers strictly from SMAC Tech Labs' own published knowledge base and hands off to a human the moment a visitor asks for one or its own confidence drops — across the web widget, WhatsApp, and email, folded into one conversation record.</p></div>
+    </section>
+
+    <section class="outcomes" aria-labelledby="outcomes-title"><div class="container-x">
+      <div class="outcomes-heading"><p class="eyebrow">At a glance</p><h2 id="outcomes-title">Faster support. Time back for engineering.</h2></div>
+      <dl>
+        <div><dt>~1 sec</dt><dd>Response time, down from 5–10 minutes per ticket</dd></div>
+        <div><dt>80%</dt><dd>Of tickets resolved with no human involvement</dd></div>
+        <div><dt>~2–3 hrs</dt><dd>Of engineering time given back to the team every day</dd></div>
+      </dl>
+    </div></section>
+  </article>
+</BaseLayout>
+
+<style>
+  .story .smac-name { padding: 12px 18px; border-color: hsl(var(--border)); background: #fff; }
+  .story .smac-name img { width: 210px; height: 50px; border-radius: 0; object-fit: contain; }
+</style>
