@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "Agentic AI · Finance · Document Processing",
-  "title": "From Manual Paperwork to AI-Powered Precision: How Syslatech Automated Document Processing with AWS",
-  "subtitle": "Algorims built a generative AI document-processing pipeline on Amazon Bedrock that cuts manual review to a fraction of Syslatech's finance workload — with a human always in the loop for anything the AI isn't confident about.",
+  "title": "How Syslatech automates finance documents with human oversight",
+  "subtitle": "A production pipeline on Amazon Bedrock processes about 77% of finance documents without human intervention, sends uncertain cases to reviewers, and records every decision.",
   "glyph": "receipt",
   "accent": "hsl(265 85% 58%)",
   "clientLogo": {

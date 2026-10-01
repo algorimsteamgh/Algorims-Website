@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "Agentic AI · Finance · Singapore SMB",
-  "title": "An AI-native finance document platform that takes invoices to ERP in minutes",
-  "subtitle": "A fully automated, compliance-ready finance automation platform built on AWS Bedrock and Claude — designed specifically for Singapore SMBs.",
+  "title": "AI finance document automation for Singapore businesses",
+  "subtitle": "A completed proof of concept extracts and validates finance documents, reconciles invoices, and exports approved data to ERP systems, with Singapore UEN and GST checks.",
   "glyph": "receipt",
   "accent": "hsl(265 85% 58%)",
   "meta": [

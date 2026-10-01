@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "DevOps & Platform · SaaS",
-  "title": "Engineering a production-ready CI/CD pipeline that ships secure, high-quality software automatically",
-  "subtitle": "From manual deployments to a fully automated, security-first delivery pipeline — built on GitHub Actions, Kubernetes, and AWS.",
+  "title": "Automated SaaS releases with built-in security checks",
+  "subtitle": "A GitHub Actions pipeline builds, scans, tests, and deploys SaaS applications to AWS EKS, replacing manual releases with automated quality gates and notifications at every stage.",
   "glyph": "git-branch",
   "accent": "hsl(265 85% 58%)",
   "meta": [

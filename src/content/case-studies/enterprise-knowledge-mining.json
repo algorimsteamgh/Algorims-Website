@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "Agentic AI · Enterprise Knowledge Management",
-  "title": "Building an enterprise knowledge mining assistant that answers questions — not just returns files",
-  "subtitle": "A permissions-aware, retrieval-augmented AI assistant on Amazon S3 Vectors and Amazon Nova — giving employees instant, cited answers from thousands of documents.",
+  "title": "An AI assistant for secure, cited answers from enterprise documents",
+  "subtitle": "In active deployment, this assistant uses Amazon S3 Vectors and Amazon Nova to answer questions from company documents, cite its sources, and respect each employee's access permissions.",
   "glyph": "brain-circuit",
   "accent": "hsl(265 85% 58%)",
   "meta": [

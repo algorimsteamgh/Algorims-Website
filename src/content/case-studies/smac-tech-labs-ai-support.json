@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "Agentic AI · Customer Support",
-  "title": "Built the AI-Powered Support Platform Running SMAC Tech Labs' Own Customer Service",
-  "subtitle": "Algorims designed and built SMAC Support — a Bedrock Claude-powered AI support platform that answers customer questions from SMAC Tech Labs' own knowledge base, with a seamless handoff to a human agent when it can't help.",
+  "title": "AI customer support with human handoff for SMAC Tech Labs",
+  "subtitle": "Algorims built SMAC Support on Amazon Bedrock and Claude to answer questions from the company's knowledge base and hand complex cases to agents with the conversation history intact.",
   "glyph": "message-circle",
   "accent": "hsl(265 85% 58%)",
   "clientLogo": {

@@ -5,8 +5,8 @@
   },
   "kind": "Case Study",
   "tag": "Agentic AI · Quick Service Restaurants",
-  "title": "Turning 490K+ transactions of dark data into real-time intelligence for a Singapore QSR chain",
-  "subtitle": "From manual labour reports to AI-powered conversational analytics — designed, built, and deployed in four weeks.",
+  "title": "Conversational workforce analytics for a Singapore restaurant chain",
+  "subtitle": "Algorims built an AWS platform that lets managers ask staffing questions in plain English. Delivered in four weeks, it analysed 490K+ transactions and uncovered a 46% productivity gap.",
   "glyph": "utensils-crossed",
   "accent": "hsl(265 85% 58%)",
   "meta": [
