@@ -99,8 +99,14 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
           <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
           <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
           <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
-          <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
-          <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
+          <details class="resources-dropdown">
+            <summary>Resources <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+            <div class="resources-menu">
+              <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
+              <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
+              <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
+            </div>
+          </details>
         </nav>
 
         <div class="hidden lg:flex items-center gap-2">
@@ -123,8 +129,14 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
         <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
         <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
         <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
-        <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
-        <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
+        <details class="resources-dropdown">
+          <summary>Resources <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+          <div class="resources-menu">
+            <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
+            <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
+            <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
+          </div>
+        </details>
       </nav>
       <a href="/contact" class="btn btn-outline btn-default mt-2 w-full">Talk to us</a>
     </div>
@@ -218,6 +230,22 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     mobileToggle.addEventListener("click", () => {
       const opened = mobileMenu.classList.toggle("hidden") === false;
       mobileToggle.setAttribute("aria-expanded", String(opened));
+    });
+  }
+  const resources = document.querySelector<HTMLDetailsElement>('nav[aria-label="Primary"] .resources-dropdown');
+  if (resources && matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    resources.addEventListener("mouseenter", () => { resources.open = true; });
+    resources.addEventListener("mouseleave", () => {
+      if (!resources.matches(":focus-within")) resources.open = false;
+    });
+    resources.addEventListener("focusout", (event) => {
+      if (!resources.matches(":hover") && !resources.contains(event.relatedTarget as Node | null)) resources.open = false;
+    });
+    resources.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        resources.open = false;
+        resources.querySelector("summary")?.focus();
+      }
     });
   }
   (window as Window & { lucide?: { createIcons(): void } }).lucide?.createIcons();

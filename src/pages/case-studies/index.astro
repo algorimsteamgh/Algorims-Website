@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import caseScenes from "../../data/caseScenes.json";
+import CaseStudyCard from "../../components/case-studies/CaseStudyCard.astro";
 
 const order = ["qsr-conversational-analytics", "ai-school-scheduler", "cicd-release-automation", "enterprise-knowledge-mining", "finance-document-automation", "syslatech-intelligent-document-processing", "smac-tech-labs-ai-support"];
 const studies = (await getCollection("case-studies")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
@@ -25,22 +25,7 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
   </section>
 
   <div id="selected-work" class="studies-grid container-x">
-    {studies.map((study, index) => {
-      const artwork = caseScenes[study.id as keyof typeof caseScenes];
-      return <article class="study-card">
-        <a class="study-card-link" href={`/case-studies/${study.id}`} aria-labelledby={`study-title-${study.id}`}>
-          <div class="study-artwork">
-            <img src={artwork.src} srcset={`${artwork.src.replace(".webp", "-600.webp")} 600w, ${artwork.src} 1200w`} sizes="(min-width: 1160px) 544px, (min-width: 761px) 50vw, 100vw" width="1200" height="675" alt={artwork.alt} loading={index === 0 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : undefined} />
-          </div>
-          <div class="study-copy">
-            <p class="studies-kicker">{study.data.tag}</p>
-            <h2 id={`study-title-${study.id}`}>{study.data.title}</h2>
-            <p class="study-description">{study.data.subtitle}</p>
-            <span class="study-link">Read case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
-          </div>
-        </a>
-      </article>;
-    })}
+    {studies.map((study, index) => <CaseStudyCard study={study} eager={index === 0} />)}
   </div>
 </BaseLayout>
 
@@ -57,21 +42,8 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
   .studies-stats dt { color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .studies-stats dd { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .85rem; }
   .studies-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 24px; max-width: 1160px; padding-block: 40px 88px; scroll-margin-top: 24px; }
-  .study-card { min-width: 0; }
-  .study-card-link { display: flex; flex-direction: column; height: 100%; border-radius: 12px; }
-  .study-artwork { overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 12px; background: hsl(var(--background)); transition: border-color .2s ease; }
-  .study-artwork img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; }
-  .study-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 26px 20px 0; }
-  .study-copy .studies-kicker { margin-bottom: 12px; font-size: .65rem; letter-spacing: .12em; }
-  .study-copy h2 { margin: 0; color: hsl(var(--foreground)); font-size: clamp(1.3rem, 1.65vw, 1.5rem); font-weight: 700; line-height: 1.3; letter-spacing: -.025em; }
-  .study-description { margin: 16px 0 24px; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.65; }
-  .study-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; margin-top: auto; color: hsl(var(--primary)); font-size: .95rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
-  .study-link svg { width: 20px; height: 20px; transition: transform .2s ease; }
-  .study-card-link:is(:hover, :focus-visible) .study-artwork { border-color: hsl(var(--primary) / .5); }
-  .study-card-link:is(:hover, :focus-visible) .study-link svg { transform: translateX(4px); }
   @media (max-width: 760px) {
     .studies-grid { grid-template-columns: 1fr; gap: 40px; padding-block: 32px 56px; }
-    .study-copy { padding: 22px 8px 0; }
   }
   @media (max-width: 600px) {
     .studies-hero { padding-top: 44px; }
@@ -79,9 +51,5 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
     .studies-actions { flex-direction: column; }
     .studies-stats { grid-template-columns: 1fr; margin-top: 32px; }
     .studies-stats div + div { border-top: 1px solid hsl(var(--border)); border-left: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .study-artwork, .study-link svg { transition: none; }
-    .study-card-link:is(:hover, :focus-visible) .study-link svg { transform: none; }
   }
 </style>

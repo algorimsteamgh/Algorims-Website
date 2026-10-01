@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from "astro:content";
+import caseScenes from "../../data/caseScenes.json";
+
+interface Props {
+  study: CollectionEntry<"case-studies">;
+  heading?: "h2" | "h3";
+  eager?: boolean;
+}
+const { study, heading: Heading = "h2", eager = false } = Astro.props;
+const artwork = caseScenes[study.id as keyof typeof caseScenes];
+---
+<article class="study-card">
+  <a class="study-card-link" href={`/case-studies/${study.id}`} aria-labelledby={`study-title-${study.id}`}>
+    <div class="study-artwork">
+      <img src={artwork.src} srcset={`${artwork.src.replace(".webp", "-600.webp")} 600w, ${artwork.src} 1200w`} sizes="(min-width: 1160px) 544px, (min-width: 761px) 50vw, 100vw" width="1200" height="675" alt={artwork.alt} loading={eager ? "eager" : "lazy"} fetchpriority={eager ? "high" : undefined} />
+    </div>
+    <div class="study-copy">
+      <p class="studies-kicker">{study.data.tag}</p>
+      <Heading class="study-title" id={`study-title-${study.id}`}>{study.data.title}</Heading>
+      <p class="study-description">{study.data.subtitle}</p>
+      <span class="study-link">Read case study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .study-card { min-width: 0; }
+  .study-card-link { display: flex; flex-direction: column; height: 100%; border-radius: 12px; }
+  .study-artwork { overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 12px; background: hsl(var(--background)); transition: border-color .2s ease; }
+  .study-artwork img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: contain; }
+  .study-copy { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 26px 20px 0; }
+  .studies-kicker { margin: 0 0 12px; color: hsl(var(--primary)); font-size: .65rem; font-weight: 700; letter-spacing: .12em; line-height: 1.4; text-transform: uppercase; }
+  .study-title { margin: 0; color: hsl(var(--foreground)); font-size: clamp(1.3rem, 1.65vw, 1.5rem); font-weight: 700; line-height: 1.3; letter-spacing: -.025em; }
+  .study-description { margin: 16px 0 24px; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.65; }
+  .study-link { display: inline-flex; min-height: 44px; align-items: center; gap: 10px; margin-top: auto; color: hsl(var(--primary)); font-size: .95rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+  .study-link svg { width: 20px; height: 20px; transition: transform .2s ease; }
+  .study-card-link:is(:hover, :focus-visible) .study-artwork { border-color: hsl(var(--primary) / .5); }
+  .study-card-link:is(:hover, :focus-visible) .study-link svg { transform: translateX(4px); }
+  @media (max-width: 760px) {
+    .study-copy { padding: 22px 8px 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .study-artwork, .study-link svg { transition: none; }
+    .study-card-link:is(:hover, :focus-visible) .study-link svg { transform: none; }
+  }
+</style>

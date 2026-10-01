@@ -1,0 +1,173 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const alliances = [
+  {
+    partner: "AWS Partner Network",
+    tier: "Advanced Tier Services",
+    title: "AWS Advanced Consulting Partner",
+    logo: "/assets/aws-partner-badge.webp",
+    alt: "AWS Partner — Advanced Tier Services",
+    body: "Certified, enterprise-grade expertise across AI, data, and cloud infrastructure—bringing architectural rigour, GenAI innovation, and proven AWS specialisations to every engagement.",
+    tags: ["Amazon Bedrock", "SageMaker", "Amazon EKS", "Well-Architected", "GenAI Competency"],
+    outcomes: [
+      { title: "Well-Architected Reviews", desc: "Security, resilience & performance benchmarks" },
+      { title: "GenAI Accelerators", desc: "Production foundation models on Amazon Bedrock" },
+      { title: "Migration & Modernisation", desc: "Zero-downtime containerised workload transitions" },
+      { title: "FinOps & Cost Governance", desc: "Cloud spend efficiency & architectural controls" },
+    ],
+  },
+  {
+    partner: "Xero Ecosystem",
+    tier: "Certified Solutions Partner",
+    title: "Xero Partner",
+    logo: "/assets/partners/xero-blue-partner-badge.svg",
+    alt: "Xero Solutions Partner",
+    body: "We simplify accounting, automate financial processes, and improve financial visibility—configuring Xero around your workflow instead of the other way around.",
+    tags: ["Invoicing & Payables", "Bank Reconciliation", "GST & IRAS Filing", "InvoiceNow Ready", "Custom Financial APIs"],
+    outcomes: [
+      { title: "Setup & Implementation", desc: "Tailored chart of accounts & workflow design" },
+      { title: "Data Migration", desc: "Clean ledger transfers with complete audit integrity" },
+      { title: "Automation & Integrations", desc: "Connected banking, ERP & real-time webhook sync" },
+      { title: "Training & SLA Support", desc: "Team enablement, compliance & ongoing operational care" },
+    ],
+  },
+];
+---
+<BaseLayout title="Partners — Algorims" description="Explore Algorims’ AWS and Xero partnerships, specialisations, and enterprise delivery capabilities.">
+  <section class="alliances" aria-labelledby="alliances-title">
+    <header>
+      <p class="kicker">Partners</p>
+      <h1 id="alliances-title">Specialist platforms. <span>Enterprise outcomes.</span></h1>
+      <p>Direct tier partnerships and certified specialisations that give our enterprise clients architectural assurance, accelerated delivery, and SLA-backed execution.</p>
+    </header>
+    <div class="alliances-list">
+      {alliances.map((a) => (
+        <article class="alliance-card">
+          <div class="alliance-bar">
+            <div class="alliance-meta">
+              <span class="status-indicator" aria-hidden="true"></span>
+              <span class="partner-tag">{a.partner}</span>
+              <span class="meta-separator" aria-hidden="true">/</span>
+              <span class="tier-tag">{a.tier}</span>
+            </div>
+          </div>
+
+          <div class="alliance-body">
+            <div class="alliance-profile">
+              <div class="alliance-brand">
+                <div class="badge-plinth">
+                  <img src={a.logo} alt={a.alt} width="110" height="110" loading="lazy" />
+                </div>
+                <div class="brand-copy">
+                  <h2>{a.title}</h2>
+                  <p>{a.body}</p>
+                </div>
+              </div>
+
+              <div class="alliance-specialisations">
+                <span class="spec-label">Verified Competencies</span>
+                <ul class="tag-list" aria-label={`Competencies for ${a.title}`}>
+                  {a.tags.map((tag) => (
+                    <li>
+                      <span class="tag-dot" aria-hidden="true"></span>
+                      <span>{tag}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div class="alliance-outcomes">
+              <div class="outcomes-header">
+                <span class="outcomes-kicker">Delivered Capabilities</span>
+                <span class="outcomes-caption">Production Deliverables</span>
+              </div>
+              <div class="outcomes-grid">
+                {a.outcomes.map((o) => (
+                  <div class="outcome-cell">
+                    <div class="outcome-icon" aria-hidden="true">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </div>
+                    <div class="outcome-text">
+                      <h3>{o.title}</h3>
+                      <p>{o.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .alliances { padding: 46px clamp(24px, 5vw, 74px) 90px; }
+  .alliances > header { max-width: 1050px; margin: 0 auto 48px; text-align: center; }
+  .kicker { margin: 0 0 18px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  h1 { margin: 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; text-wrap: balance; }
+  h1 span { color: hsl(var(--primary)); }
+  header > p:last-child { max-width: 720px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
+  .alliance-card { overflow: hidden; border-radius: 1.5rem; }
+  .alliances-list{display:flex;flex-direction:column;gap:32px}
+  .alliance-card{position:relative;border:1px solid hsl(var(--border));background:hsl(var(--background));transition:border-color .25s ease,box-shadow .25s ease}
+  .alliance-card:hover{border-color:hsl(var(--primary)/.5);box-shadow:0 14px 36px -12px hsl(var(--primary)/.08)}
+  .alliance-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 28px;border-bottom:1px solid hsl(var(--border));background:hsl(var(--muted)/.35)}
+  .alliance-meta{display:flex;align-items:center;gap:10px;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+  .status-indicator{width:7px;height:7px;border-radius:50%;background:hsl(var(--primary));box-shadow:0 0 8px hsl(var(--primary)/.6)}
+  .partner-tag{color:hsl(var(--foreground))}
+  .meta-separator{color:hsl(var(--border))}
+  .tier-tag{color:hsl(var(--primary))}
+  .alliance-body{display:grid;grid-template-columns:1.15fr .85fr;min-height:0}
+  .alliance-profile{display:flex;flex-direction:column;justify-content:space-between;gap:28px;padding:clamp(28px,3.5vw,42px);border-right:1px solid hsl(var(--border))}
+  .alliance-brand{display:flex;gap:26px;align-items:flex-start}
+  .badge-plinth{flex-shrink:0;display:grid;place-items:center;width:108px;height:108px;padding:12px;background:#fff;border:1px solid hsl(var(--border));border-radius:12px;box-shadow:0 4px 16px -4px rgba(0,0,0,.06)}
+  .badge-plinth img{width:100%;height:100%;object-fit:contain}
+  :global(.dark) .badge-plinth{background:#fff;border:1px solid hsl(var(--border)/.8);box-shadow:0 6px 24px -4px rgba(0,0,0,.5)}
+  .brand-copy h2{margin:0 0 10px;font-size:clamp(1.35rem,1.8vw,1.65rem);font-weight:600;letter-spacing:-.03em;line-height:1.2;color:hsl(var(--foreground))}
+  .brand-copy p{margin:0;color:hsl(var(--muted-foreground));font-size:.94rem;line-height:1.6}
+  .alliance-specialisations{padding-top:20px;border-top:1px solid hsl(var(--border)/.6)}
+  .spec-label{display:block;margin-bottom:12px;color:hsl(var(--primary));font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
+  .tag-list{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
+  .tag-list li{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid hsl(var(--border));border-radius:6px;background:hsl(var(--muted)/.45);font-size:.78rem;font-weight:500;color:hsl(var(--foreground));transition:border-color .2s ease,background .2s ease}
+  .tag-list li:hover{border-color:hsl(var(--primary));background:hsl(var(--primary)/.08)}
+  .tag-dot{width:4px;height:4px;border-radius:1px;background:hsl(var(--primary))}
+  .alliance-outcomes{display:flex;flex-direction:column}
+  .outcomes-header{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid hsl(var(--border));background:hsl(var(--muted)/.25)}
+  .outcomes-kicker{color:hsl(var(--primary));font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+  .outcomes-caption{color:hsl(var(--muted-foreground));font-size:.75rem}
+  .outcomes-grid{display:grid;grid-template-columns:1fr 1fr;height:100%}
+  .outcome-cell{display:flex;flex-direction:column;gap:6px;padding:24px 22px;transition:background .2s ease}
+  .outcome-cell:hover{background:hsl(var(--muted)/.35)}
+  .outcome-cell:nth-child(odd){border-right:1px solid hsl(var(--border))}
+  .outcome-cell:nth-child(-n+2){border-bottom:1px solid hsl(var(--border))}
+  .outcome-icon{display:grid;place-items:center;width:24px;height:24px;margin-bottom:4px;border-radius:5px;background:hsl(var(--primary)/.12);color:hsl(var(--primary))}
+  .outcome-text h3{margin:0;font-size:.95rem;font-weight:600;line-height:1.25;color:hsl(var(--foreground))}
+  .outcome-text p{margin:4px 0 0;font-size:.8rem;line-height:1.45;color:hsl(var(--muted-foreground))}
+  @media(max-width:850px) {
+    .alliance-body { grid-template-columns: 1fr; }
+    .alliance-profile { border-right: 0; border-bottom: 1px solid hsl(var(--border)); }
+  }
+  @media(max-width:600px) {
+    .alliances { padding: 44px 20px 62px; }
+    h1 { font-size: 2.4rem; }
+    .alliance-bar { flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 18px; }
+    .alliance-meta { flex-wrap: wrap; }
+    .alliance-brand { flex-direction: column; gap: 18px; }
+    .badge-plinth { width: 92px; height: 92px; padding: 10px; }
+    .alliance-profile { padding: 24px 18px; gap: 22px; }
+    .outcomes-header { padding: 14px 18px; flex-direction: column; align-items: flex-start; gap: 4px; }
+    .outcomes-grid { grid-template-columns: 1fr; }
+    .outcome-cell { padding: 18px; }
+    .outcome-cell:nth-child(odd) { border-right: 0; }
+    .outcome-cell:not(:last-child) { border-bottom: 1px solid hsl(var(--border)); }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .alliance-card, .tag-list li, .outcome-cell { transition: none; }
+  }
+</style>
