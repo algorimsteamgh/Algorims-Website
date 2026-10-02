@@ -34,7 +34,7 @@ const alliances = [
   },
 ];
 ---
-<BaseLayout title="Partners — Algorims" description="Explore Algorims’ AWS and Xero partnerships, specialisations, and enterprise delivery capabilities.">
+<BaseLayout title="Partners — Algorims" description="Explore Algorims’ Certified status in the Claude Partner Network, AWS and Xero partnerships, and enterprise delivery capabilities.">
   <section class="alliances" aria-labelledby="alliances-title">
     <header>
       <p class="kicker">Partners</p>
@@ -42,6 +42,31 @@ const alliances = [
       <p>Direct tier partnerships and certified specialisations that give our enterprise clients architectural assurance, accelerated delivery, and SLA-backed execution.</p>
     </header>
     <div class="alliances-list">
+      <article class="alliance-card claude-alliance" aria-labelledby="claude-partner-title">
+        <div class="alliance-bar">
+          <div class="alliance-meta">
+            <span class="status-indicator" aria-hidden="true"></span>
+            <span class="partner-tag">Claude Partner Network</span>
+            <span class="meta-separator" aria-hidden="true">/</span>
+            <span class="tier-tag">Certified Services Partner</span>
+          </div>
+        </div>
+        <div class="alliance-body">
+          <div class="alliance-profile">
+            <img class="claude-badge" src="/assets/partners/claude-certified-services-partner.webp" alt="Certified Services Partner — Claude Partner Network" width="600" height="190" />
+            <div class="brand-copy">
+              <h2 id="claude-partner-title">Claude Partner Network</h2>
+              <p>Algorims is Certified in the Claude Partner Network.</p>
+              <p>Our people hold Claude certifications, and we are building from here.</p>
+            </div>
+          </div>
+          <div class="claude-program">
+            <h3>About the program</h3>
+            <p>The Claude Partner Network is how Anthropic works with the firms that put Claude into production for customers. The Services Track recognizes partners for building a certified delivery team, delivering Claude use cases for clients, and proving the work through public customer references. Partners advance through Certified, Select, Preferred, and Global Premier tiers.</p>
+            <a href="https://claude.com/partners">Learn more about the Claude Partner Network <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </article>
       {alliances.map((a) => (
         <article class="alliance-card">
           <div class="alliance-bar">
@@ -131,6 +156,12 @@ const alliances = [
   :global(.dark) .badge-plinth{background:#fff;border:1px solid hsl(var(--border)/.8);box-shadow:0 6px 24px -4px rgba(0,0,0,.5)}
   .brand-copy h2{margin:0 0 10px;font-size:clamp(1.35rem,1.8vw,1.65rem);font-weight:600;letter-spacing:-.03em;line-height:1.2;color:hsl(var(--foreground))}
   .brand-copy p{margin:0;color:hsl(var(--muted-foreground));font-size:.94rem;line-height:1.6}
+  .claude-badge{display:block;width:100%;max-width:360px;height:auto}
+  .claude-alliance .brand-copy p + p{margin-top:10px}
+  .claude-program{padding:clamp(28px,3.5vw,42px)}
+  .claude-program h3{margin:0 0 14px;font-size:1.05rem;font-weight:600;color:hsl(var(--foreground))}
+  .claude-program p{margin:0 0 20px;color:hsl(var(--muted-foreground));font-size:.94rem;line-height:1.65}
+  .claude-program a{color:hsl(var(--primary));font-size:.9rem;font-weight:600;text-decoration:underline;text-underline-offset:4px}
   .alliance-specialisations{padding-top:20px;border-top:1px solid hsl(var(--border)/.6)}
   .spec-label{display:block;margin-bottom:12px;color:hsl(var(--primary));font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase}
   .tag-list{display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0;list-style:none}
@@ -161,6 +192,7 @@ const alliances = [
     .alliance-brand { flex-direction: column; gap: 18px; }
     .badge-plinth { width: 92px; height: 92px; padding: 10px; }
     .alliance-profile { padding: 24px 18px; gap: 22px; }
+    .claude-program { padding: 24px 18px; }
     .outcomes-header { padding: 14px 18px; flex-direction: column; align-items: flex-start; gap: 4px; }
     .outcomes-grid { grid-template-columns: 1fr; }
     .outcome-cell { padding: 18px; }
