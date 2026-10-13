@@ -75,7 +75,7 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
         </svg>
         <span class="globe-tooltip" role="tooltip" id={`office-tooltip-${office.id}`}>
           <span class="globe-tooltip-name">{office.city}</span>
-          <span class="globe-tooltip-meta">{office.country} · {office.role === "hq" ? "Headquarters" : "Office"}</span>
+          <span class="sr-only">{office.country} · {office.role === "hq" ? "Headquarters" : "Office"}</span>
         </span>
       </button>
     );
@@ -124,13 +124,17 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
   .globe-pin { position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; fill: var(--sphere-fill); stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
   .globe-anchor:is(:hover, :focus, .is-active) { z-index: 2; }
   .globe-anchor:focus-visible { outline: 2px solid var(--violet-core); outline-offset: 2px; }
-  .globe-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); display: grid; gap: 4px; width: 170px; padding: 12px 14px; border: 1px solid var(--grid-stroke); border-top: 2px solid var(--violet-core); border-radius: 12px; background: var(--sphere-fill); text-align: left; pointer-events: none; opacity: 0; visibility: hidden; }
-  .globe-tooltip-name { color: hsl(var(--foreground)); font-size: .875rem; font-weight: 600; }
-  .globe-tooltip-meta { color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
+  .globe-tooltip { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 7px; width: max-content; padding: 7px 12px; border-radius: 999px; background: hsl(var(--foreground)); color: hsl(var(--background)); white-space: nowrap; pointer-events: none; opacity: 0; visibility: hidden; }
+  .globe-tooltip::before { content: ""; width: 5px; height: 5px; flex: none; border-radius: 50%; background: var(--violet-core); }
+  .globe-tooltip::after { content: ""; position: absolute; bottom: -3px; left: 50%; width: 8px; height: 8px; transform: translateX(-50%) rotate(45deg); background: hsl(var(--foreground)); }
+  .globe-tooltip-name { position: relative; z-index: 1; font-size: .8125rem; line-height: 1.4; font-weight: 500; }
   .globe-anchor:is(:hover, :focus, .is-active):not(.is-dismissed) .globe-tooltip { opacity: 1; visibility: visible; pointer-events: auto; }
   .globe-anchor.is-left .globe-tooltip { left: 0; transform: none; }
   .globe-anchor.is-right .globe-tooltip { left: auto; right: 0; transform: none; }
-  .globe-anchor.is-top .globe-tooltip { top: calc(100% + 6px); bottom: auto; }
+  .globe-anchor.is-left .globe-tooltip::after { left: 22px; }
+  .globe-anchor.is-right .globe-tooltip::after { left: auto; right: 14px; }
+  .globe-anchor.is-top .globe-tooltip { top: calc(100% + 4px); bottom: auto; }
+  .globe-anchor.is-top .globe-tooltip::after { top: -3px; bottom: auto; }
   .globe-anchor.is-hidden, .globe-pulse.is-hidden { display: none; }
 
   /* Highlight: dim everything except the active branch (HQ always stays). */
