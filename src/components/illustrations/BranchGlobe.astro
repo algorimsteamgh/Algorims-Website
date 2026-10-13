@@ -27,7 +27,7 @@ const globeOffices: GlobeOffice[] = offices.map(({ id, role, lon, lat }) => ({ i
 const frame = renderFrame(STATIC_ROTATION, dots, globeOffices);
 const hq = offices.find((office) => office.role === "hq")!;
 const branchNames = offices.filter((office) => office.role === "branch").map((office) => `${office.city}, ${office.country}`);
-const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headquarters to branches in ${branchNames.join(", ").replace(/, ([^,]*, [^,]*)$/, " and $1")}.`;
+const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headquarters to offices in ${branchNames.join(", ").replace(/, ([^,]*, [^,]*)$/, " and $1")}.`;
 ---
 
 <div class="branch-globe" data-branch-globe data-dots={JSON.stringify(dots)} data-offices={JSON.stringify(globeOffices)}>
@@ -57,19 +57,29 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
     <g class="globe-pulses" aria-hidden="true">
       {frame.arcs.map((arc) => <rect class="globe-pulse" data-office={arc.id} x="-2.5" y="-2.5" width="5" height="5" />)}
     </g>
-    <g class="globe-anchors">
-      {frame.anchors.map((anchor) => (
-        <g
-          class:list={["globe-anchor", anchor.role === "hq" && "is-hq", !anchor.visible && "is-hidden"]}
-          data-office={anchor.id}
-          transform={`translate(${anchor.x} ${anchor.y})`}
-        >
-          {anchor.role === "hq" && <circle class="globe-hq-ring" r="11" />}
-          <rect x={anchor.role === "hq" ? -4.5 : -3.5} y={anchor.role === "hq" ? -4.5 : -3.5} width={anchor.role === "hq" ? 9 : 7} height={anchor.role === "hq" ? 9 : 7} />
-        </g>
-      ))}
-    </g>
   </svg>
+  {frame.anchors.map((anchor) => {
+    const office = offices.find((office) => office.id === anchor.id)!;
+    return (
+      <button
+        type="button"
+        class:list={["globe-anchor", anchor.role === "hq" && "is-hq", !anchor.visible && "is-hidden", anchor.x < SIZE / 3 && "is-left", anchor.x > SIZE * 2 / 3 && "is-right", anchor.y < SIZE * .3 && "is-top"]}
+        data-office={anchor.id}
+        style={`left: ${anchor.x / SIZE * 100}%; top: ${anchor.y / SIZE * 100}%;`}
+        aria-label={`${office.city} office details`}
+        aria-describedby={`office-tooltip-${office.id}`}
+      >
+        <svg class="globe-pin" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span class="globe-tooltip" role="tooltip" id={`office-tooltip-${office.id}`}>
+          <span class="globe-tooltip-name">{office.city}</span>
+          <span class="globe-tooltip-meta">{office.country} · {office.role === "hq" ? "Headquarters" : "Office"}</span>
+        </span>
+      </button>
+    );
+  })}
   <button type="button" class="globe-toggle" aria-pressed="false" aria-label="Pause globe rotation">
     <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9M11 3.5v9" /></svg>
     <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5l7 4.5-7 4.5z" /></svg>
@@ -109,10 +119,18 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
   .globe-dots { stroke: var(--dot-fill); stroke-width: 2.4; stroke-linecap: round; opacity: 0.42; }
   .globe-arc { stroke: var(--violet-core); stroke-width: 1.5; stroke-linecap: round; opacity: 0.85; transition: opacity 0.25s, stroke-width 0.25s; }
   .globe-pulse { fill: var(--violet-core); display: none; }
-  .globe-anchor rect { fill: var(--anchor-fill); }
-  .globe-anchor.is-hq rect { fill: var(--violet-core); }
-  .globe-hq-ring { stroke: var(--violet-core); stroke-width: 1; opacity: 0.6; }
-  .globe-anchor { transition: opacity 0.25s; }
+  .globe-anchor { position: absolute; width: 44px; height: 44px; transform: translate(-50%, -100%); border: 0; padding: 0; background: none; color: var(--anchor-fill); cursor: pointer; transition: opacity .25s; border-radius: 50%; }
+  .globe-anchor.is-hq { color: var(--violet-core); }
+  .globe-pin { position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; fill: var(--sphere-fill); stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .globe-anchor:is(:hover, :focus, .is-active) { z-index: 2; }
+  .globe-anchor:focus-visible { outline: 2px solid var(--violet-core); outline-offset: 2px; }
+  .globe-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); display: grid; gap: 4px; width: 170px; padding: 12px 14px; border: 1px solid var(--grid-stroke); border-top: 2px solid var(--violet-core); border-radius: 12px; background: var(--sphere-fill); text-align: left; pointer-events: none; opacity: 0; visibility: hidden; }
+  .globe-tooltip-name { color: hsl(var(--foreground)); font-size: .875rem; font-weight: 600; }
+  .globe-tooltip-meta { color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
+  .globe-anchor:is(:hover, :focus, .is-active):not(.is-dismissed) .globe-tooltip { opacity: 1; visibility: visible; pointer-events: auto; }
+  .globe-anchor.is-left .globe-tooltip { left: 0; transform: none; }
+  .globe-anchor.is-right .globe-tooltip { left: auto; right: 0; transform: none; }
+  .globe-anchor.is-top .globe-tooltip { top: calc(100% + 6px); bottom: auto; }
   .globe-anchor.is-hidden, .globe-pulse.is-hidden { display: none; }
 
   /* Highlight: dim everything except the active branch (HQ always stays). */
@@ -139,7 +157,7 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
 </style>
 
 <script>
-  import { STATIC_ROTATION, SPIN_TILT, arcPoint, focusRotation, renderFrame, type GlobeOffice, type LonLat } from "./branchGlobe";
+  import { SIZE, STATIC_ROTATION, SPIN_TILT, arcPoint, focusRotation, renderFrame, type GlobeOffice, type LonLat } from "./branchGlobe";
 
   const SPIN_SPEED = 6; // degrees per second
   const PULSE_PERIOD = 3200; // ms for a pulse to travel HQ -> branch
@@ -153,7 +171,7 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
     const dotLayer = svg.querySelector<SVGPathElement>('[data-layer="dots"]')!;
     const arcs = new Map([...svg.querySelectorAll<SVGPathElement>(".globe-arc")].map((el) => [el.dataset.office!, el]));
     const pulses = new Map([...svg.querySelectorAll<SVGRectElement>(".globe-pulse")].map((el) => [el.dataset.office!, el]));
-    const anchors = new Map([...svg.querySelectorAll<SVGGElement>(".globe-anchor")].map((el) => [el.dataset.office!, el]));
+    const anchors = new Map([...root.querySelectorAll<HTMLButtonElement>(".globe-anchor")].map((el) => [el.dataset.office!, el]));
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const compact = window.matchMedia("(max-width: 699px)");
@@ -175,8 +193,13 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
       frame.arcs.forEach(({ id, d }) => arcs.get(id)?.setAttribute("d", d));
       frame.anchors.forEach(({ id, x, y, visible }) => {
         const el = anchors.get(id);
-        el?.setAttribute("transform", `translate(${x} ${y})`);
-        el?.classList.toggle("is-hidden", !visible);
+        if (!el) return;
+        el.style.left = `${x / SIZE * 100}%`;
+        el.style.top = `${y / SIZE * 100}%`;
+        el.classList.toggle("is-left", x < SIZE / 3);
+        el.classList.toggle("is-right", x > SIZE * 2 / 3);
+        el.classList.toggle("is-top", y < SIZE * .3);
+        el.classList.toggle("is-hidden", !visible);
       });
       offices.forEach((office) => {
         const pulse = pulses.get(office.id);
@@ -198,8 +221,8 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
         const [lon, lat] = focusRotation(offices, active);
         const ease = 1 - Math.exp(-dt * 4);
         rotation = [rotation[0] + delta(rotation[0], lon) * ease, rotation[1] + (lat - rotation[1]) * ease];
-      } else {
-        rotation = [rotation[0] + (hovering ? 0 : SPIN_SPEED * dt), rotation[1] + (SPIN_TILT - rotation[1]) * Math.min(dt * 1.5, 1)];
+      } else if (!hovering) {
+        rotation = [rotation[0] + SPIN_SPEED * dt, rotation[1] + (SPIN_TILT - rotation[1]) * Math.min(dt * 1.5, 1)];
       }
       draw(time);
       frameId = requestAnimationFrame(tick);
@@ -220,8 +243,9 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
 
     function setActive(id: string | null) {
       active = id;
+      if (id) anchors.get(id)?.classList.remove("is-dismissed");
       root.classList.toggle("has-active", Boolean(id));
-      for (const map of [arcs, pulses, anchors]) map.forEach((el, key) => el.classList.toggle("is-active", key === id));
+      for (const map of [arcs, pulses, anchors]) map.forEach((el: Element, key: string) => el.classList.toggle("is-active", key === id));
       if (!frameId) {
         // Not animating (reduced motion, paused, off-screen): jump straight to the office, or back to the overview.
         rotation = id ? focusRotation(offices, id) : [...STATIC_ROTATION];
@@ -230,6 +254,16 @@ const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headq
     }
 
     root.addEventListener("globe:highlight", (event) => setActive((event as CustomEvent<string | null>).detail));
+    anchors.forEach((pin) => {
+      const reveal = () => pin.classList.remove("is-dismissed");
+      pin.addEventListener("pointerenter", reveal);
+      pin.addEventListener("focus", reveal);
+      pin.addEventListener("click", () => { reveal(); pin.focus(); });
+    });
+    hoverZone.addEventListener("keydown", (event) => {
+      if ((event as KeyboardEvent).key !== "Escape") return;
+      anchors.forEach((pin) => pin.classList.add("is-dismissed"));
+    });
     hoverZone.addEventListener("pointerenter", () => (hovering = true));
     hoverZone.addEventListener("pointerleave", () => (hovering = false));
     hoverZone.addEventListener("focusin", () => (hovering = true));

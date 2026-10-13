@@ -114,10 +114,13 @@ import { offices } from "../data/offices";
         {offices.map((office) => (
           <li>
             <button type="button" class="presence-office" data-office={office.id}>
-              <span class="presence-marker" class:list={[office.role === "hq" && "is-hq"]} aria-hidden="true"></span>
+              <svg class="presence-marker" class:list={[office.role === "hq" && "is-hq"]} viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
               <span>
                 <span class="contact-place">{office.city}</span>
-                <span class="presence-meta">{office.country} · {office.role === "hq" ? "Headquarters" : "Branch"}</span>
+                <span class="presence-meta">{office.country} · {office.role === "hq" ? "Headquarters" : "Office"}</span>
                 <span class="contact-address">{office.lines.join(", ")}</span>
                 <span class="sr-only">Show on globe</span>
               </span>
@@ -182,8 +185,8 @@ import { offices } from "../data/offices";
   .presence-office > span:last-child { display: grid; gap: 2px; }
   .presence-office:hover .contact-place, .presence-office:focus-visible .contact-place { color: hsl(var(--primary)); }
   .presence-office:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; border-radius: .5rem; }
-  .presence-marker { flex: none; width: 7px; height: 7px; background: hsl(var(--foreground)); }
-  .presence-marker.is-hq { width: 9px; height: 9px; background: hsl(var(--primary)); }
+  .presence-marker { flex: none; width: 20px; height: 20px; fill: none; stroke: hsl(var(--foreground)); stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .presence-marker.is-hq { stroke: hsl(var(--primary)); }
   .presence-meta { color: hsl(var(--muted-foreground)); font-size: .85rem; }
   @media (max-width: 1023px) {
     .presence-grid { grid-template-columns: 1fr; }
