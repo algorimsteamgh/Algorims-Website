@@ -1,6 +1,12 @@
 // Shared geometry for BranchGlobe.astro: used at build time for the static SVG
-// and in the browser for rotation. Only depends on d3-geo.
+// and in the browser for rotation.
 import { geoGraticule, geoInterpolate, geoDistance, geoOrthographic, geoPath, geoRotation } from "d3-geo";
+import { feature } from "topojson-client";
+import type { Topology, GeometryObject } from "topojson-specification";
+import land110m from "world-atlas/land-110m.json" with { type: "json" };
+
+const topology = land110m as unknown as Topology<{ land: GeometryObject }>;
+export const land = feature(topology, topology.objects.land);
 
 export const SIZE = 560;
 export const CENTER = SIZE / 2;
@@ -22,6 +28,7 @@ export interface GlobeOffice {
 }
 
 export interface GlobeFrame {
+  land: string;
   graticule: string;
   dots: string;
   arcs: { id: string; d: string }[];
@@ -90,6 +97,7 @@ export function renderFrame(
   const origin: LonLat = [hq.lon, hq.lat];
 
   return {
+    land: geoPath(projection)(land) ?? "",
     graticule: graticule ? (geoPath(projection)(graticuleLines) ?? "") : "",
     dots: dotPath,
     arcs: offices
