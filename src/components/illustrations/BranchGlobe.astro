@@ -1,0 +1,264 @@
+---
+// src/components/illustrations/BranchGlobe.astro
+// Orthographic globe with arcs from Singapore HQ to each branch.
+// Static SVG at build time; the client script adds slow rotation (skipped under reduced motion).
+import { geoContains } from "d3-geo";
+import { feature } from "topojson-client";
+import type { Topology, GeometryObject } from "topojson-specification";
+import land110m from "world-atlas/land-110m.json";
+import { offices } from "../../data/offices";
+import { SIZE, STATIC_ROTATION, renderFrame, type LonLat, type GlobeOffice } from "./branchGlobe";
+
+const topology = land110m as unknown as Topology<{ land: GeometryObject }>;
+const land = feature(topology, topology.objects.land);
+
+// Roughly equal-area dot grid: 3° rows, longitude step widened toward the poles. Antarctica skipped.
+const STEP = 3;
+const dots: LonLat[] = [];
+for (let lat = -58.5; lat < 84; lat += STEP) {
+  const lonStep = STEP / Math.max(Math.cos((lat * Math.PI) / 180), 0.2);
+  for (let lon = -180 + lonStep / 2; lon < 180; lon += lonStep) {
+    const point: LonLat = [Math.round(lon * 10) / 10, lat];
+    if (geoContains(land, point)) dots.push(point);
+  }
+}
+
+const globeOffices: GlobeOffice[] = offices.map(({ id, role, lon, lat }) => ({ id, role, lon, lat }));
+const frame = renderFrame(STATIC_ROTATION, dots, globeOffices);
+const hq = offices.find((office) => office.role === "hq")!;
+const branchNames = offices.filter((office) => office.role === "branch").map((office) => `${office.city}, ${office.country}`);
+const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headquarters to branches in ${branchNames.join(", ").replace(/, ([^,]*, [^,]*)$/, " and $1")}.`;
+---
+
+<div class="branch-globe" data-branch-globe data-dots={JSON.stringify(dots)} data-offices={JSON.stringify(globeOffices)}>
+  <svg class="branch-globe-svg" viewBox={`0 0 ${SIZE} ${SIZE}`} fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label={label}>
+    <defs>
+      <pattern id="branch-globe-grid" width="40" height="23" patternUnits="userSpaceOnUse">
+        <path d="M 0 23 L 40 0 M 0 0 L 40 23" stroke="var(--canvas-grid)" stroke-width="0.75" />
+      </pattern>
+    </defs>
+
+    <rect width={SIZE} height={SIZE} fill="url(#branch-globe-grid)" opacity="0.6" />
+    <g stroke="var(--crosshair)" stroke-width="1">
+      <path d="M 24 18 V 30 M 18 24 H 30" />
+      <path d={`M ${SIZE - 24} 18 V 30 M ${SIZE - 30} 24 H ${SIZE - 18}`} />
+      <path d={`M 24 ${SIZE - 30} V ${SIZE - 18} M 18 ${SIZE - 24} H 30`} />
+      <path d={`M ${SIZE - 24} ${SIZE - 30} V ${SIZE - 18} M ${SIZE - 30} ${SIZE - 24} H ${SIZE - 18}`} />
+    </g>
+
+    <circle class="globe-sphere" cx={SIZE / 2} cy={SIZE / 2} r="228" />
+    <path class="globe-graticule" data-layer="graticule" d={frame.graticule} />
+    <path class="globe-dots" data-layer="dots" d={frame.dots} />
+    <circle class="globe-outline" cx={SIZE / 2} cy={SIZE / 2} r="228" />
+
+    <g class="globe-arcs">
+      {frame.arcs.map((arc) => <path class="globe-arc" data-office={arc.id} d={arc.d} />)}
+    </g>
+    <g class="globe-pulses" aria-hidden="true">
+      {frame.arcs.map((arc) => <rect class="globe-pulse" data-office={arc.id} x="-2.5" y="-2.5" width="5" height="5" />)}
+    </g>
+    <g class="globe-anchors">
+      {frame.anchors.map((anchor) => (
+        <g
+          class:list={["globe-anchor", anchor.role === "hq" && "is-hq", !anchor.visible && "is-hidden"]}
+          data-office={anchor.id}
+          transform={`translate(${anchor.x} ${anchor.y})`}
+        >
+          {anchor.role === "hq" && <circle class="globe-hq-ring" r="11" />}
+          <rect x={anchor.role === "hq" ? -4.5 : -3.5} y={anchor.role === "hq" ? -4.5 : -3.5} width={anchor.role === "hq" ? 9 : 7} height={anchor.role === "hq" ? 9 : 7} />
+        </g>
+      ))}
+    </g>
+  </svg>
+  <button type="button" class="globe-toggle" aria-pressed="false" aria-label="Pause globe rotation">
+    <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9M11 3.5v9" /></svg>
+    <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5l7 4.5-7 4.5z" /></svg>
+  </button>
+</div>
+
+<style>
+  .branch-globe {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    margin-inline: auto;
+
+    --canvas-grid: #E8E9EC;
+    --crosshair: #B0B5C0;
+    --sphere-fill: #FFFFFF;
+    --wire-stroke: #4F535C;
+    --grid-stroke: #C9CBD1;
+    --dot-fill: #4F535C;
+    --anchor-fill: #22252B;
+    --violet-core: #6D30CB;
+  }
+  :global(.dark) .branch-globe {
+    --canvas-grid: #1D232D;
+    --crosshair: #3B4454;
+    --sphere-fill: #12161D;
+    --wire-stroke: #727D8F;
+    --grid-stroke: #2B3240;
+    --dot-fill: #9EA6B5;
+    --anchor-fill: #E6E8EE;
+    --violet-core: #AF7AFF;
+  }
+  .branch-globe-svg { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+  .globe-sphere { fill: var(--sphere-fill); }
+  .globe-outline { stroke: var(--wire-stroke); stroke-width: 1.25; }
+  .globe-graticule { stroke: var(--grid-stroke); stroke-width: 0.5; }
+  .globe-dots { stroke: var(--dot-fill); stroke-width: 2.4; stroke-linecap: round; opacity: 0.42; }
+  .globe-arc { stroke: var(--violet-core); stroke-width: 1.5; stroke-linecap: round; opacity: 0.85; transition: opacity 0.25s, stroke-width 0.25s; }
+  .globe-pulse { fill: var(--violet-core); display: none; }
+  .globe-anchor rect { fill: var(--anchor-fill); }
+  .globe-anchor.is-hq rect { fill: var(--violet-core); }
+  .globe-hq-ring { stroke: var(--violet-core); stroke-width: 1; opacity: 0.6; }
+  .globe-anchor { transition: opacity 0.25s; }
+  .globe-anchor.is-hidden, .globe-pulse.is-hidden { display: none; }
+
+  /* Highlight: dim everything except the active branch (HQ always stays). */
+  .branch-globe.has-active .globe-arc:not(.is-active) { opacity: 0.18; }
+  .branch-globe.has-active .globe-arc.is-active { stroke-width: 2.25; opacity: 1; }
+  .branch-globe.has-active .globe-anchor:not(.is-active, .is-hq) { opacity: 0.3; }
+  .branch-globe.has-active .globe-pulse:not(.is-active) { opacity: 0.2; }
+
+  .branch-globe.is-live .globe-pulse { display: block; }
+  .branch-globe.is-live .globe-pulse.is-hidden { display: none; }
+
+  /* WCAG 2.2.2: explicit pause for the auto-rotation. Only shown when motion is allowed. */
+  .globe-toggle { position: absolute; right: 0; bottom: 0; display: none; place-items: center; width: 36px; height: 36px; color: var(--wire-stroke); background: var(--sphere-fill); border: 1px solid var(--grid-stroke); border-radius: 999px; cursor: pointer; }
+  .branch-globe.can-animate .globe-toggle { display: grid; }
+  .globe-toggle:hover { color: var(--violet-core); border-color: var(--violet-core); }
+  .globe-toggle:focus-visible { outline: 2px solid var(--violet-core); outline-offset: 2px; }
+  .globe-toggle svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+  .globe-toggle .icon-play, .globe-toggle[aria-pressed="true"] .icon-pause { display: none; }
+  .globe-toggle[aria-pressed="true"] .icon-play { display: block; }
+
+  @media (max-width: 699px) {
+    .globe-graticule { display: none; }
+  }
+</style>
+
+<script>
+  import { STATIC_ROTATION, SPIN_TILT, arcPoint, focusRotation, renderFrame, type GlobeOffice, type LonLat } from "./branchGlobe";
+
+  const SPIN_SPEED = 6; // degrees per second
+  const PULSE_PERIOD = 3200; // ms for a pulse to travel HQ -> branch
+
+  document.querySelectorAll<HTMLElement>("[data-branch-globe]").forEach((root) => {
+    const dots: LonLat[] = JSON.parse(root.dataset.dots ?? "[]");
+    const offices: GlobeOffice[] = JSON.parse(root.dataset.offices ?? "[]");
+    const hq = offices.find((office) => office.role === "hq")!;
+    const svg = root.querySelector("svg")!;
+    const graticule = svg.querySelector<SVGPathElement>('[data-layer="graticule"]')!;
+    const dotLayer = svg.querySelector<SVGPathElement>('[data-layer="dots"]')!;
+    const arcs = new Map([...svg.querySelectorAll<SVGPathElement>(".globe-arc")].map((el) => [el.dataset.office!, el]));
+    const pulses = new Map([...svg.querySelectorAll<SVGRectElement>(".globe-pulse")].map((el) => [el.dataset.office!, el]));
+    const anchors = new Map([...svg.querySelectorAll<SVGGElement>(".globe-anchor")].map((el) => [el.dataset.office!, el]));
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const compact = window.matchMedia("(max-width: 699px)");
+    const hoverZone = root.closest("section") ?? root;
+    const toggle = root.querySelector<HTMLButtonElement>(".globe-toggle")!;
+
+    let rotation: [number, number] = [...STATIC_ROTATION];
+    let active: string | null = null;
+    let hovering = false;
+    let userPaused = false;
+    let onScreen = false;
+    let frameId = 0;
+    let last = 0;
+
+    function draw(time: number) {
+      const frame = renderFrame(rotation, dots, offices, { graticule: !compact.matches, dotStride: compact.matches ? 2 : 1 });
+      graticule.setAttribute("d", frame.graticule);
+      dotLayer.setAttribute("d", frame.dots);
+      frame.arcs.forEach(({ id, d }) => arcs.get(id)?.setAttribute("d", d));
+      frame.anchors.forEach(({ id, x, y, visible }) => {
+        const el = anchors.get(id);
+        el?.setAttribute("transform", `translate(${x} ${y})`);
+        el?.classList.toggle("is-hidden", !visible);
+      });
+      offices.forEach((office) => {
+        const pulse = pulses.get(office.id);
+        if (!pulse) return;
+        const p = arcPoint(rotation, [hq.lon, hq.lat], [office.lon, office.lat], (time % PULSE_PERIOD) / PULSE_PERIOD);
+        pulse.setAttribute("transform", `translate(${p.x} ${p.y})`);
+        pulse.classList.toggle("is-hidden", !p.visible);
+      });
+    }
+
+    // Shortest signed angle from a to b, in degrees.
+    const delta = (a: number, b: number) => ((((b - a) % 360) + 540) % 360) - 180;
+
+    function tick(time: number) {
+      const dt = last ? Math.min(time - last, 64) / 1000 : 0;
+      last = time;
+      if (active) {
+        // Ease toward a view that frames the highlighted office and its arc.
+        const [lon, lat] = focusRotation(offices, active);
+        const ease = 1 - Math.exp(-dt * 4);
+        rotation = [rotation[0] + delta(rotation[0], lon) * ease, rotation[1] + (lat - rotation[1]) * ease];
+      } else {
+        rotation = [rotation[0] + (hovering ? 0 : SPIN_SPEED * dt), rotation[1] + (SPIN_TILT - rotation[1]) * Math.min(dt * 1.5, 1)];
+      }
+      draw(time);
+      frameId = requestAnimationFrame(tick);
+    }
+
+    function start() {
+      if (frameId || reducedMotion.matches || userPaused || !onScreen) return;
+      root.classList.add("is-live");
+      last = 0;
+      frameId = requestAnimationFrame(tick);
+    }
+
+    function stop() {
+      cancelAnimationFrame(frameId);
+      frameId = 0;
+      root.classList.remove("is-live");
+    }
+
+    function setActive(id: string | null) {
+      active = id;
+      root.classList.toggle("has-active", Boolean(id));
+      for (const map of [arcs, pulses, anchors]) map.forEach((el, key) => el.classList.toggle("is-active", key === id));
+      if (!frameId) {
+        // Not animating (reduced motion, paused, off-screen): jump straight to the office, or back to the overview.
+        rotation = id ? focusRotation(offices, id) : [...STATIC_ROTATION];
+        draw(0);
+      }
+    }
+
+    root.addEventListener("globe:highlight", (event) => setActive((event as CustomEvent<string | null>).detail));
+    hoverZone.addEventListener("pointerenter", () => (hovering = true));
+    hoverZone.addEventListener("pointerleave", () => (hovering = false));
+    hoverZone.addEventListener("focusin", () => (hovering = true));
+    hoverZone.addEventListener("focusout", () => (hovering = false));
+
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      onScreen ? start() : stop();
+    }).observe(root);
+
+    toggle.addEventListener("click", () => {
+      userPaused = !userPaused;
+      toggle.setAttribute("aria-pressed", String(userPaused));
+      toggle.setAttribute("aria-label", userPaused ? "Play globe rotation" : "Pause globe rotation");
+      if (userPaused) {
+        stop();
+        draw(0);
+      } else start();
+    });
+
+    root.classList.toggle("can-animate", !reducedMotion.matches);
+    reducedMotion.addEventListener("change", () => {
+      root.classList.toggle("can-animate", !reducedMotion.matches);
+      if (reducedMotion.matches) {
+        stop();
+        rotation = [...STATIC_ROTATION];
+        draw(0);
+      } else start();
+    });
+    compact.addEventListener("change", () => draw(performance.now()));
+  });
+</script>
