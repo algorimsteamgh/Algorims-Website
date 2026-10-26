@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/customer-story.css";
+---
+
+<BaseLayout
+  title="Syslatech customer story — Fewer repeat tickets — Algorims"
+  description="An AI helpdesk agent built by Algorims connects Syslatech’s Zoho Desk to 65 runbooks on AWS Singapore, with engineer handoff when confidence is low."
+>
+  <article class="story syslatech-story">
+    <header class="hero container-x">
+      <div class="hero-top"><p class="eyebrow">Customer story <span aria-hidden="true">/</span> Syslatech</p></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <p class="customer-name syslatech-name"><img src="/assets/case-studies/clients/syslatech-logo.webp" width="956" height="269" alt="Syslatech" /></p>
+          <h1>Fewer repeat tickets. <em>More time for real problems.</em></h1>
+          <span class="hero-spark" aria-hidden="true">✳</span>
+        </div>
+        <div class="intro-note"><span>The shift ↘</span><p class="lede">An AI first line for Syslatech’s IT helpdesk, grounded in the team’s own runbooks — with engineers ready when confidence is low.</p></div>
+      </div>
+      <div class="hero-footer"><span>IT helpdesk story</span><span>India · Built on AWS Singapore</span><a href="#story">Read Syslatech’s story <span aria-hidden="true">↓</span></a></div>
+    </header>
+
+    <section class="voice" aria-label="Customer perspective">
+      <div class="container-x voice-inner">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <figure>
+          <blockquote>Our team now spends less time on repeat requests. The agent answers common tickets from our own runbooks, and anything it is unsure about goes straight to an engineer with the full context.</blockquote>
+          <figcaption><strong>Deepika Dhar B M</strong><span>Automation Lead, Syslatech Private Ltd</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="story" class="story-section container-x" aria-labelledby="before-title">
+      <div class="section-label"><span>01</span><p>Before</p></div>
+      <div class="section-content"><h2 id="before-title">The same questions. Every week.</h2><p>The IT team received requests in Zoho Desk and answered each one by hand: password lockouts, Outlook and Teams problems, GitHub and Microsoft 365 access, laptop faults. The same questions came back every week.</p><p>Answers depended on who picked up the ticket, there was no check on how sure an answer was, and little record of why a decision was made.</p></div>
+    </section>
+
+    <section class="shift container-x" aria-label="Before and after IT helpdesk support">
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/syslatech-before.webp" width="1671" height="941" loading="lazy" decoding="async" alt="Password lockouts, laptop faults and access requests flow to two engineers, who work through a queue of tickets and write each email reply by hand." /></div>
+        <figcaption><span>Before / Manual support</span><strong>Every ticket by hand</strong><p>Repeat requests reach the IT team. Engineers find the answer and write each reply.</p></figcaption>
+      </figure>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/syslatech-after.webp" width="1672" height="941" loading="lazy" decoding="async" alt="The same IT requests flow through Algorims’ AI agent and runbooks, with guardrails checking replies. Confident answers go by email; low-confidence tickets go to an engineer with the draft and confidence attached." /></div>
+        <figcaption><span>After / AI with human handoff</span><strong>Minutes to a reply</strong><p>Answers come from 65 runbooks. Low-confidence tickets reach an engineer with full context.</p></figcaption>
+      </figure>
+    </section>
+
+    <section class="story-section container-x" aria-labelledby="change-title">
+      <div class="section-label"><span>02</span><p>What changed</p></div>
+      <div class="section-content"><h2 id="change-title">Answers from runbooks. Engineers for the rest.</h2><p>Algorims built an AI helpdesk agent on AWS and connected it to Syslatech’s existing Zoho Desk. It reads each new ticket, finds the matching runbook out of 65, writes a reply grounded only in that runbook, and sends it by email.</p><p>When it is not confident, it hands the ticket to an engineer with the full context already attached. The service is running live on AWS Singapore.</p></div>
+    </section>
+
+    <section class="story-section container-x" aria-labelledby="aws-title">
+      <div class="section-label"><p>How it works on AWS</p></div>
+      <div class="section-content"><h2 id="aws-title">From ticket to grounded reply.</h2><p>New tickets are picked up by AWS Lambda on an Amazon EventBridge schedule. Amazon Bedrock (Anthropic Claude) scores each ticket, and Syslatech’s runbooks, stored as vector embeddings in Amazon Aurora Serverless v2 (PostgreSQL with pgvector), supply the answer.</p><p>Replies are checked by Amazon Bedrock Guardrails. Below a set confidence level, Amazon SNS emails the L2 team with the ticket, the AI’s draft and the confidence.</p><p>Amazon DynamoDB keeps every ticket’s state, AWS KMS and AWS Secrets Manager protect data and credentials, and the whole stack is deployed as code with Terraform.</p></div>
+    </section>
+
+    <section class="story-section container-x" aria-labelledby="safeguards-title">
+      <div class="section-label"><p>Built-in safeguards</p></div>
+      <div class="section-content"><h2 id="safeguards-title">A clear path to a person.</h2>
+        <ul class="safeguards">
+          <li>Replies say only what the runbook says.</li>
+          <li>If the AI can’t write a reply, the ticket stays open and goes to an engineer. It is never closed.</li>
+          <li>It never answers automated mail such as no-reply notices.</li>
+          <li>If a customer doesn’t answer a question, one gentle reminder follows after 3 days, and a gentle closing note after 7 days. They can reply to reopen it.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="outcomes" aria-labelledby="outcomes-title"><div class="container-x">
+      <div class="outcomes-heading"><p class="eyebrow">At a glance</p><h2 id="outcomes-title">More time for real problems.</h2></div>
+      <dl>
+        <div><dt>Minutes</dt><dd>To a first reply</dd></div>
+        <div><dt>65</dt><dd>Runbooks behind every answer</dd></div>
+        <div><dt>Every</dt><dd>Low-confidence ticket goes to an engineer, with context</dd></div>
+        <div><dt>Zero</dt><dd>Servers to manage</dd></div>
+      </dl>
+    </div></section>
+  </article>
+</BaseLayout>
+
+<style>
+  .story .syslatech-name { padding: 12px 18px; border-color: hsl(var(--border)); background: #fff; }
+  .story .syslatech-name img { width: 210px; height: auto; border-radius: 0; }
+  .safeguards { margin: 0; padding-left: 1.25em; list-style: disc; color: hsl(var(--foreground) / .78); font-size: 1.08rem; line-height: 1.8; }
+  .safeguards li + li { margin-top: 16px; }
+  .syslatech-story .outcomes dl { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 1000px) {
+    .syslatech-story .outcomes dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 600px) {
+    .syslatech-story .outcomes dl { grid-template-columns: 1fr; }
+    .syslatech-story .hero-top { align-items: flex-start; flex-direction: column; gap: 12px; }
+  }
+</style>
