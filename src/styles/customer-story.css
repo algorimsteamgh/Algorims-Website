@@ -1,10 +1,10 @@
 .story { color: hsl(var(--foreground)); }
-  .story .hero { padding-top: clamp(40px, 6vw, 82px); }
+  .story .hero { padding-top: clamp(24px, 2.5vw, 40px); }
   .story .hero-top, .story .hero-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
   .story .hero-top { padding-bottom: 20px; border-bottom: 1px solid hsl(var(--border)); }
   .story .eyebrow { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
   .story .eyebrow span { margin-inline: 6px; color: hsl(var(--muted-foreground)); }
-  .story .hero-main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .55fr); align-items: end; gap: clamp(36px, 6vw, 100px); padding: clamp(56px, 8vw, 112px) 0 clamp(52px, 7vw, 96px); }
+  .story .hero-main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, .55fr); align-items: end; gap: clamp(36px, 6vw, 100px); padding: clamp(32px, 3.5vw, 56px) 0 clamp(52px, 7vw, 96px); }
   .story .hero-copy { position: relative; min-width: 0; animation: rise-in .75s both cubic-bezier(.2, .8, .2, 1); }
   .story .customer-name { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 26px; padding: 8px 16px 8px 8px; border: 1px solid #0b4a66; border-radius: 999px; background: #fff; color: #0b4a66; font-size: .9rem; font-weight: 800; letter-spacing: .08em; }
   .story .customer-name img { display: block; width: 40px; height: 40px; flex: none; border-radius: 12px; }
