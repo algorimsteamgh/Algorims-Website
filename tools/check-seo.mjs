@@ -23,11 +23,7 @@ for (const file of readdirSync(dist, { recursive: true }).filter((file) => file.
     assert(html.includes('name="robots" content="noindex, follow"'), "404 must be noindex");
   } else {
     assert.equal(canonical, site + (file === "index.html" ? "/" : `/${file.replace(/\/index\.html$/, "")}`));
-    if (file === "customer-stories/syslatech/index.html") {
-      assert(html.includes('name="robots" content="noindex, follow"'), "Syslatech draft must be noindex");
-    } else {
-      canonicals.add(canonical);
-    }
+    canonicals.add(canonical);
   }
 }
 

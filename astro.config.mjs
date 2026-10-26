@@ -9,7 +9,7 @@ export default defineConfig({
   output: "static",
   integrations: [
     sitemap({
-      filter: (page) => !["/404", "/customer-stories/syslatech"].includes(new URL(page).pathname),
+      filter: (page) => new URL(page).pathname !== "/404",
     }),
     tailwind({
       // global.css includes Tailwind's base, components, and utilities.
