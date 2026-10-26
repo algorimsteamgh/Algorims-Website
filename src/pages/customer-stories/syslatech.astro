@@ -22,11 +22,15 @@ import "../../styles/customer-story.css";
       <div class="hero-footer"><span>IT helpdesk story</span><span>India · Built on AWS Singapore</span><a href="#story">Read Syslatech’s story <span aria-hidden="true">↓</span></a></div>
     </header>
 
-    <aside class="quote-pending container-x" aria-label="Draft customer quote">
-      <p class="eyebrow">Customer perspective · Awaiting approval</p>
-      <p>[Quote from the customer's IT lead]</p>
-      <p>— [Name, title, company]</p>
-    </aside>
+    <section class="voice" aria-label="Customer perspective">
+      <div class="container-x voice-inner">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <figure>
+          <blockquote>Our team now spends less time on repeat requests. The agent answers common tickets from our own runbooks, and anything it is unsure about goes straight to an engineer with the full context.</blockquote>
+          <figcaption><strong>Deepika Dhar B M</strong><span>Automation Lead, Syslatech Private Ltd</span></figcaption>
+        </figure>
+      </div>
+    </section>
 
     <section id="story" class="story-section container-x" aria-labelledby="before-title">
       <div class="section-label"><span>01</span><p>Before</p></div>
@@ -82,8 +86,6 @@ import "../../styles/customer-story.css";
 <style>
   .story .syslatech-name { padding: 12px 18px; border-color: hsl(var(--border)); background: #fff; }
   .story .syslatech-name img { width: 210px; height: auto; border-radius: 0; }
-  .quote-pending { padding-block: 28px; border-block: 1px solid hsl(var(--border)); }
-  .quote-pending p + p { margin-top: 12px; color: hsl(var(--muted-foreground)); }
   .safeguards { margin: 0; padding-left: 1.25em; list-style: disc; color: hsl(var(--foreground) / .78); font-size: 1.08rem; line-height: 1.8; }
   .safeguards li + li { margin-top: 16px; }
   .syslatech-story .outcomes dl { grid-template-columns: repeat(4, minmax(0, 1fr)); }
