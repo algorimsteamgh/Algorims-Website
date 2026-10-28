@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import "../../styles/customer-story.css";
+---
+
+<BaseLayout
+  title="Island City Elite Academy customer story: quicker payment checks and parent replies — Algorims"
+  description="Island City Elite Academy reports payment checks falling from 5 to 2 minutes and automated FAQ replies in 10–30 seconds with AcademyOps, built by Algorims on AWS."
+  robots="noindex, follow"
+>
+  <article class="story ice-story">
+    <header class="hero container-x">
+      <div class="hero-top"><p class="eyebrow">Customer story <span aria-hidden="true">/</span> Island City Elite Academy</p></div>
+      <div class="hero-main">
+        <div class="hero-copy">
+          <p class="customer-name"><img src="/assets/customer-stories/island-city-elite-crest.png" width="256" height="256" alt="" /><span class="customer-wordmark">ISLAND CITY <span>ELITE ACADEMY</span></span></p>
+          <h1>Less time checking payments. <em>More time for the academy.</em></h1>
+          <span class="hero-spark" aria-hidden="true">✳</span>
+        </div>
+        <div class="intro-note"><span>The shift ↘</span><p class="lede">A Singapore football academy uses AcademyOps to check payment proofs and answer parent questions — with Claude handling routine work and staff approving every payment.</p></div>
+      </div>
+      <div class="hero-footer"><span>Education · Sports academy operations</span><span>Singapore · Asia Pacific</span><a href="#story">Read Island City’s story <span aria-hidden="true">↓</span></a></div>
+    </header>
+
+    <section id="story" class="story-section container-x" aria-labelledby="before-title">
+      <div class="section-label"><span>01</span><p>Before</p></div>
+      <div class="section-content"><h2 id="before-title">Every screenshot. Every question. By hand.</h2><p>At Island City Elite Academy, parents pay football term fees by bank transfer or PayNow, then send a screenshot on WhatsApp. Staff read each proof and matched it to an invoice in Zoho Books by hand.</p><p>The same questions about fees, schedules and registration arrived every week. Staff answered each one individually and searched several records to find unpaid invoices.</p></div>
+    </section>
+
+    <section class="shift container-x" aria-label="Before and after academy operations">
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/icea-before.webp" width="1671" height="941" loading="lazy" decoding="async" alt="Payment screenshots, parent questions and finance queries converge on academy staff, who read each message and check the accounting ledger by hand." /></div>
+        <figcaption><span>Before / Manual admin</span><strong>Every message by hand</strong><p>Staff read payment proofs, check Zoho Books and answer parent questions individually.</p></figcaption>
+      </figure>
+      <span class="shift-arrow" aria-hidden="true">→</span>
+      <figure class="shift-scene">
+        <div class="scene-art"><img src="/assets/customer-stories/icea-after.webp" width="1671" height="941" loading="lazy" decoding="async" alt="The same payment proofs and questions flow through AcademyOps to staff payment review, answers grounded in academy content, and read-only finance answers. Staff verify every payment proof before acknowledgement; uncertain questions go to staff." /></div>
+        <figcaption><span>After / AI with staff review</span><strong>Help with the first pass</strong><p>AcademyOps reads proofs and answers routine questions. Staff verify payments and handle uncertain questions.</p></figcaption>
+      </figure>
+    </section>
+
+    <section class="story-section container-x" aria-labelledby="change-title">
+      <div class="section-label"><span>02</span><p>What changed</p></div>
+      <div class="section-content"><h2 id="change-title">Three ways to help. People in control.</h2>
+        <p>Algorims built AcademyOps in the academy’s own AWS account, using Claude on Amazon Bedrock and connecting it to WhatsApp and Zoho Books.</p>
+        <p>Claude reads uploaded payment screenshots, and the application checks the details against invoices. Mismatches and duplicates are flagged. Staff verify every proof before a payment is recorded or a parent is acknowledged.</p>
+        <p>A WhatsApp assistant answers from approved academy content and hands uncertain questions to staff. An admin-only, read-only assistant helps staff find invoice and payment information. Amazon Bedrock Guardrails screen both assistants; neither can change financial records.</p>
+      </div>
+    </section>
+
+    <section class="outcomes" aria-labelledby="outcomes-title"><div class="container-x">
+      <div class="outcomes-heading"><p class="eyebrow">Customer-reported results</p><h2 id="outcomes-title">Quicker checks. Faster answers.</h2></div>
+      <dl>
+        <div><dt>2 min</dt><dd>Staff time checking each payment proof, down from 5 minutes</dd></div>
+        <div><dt>10–30 sec</dt><dd>First automated FAQ reply to a routine question, down from 1–3 hours</dd></div>
+        <div><dt>~3 hrs</dt><dd>Staff time saved each month across payment checks and repeated parent questions</dd></div>
+      </dl>
+    </div></section>
+  </article>
+</BaseLayout>
+
+<style>
+  .ice-story .customer-name { max-width: 100%; padding: 8px 16px 8px 8px; border-color: hsl(var(--border)); color: hsl(var(--foreground)); background: hsl(var(--background)); }
+  .ice-story .customer-name img { object-fit: contain; border-radius: 0; }
+  .ice-story .customer-name span { color: hsl(var(--muted-foreground)); }
+  .ice-story .customer-name .customer-wordmark { color: inherit; font-weight: inherit; }
+  @media (min-width: 601px) and (max-width: 1000px) {
+    .ice-story .outcomes dl { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .ice-story .outcomes dl { grid-template-columns: 1fr; }
+    .ice-story .hero-top { align-items: flex-start; flex-direction: column; gap: 12px; }
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+interface Props {
+  variant: "before" | "after";
+  label: string;
+}
+const { variant, label } = Astro.props;
+const after = variant === "after";
+const document = "M-10-14H5L12-7V14H-10ZM5-14V-7H12M-5-2H6M-5 4H6";
+const person = "M-12 14V10C-12 0 12 0 12 10V14M0-14A6 6 0 1 0 0-2A6 6 0 1 0 0-14";
+const question = "M-14-12H14V8H0L-8 15V8H-14ZM-4-5C-4-10 5-10 5-5C5-2 0-2 0 2M0 5V6";
+const nodes = [
+  { x: 108, y: 70, icon: document, detail: true },
+  { x: 108, y: 150, icon: question, detail: false },
+  { x: 108, y: 230, icon: "M-14-10H14V12H-14ZM-14-3H14M-7-7H-6M-7 3H-3M3 3H8", detail: true },
+  ...(after ? [
+    { x: 532, y: 70, icon: document, detail: true },
+    { x: 532, y: 150, icon: person, detail: false },
+    { x: 532, y: 230, icon: "M-14-12H14V8H0L-8 15V8H-14ZM-7-2L-2 3L7-6", detail: true },
+  ] : [
+    { x: 320, y: 150, icon: person, detail: false },
+    { x: 532, y: 150, icon: "M0-10C-6-15-13-15-16-12V12C-10 9-5 9 0 14C5 9 10 9 16 12V-12C10-15 5-15 0-10ZM0-10V14", detail: false },
+  ]),
+];
+---
+
+<svg class="ops-scene" viewBox="0 0 640 300" role="img" aria-label={label} fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id={`ops-grid-${variant}`} width="40" height="23" patternUnits="userSpaceOnUse">
+      <path d="M0 23L40 0M0 0L40 23" stroke="var(--canvas-grid)" stroke-width=".75" />
+    </pattern>
+  </defs>
+  <rect width="640" height="300" fill={`url(#ops-grid-${variant})`} opacity=".65" />
+
+  <g stroke="var(--wire-stroke)" stroke-width="1.25" stroke-linejoin="round">
+    <path d="M160 150H268M372 150H480" />
+    <path class="detail" d="M160 70H220V150M160 230H220V150" />
+    {after && <path class="detail" d="M420 150V70H480M420 150V230H480" />}
+  </g>
+  <g fill="var(--wire-stroke)">
+    <rect x="156" y="146" width="8" height="8" />
+    <rect x="476" y="146" width="8" height="8" />
+    <rect class="detail" x="216" y="146" width="8" height="8" />
+    {after && <rect class="detail" x="416" y="146" width="8" height="8" />}
+  </g>
+
+  {nodes.map(({ x, y, icon, detail }) => (
+    <g class:list={{ detail }} transform={`translate(${x},${y})`}>
+      <polygon points="0,-28 52,0 0,28 -52,0" fill="var(--node-top)" stroke="var(--node-stroke)" stroke-width="1.25" />
+      <path d="M-52 0V10L0 38L52 10V0L0 28ZM0 28V38" fill="var(--node-side)" stroke="var(--node-stroke)" stroke-width="1.25" />
+      <path d={icon} transform="scale(1,.58) rotate(45)" stroke={after ? "var(--violet-core)" : "var(--wire-stroke)"} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  ))}
+
+  {after && (
+    <g>
+      <polygon points="320,112 372,140 320,168 268,140" fill="var(--cube-top)" stroke="var(--cube-stroke)" stroke-width="1.25" />
+      <polygon points="268,140 320,168 320,200 268,172" fill="var(--cube-left)" stroke="var(--cube-stroke)" stroke-width="1.25" />
+      <polygon points="320,168 372,140 372,172 320,200" fill="var(--cube-right)" stroke="var(--cube-stroke)" stroke-width="1.25" />
+      <g transform="translate(320,140) scale(1,.58) rotate(45)" stroke="var(--violet-core)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="-14" y="-14" width="28" height="28" rx="3" />
+        <path d="M-8-6H0V6H8M0-14V-20M14 0H20M0 14V20M-14 0H-20" />
+      </g>
+    </g>
+  )}
+</svg>
+<div class="ops-key" aria-hidden="true">
+  <span>Proofs &amp; questions</span>
+  <span>{after ? "AcademyOps" : "Staff"}</span>
+  <span>{after ? "Results & staff review" : "Zoho Books"}</span>
+</div>
+
+<style>
+  .ops-scene {
+    display: block;
+    width: 100%;
+    height: auto;
+    --canvas-grid: hsl(var(--border));
+    --node-top: hsl(var(--background));
+    --node-side: hsl(var(--muted));
+    --node-stroke: hsl(var(--border));
+    --wire-stroke: hsl(var(--foreground) / .65);
+    --cube-top: #22252b;
+    --cube-left: #16181c;
+    --cube-right: #0e1013;
+    --cube-stroke: #333842;
+    --violet-core: hsl(var(--primary));
+  }
+  .ops-key { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 12px 18px; text-align: center; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
+  :global(.dark) .ops-scene { --violet-core: #af7aff; }
+  @media (max-width: 1000px) {
+    .detail { display: none; }
+  }
+</style>
