@@ -21,6 +21,8 @@ for (const file of readdirSync(dist, { recursive: true }).filter((file) => file.
   assert(!html.includes("PASTE-YOUR-CODE-HERE"), `${file}: placeholder verification code`);
   if (file === "404.html") {
     assert(html.includes('name="robots" content="noindex, follow"'), "404 must be noindex");
+  } else if (file === "customer-stories/icea/index.html") {
+    assert(html.includes('name="robots" content="noindex, follow"'), "Island City draft must be noindex");
   } else {
     assert.equal(canonical, site + (file === "index.html" ? "/" : `/${file.replace(/\/index\.html$/, "")}`));
     canonicals.add(canonical);
