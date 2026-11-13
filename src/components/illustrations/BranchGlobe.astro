@@ -2,23 +2,9 @@
 // src/components/illustrations/BranchGlobe.astro
 // Orthographic globe with arcs from Singapore HQ to each branch.
 // Static SVG at build time; the client script adds slow rotation (skipped under reduced motion).
-import { geoContains } from "d3-geo";
 import { offices } from "../../data/offices";
-import { SIZE, STATIC_ROTATION, land, renderFrame, type LonLat, type GlobeOffice } from "./branchGlobe";
-
-// Roughly equal-area dot grid: 3° rows, longitude step widened toward the poles. Antarctica skipped.
-const STEP = 3;
-const dots: LonLat[] = [];
-for (let lat = -58.5; lat < 84; lat += STEP) {
-  const lonStep = STEP / Math.max(Math.cos((lat * Math.PI) / 180), 0.2);
-  for (let lon = -180 + lonStep / 2; lon < 180; lon += lonStep) {
-    const point: LonLat = [Math.round(lon * 10) / 10, lat];
-    if (geoContains(land, point)) dots.push(point);
-  }
-}
-
-const globeOffices: GlobeOffice[] = offices.map(({ id, role, lon, lat }) => ({ id, role, lon, lat }));
-const frame = renderFrame(STATIC_ROTATION, dots, globeOffices);
+import { SIZE } from "./branchGlobe";
+import { dots, globeOffices, frame } from "./branchGlobeStatic";
 const hq = offices.find((office) => office.role === "hq")!;
 const branchNames = offices.filter((office) => office.role === "branch").map((office) => `${office.city}, ${office.country}`);
 const label = `Globe showing Algorims offices. Arcs connect the ${hq.city} headquarters to offices in ${branchNames.join(", ").replace(/, ([^,]*, [^,]*)$/, " and $1")}.`;
