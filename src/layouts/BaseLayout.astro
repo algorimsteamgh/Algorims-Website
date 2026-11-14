@@ -88,7 +88,6 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
-<script is:inline defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.js" onload="window.lucide?.createIcons()"></script>
 
 <!-- Tailwind is now handled by @astrojs/tailwind (see astro.config.mjs /
      tailwind.config.mjs). global.css (ported from assets/css/site.css) is
@@ -217,7 +216,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
             <ul class="mt-3 flex flex-wrap gap-x-5 gap-y-2">
               {countryOffices.map((office) => (
                 <li>
-                  <a href={`/contact#${office.id}`} class="whitespace-nowrap underline decoration-border underline-offset-4 hover:text-foreground hover:decoration-primary">{office.country}</a>
+                  <a href={`/contact#${office.id}`} data-astro-prefetch="viewport" class="whitespace-nowrap underline decoration-border underline-offset-4 hover:text-foreground hover:decoration-primary">{office.country}</a>
                 </li>
               ))}
             </ul>
@@ -242,7 +241,11 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <script is:inline async data-id="6125825243" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
 
 <script>
+  // Icons are bundled from the pinned npm package (no third-party CDN script).
+  // Icon names come from content JSON, so the full set is included.
+  import { createIcons, icons } from "lucide";
   import { initNumberTickers } from "../scripts/numberTicker";
+  createIcons({ icons });
   initNumberTickers();
 
   // Previously shared hash routes now load the matching static page.
