@@ -23,8 +23,8 @@ for (const collection of ['blog', 'case-studies', 'products', 'solutions']) {
 
 const products = read('dist/products/index.html');
 assert.equal((products.match(/class="product-row\b/g) ?? []).length, 5);
-assert.equal((products.match(/class="app-slide\b/g) ?? []).length, 3);
-assert.equal((products.match(/data-app-tab=/g) ?? []).length, 3);
+assert.equal((products.match(/class="app-slide\b/g) ?? []).length, 2);
+assert.equal((products.match(/data-app-tab=/g) ?? []).length, 2);
 assert.match(products, /id="products-title"/);
 
 for (const [slug, required] of Object.entries({
