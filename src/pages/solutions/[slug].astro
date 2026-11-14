@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { breadcrumbSchema } from "../../lib/schema";
 import DetailPage from "../../components/content/DetailPage.astro";
 
 export async function getStaticPaths() {
@@ -13,6 +14,6 @@ export async function getStaticPaths() {
 const { entry } = Astro.props as { entry: CollectionEntry<"solutions"> };
 ---
 
-<BaseLayout title={`${entry.data.title} — Algorims`} description={entry.data.subtitle}>
+<BaseLayout title={`${entry.data.title} — Algorims`} description={entry.data.subtitle} schema={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Solutions", path: "/solutions" }, { name: entry.data.title, path: `/solutions/${entry.id}` }])}>
   <DetailPage entry={entry} />
 </BaseLayout>

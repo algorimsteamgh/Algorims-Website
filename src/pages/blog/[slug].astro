@@ -6,6 +6,7 @@ import BlogArt from "../../components/blog/BlogArt.astro";
 import BlogCard from "../../components/blog/BlogCard.astro";
 import BlogBody from "../../components/content/BlogBody.astro";
 import { getBlogPosts } from "../../components/blog/posts";
+import { breadcrumbSchema, blogPostingSchema } from "../../lib/schema";
 
 export const getStaticPaths = (async () => {
   const posts = await getBlogPosts();
@@ -22,7 +23,14 @@ const { post, related } = Astro.props as {
 const titleWords = post.data.title.split(" ");
 const titleAccent = titleWords.splice(-2).join(" ");
 ---
-<BaseLayout title={`${post.data.title} — Algorims`} description={post.data.excerpt}>
+<BaseLayout
+  title={`${post.data.title} — Algorims`}
+  description={post.data.excerpt}
+  schema={[
+    blogPostingSchema({ id: post.id, title: post.data.title, excerpt: post.data.excerpt, author: post.data.author, date: post.data.date }),
+    breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Blog", path: "/blog" }, { name: post.data.title, path: `/blog/${post.id}` }]),
+  ]}
+>
   <section class="pt-8 pb-4">
     <div class="container-x">
       <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">

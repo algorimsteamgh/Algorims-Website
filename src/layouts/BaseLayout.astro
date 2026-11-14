@@ -16,6 +16,8 @@
 
 import "../styles/global.css";
 import { offices } from "../data/offices";
+import { ogSlug } from "../data/ogPages";
+import { organizationSchema, websiteSchema } from "../lib/schema";
 
 const countryOffices = offices.filter((office, index) => offices.findIndex(({ country }) => country === office.country) === index);
 
@@ -25,15 +27,21 @@ export interface Props {
   ogImage?: string;
   canonical?: string;
   robots?: string;
+  schema?: object | object[];
 }
 
 const {
   title,
   description = "Algorims builds autonomous, agentic AI systems for the enterprise — AI & Generative AI, Data & Analytics, AWS cloud, DevOps, and managed services that unlock the value buried in your data.",
-  ogImage = "https://www.algorims.com/assets/algorims-icon-transparent.webp",
+  ogImage,
   canonical = new URL(Astro.url.pathname, Astro.site).toString(),
   robots = "index, follow",
+  schema = [],
 } = Astro.props;
+const noindex = robots.includes("noindex");
+const shareImage = ogImage ?? (noindex ? "https://www.algorims.com/assets/algorims-icon-transparent.webp" : new URL(`/og/${ogSlug(Astro.url.pathname)}.png`, Astro.site).toString());
+const isHome = Astro.url.pathname === "/";
+const jsonLd = [...(noindex ? [] : [organizationSchema(), ...(isHome ? [websiteSchema()] : [])]), ...[schema].flat()];
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
@@ -52,6 +60,9 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <meta name="robots" content={robots} />
 <meta name="author" content="Algorims" />
 <link rel="canonical" href={canonical} />
+{!noindex && <link rel="alternate" hreflang="en" href={canonical} />}
+{!noindex && <link rel="alternate" hreflang="x-default" href={canonical} />}
+<link rel="alternate" type="application/rss+xml" title="Algorims blog" href="/rss.xml" />
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/assets/algorims-favicon-light.svg" />
@@ -64,11 +75,15 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
-<meta property="og:image" content={ogImage} />
+<meta property="og:image" content={shareImage} />
+{ogImage === undefined && !noindex && <meta property="og:image:width" content="1200" />}
+{ogImage === undefined && !noindex && <meta property="og:image:height" content="630" />}
+<meta property="og:image:alt" content={title} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={ogImage} />
+<meta name="twitter:image" content={shareImage} />
+{jsonLd.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item).replaceAll("<", "\\u003c")} />)}
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
