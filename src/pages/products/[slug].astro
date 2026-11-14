@@ -1,6 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { breadcrumbSchema } from "../../lib/schema";
 import ProductPage from "../../components/content/ProductPage.astro";
 
 export async function getStaticPaths() {
@@ -31,6 +32,6 @@ const seo: Record<string, { title: string; description: string }> = {
 };
 ---
 
-<BaseLayout title={seo[entry.id]?.title ?? `${entry.data.title} — Algorims`} description={seo[entry.id]?.description ?? entry.data.subtitle}>
+<BaseLayout title={seo[entry.id]?.title ?? `${entry.data.title} — Algorims`} description={seo[entry.id]?.description ?? entry.data.subtitle} schema={breadcrumbSchema([{ name: "Home", path: "/" }, { name: "Products", path: "/products" }, { name: entry.data.title, path: `/products/${entry.id}` }])}>
   <ProductPage entry={entry} />
 </BaseLayout>

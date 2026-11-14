@@ -7,6 +7,7 @@ export default defineConfig({
   site: "https://www.algorims.com",
   trailingSlash: "never",
   output: "static",
+  prefetch: true,
   integrations: [
     sitemap({
       filter: (page) => !["/404", "/customer-stories/icea"].includes(new URL(page).pathname),
