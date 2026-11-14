@@ -112,7 +112,7 @@ import { offices } from "../data/offices";
       <p class="presence-intro">Engineering runs from Singapore, India, and the United States, so your project has cover across time zones.</p>
       <ul class="presence-list">
         {offices.map((office) => (
-          <li>
+          <li id={office.id} class="scroll-mt-28">
             <button type="button" class="presence-office" data-office={office.id}>
               <svg class="presence-marker" class:list={[office.role === "hq" && "is-hq"]} viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
