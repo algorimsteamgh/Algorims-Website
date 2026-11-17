@@ -1,0 +1,47 @@
+---
+// Slim announcement strip under the navbar. Appears after the popup closes
+// (or right away on later pages in the session). Dismissible, skipped on /partners.
+---
+<div id="meta-strip" class="meta-strip" hidden>
+  <div class="ms-inner">
+    <a class="ms-link" href="/partners#meta">
+      <span class="ms-badge">New</span>
+      <span class="ms-text">Algorims is a <strong>Meta Tech Provider</strong> for the WhatsApp Business Platform</span>
+      <span class="ms-more">Learn more <span aria-hidden="true">→</span></span>
+    </a>
+    <button type="button" class="ms-close" aria-label="Dismiss announcement">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+    </button>
+  </div>
+</div>
+
+<style is:global>
+  .meta-strip { overflow: hidden; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); animation: ms-in .4s ease both; }
+  .meta-strip[hidden] { display: none; }
+  .ms-inner { position: relative; display: flex; align-items: center; justify-content: center; padding: 9px 44px; }
+  .ms-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 10px; font-size: .86rem; line-height: 1.4; text-align: center; color: inherit; }
+  .ms-badge { padding: 1px 8px; border-radius: 999px; background: rgba(255,255,255,.22); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .ms-more { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .ms-link:focus-visible, .ms-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; border-radius: 4px; }
+  .ms-close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
+  .ms-close:hover { background: rgba(255,255,255,.2); }
+  @keyframes ms-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 600px) { .ms-more { display: none; } .ms-link { font-size: .8rem; } }
+  @media (prefers-reduced-motion: reduce) { .meta-strip { animation: none; } }
+</style>
+
+<script>
+  const SEEN = "algorims-meta-announce-v1";
+  const DONE = "algorims-meta-strip-dismissed-v1";
+  const strip = document.getElementById("meta-strip");
+  const get = (k: string) => { try { return sessionStorage.getItem(k) === "1"; } catch { return false; } };
+  if (strip && !get(DONE) && !location.pathname.startsWith("/partners")) {
+    const show = () => { strip.hidden = false; };
+    if (get(SEEN)) show();
+    else window.addEventListener("meta-announce:closed", show, { once: true });
+    strip.querySelector(".ms-close")?.addEventListener("click", () => {
+      strip.hidden = true;
+      try { sessionStorage.setItem(DONE, "1"); } catch {}
+    });
+  }
+</script>

@@ -17,6 +17,8 @@
 import "../styles/global.css";
 import { offices } from "../data/offices";
 import { ogSlug } from "../data/ogPages";
+import MetaAnnouncement from "../components/MetaAnnouncement.astro";
+import MetaStrip from "../components/MetaStrip.astro";
 import { organizationSchema, websiteSchema } from "../lib/schema";
 
 const countryOffices = offices.filter((office, index) => offices.findIndex(({ country }) => country === office.country) === index);
@@ -159,6 +161,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     </div>
   </div>
 </header>
+<MetaStrip />
 
 <main class="flex-1">
   <slot />
@@ -235,6 +238,8 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     </div>
   </div>
 </footer>
+
+<MetaAnnouncement />
 
 <!-- Chatling chatbot (bottom-right corner) -->
 <script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>

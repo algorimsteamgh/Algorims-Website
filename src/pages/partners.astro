@@ -4,11 +4,19 @@ import ConsultationCta from "../components/ConsultationCta.astro";
 
 const index = [
   { id: "claude", name: "Claude Partner Network", tier: "Certified Services Partner", logo: "/assets/partners/claude-certified-services-partner.webp", wide: true },
+  { id: "meta", name: "Meta Tech Provider", tier: "WhatsApp Business Platform" },
   { id: "aws", name: "AWS Partner Network", tier: "Advanced Tier Services", logo: "/assets/aws-partner-badge.webp" },
   { id: "xero", name: "Xero Ecosystem", tier: "Certified Solutions Partner", logo: "/assets/partners/xero-blue-partner-badge.svg" },
 ];
 
 const claudeTiers = ["Certified", "Select", "Preferred", "Global Premier"];
+
+const metaOutcomes = [
+  { title: "Client onboarding", desc: "Connect businesses to the WhatsApp Business Platform through Embedded Signup" },
+  { title: "Business messaging", desc: "Send and receive WhatsApp messages for onboarded clients" },
+  { title: "Message templates", desc: "Create and manage templates for customer conversations" },
+  { title: "Connected workflows", desc: "Use webhooks to bring messaging events into your applications" },
+];
 
 const alliances = [
   {
@@ -47,13 +55,13 @@ const alliances = [
   },
 ];
 ---
-<BaseLayout title="Partners — Algorims" description="Explore Algorims’ Certified status in the Claude Partner Network, AWS and Xero partnerships, and enterprise delivery capabilities.">
+<BaseLayout title="Partners — Algorims" description="Explore Algorims’ Claude certification, Meta Tech Provider status for the WhatsApp Business Platform, and AWS and Xero partnerships.">
   <div class="partners-page">
     <section class="partners-hero" aria-labelledby="partners-title">
       <div class="container-x">
         <p class="kicker">Partners</p>
         <h1 id="partners-title">Specialist platforms. <span>Enterprise outcomes.</span></h1>
-        <p class="lede">Direct tier partnerships and certified specialisations that give our enterprise clients architectural assurance, accelerated delivery, and SLA-backed execution.</p>
+        <p class="lede">Platform relationships and certified specialisations that give our enterprise clients architectural assurance, accelerated delivery, and SLA-backed execution.</p>
 
         <nav class="credential-index" aria-label="Partnerships on this page">
           <ul>
@@ -61,7 +69,7 @@ const alliances = [
               <li>
                 <a href={`#${p.id}`}>
                   <span class:list={["index-logo", { wide: p.wide }]}>
-                    <img src={p.logo} alt="" width={p.wide ? 600 : 110} height={p.wide ? 190 : 110} />
+                    {p.logo ? <img src={p.logo} alt="" width={p.wide ? 600 : 110} height={p.wide ? 190 : 110} /> : <svg class="meta-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" /><path d="M8 11h8M8 14h5" /></svg>}
                   </span>
                   <span class="index-text">
                     <span class="index-name">{p.name}</span>
@@ -104,8 +112,47 @@ const alliances = [
       </div>
     </section>
 
+    <section id="meta" class="partner flip" style="--tint: 262 83% 58%" aria-labelledby="meta-title">
+      <div class="container-x partner-grid">
+        <div class="partner-stage">
+          <div class="badge-tile">
+            <!-- Meta logo use requires separate brand review; this is a neutral messaging icon. -->
+            <svg class="meta-icon" width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z" /><path d="M8 11h8M8 14h5" /></svg>
+          </div>
+          <div class="stage-tags">
+            <p class="stage-label">Platform &amp; focus areas</p>
+            <ul aria-label="Platform and focus areas for Meta Tech Provider">
+              <li>WhatsApp Business Platform</li>
+              <li>Embedded Signup</li>
+              <li>Messaging &amp; templates</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="partner-copy">
+          <p class="eyebrow">WhatsApp Business Platform <span aria-hidden="true">·</span> Tech Provider</p>
+          <h2 id="meta-title">Meta Tech Provider</h2>
+          <p class="partner-lead">We help businesses get started and communicate with customers on the WhatsApp Business Platform.</p>
+          <p>As a Meta Tech Provider, Algorims can onboard client businesses and provide WhatsApp messaging services for their accounts. We can deliver these services directly or together with a Solution Partner.</p>
+          <h3 class="sr-only">What we deliver</h3>
+          <ul class="outcomes">
+            {metaOutcomes.map((o) => (
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+                <div>
+                  <strong>{o.title}</strong>
+                  <span>{o.desc}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <a class="text-link" href="/contact">Talk to us about WhatsApp Business messaging <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
     {alliances.map((a, i) => (
-      <section id={a.id} class:list={["partner", { flip: i % 2 === 0 }]} style={`--tint: ${a.tint}`} aria-labelledby={`${a.id}-title`}>
+      <section id={a.id} class:list={["partner", { flip: i % 2 !== 0 }]} style={`--tint: ${a.tint}`} aria-labelledby={`${a.id}-title`}>
         <div class="container-x partner-grid">
           <div class="partner-stage">
             <div class="badge-tile">
@@ -154,8 +201,8 @@ const alliances = [
   h1 span { display: block; color: hsl(var(--primary)); }
   .lede { max-width: 700px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
 
-  .credential-index { max-width: 1040px; margin: 48px auto 0; }
-  .credential-index ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .credential-index { max-width: 760px; margin: 48px auto 0; }
+  .credential-index ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
   .credential-index a { display: flex; align-items: center; gap: 14px; height: 100%; padding: 12px 16px 12px 12px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--card)); text-align: left; transition: border-color .2s ease, transform .2s ease; }
   .credential-index a:hover { border-color: hsl(var(--primary) / .55); transform: translateY(-2px); }
   .credential-index a:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
@@ -182,6 +229,7 @@ const alliances = [
   .claude-badge { display: block; width: 100%; max-width: 420px; height: auto; border-radius: 12px; box-shadow: var(--shadow-lg); }
   .badge-tile { display: grid; place-items: center; width: 168px; height: 168px; padding: 20px; border-radius: 1.25rem; background: #fff; border: 1px solid hsl(var(--border) / .7); box-shadow: var(--shadow-lg); }
   .badge-tile img { width: 100%; height: 100%; object-fit: contain; }
+  .meta-icon { color: hsl(var(--primary)); }
 
   .tier-ladder { width: 100%; max-width: 420px; }
   .tier-ladder ol { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; padding: 0; list-style: none; }
