@@ -16,7 +16,7 @@
 </div>
 
 <style is:global>
-  .meta-strip { overflow: hidden; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); animation: ms-in .4s ease both; }
+  .meta-strip { width: calc(100% - 60px); max-width: 1600px; margin-inline: auto; overflow: hidden; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); animation: ms-in .4s ease both; }
   .meta-strip[hidden] { display: none; }
   .ms-inner { position: relative; display: flex; align-items: center; justify-content: center; padding: 9px 44px; }
   .ms-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 10px; font-size: .86rem; line-height: 1.4; text-align: center; color: inherit; }
@@ -26,6 +26,7 @@
   .ms-close { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 26px; height: 26px; border: 0; border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
   .ms-close:hover { background: rgba(255,255,255,.2); }
   @keyframes ms-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 800px) { .meta-strip { width: calc(100% - 24px); } }
   @media (max-width: 600px) { .ms-more { display: none; } .ms-link { font-size: .8rem; } }
   @media (prefers-reduced-motion: reduce) { .meta-strip { animation: none; } }
 </style>
