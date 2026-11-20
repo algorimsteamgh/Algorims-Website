@@ -11,7 +11,7 @@ export const staticOgCards: Record<string, OgCard> = {
   about: { kicker: "About", title: "AWS Advanced Tier Services Partner", description: "Engineering autonomous AI, data and cloud systems." },
   services: { kicker: "Services", title: "AI, data, cloud and DevOps engineering", description: "Development, cloud, DevOps and managed services." },
   "agentic-ai": { kicker: "Agentic AI", title: "Systems that reason, decide and act", description: "Agentic AI on Amazon Nova, Kendra and S3 Vectors." },
-  partners: { kicker: "Partners", title: "Certified in the Claude Partner Network", description: "AWS and Xero partnerships behind enterprise delivery." },
+  partners: { kicker: "Partners", title: "AWS AI Services Competency", description: "Generative and agentic AI consulting on AWS. Explore our credentials across Claude, WhatsApp Business and Xero." },
   "cca-f": { kicker: "CCA-F", title: "Claude Certified Architect Foundations", description: "An independent guide to the exam." },
   contact: { kicker: "Contact", title: "Scope your AI, cloud or DevOps initiative", description: "Most engagements start with a 30-minute conversation." },
   support: { kicker: "Support", title: "Engineers on call for AWS, DevOps and security" },

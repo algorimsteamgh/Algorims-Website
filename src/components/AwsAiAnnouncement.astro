@@ -68,7 +68,12 @@
     el.addEventListener("mouseleave", () => { if (!el.matches(":focus-within")) run(); });
     el.addEventListener("focusin", pause);
     el.addEventListener("focusout", () => { if (!el.matches(":hover")) run(); });
-    el.querySelector(".ma-close")?.addEventListener("click", close);
-    el.addEventListener("keydown", (e) => { if ((e as KeyboardEvent).key === "Escape") close(); });
+    const acknowledge = () => {
+      window.dispatchEvent(new Event("aws-ai-announce:acknowledged"));
+      close();
+    };
+    el.querySelector(".ma-card")?.addEventListener("click", acknowledge);
+    el.querySelector(".ma-close")?.addEventListener("click", acknowledge);
+    el.addEventListener("keydown", (e) => { if (e.key === "Escape") acknowledge(); });
   }
 </script>
