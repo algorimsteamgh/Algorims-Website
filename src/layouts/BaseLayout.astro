@@ -17,7 +17,7 @@
 import "../styles/global.css";
 import { offices } from "../data/offices";
 import { ogSlug } from "../data/ogPages";
-import MetaAnnouncement from "../components/MetaAnnouncement.astro";
+import AwsAiAnnouncement from "../components/AwsAiAnnouncement.astro";
 import MetaStrip from "../components/MetaStrip.astro";
 import { organizationSchema, websiteSchema } from "../lib/schema";
 
@@ -239,7 +239,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
   </div>
 </footer>
 
-<MetaAnnouncement />
+<AwsAiAnnouncement />
 
 <!-- Chatling chatbot (bottom-right corner) -->
 <script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>

@@ -1,10 +1,11 @@
----
-// Slim announcement strip under the navbar. Appears after the popup closes
-// (or right away on later pages in the session). Dismissible, skipped on /partners.
----
 <div id="meta-strip" class="meta-strip" hidden>
   <div class="ms-inner">
-    <a class="ms-link" href="/partners#meta">
+    <a class="ms-link" href="/partners#aws-ai">
+      <span class="ms-badge">New</span>
+      <span class="ms-text">Algorims is now an <strong>AWS AI Services Competency Partner</strong></span>
+      <span class="ms-more">Learn more <span aria-hidden="true">→</span></span>
+    </a>
+    <a class="ms-link" href="/partners#meta" hidden>
       <span class="ms-badge">New</span>
       <span class="ms-text">Algorims is a <strong>Meta Tech Provider</strong> for the WhatsApp Business Platform</span>
       <span class="ms-more">Learn more <span aria-hidden="true">→</span></span>
@@ -17,7 +18,7 @@
 
 <style is:global>
   .meta-strip { width: calc(100% - 60px); max-width: 1600px; margin-inline: auto; overflow: hidden; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); animation: ms-in .4s ease both; }
-  .meta-strip[hidden] { display: none; }
+  .meta-strip[hidden], .ms-link[hidden] { display: none; }
   .ms-inner { position: relative; display: flex; align-items: center; justify-content: center; padding: 9px 44px; }
   .ms-link { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 10px; font-size: .86rem; line-height: 1.4; text-align: center; color: inherit; }
   .ms-badge { padding: 1px 8px; border-radius: 999px; background: rgba(255,255,255,.22); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
@@ -32,17 +33,32 @@
 </style>
 
 <script>
-  const SEEN = "algorims-meta-announce-v1";
-  const DONE = "algorims-meta-strip-dismissed-v1";
+  const SEEN = "algorims-aws-ai-announce-v1";
+  const NEXT = "algorims-partner-banner-v1";
   const strip = document.getElementById("meta-strip");
-  const get = (k: string) => { try { return sessionStorage.getItem(k) === "1"; } catch { return false; } };
-  if (strip && !get(DONE) && !location.pathname.startsWith("/partners")) {
-    const show = () => { strip.hidden = false; };
-    if (get(SEEN)) show();
-    else window.addEventListener("meta-announce:closed", show, { once: true });
-    strip.querySelector(".ms-close")?.addEventListener("click", () => {
-      strip.hidden = true;
-      try { sessionStorage.setItem(DONE, "1"); } catch {}
+  const read = (key: string) => { try { return sessionStorage.getItem(key); } catch { return null; } };
+  if (strip) {
+    const [aws, meta] = strip.querySelectorAll<HTMLAnchorElement>(".ms-link");
+    let next = read(NEXT) ?? "aws";
+    let popupFinished = read(SEEN) === "1";
+    const render = () => {
+      aws.hidden = next !== "aws";
+      meta.hidden = next !== "meta";
+      strip.hidden = next === "done" || (next === "aws" && (!popupFinished || location.pathname.startsWith("/partners")));
+    };
+    const advance = (value: "meta" | "done") => {
+      next = value;
+      try { sessionStorage.setItem(NEXT, next); } catch {}
+      render();
+    };
+    aws.addEventListener("click", () => advance("meta"));
+    meta.addEventListener("click", () => advance("done"));
+    strip.querySelector(".ms-close")?.addEventListener("click", () => advance(next === "aws" ? "meta" : "done"));
+    window.addEventListener("aws-ai-announce:acknowledged", () => advance("meta"), { once: true });
+    window.addEventListener("aws-ai-announce:closed", () => { popupFinished = true; render(); }, { once: true });
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) { next = read(NEXT) ?? next; render(); }
     });
+    render();
   }
 </script>
