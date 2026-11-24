@@ -1,0 +1,305 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Faqs from "../components/content/Faqs.astro";
+import LeadForm from "../components/invoicenow/LeadForm.astro";
+import Workflow from "../components/invoicenow/Workflow.astro";
+import WorkflowDemo from "../components/invoicenow/WorkflowDemo.astro";
+import { breadcrumbSchema } from "../lib/schema";
+
+const imda = "https://www.imda.gov.sg/how-we-can-help/nationwide-e-invoicing-framework";
+const iras = "https://www.iras.gov.sg/taxes/goods-services-tax-(gst)/gst-invoicenow-requirement";
+const reseller = "https://file.go.gov.sg/invoicenowirsp.pdf#page=33";
+const title = "InvoiceNow Setup for Singapore Businesses | Algorims";
+const description = "Get ready for Singapore’s GST InvoiceNow requirement. Set up Xero or connect your existing accounting software, check grant eligibility and get support after go-live.";
+const phases = [
+  ["1 Nov 2025", "Companies applying for voluntary GST registration within six months of incorporation."],
+  ["1 Apr 2026", "All new voluntary GST applicants, regardless of incorporation date or business structure."],
+  ["1 Apr 2028", "New compulsory GST applicants, and existing GST-registered businesses with total annual supplies up to S$200,000."],
+  ["1 Apr 2029", "Existing GST-registered businesses with total annual supplies over S$200,000 and up to S$1 million."],
+  ["1 Apr 2030", "Existing GST-registered businesses with total annual supplies over S$1 million and up to S$4 million."],
+  ["1 Apr 2031", "Existing GST-registered businesses with total annual supplies over S$4 million."],
+];
+const paths = [
+  { title: "Already GST-registered?", body: "We review your current system and confirm when the requirement applies. Then we connect your software to InvoiceNow or move you to Xero, depending on what fits your business." },
+  { title: "Registering for GST voluntarily?", body: "InvoiceNow is a condition of new voluntary GST registration. We can set you up on Xero or connect the software you use so you’re ready to invoice from day one." },
+];
+const outcomes = [
+  { icon: "send", title: "Send invoices directly", body: "Deliver structured e-invoices straight to your customer’s accounting system through Peppol." },
+  { icon: "landmark", title: "Submit GST invoice data", body: "Enable submission to IRAS when the GST InvoiceNow requirement applies." },
+  { icon: "plug", title: "Connect the tools you use", body: "Keep compatible accounting or ERP software, or let us set up Xero and register your Peppol ID." },
+];
+const steps = [
+  { title: "Free consultation", body: "Tell us about your business, GST status and current software." },
+  { title: "Readiness review", body: "We confirm your deadline, check grant eligibility and recommend a setup." },
+  { title: "Setup and connection", body: "We configure your system, register your Peppol ID and enable submission to IRAS where required." },
+  { title: "Test and go live", body: "We test e-invoicing, verify applicable IRAS submissions and train your team." },
+  { title: "Ongoing support", body: "You get two months of support after go-live, with paid plans available after that." },
+];
+const reasons = [
+  { title: "Xero partner", body: "We set up Xero for businesses that want to move, and we use InvoiceNow ourselves." },
+  { title: "Integration engineers", body: "Our certified cloud and AI engineers handle the work of connecting your accounting and ERP systems." },
+  { title: "One partner from start to finish", body: "You work with the same team through consultation, setup, grant application support and aftercare." },
+  { title: "IMDA-accredited solutions", body: "We use IMDA-accredited InvoiceNow-Ready Solutions for Xero setups and connections to existing software." },
+];
+const faqs = [
+  { q: "What is InvoiceNow?", a: `Singapore’s national e-invoicing network, built on the Peppol standard. Read more on <a class="underline" href="${imda}" target="_blank" rel="noopener noreferrer">IMDA’s website (opens in a new tab)</a>.` },
+  { q: "When does my business need to comply?", a: 'It depends on how and when you applied for GST registration and, for existing registrants, your total annual supplies. <a class="underline" href="#gst-deadlines">See the IRAS timeline</a> or <a class="underline" href="#enquiry">ask us to confirm your date</a>.' },
+  { q: "Do I have to change my accounting software?", a: "You can keep your current accounting software if it can be connected through an accredited solution. We can also set you up on Xero." },
+  { q: "Do I also need to send purchase invoice data?", a: "Yes. IRAS generally requires invoice data for standard-rated and zero-rated purchases reported on your GST return. We configure this during onboarding where it applies." },
+  { q: "Am I eligible for a grant?", a: "Eligibility depends on several conditions. We’ll check for you free of charge." },
+  { q: "What happens if an invoice fails or is rejected?", a: "During the two months of included post-launch support, we help you find the cause, fix the problem and resend the invoice. Paid support is available after that." },
+  { q: "How much does it cost?", a: "It depends on your setup. After a short call, we’ll give you a quote." },
+];
+const schema = breadcrumbSchema([{ name: "Home", path: "/" }, { name: "InvoiceNow", path: "/invoicenow" }]);
+---
+
+<BaseLayout title={title} description={description} schema={schema} campaign>
+  <div class="invoice-page">
+    <section class="invoice-hero" aria-labelledby="invoice-title">
+      <div class="hero-copy">
+        <div class="hero-brand">
+          <span class="hero-logo"><img src="/assets/partners/invoicenow-logo.png" width="512" height="512" alt="InvoiceNow" /></span>
+          <p class="kicker">Singapore e-invoicing</p>
+        </div>
+        <h1 id="invoice-title">InvoiceNow, set up<br /><span>right the first time.</span></h1>
+        <p class="hero-sub">Get GST InvoiceNow-ready on Xero or your current software, with help sending your first e-invoice and support after go-live.</p>
+        <div class="hero-actions">
+          <a class="btn btn-hero btn-lg" href="#enquiry">Check eligibility <i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i></a>
+          <a class="btn btn-outline btn-lg" href="#enquiry">Talk to us</a>
+        </div>
+      </div>
+      <Workflow />
+      <ul class="proof-strip" aria-label="InvoiceNow credentials and benefits">
+        <li><i data-lucide="badge-check" aria-hidden="true"></i>Xero partner</li>
+        <li><i data-lucide="shield-check" aria-hidden="true"></i><a class="invoice-link" href={reseller}>IMDA-listed Xero reseller (PDF)</a></li>
+        <li><i data-lucide="headset" aria-hidden="true"></i>Two months of included support</li>
+      </ul>
+    </section>
+
+    <section class="invoice-section outcomes" aria-labelledby="outcomes-title">
+      <header class="outcomes-head">
+        <h2 id="outcomes-title">What you can do with InvoiceNow</h2>
+        <a class="invoice-link" href="#workflow">Explore the invoice workflow <span aria-hidden="true">↓</span></a>
+      </header>
+      <div class="outcomes-grid">
+        {outcomes.map(({ icon, title, body }) => (
+          <article>
+            <span class="outcome-icon"><i data-lucide={icon} aria-hidden="true"></i></span>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="invoice-section workflow scroll-mt-24" id="workflow" aria-labelledby="workflow-title">
+      <header class="section-head">
+        <h2 id="workflow-title">Follow an invoice <span>from your system to your customer.</span></h2>
+        <p>InvoiceNow is Singapore’s national e-invoicing network. Select a step to see how an invoice moves through Peppol and when data goes to IRAS.</p>
+      </header>
+      <WorkflowDemo />
+      <a class="invoice-link mt-5 inline-block" href={imda} target="_blank" rel="noopener noreferrer">Learn more on IMDA’s website <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+    </section>
+
+    <section class="invoice-section" aria-labelledby="steps-title">
+      <header class="section-head">
+        <p class="kicker">How it works</p>
+        <h2 id="steps-title">From readiness review <span>to your first e-invoice.</span></h2>
+      </header>
+      <ol class="timeline steps" role="list">
+        {steps.map(({ title, body }, index) => (
+          <li style={`--step-delay: ${index * 90}ms`}>
+            <span class="timeline-pin" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+            <div class="timeline-copy"><h3>{title}</h3><p>{body}</p></div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="invoice-section credentials" aria-labelledby="why-invoice-title">
+      <header class="section-head">
+        <h2 id="why-invoice-title">Why Algorims</h2>
+      </header>
+      <dl class="credentials-grid">
+        {reasons.map(({ title, body }) => <div><dt>{title}</dt><dd>{body}</dd></div>)}
+      </dl>
+    </section>
+
+    <section class="invoice-section" aria-labelledby="paths-title">
+      <header class="section-head">
+        <h2 id="paths-title">Get set up <span>for your GST status.</span></h2>
+        <p>We can connect eligible accounting software through an accredited solution or move you to Xero.</p>
+      </header>
+      <div class="path-grid">
+        {paths.map(({ title, body }) => (
+          <article>
+            <h3>{title}</h3>
+            <p>{body}</p>
+            <a class="btn btn-outline btn-default mt-auto self-start" href="#enquiry">Set me up <span class="sr-only">({title})</span><i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i></a>
+          </article>
+        ))}
+      </div>
+      <details class="schedule scroll-mt-24" id="gst-deadlines">
+        <summary><span>When does the GST requirement apply?</span><i data-lucide="chevron-down" aria-hidden="true"></i></summary>
+        <div class="schedule-body">
+          <p>IRAS is phasing in the GST InvoiceNow requirement. Your start date depends on how and when you registered for GST and, for existing registrants, your total annual supplies.</p>
+          <ol class="timeline schedule-timeline" role="list" aria-label="IRAS GST InvoiceNow implementation dates">
+            {phases.map(([date, applies]) => (
+              <li>
+                <span class="timeline-pin" aria-hidden="true"></span>
+                <div class="timeline-copy"><h3>{date}</h3><p>{applies}</p></div>
+              </li>
+            ))}
+          </ol>
+          <p class="text-sm">For existing registrants, IRAS uses total supplies from Box 4 of GST returns for accounting periods ending in 2025. Some businesses are excluded. <a class="invoice-link" href={iras}>See the IRAS requirements</a> or <a class="invoice-link" href="#enquiry">ask us to confirm your date</a>.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="invoice-section enquiry scroll-mt-24" id="enquiry" aria-labelledby="enquiry-title">
+      <div>
+        <p class="kicker">Free consultation</p>
+        <h2 id="enquiry-title">Find out what your business <span>needs for InvoiceNow.</span></h2>
+        <p class="enquiry-intro">Tell us about your business. We’ll reply within one working day to arrange your consultation.</p>
+        <ul class="enquiry-topics" role="list">
+          <li><i data-lucide="circle-check" aria-hidden="true"></i>Find out if and when InvoiceNow applies</li>
+          <li><i data-lucide="circle-check" aria-hidden="true"></i>Review options for your accounting software</li>
+          <li><i data-lucide="circle-check" aria-hidden="true"></i>Check your grant eligibility</li>
+        </ul>
+        <div class="enquiry-contact">
+          <a class="invoice-link" href="mailto:contactus@algorims.com?subject=InvoiceNow%20enquiry"><i data-lucide="mail" aria-hidden="true"></i>contactus@algorims.com</a>
+          <a class="invoice-link" href="tel:+6583459599"><i data-lucide="phone" aria-hidden="true"></i>+65 8345 9599</a>
+        </div>
+      </div>
+      <LeadForm />
+    </section>
+
+    <section class="invoice-section faq" aria-label="InvoiceNow frequently asked questions">
+      <Faqs items={faqs} />
+    </section>
+
+    <p class="legal">Algorims is a private provider. IMDA decides grant eligibility and amounts under its terms and conditions.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  const schedule = document.querySelector<HTMLDetailsElement>("#gst-deadlines")!;
+  const openLinkedSchedule = () => {
+    if (location.hash === "#gst-deadlines") schedule.open = true;
+  };
+  document.querySelector('a[href="#gst-deadlines"]')?.addEventListener("click", () => {
+    schedule.open = true;
+  });
+  addEventListener("hashchange", openLinkedSchedule);
+  openLinkedSchedule();
+
+  if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      }
+    }, { threshold: .25 });
+    document.querySelectorAll(".timeline > li").forEach((item) => observer.observe(item));
+  }
+</script>
+
+<style>
+  .invoice-page { width: min(100%, 80rem); margin-inline: auto; border-inline: 1px solid hsl(var(--border) / .65); }
+  .invoice-hero { text-align: center; }
+  .hero-copy { padding: clamp(32px, 4vw, 54px) 16px clamp(24px, 3vw, 36px); }
+  .hero-brand { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 14px; margin-bottom: 16px; }
+  .hero-brand .kicker { margin: 0; }
+  .hero-logo { display: grid; width: 92px; height: 40px; place-content: center; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .5rem; background: #fff; }
+  .hero-logo img { width: 76px; max-width: none; height: 76px; }
+  h1, h2 { color: hsl(var(--foreground)); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
+  h1 { max-width: 980px; margin-inline: auto; font-size: clamp(2.15rem, 4.65vw, 4.15rem); }
+  h1 span, h2 span { color: hsl(var(--primary)); }
+  h2 { font-size: clamp(1.9rem, 3.4vw, 3.1rem); }
+  h3, dt { font-size: 1.125rem; font-weight: 600; line-height: 1.35; }
+  p, dd { line-height: 1.6; }
+  .kicker { margin-bottom: 14px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+  .hero-sub { max-width: 630px; margin: 18px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); text-wrap: balance; }
+  .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 26px; }
+  .hero-actions a { min-height: 46px; height: auto; padding: 10px 16px; font-weight: 600; white-space: normal; }
+  .proof-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px 26px; padding: 14px 16px; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: .85rem; }
+  .proof-strip li { display: inline-flex; align-items: center; gap: 6px; }
+  .proof-strip :global(svg) { flex: none; width: 16px; height: 16px; color: hsl(var(--primary)); }
+  .invoice-section { padding: clamp(42px, 6vw, 78px) clamp(16px, 5vw, 74px); border-top: 1px solid hsl(var(--border)); }
+  .section-head { max-width: 700px; margin: 0 auto clamp(24px, 4vw, 42px); text-align: center; }
+  .section-head h2 + p { margin-top: 14px; }
+  .section-head h2 + p, article p, .steps p, dd, .schedule-body { color: hsl(var(--muted-foreground)); }
+  .invoice-link { color: hsl(var(--primary)); font-weight: 600; }
+  .invoice-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .outcomes { padding-block: clamp(24px, 4vw, 46px); }
+  .outcomes-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px 20px; margin-bottom: 20px; }
+  .outcomes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid hsl(var(--border)); }
+  .outcomes-grid article { padding: clamp(18px, 2.8vw, 32px); }
+  .outcomes-grid article + article { border-left: 1px solid hsl(var(--border)); }
+  .outcomes-grid p, .steps p, dd { margin-top: 8px; }
+  .outcome-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 14px; border: 1px solid hsl(var(--primary) / .25); border-radius: 10px; background: hsl(var(--primary) / .055); color: hsl(var(--primary)); }
+  .outcome-icon :global(svg) { width: 20px; height: 20px; }
+  .workflow, .credentials { background: hsl(var(--muted) / .37); }
+  .timeline { display: grid; gap: var(--timeline-gap); --timeline-gap: 20px; --pin-size: 40px; }
+  .timeline > li { position: relative; display: grid; justify-items: start; align-content: start; gap: 10px; min-width: 0; }
+  .timeline > li:not(:last-child)::after { position: absolute; inset: calc(var(--pin-size) / 2) auto auto calc(var(--pin-size) / 2); width: calc(100% + var(--timeline-gap)); height: 2px; background: hsl(var(--primary) / .3); content: ""; transform-origin: left center; }
+  .timeline-pin { position: relative; z-index: 1; display: grid; width: var(--pin-size); height: var(--pin-size); place-items: center; border: 1px solid hsl(var(--primary) / .5); border-radius: 50%; background: hsl(var(--card)); color: hsl(var(--primary)); font-size: .8rem; font-weight: 700; }
+  .steps { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .schedule-timeline { --pin-size: 14px; --line-start: 1 0; margin-block: 24px; }
+  .schedule-timeline > li { grid-template-columns: var(--pin-size) minmax(0, 1fr); column-gap: 14px; }
+  .schedule-timeline > li:not(:last-child)::after { inset: 12px auto auto calc(var(--pin-size) / 2 - 1px); width: 2px; height: calc(100% + var(--timeline-gap)); transform-origin: center top; }
+  .schedule-timeline .timeline-pin { margin-top: 5px; }
+  .schedule-timeline h3 { color: hsl(var(--foreground)); font-size: 1rem; }
+  .schedule-timeline .timeline-copy p { margin-top: 4px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .timeline > .is-visible .timeline-copy, .timeline > .is-visible .timeline-pin { animation: timeline-reveal .55s cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms) both; }
+    .timeline > .is-visible:not(:last-child)::after { animation: timeline-connect .7s cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms) both; }
+  }
+  @keyframes timeline-reveal { from { opacity: .55; translate: 0 9px; } to { opacity: 1; translate: none; } }
+  @keyframes timeline-connect { from { scale: var(--line-start, 0 1); } to { scale: 1; } }
+  .credentials-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+  .path-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .path-grid article { display: flex; flex-direction: column; gap: 12px; padding: clamp(20px, 3vw, 32px); border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--card)); }
+  .path-grid article:first-child { border-color: hsl(var(--primary) / .55); }
+  .path-grid article p { margin-bottom: 8px; }
+  .schedule { margin-top: 24px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1rem; }
+  .schedule summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; font-weight: 600; cursor: pointer; }
+  .schedule summary::-webkit-details-marker { display: none; }
+  .schedule summary:focus-visible { outline-offset: -5px; }
+  .schedule summary :global(svg) { width: 18px; height: 18px; flex: none; }
+  .schedule[open] summary :global(svg) { transform: rotate(180deg); }
+  .schedule-body { padding: 0 clamp(12px, 3vw, 24px) 20px; }
+  .enquiry { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: clamp(24px, 5vw, 64px); align-items: start; background: hsl(var(--primary) / .045); }
+  .enquiry .kicker { font-size: .875rem; }
+  .enquiry-intro { max-width: 39ch; margin-top: 16px; color: hsl(var(--muted-foreground)); }
+  .enquiry-topics { display: grid; gap: 12px; margin-block: 24px; }
+  .enquiry-topics li, .enquiry-contact a { display: flex; gap: 10px; }
+  .enquiry-topics :global(svg), .enquiry-contact :global(svg) { flex: none; width: 18px; height: 18px; color: hsl(var(--primary)); }
+  .enquiry-topics :global(svg) { margin-top: 3px; }
+  .enquiry-contact { display: flex; flex-wrap: wrap; gap: 0 18px; border-top: 1px solid hsl(var(--border)); padding-top: 6px; }
+  .enquiry-contact a { min-height: 44px; align-items: center; font-size: .875rem; }
+  .faq > :global(*) { max-width: 860px; margin-inline: auto; }
+  .legal { padding: 20px 16px 32px; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); text-align: center; font-size: .8rem; }
+  @media (width > 960px) {
+    .steps > li { --reveal-delay: var(--step-delay); }
+  }
+  @media (max-width: 960px) {
+    .steps { grid-template-columns: 1fr; --line-start: 1 0; }
+    .steps > li { grid-template-columns: var(--pin-size) minmax(0, 1fr); align-items: start; column-gap: 14px; }
+    .steps > li:not(:last-child)::after { inset: calc(var(--pin-size) / 2) auto auto calc(var(--pin-size) / 2 - 1px); width: 2px; height: calc(100% + var(--timeline-gap)); transform-origin: center top; }
+    .credentials-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 820px) { .enquiry { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .hero-actions a { width: min(100%, 320px); }
+    .outcomes-grid, .path-grid { grid-template-columns: 1fr; }
+    .outcomes-grid article { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; padding-inline: 0; }
+    .outcomes-grid article + article { border-left: 0; border-top: 1px solid hsl(var(--border)); }
+    .outcome-icon { grid-row: span 2; margin-bottom: 0; }
+    .outcomes-grid p { grid-column: 2; margin-top: 4px; }
+  }
+  @media (max-width: 380px) {
+    .credentials-grid { grid-template-columns: 1fr; }
+  }
+</style>

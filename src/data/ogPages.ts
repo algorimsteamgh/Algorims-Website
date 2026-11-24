@@ -12,6 +12,7 @@ export const staticOgCards: Record<string, OgCard> = {
   services: { kicker: "Services", title: "AI, data, cloud and DevOps engineering", description: "Development, cloud, DevOps and managed services." },
   "agentic-ai": { kicker: "Agentic AI", title: "Systems that reason, decide and act", description: "Agentic AI on Amazon Nova, Kendra and S3 Vectors." },
   partners: { kicker: "Partners", title: "Technology partners and credentials", description: "AWS, Anthropic Claude, Meta WhatsApp Business, Xero and InvoiceNow." },
+  invoicenow: { kicker: "InvoiceNow", title: "InvoiceNow, set up right the first time.", description: "GST InvoiceNow setup for Singapore businesses on Xero or your existing software." },
   "cca-f": { kicker: "CCA-F", title: "Claude Certified Architect Foundations", description: "An independent guide to the exam." },
   contact: { kicker: "Contact", title: "Scope your AI, cloud or DevOps initiative", description: "Most engagements start with a 30-minute conversation." },
   support: { kicker: "Support", title: "Engineers on call for AWS, DevOps and security" },

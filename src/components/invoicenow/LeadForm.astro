@@ -1,0 +1,116 @@
+---
+const optionalSelects = [
+  { name: "annual_turnover", label: "Annual turnover", options: ["Up to S$200k", "Over S$200k to S$1m", "Over S$1m to S$4m", "Above S$4m"] },
+  { name: "target_timeline", label: "Preferred go-live date", options: ["Within 1 month", "Within 2 months", "Within 3 months", "Still exploring"] },
+];
+---
+<form class="invoice-form" id="invoice-form" method="post" aria-labelledby="invoice-form-title">
+  <h3 id="invoice-form-title">Request a consultation</h3>
+  <div id="invoice-success" role="status" tabindex="-1" hidden>
+    <p class="font-semibold">Thanks, we received your request.</p>
+    <p class="mt-2 text-muted-foreground">We’ll get back to you within one working day.</p>
+  </div>
+  <div id="invoice-fields" class="space-y-4">
+    <input type="hidden" name="page_url" value={Astro.url.pathname} />
+    <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <div class="form-grid">
+      <label>Name <input class="field" name="name" autocomplete="name" maxlength="100" required /></label>
+      <label>Work email <input class="field" name="email" type="email" autocomplete="email" maxlength="255" required /></label>
+      <label>Company name <input class="field" name="company" autocomplete="organization" maxlength="120" required /></label>
+      <label>GST status
+        <select class="field" name="gst_status" required>
+          <option value="">Select your GST status</option>
+          <option>Not registered</option>
+          <option>Registering now</option>
+          <option>Already registered</option>
+          <option>Not sure</option>
+        </select>
+      </label>
+    </div>
+    <label>What would you like help with? <span class="text-muted-foreground">(optional)</span>
+      <textarea class="field" name="message" rows="3" maxlength="1000"></textarea>
+    </label>
+    <details>
+      <summary>Add business details <span class="text-muted-foreground">(optional)</span></summary>
+      <div class="form-grid pb-4">
+        <label>Accounting software <input class="field" name="accounting_software" maxlength="120" /></label>
+        <label>Phone <input class="field" name="phone" type="tel" autocomplete="tel" maxlength="24" /></label>
+        {optionalSelects.map(({ name, label, options }) => (
+          <label>{label}
+            <select class="field" name={name}>
+              <option value="">Select…</option>
+              {options.map((option) => <option>{option}</option>)}
+            </select>
+          </label>
+        ))}
+      </div>
+    </details>
+    <p id="invoice-feedback" class="text-sm text-muted-foreground" role="status"></p>
+    <button class="btn btn-hero btn-lg w-full sm:w-auto" type="submit" disabled>Send request</button>
+    <noscript><p>Please email <a class="underline" href="mailto:contactus@algorims.com?subject=InvoiceNow%20enquiry">contactus@algorims.com</a> to enquire.</p></noscript>
+  </div>
+</form>
+
+<style>
+  .invoice-form {
+    min-width: 0;
+    padding: clamp(16px, 3.5vw, 36px);
+    border: 1px solid hsl(var(--border));
+    border-radius: 1rem;
+    background: hsl(var(--card));
+    container-type: inline-size;
+  }
+  h3 { margin-bottom: 20px; font-size: 1.375rem; font-weight: 600; letter-spacing: -.025em; }
+  .form-grid { display: grid; gap: 16px; }
+  label { display: block; min-width: 0; font-size: .875rem; font-weight: 600; }
+  .field { display: block; margin-top: 6px; min-height: 46px; font-size: 1rem; }
+  textarea { resize: vertical; }
+  details { border-block: 1px solid hsl(var(--border)); }
+  summary { min-height: 46px; padding-block: 12px; color: hsl(var(--primary)); font-size: .875rem; font-weight: 600; cursor: pointer; }
+  @container (min-width: 26rem) { .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  #invoice-feedback:empty { display: none; }
+</style>
+
+<script>
+  import { sendForm, setButtonLoading } from "../../scripts/formSubmission";
+
+  const form = document.querySelector<HTMLFormElement>("#invoice-form")!;
+  const fields = document.querySelector<HTMLElement>("#invoice-fields")!;
+  const success = document.querySelector<HTMLElement>("#invoice-success")!;
+  const status = document.querySelector<HTMLElement>("#invoice-feedback")!;
+  const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+  const configuredKey = import.meta.env.PUBLIC_WEB3FORMS_LEAD_KEY || import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+  const key = configuredKey?.startsWith("YOUR-") ? undefined : configuredKey;
+  const email = "contactus@algorims.com";
+
+  if (!key) button.textContent = "Continue to email";
+  button.disabled = false;
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    if (data.get("botcheck")) return;
+
+    const body = [...data]
+      .filter(([name, value]) => name !== "botcheck" && value)
+      .map(([name, value]) => `${name.replaceAll("_", " ")}: ${value}`)
+      .join("\n");
+
+    status.textContent = "";
+    setButtonLoading(button, true);
+    try {
+      await sendForm(form, key, "InvoiceNow enquiry", email, body);
+      if (!key) {
+        status.textContent = `Send the draft from your email app to complete your enquiry. You can also reach us at ${email}.`;
+        return;
+      }
+      fields.hidden = true;
+      success.hidden = false;
+      success.focus();
+    } catch {
+      status.textContent = `Your enquiry could not be sent. Please try again or email ${email}.`;
+    } finally {
+      setButtonLoading(button, false);
+    }
+  });
+</script>

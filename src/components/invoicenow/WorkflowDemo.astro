@@ -1,0 +1,69 @@
+---
+const stages = [
+  { id: "create", label: "Create invoice", icon: "file-plus-2", source: "Your accounting software", title: "Raise an invoice as usual", body: "Create the invoice in Xero or your connected accounting software. The InvoiceNow-ready connection prepares it as structured data for Peppol.", status: "Ready to send" },
+  { id: "send", label: "Send via Peppol", icon: "send", source: "Your customer’s accounting system", title: "Deliver the e-invoice directly", body: "When your customer is on the network, the e-invoice goes straight into their connected accounting system. They can process it without re-entering invoice details.", status: "Delivered to customer" },
+  { id: "submit", label: "Submit GST data", icon: "landmark", source: "IRAS", title: "Send the required GST invoice data", body: "If the GST InvoiceNow requirement applies and submission is enabled, the connected solution sends invoice data to IRAS. Your team can check the submission status.", status: "GST invoice data submitted" },
+];
+---
+
+<fieldset class="invoice-demo">
+  <legend class="sr-only">Choose an e-invoicing step</legend>
+  {stages.map((stage, index) => (
+    <>
+      <input class="sr-only" type="radio" id={`invoice-step-${stage.id}`} name="invoice-demo" checked={index === 0} aria-controls={`invoice-panel-${stage.id}`} />
+      <label class="btn" for={`invoice-step-${stage.id}`}><i data-lucide={stage.icon} aria-hidden="true"></i>{stage.label}</label>
+    </>
+  ))}
+  <div class="invoice-example">
+    <div class="example-sheet">
+      <header>
+        <i data-lucide="receipt-text" aria-hidden="true"></i>
+        <div><h3>Sales invoice</h3><p>Example · INV-1042</p></div>
+      </header>
+      <dl>
+        <div><dt>Bill to</dt><dd>Harbour Studio</dd></div>
+        <div><dt>Item</dt><dd>Office supplies</dd></div>
+        <div><dt>Subtotal</dt><dd>S$500.00</dd></div>
+      </dl>
+    </div>
+    {stages.map((stage) => (
+      <div class="example-panel" id={`invoice-panel-${stage.id}`}>
+        <p class="example-source">{stage.source}</p>
+        <h3>{stage.title}</h3>
+        <p>{stage.body}</p>
+        <p class="example-status"><i data-lucide="circle-check" aria-hidden="true"></i>{stage.status}</p>
+      </div>
+    ))}
+  </div>
+</fieldset>
+
+<style>
+  .invoice-demo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; min-width: 0; padding: clamp(8px, 2vw, 20px); border: 1px solid hsl(var(--border)); background: hsl(var(--card)); }
+  label { min-height: 48px; padding: 6px; border: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); text-align: center; font-size: .9rem; font-weight: 600; line-height: 1.3; white-space: normal; }
+  label :global(svg), .example-status :global(svg) { flex: none; width: 17px; height: 17px; }
+  input:checked + label, label:hover { border-color: hsl(var(--primary) / .55); color: hsl(var(--primary)); }
+  input:checked + label { background: hsl(var(--primary) / .08); }
+  input:focus-visible + label { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .invoice-example { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(20px, 4vw, 56px); align-items: center; padding: clamp(16px, 4vw, 44px); background: hsl(var(--muted) / .5); }
+  .example-sheet { padding: clamp(16px, 3vw, 24px); border: 1px solid hsl(var(--border)); border-radius: .75rem; background: hsl(var(--card)); }
+  .example-sheet header { display: flex; align-items: center; gap: 12px; }
+  .example-sheet header :global(svg) { flex: none; color: hsl(var(--primary)); }
+  h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.3; }
+  .example-sheet header p, .example-panel > p { color: hsl(var(--muted-foreground)); }
+  dl { margin-top: 14px; font-size: .875rem; }
+  dl div { display: flex; justify-content: space-between; gap: 10px; padding-block: 8px; border-top: 1px solid hsl(var(--border)); }
+  dt { color: hsl(var(--muted-foreground)); }
+  dd { text-align: right; }
+  .example-panel { display: none; }
+  .invoice-demo:has(#invoice-step-create:checked) #invoice-panel-create,
+  .invoice-demo:has(#invoice-step-send:checked) #invoice-panel-send,
+  .invoice-demo:has(#invoice-step-submit:checked) #invoice-panel-submit { display: block; }
+  .example-panel .example-source { margin-bottom: 8px; color: hsl(var(--primary)); font-size: .8rem; font-weight: 600; }
+  .example-panel h3 + p { margin-top: 8px; line-height: 1.6; }
+  .example-panel .example-status { display: flex; align-items: center; gap: 8px; margin-top: 14px; color: hsl(var(--primary)); font-size: .875rem; font-weight: 600; }
+  @media (max-width: 640px) {
+    .invoice-example { grid-template-columns: 1fr; }
+    label { font-size: .8rem; }
+    label :global(svg) { display: none; }
+  }
+</style>
