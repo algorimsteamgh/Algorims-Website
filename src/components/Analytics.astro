@@ -1,0 +1,27 @@
+---
+// Meta Pixel + Google tag (GA4 and Google Ads), on every page.
+// Each tag renders only when its ID is set at build time, so local and preview
+// builds send nothing. Event helpers live in src/scripts/tracking.ts.
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+const adsId = import.meta.env.PUBLIC_GOOGLE_ADS_ID;
+const gtagIds = [ga4Id, adsId].filter(Boolean) as string[];
+---
+{pixelId && (
+  <script is:inline define:vars={{ pixelId }}>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");
+    fbq("init", pixelId);
+    fbq("track", "PageView");
+  </script>
+)}
+{gtagIds.length > 0 && <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gtagIds[0]}`}></script>}
+{gtagIds.length > 0 && (
+  <script is:inline define:vars={{ gtagIds }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
+    gtag("js", new Date());
+    // allow_enhanced_conversions lets the lead form pass a hashed phone number.
+    gtagIds.forEach((id) => gtag("config", id, id.startsWith("AW-") ? { allow_enhanced_conversions: true } : {}));
+  </script>
+)}

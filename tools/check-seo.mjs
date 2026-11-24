@@ -6,7 +6,7 @@ const dist = new URL("../dist/", import.meta.url).pathname;
 const site = "https://www.algorims.com";
 const read = (file) => readFileSync(join(dist, file), "utf8");
 const tag = (html, pattern) => html.match(pattern)?.[1];
-const unescape = (value) => value.replaceAll("&#39;", "'").replaceAll("&quot;", '"').replaceAll("&amp;", "&");
+const unescape = (value) => value.replaceAll("&#38;", "&").replaceAll("&#39;", "'").replaceAll("&quot;", '"').replaceAll("&amp;", "&");
 const canonicals = new Set();
 
 for (const file of readdirSync(dist, { recursive: true }).filter((file) => file.endsWith(".html"))) {
@@ -23,6 +23,8 @@ for (const file of readdirSync(dist, { recursive: true }).filter((file) => file.
     assert(html.includes('name="robots" content="noindex, follow"'), "404 must be noindex");
   } else if (file === "customer-stories/icea/index.html") {
     assert(html.includes('name="robots" content="noindex, follow"'), "Island City draft must be noindex");
+  } else if (file === "book-audit/thanks/index.html") {
+    assert(html.includes('name="robots" content="noindex, follow"'), "Audit thank-you page must be noindex");
   } else {
     assert.equal(canonical, site + (file === "index.html" ? "/" : `/${file.replace(/\/index\.html$/, "")}`));
     canonicals.add(canonical);

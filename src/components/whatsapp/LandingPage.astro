@@ -1,0 +1,322 @@
+---
+// Shared layout for every WhatsApp campaign page:
+// hero → 3 outcomes → demo → how it works → proof → packages → lead form → FAQ → consent.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ChatDemo from "./ChatDemo.astro";
+import LeadForm from "./LeadForm.astro";
+import Faqs from "../content/Faqs.astro";
+import { breadcrumbSchema } from "../../lib/schema";
+import {
+  SUBHEAD, steps, packages, results, clientLogos, coreFaqs, waLink, META_PRICING_URL, WHATSAPP_DISPLAY,
+  type LandingPageConfig,
+} from "../../data/whatsapp";
+
+interface Props { page: LandingPageConfig }
+const { page } = Astro.props;
+const hasWorkflow = Astro.slots.has("demo");
+const wa = waLink(page.waMessage, page.code);
+const faqs = [...coreFaqs, ...(page.faqs ?? [])];
+const plainText = (html: string) => html.replace(/<[^>]+>/g, "");
+const schema = [
+  breadcrumbSchema([{ name: "Home", path: "/" }, { name: page.breadcrumb, path: `/${page.slug}` }]),
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({ "@type": "Question", name: faq.q, acceptedAnswer: { "@type": "Answer", text: plainText(faq.a) } })),
+  },
+];
+---
+<BaseLayout title={page.metaTitle} description={page.metaDescription} schema={schema} campaign>
+<div class="wa-page">
+  <section class:list={["wa-hero", { "wa-hero-workflow": hasWorkflow }]} aria-labelledby="wa-title">
+    <div class="wa-intro">
+      <p class="wa-kicker">{page.kicker}</p>
+      <h1 id="wa-title">{page.headline}{page.headlineAccent && <><br /><span>{page.headlineAccent}</span></>}</h1>
+      <p class="wa-sub">{page.subhead ?? SUBHEAD}</p>
+      <div class="wa-ctas">
+        <a class="btn btn-hero btn-xl" href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" class="!w-5 !h-5" aria-hidden="true"></i>Chat with us on WhatsApp</a>
+        <a class="btn btn-outline btn-xl" href="#audit">Book a free audit</a>
+      </div>
+    </div>
+    <slot name="hero-illustration" />
+    <ul class="wa-trust" aria-label="Why Algorims">
+      <li><i data-lucide="shield-check" aria-hidden="true"></i>Verified Meta Tech Provider</li>
+      <li><i data-lucide="clock" aria-hidden="true"></i>{hasWorkflow ? "Most businesses go live within 7 days" : "Live in 7 days"}</li>
+      <li><i data-lucide="map-pin" aria-hidden="true"></i>Singapore team</li>
+    </ul>
+  </section>
+
+  <section class="wa-section" aria-labelledby="wa-outcomes">
+    {hasWorkflow ? (
+      <header class="wa-capabilities">
+        <h2 id="wa-outcomes">What you can do with the API</h2>
+        <a href="#workflow">Explore example workflows <span aria-hidden="true">↓</span></a>
+      </header>
+    ) : <h2 id="wa-outcomes" class="sr-only">What you get</h2>}
+    <div class="wa-outcomes">
+      {page.outcomes.map((o) => (
+        <article>
+          <span class="wa-icon"><i data-lucide={o.icon} aria-hidden="true"></i></span>
+          <h3>{o.title}</h3>
+          <p>{o.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <slot name="demo">
+    <section class="wa-section wa-demo" aria-labelledby="wa-demo-title">
+      <div>
+        <p class="wa-kicker">{page.demo.video ? "Demo" : "Example conversation"}</p>
+        <h2 id="wa-demo-title">{page.demo.title}</h2>
+        <p>{page.demo.body}</p>
+        <a class="wa-textlink" href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer">Try it yourself on WhatsApp →</a>
+      </div>
+      <ChatDemo demo={page.demo} />
+    </section>
+  </slot>
+
+  {page.extra === "pricing" && (
+    <section class="wa-section" aria-labelledby="wa-costs">
+      <header class="wa-head">
+        <p class="wa-kicker">How costs work</p>
+        <h2 id="wa-costs">Two bills, <span>both clear.</span></h2>
+        <p class="wa-pricing-line">Meta charges message fees directly to your account. Our fees cover setup, software and support.</p>
+      </header>
+      <div class="wa-split">
+        <article>
+          <h3>Paid to Algorims</h3>
+          <ul>
+            <li>One-off setup: verification, number migration, templates and flows</li>
+            <li>Monthly software: inbox, AI agent and integrations</li>
+            <li>Support from our Singapore team</li>
+          </ul>
+        </article>
+        <article>
+          <h3>Paid to Meta</h3>
+          <ul>
+            <li>Message fees, billed by Meta to your WhatsApp Business account</li>
+            <li>Rates depend on message type and your customer's country</li>
+            <li>Replies inside a customer's 24-hour service window are currently free</li>
+          </ul>
+          <a class="wa-textlink" href={META_PRICING_URL} target="_blank" rel="noopener noreferrer">See Meta's current rates →</a>
+        </article>
+      </div>
+    </section>
+  )}
+
+  {page.extra === "comparison" && (
+    <section class="wa-section" aria-labelledby="wa-compare">
+      <header class="wa-head">
+        <p class="wa-kicker">Compare</p>
+        <h2 id="wa-compare">Self-serve tool <span>or managed service?</span></h2>
+        <p>Self-serve inbox platforms suit teams with time to build their own flows. Algorims suits teams that want it built and run for them.</p>
+      </header>
+      <div class="wa-table-wrap">
+        <table class="wa-table">
+          <thead><tr><th scope="col"><span class="sr-only">Area</span></th><th scope="col">Algorims (managed)</th><th scope="col">Typical self-serve platform</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Who sets it up</th><td>Our engineers, end to end</td><td>Your team, with help docs</td></tr>
+            <tr><th scope="row">AI agent and flows</th><td>Built and tuned for your business</td><td>Builder tools you configure</td></tr>
+            <tr><th scope="row">Meta verification and green tick application</th><td>We prepare and submit</td><td>Varies by plan</td></tr>
+            <tr><th scope="row">CRM and system integrations</th><td>Built as part of setup</td><td>Connectors you set up</td></tr>
+            <tr><th scope="row">Message fees</th><td>Billed by Meta directly to you</td><td>Check each provider's pricing</td></tr>
+            <tr><th scope="row">Support</th><td>Singapore team in your time zone</td><td>Varies by plan</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="wa-fineprint">WATI is a trademark of its owner. Algorims is not affiliated with WATI. Features of other platforms vary by plan; check with the provider.</p>
+    </section>
+  )}
+
+  <section class="wa-section" aria-labelledby="wa-how">
+    <header class="wa-head">
+      <p class="wa-kicker">How it works</p>
+      <h2 id="wa-how">Audit. Setup. <span>Go live.</span></h2>
+    </header>
+    <ol class="wa-steps">
+      {steps.map((step, i) => (
+        <li><span>0{i + 1}</span><h3>{step.title}</h3><p>{step.body}</p></li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="wa-section" aria-labelledby="wa-proof">
+    <header class="wa-head">
+      <p class="wa-kicker">Proof</p>
+      <h2 id="wa-proof">Verified Meta Tech Provider. <span>Real results.</span></h2>
+      <p>Algorims is a verified Meta Tech Provider for the WhatsApp Business Platform, and builds AI support agents in production today.</p>
+    </header>
+    {clientLogos.length > 0 && (
+      <ul class="wa-logos" aria-label="Clients">{clientLogos.map((logo) => <li><img src={logo.src} alt={logo.alt} loading="lazy" /></li>)}</ul>
+    )}
+    <div class="wa-results">
+      {results.map((r) => (
+        <a href={r.href}>
+          <strong>{r.value}</strong>
+          <span>{r.label}</span>
+          <small>{r.source} →</small>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="wa-section" aria-labelledby="wa-packages">
+    <header class="wa-head">
+      <p class="wa-kicker">Packages</p>
+      <h2 id="wa-packages">Start small. <span>Grow when ready.</span></h2>
+      {page.extra !== "pricing" && <p>Meta charges message fees directly to your account. Our fees cover setup, software and support.</p>}
+    </header>
+    <div class="wa-packages">
+      {packages.map((pkg) => (
+        <article class:list={[{ featured: pkg.featured }]}>
+          <h3>{pkg.name}</h3>
+          <p class="wa-for">{pkg.for}</p>
+          <p class="wa-price">{pkg.priceFrom ? <>From <b>{pkg.priceFrom}</b></> : "Quoted after your free audit"}</p>
+          <ul>{pkg.items.map((item) => <li><i data-lucide="check" aria-hidden="true"></i>{item}</li>)}</ul>
+          <a class:list={["btn btn-lg", pkg.featured ? "btn-hero" : "btn-outline"]} href="#audit">Book a free audit</a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="audit" class="wa-section wa-audit scroll-mt-24" aria-labelledby="wa-audit-title">
+    <div>
+      <p class="wa-kicker">Free 15-minute audit</p>
+      <h2 id="wa-audit-title">See what WhatsApp could do <span>for your business.</span></h2>
+      <p>Tell us a little about you. We'll reply on WhatsApp within one business day to book your audit, or you can <a href="/book-audit">pick a time now</a>.</p>
+      <p class="wa-direct">Or chat now: <a href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer">{WHATSAPP_DISPLAY}</a></p>
+    </div>
+    <div class="wa-form-card">
+      <LeadForm code={page.code} waMessage={page.waMessage} industry={page.industry} />
+    </div>
+  </section>
+
+  <section class="wa-section wa-faq" aria-label="Frequently asked questions">
+    <Faqs items={faqs} />
+  </section>
+
+  <aside class="wa-legal" aria-label="Data protection and trademarks">
+    <p>We use the details you share only to respond to your enquiry and arrange your audit, in line with Singapore's Personal Data Protection Act (PDPA). See our <a href="/privacy">privacy policy</a>.</p>
+    <p>WhatsApp and Meta are trademarks of Meta Platforms, Inc. Algorims is a verified Meta Tech Provider.</p>
+  </aside>
+</div>
+
+<a class="wa-sticky btn btn-hero" href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" class="!w-5 !h-5" aria-hidden="true"></i>Chat on WhatsApp</a>
+</BaseLayout>
+
+<style>
+  .wa-page { width: min(100%, 80rem); margin-inline: auto; border-inline: 1px solid hsl(var(--border) / .65); --wa-gap: clamp(48px, 7vw, 84px); }
+  .wa-kicker { margin: 0 0 14px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .wa-hero { text-align: center; }
+  .wa-intro { padding: clamp(36px, 5vw, 66px) 20px clamp(20px, 3vw, 36px); }
+  .wa-hero h1 { max-width: 980px; margin: 0 auto; font-size: clamp(2.3rem, 5vw, 4.4rem); font-weight: 600; line-height: 1.04; letter-spacing: -.055em; text-wrap: balance; }
+  .wa-hero h1 span, .wa-page h2 span { color: hsl(var(--primary)); }
+  .wa-sub { max-width: 640px; margin: 22px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.6; text-wrap: balance; }
+  .wa-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+  .wa-ctas .btn { min-height: 52px; font-weight: 600; }
+  .wa-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 0; padding: 15px 20px; border-top: 1px solid hsl(var(--border)); list-style: none; color: hsl(var(--muted-foreground)); font-size: .85rem; }
+  .wa-trust li { display: inline-flex; align-items: center; gap: 6px; }
+  .wa-trust :global(svg) { width: 16px; height: 16px; color: hsl(var(--primary)); }
+  .wa-hero-workflow .wa-intro { padding-block: clamp(32px, 4vw, 54px) clamp(24px, 3vw, 36px); }
+  .wa-hero-workflow h1 { font-size: clamp(2.15rem, 4.65vw, 4.15rem); letter-spacing: -.042em; }
+  .wa-hero-workflow .wa-sub { max-width: 720px; }
+  .wa-capabilities { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 20px; margin-bottom: 20px; }
+  .wa-capabilities a { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; color: hsl(var(--primary)); font-size: .9rem; font-weight: 600; }
+  .wa-capabilities a:hover { text-decoration: underline; }
+  .wa-section:has(.wa-capabilities) .wa-outcomes { border-block: 1px solid hsl(var(--border) / .65); }
+
+  .wa-section { padding: var(--wa-gap) clamp(20px, 5vw, 74px); border-top: 1px solid hsl(var(--border)); }
+  .wa-head { max-width: 760px; margin: 0 auto 44px; text-align: center; }
+  .wa-page h2 { margin: 0; font-size: clamp(1.9rem, 3.4vw, 3.1rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
+  .wa-head > p:last-child:not(.wa-kicker) { margin-top: 16px; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .wa-page h3 { font-size: 1.2rem; font-weight: 600; letter-spacing: -.02em; }
+  .wa-textlink { display: inline-block; margin-top: 18px; color: hsl(var(--primary)); font-weight: 600; }
+
+  .wa-section:has(.wa-outcomes) { padding-block: clamp(24px, 4vw, 46px); }
+  .wa-outcomes { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .wa-outcomes article { padding: 32px; }
+  .wa-outcomes article + article { border-left: 1px solid hsl(var(--border)); }
+  .wa-outcomes p { margin-top: 10px; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .wa-icon { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 16px; border: 1px solid hsl(var(--primary) / .25); border-radius: 10px; background: hsl(var(--primary) / .055); color: hsl(var(--primary)); }
+  .wa-icon :global(svg) { width: 20px; height: 20px; }
+
+  .wa-demo { display: grid; grid-template-columns: 1fr minmax(0, 400px); align-items: center; gap: clamp(28px, 6vw, 88px); background: hsl(var(--muted) / .55); }
+  .wa-demo > div > p:not(.wa-kicker) { margin-top: 16px; max-width: 460px; color: hsl(var(--muted-foreground)); line-height: 1.65; }
+
+  .wa-pricing-line { color: hsl(var(--foreground)) !important; font-weight: 500; }
+  .wa-split { display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; max-width: 1000px; margin: 0 auto; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .wa-split article { padding: 32px; }
+  .wa-split article + article { border-left: 1px solid hsl(var(--border)); background: hsl(var(--muted) / .6); }
+  .wa-split ul, .wa-packages ul { display: grid; gap: 10px; margin: 16px 0 0; padding: 0; list-style: none; color: hsl(var(--muted-foreground)); line-height: 1.5; }
+  .wa-split li { padding-left: 16px; border-left: 2px solid hsl(var(--primary) / .4); }
+
+  .wa-table-wrap { max-width: 1000px; margin: 0 auto; overflow-x: auto; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .wa-table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .95rem; }
+  .wa-table th, .wa-table td { padding: 16px 20px; border-bottom: 1px solid hsl(var(--border)); text-align: left; vertical-align: top; }
+  .wa-table tbody tr:last-child > * { border-bottom: 0; }
+  .wa-table thead th { font-weight: 600; }
+  .wa-table thead th:nth-child(2), .wa-table td:nth-child(2) { background: hsl(var(--primary) / .05); }
+  .wa-table thead th:nth-child(2) { color: hsl(var(--primary)); }
+  .wa-table tbody th { font-weight: 500; }
+  .wa-table td { color: hsl(var(--muted-foreground)); }
+  .wa-fineprint { max-width: 1000px; margin: 16px auto 0; color: hsl(var(--muted-foreground)); font-size: .75rem; }
+
+  .wa-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; padding: 0; list-style: none; counter-reset: none; }
+  .wa-steps li { padding-top: 20px; border-top: 2px solid hsl(var(--foreground)); }
+  .wa-steps span { color: hsl(var(--primary)); font-size: .75rem; font-weight: 700; letter-spacing: .15em; }
+  .wa-steps h3 { margin-top: 10px; }
+  .wa-steps p { margin-top: 8px; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+
+  .wa-logos { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin: 0 0 32px; padding: 0; list-style: none; }
+  .wa-logos img { height: 40px; width: auto; filter: grayscale(1); opacity: .7; }
+  .wa-results { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 900px; margin: 0 auto; }
+  .wa-results a { display: grid; gap: 8px; padding: 28px; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; transition: border-color .2s; }
+  .wa-results a:hover { border-color: hsl(var(--primary)); }
+  .wa-results strong { color: hsl(var(--primary)); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 600; letter-spacing: -.04em; }
+  .wa-results span { line-height: 1.5; }
+  .wa-results small { color: hsl(var(--muted-foreground)); font-size: .8rem; }
+
+  .wa-packages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1100px; margin: 0 auto; }
+  .wa-packages article { display: flex; flex-direction: column; padding: 30px; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .wa-packages article.featured { border-color: hsl(var(--primary)); box-shadow: 0 0 0 1px hsl(var(--primary)); }
+  .wa-for { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .9rem; }
+  .wa-price { margin-top: 18px; padding-bottom: 18px; border-bottom: 1px solid hsl(var(--border)); font-size: .95rem; }
+  .wa-price b { font-size: 1.5rem; }
+  .wa-packages ul { flex: 1; margin-bottom: 24px; }
+  .wa-packages li { display: flex; gap: 10px; }
+  .wa-packages li :global(svg) { flex: none; width: 18px; height: 18px; margin-top: 2px; color: hsl(var(--primary)); }
+
+  .wa-audit { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+  .wa-audit > div:first-child > p:not(.wa-kicker) { margin-top: 16px; color: hsl(var(--muted-foreground)); line-height: 1.65; }
+  .wa-audit a { color: hsl(var(--primary)); font-weight: 600; }
+  .wa-form-card { padding: clamp(24px, 3vw, 40px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--muted) / .5); }
+
+  .wa-faq > :global(*) { max-width: 860px; margin-inline: auto; }
+  .wa-faq :global(details p a) { color: hsl(var(--primary)); text-decoration: underline; }
+
+  .wa-legal { display: grid; gap: 6px; padding: 24px clamp(20px, 5vw, 74px) 40px; border-top: 1px solid hsl(var(--border)); color: hsl(var(--muted-foreground)); font-size: .78rem; line-height: 1.5; text-align: center; }
+  .wa-legal a { text-decoration: underline; }
+
+  .wa-sticky { display: none; }
+
+  @media (max-width: 900px) {
+    .wa-steps, .wa-packages, .wa-split, .wa-results { grid-template-columns: 1fr; }
+    .wa-split article + article { border-left: 0; border-top: 1px solid hsl(var(--border)); }
+    .wa-demo, .wa-audit { grid-template-columns: 1fr; }
+    .wa-outcomes article { padding: 24px; }
+  }
+  @media (max-width: 640px) {
+    .wa-outcomes { grid-template-columns: 1fr; }
+    .wa-outcomes article { display: grid; grid-template-columns: auto 1fr; column-gap: 14px; padding: 18px 0; }
+    .wa-outcomes article + article { border-left: 0; border-top: 1px solid hsl(var(--border)); }
+    .wa-outcomes p { grid-column: 2; margin-top: 4px; }
+    .wa-icon { grid-row: span 2; margin-bottom: 0; }
+    .wa-ctas { flex-direction: column; }
+    .wa-ctas .btn { width: 100%; }
+    /* Thumb-reach WhatsApp button on phones. */
+    .wa-sticky { position: fixed; z-index: 40; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); left: 12px; display: flex; min-height: 52px; font-weight: 600; box-shadow: var(--shadow-md); }
+    :global(html:has(.wa-sticky)) { scroll-padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+    :global(body:has(.wa-sticky) footer) { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  }
+</style>
