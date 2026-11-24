@@ -41,6 +41,22 @@ const index = [
   },
   { id: "meta", name: "WhatsApp Business", tier: "Meta Tech Provider", tint: "262 83% 58%", logo: "/assets/partners/whatsapp-glyph-green-2026.svg" },
   {
+    id: "invoicenow",
+    tint: "262 70% 50%",
+    name: "InvoiceNow",
+    tier: "InvoiceNow-Ready Solution Provider (IRSP) Reseller",
+    title: "Get InvoiceNow-ready with Xero",
+    logo: "/assets/partners/invoicenow-logo.png",
+    alt: "InvoiceNow",
+    body: "Algorims helps Singapore businesses set up InvoiceNow in Xero so they can send and receive e-invoices through Peppol, the network that powers InvoiceNow.",
+    tags: ["Xero", "Peppol network", "IRAS"],
+    outcomes: [
+      { title: "Peppol registration", desc: "Register your business on InvoiceNow and get a Peppol ID linked to your UEN." },
+      { title: "Electronic invoicing", desc: "Send and receive structured invoices with customers and suppliers on the network." },
+      { title: "GST InvoiceNow setup", desc: "Enable invoice data submission to IRAS if the GST InvoiceNow Requirement applies to your business." },
+    ],
+  },
+  {
     id: "xero",
     tint: "195 84% 50%",
     name: "Xero Ecosystem",
@@ -58,10 +74,24 @@ const index = [
     ],
   },
 ];
+
+const partnerCredentials = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Algorims technology partners and credentials",
+  itemListElement: index.map(({ id, name, tier }, position) => ({
+    "@type": "ListItem",
+    position: position + 1,
+    name,
+    description: tier,
+    url: new URL(`${Astro.url.pathname}#${id}`, Astro.site).toString(),
+  })),
+};
 ---
 <BaseLayout
-  title="AWS AI Services Competency and Partner Credentials | Algorims"
-  description="Explore Algorims’ AWS AI Services Competency for generative and agentic AI consulting, Claude Partner Network certification, and work with WhatsApp Business and Xero."
+  title="AWS, Anthropic, Meta, Xero and InvoiceNow | Algorims Partners"
+  description="AWS AI Services Competency and Advanced Tier, Anthropic Claude certification, Meta WhatsApp Business, Xero partnership and InvoiceNow reseller status."
+  schema={partnerCredentials}
 >
   <div class="partners-page">
     <section class="partners-hero" aria-labelledby="partners-title">
@@ -182,7 +212,14 @@ const index = [
               <p class="eyebrow">{p.name} <span aria-hidden="true">·</span> {p.tier}</p>
               <h2 id={`${p.id}-title`}>{p.title}</h2>
               <p class="partner-lead">{p.body}</p>
+              {p.id === "invoicenow" && <p>IMDA lists Algorims Pte. Ltd. as an IRSP reseller for Xero.</p>}
               <PartnerOutcomes outcomes={p.outcomes} />
+              {p.id === "invoicenow" && (
+                <div class="invoicenow-links">
+                  <a class="text-link" href="/contact">Talk to us about InvoiceNow <span aria-hidden="true">→</span></a>
+                  <a class="text-link" href="https://file.go.gov.sg/invoicenowirsp.pdf#page=33">View the IMDA listing (PDF) <span aria-hidden="true">↗</span></a>
+                </div>
+              )}
             </div>
           </>)}
         </div>
@@ -203,15 +240,14 @@ const index = [
   h1 span { display: block; color: hsl(var(--primary)); }
   .lede { max-width: 700px; margin: 24px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; text-wrap: balance; }
 
-  .credential-index { max-width: 760px; margin: 48px auto 0; }
-  .credential-index ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .credential-index { max-width: 1000px; margin: 48px auto 0; }
+  .credential-index ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 12px; margin: 0; padding: 0; list-style: none; }
   .credential-index a { display: flex; align-items: center; gap: 14px; height: 100%; padding: 12px 16px 12px 12px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--card)); text-align: left; transition: border-color .2s ease, transform .2s ease; }
   .credential-index a:hover { border-color: hsl(var(--primary) / .55); transform: translateY(-2px); }
   .credential-index a:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
   .index-logo { flex-shrink: 0; display: grid; place-items: center; width: 48px; height: 48px; padding: 6px; border-radius: 10px; background: #fff; border: 1px solid hsl(var(--border) / .7); overflow: hidden; }
   .index-logo img { width: 100%; height: 100%; object-fit: contain; }
   .featured .index-logo { padding: 0; }
-  .featured { grid-column: 1 / -1; }
   .featured a { border-color: hsl(var(--primary) / .4); }
   .index-text { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
   .index-name { color: hsl(var(--foreground)); font-size: .92rem; font-weight: 600; line-height: 1.3; }
@@ -232,6 +268,7 @@ const index = [
   .claude-badge { display: block; width: 168px; max-width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow-lg); }
   .badge-tile { display: grid; place-items: center; width: 168px; height: 168px; padding: 20px; border-radius: 1.25rem; background: #fff; border: 1px solid hsl(var(--border) / .7); box-shadow: var(--shadow-lg); }
   .badge-tile img { width: 100%; height: 100%; object-fit: contain; }
+  .invoicenow-links { display: flex; flex-wrap: wrap; column-gap: 24px; }
 
   .tier-ladder { width: 100%; max-width: 420px; }
   .tier-ladder ol { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); margin: 0; padding: 0; list-style: none; }
@@ -262,7 +299,8 @@ const index = [
   :global(.dark) .badge-tile, :global(.dark) .claude-badge { box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .7); }
 
   @media (max-width: 960px) {
-    .credential-index ul { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
+    .credential-index { max-width: 760px; }
+    .credential-index ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .partner-grid { grid-template-columns: 1fr; }
     .partner.flip .partner-stage { order: 0; }
     .partner-stage { min-height: 0; }
@@ -271,7 +309,8 @@ const index = [
   @media (max-width: 600px) {
     .partners-hero { padding-top: 40px; }
     h1 { font-size: 2.4rem; }
-    .credential-index { margin-top: 36px; }
+    .credential-index { max-width: 460px; margin-top: 36px; }
+    .credential-index ul { grid-template-columns: 1fr; }
     .partner-stage { gap: 24px; padding: 28px 18px; border-radius: 1.25rem; }
     .badge-tile { width: 132px; height: 132px; padding: 16px; }
     .tier-name { font-size: .72rem; }
