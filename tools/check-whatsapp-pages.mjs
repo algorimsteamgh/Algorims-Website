@@ -10,7 +10,7 @@ const pages = {
 };
 // Exact links from the plan.
 const planned = {
-  "API-01": "https://wa.me/6581492575?text=Hi%2C%20I%27m%20interested%20in%20WhatsApp%20API%20%5BAPI-01%5D",
+  "API-01": "https://wa.me/6581492575?text=Hi%2C%20I%27m%20interested%20in%20managed%20WhatsApp%20Business%20%5BAPI-01%5D",
   "CLN-01": "https://wa.me/6581492575?text=Hi%2C%20I%27m%20interested%20in%20WhatsApp%20for%20my%20clinic%20%5BCLN-01%5D",
 };
 

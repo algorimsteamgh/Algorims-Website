@@ -52,7 +52,7 @@ export const SUBHEAD = "Set up and managed by a verified Meta Tech Provider in S
 
 export const steps = [
   { title: "Audit", body: "A free 15-minute call. We look at your chat volume, your current setup and the one workflow worth automating first." },
-  { title: "Setup", body: "We handle Meta business verification, connect your number to the official API, get your message templates approved and build your flows." },
+  { title: "Setup", body: "We handle Meta business verification, connect your WhatsApp Business number, get your message templates approved and build your flows." },
   { title: "Go live", body: "Your team starts replying from one inbox. We watch quality ratings and tune the AI agent in the first weeks." },
 ];
 
@@ -65,7 +65,7 @@ export const packages: { name: string; for: string; priceFrom: string | null; it
     name: "Starter",
     for: "Small shops, clinics and F&B outlets",
     priceFrom: null,
-    items: ["Official WhatsApp Business API setup", "Move your existing number", "3 approved message templates", "Shared team inbox"],
+    items: ["WhatsApp Business setup", "Move your existing number", "3 approved message templates", "Shared team inbox"],
   },
   {
     name: "Growth",
@@ -104,7 +104,7 @@ export const coreFaqs = [
   },
   {
     q: "Can we keep our existing number?",
-    a: "In most cases, yes. We move your current number from the WhatsApp Business app to the API, and where Meta supports it you can keep using the app on the same number. We confirm eligibility during the audit.",
+    a: "In most cases, yes. We connect your current WhatsApp Business number to our managed service. Where Meta supports it, you can keep using the app on the same number. We confirm eligibility during the audit.",
   },
   {
     q: "How long does setup take?",
@@ -118,13 +118,13 @@ export const landingPages = {
   api: {
     slug: "whatsapp-business-api",
     code: "API-01",
-    waMessage: "Hi, I'm interested in WhatsApp API",
-    metaTitle: "Managed WhatsApp Business API Singapore | Algorims",
-    metaDescription: "Official WhatsApp Business API setup in Singapore. Connect AI replies, a shared inbox and automated updates with Algorims, a verified Meta Tech Provider.",
-    og: { kicker: "WhatsApp Business API", title: "Official WhatsApp Business API, managed for your business", description: "Set up and managed by a verified Meta Tech Provider in Singapore." },
-    kicker: "WhatsApp Business Platform",
-    headline: "Official WhatsApp Business API.",
-    headlineAccent: "Managed for your business.",
+    waMessage: "Hi, I'm interested in managed WhatsApp Business",
+    metaTitle: "Managed WhatsApp Business in Singapore | Algorims",
+    metaDescription: "Managed WhatsApp Business in Singapore. Connect AI replies, a shared inbox and automated updates with Algorims, a verified Meta Tech Provider.",
+    og: { kicker: "WhatsApp Business", title: "WhatsApp Business, managed for you", description: "Set up and managed by a verified Meta Tech Provider in Singapore." },
+    kicker: "WhatsApp Business",
+    headline: "WhatsApp Business,",
+    headlineAccent: "managed for you.",
     subhead: "Give customers one number for sales, support and updates. Algorims connects your systems, builds your automations and sets up a shared inbox for your team.",
     outcomes: [
       { icon: "zap", title: "Reply in seconds with AI", body: "An AI agent answers common questions day and night, then hands over to your team when a person is needed." },
@@ -142,7 +142,7 @@ export const landingPages = {
         { from: "business", text: "Here’s the white linen shirt in medium. You can order from the product page." },
       ],
     },
-    breadcrumb: "WhatsApp Business API",
+    breadcrumb: "WhatsApp Business",
   },
   pricing: {
     slug: "whatsapp-api-pricing",
