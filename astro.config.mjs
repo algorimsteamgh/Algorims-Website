@@ -10,7 +10,7 @@ export default defineConfig({
   prefetch: true,
   integrations: [
     sitemap({
-      filter: (page) => !["/404", "/customer-stories/icea"].includes(new URL(page).pathname),
+      filter: (page) => !["/404", "/customer-stories/icea", "/book-audit/thanks"].includes(new URL(page).pathname),
     }),
     tailwind({
       // global.css includes Tailwind's base, components, and utilities.

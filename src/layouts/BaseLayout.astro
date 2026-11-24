@@ -19,6 +19,7 @@ import { offices } from "../data/offices";
 import { ogSlug } from "../data/ogPages";
 import AwsAiAnnouncement from "../components/AwsAiAnnouncement.astro";
 import MetaStrip from "../components/MetaStrip.astro";
+import Analytics from "../components/Analytics.astro";
 import { organizationSchema, websiteSchema } from "../lib/schema";
 
 const countryOffices = offices.filter((office, index) => offices.findIndex(({ country }) => country === office.country) === index);
@@ -30,6 +31,8 @@ export interface Props {
   canonical?: string;
   robots?: string;
   schema?: object | object[];
+  /** Paid-traffic landing page: no announcement popups or third-party chat widget. */
+  campaign?: boolean;
 }
 
 const {
@@ -39,6 +42,7 @@ const {
   canonical = new URL(Astro.url.pathname, Astro.site).toString(),
   robots = "index, follow",
   schema = [],
+  campaign = false,
 } = Astro.props;
 const noindex = robots.includes("noindex");
 const shareImage = ogImage ?? (noindex ? "https://www.algorims.com/assets/algorims-icon-transparent.webp" : new URL(`/og/${ogSlug(Astro.url.pathname)}.png`, Astro.site).toString());
@@ -87,6 +91,8 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 <meta name="twitter:image" content={shareImage} />
 {jsonLd.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item).replaceAll("<", "\\u003c")} />)}
 
+<Analytics />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
@@ -117,13 +123,13 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
           <a href="/agentic-ai" aria-current={path.startsWith("/agentic-ai") ? "page" : undefined}>Agentic AI</a>
           <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
           <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
-          <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
+          <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
           <details class="resources-dropdown">
             <summary>Resources <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
             <div class="resources-menu">
               <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
               <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
-              <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
+              <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
             </div>
           </details>
         </nav>
@@ -147,13 +153,13 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
         <a href="/agentic-ai" aria-current={path.startsWith("/agentic-ai") ? "page" : undefined}>Agentic AI</a>
         <a href="/services" aria-current={path.startsWith("/services") ? "page" : undefined}>Services</a>
         <a href="/solutions" aria-current={path.startsWith("/solutions") ? "page" : undefined}>Solutions</a>
-        <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
+        <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
         <details class="resources-dropdown">
           <summary>Resources <i data-lucide="chevron-down" aria-hidden="true"></i></summary>
           <div class="resources-menu">
             <a href="/case-studies" aria-current={path.startsWith("/case-studies") ? "page" : undefined}>Case Studies</a>
             <a href="/blog" aria-current={path.startsWith("/blog") ? "page" : undefined}>Blogs</a>
-            <a href="/partners" aria-current={path === "/partners" ? "page" : undefined}>Partners</a>
+            <a href="/products" aria-current={path.startsWith("/products") ? "page" : undefined}>Products</a>
           </div>
         </details>
       </nav>
@@ -161,7 +167,7 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
     </div>
   </div>
 </header>
-<MetaStrip />
+{!campaign && <MetaStrip />}
 
 <main class="flex-1">
   <slot />
@@ -239,19 +245,22 @@ const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
   </div>
 </footer>
 
-<AwsAiAnnouncement />
+{!campaign && <AwsAiAnnouncement />}
 
-<!-- Chatling chatbot (bottom-right corner) -->
-<script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>
-<script is:inline async data-id="6125825243" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+<!-- Chatling chatbot (bottom-right corner). Campaign pages use WhatsApp instead. -->
+{!campaign && <script is:inline>window.chtlConfig = { chatbotId: "6125825243" };</script>}
+{!campaign && <script is:inline async data-id="6125825243" id="chtl-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>}
 
 <script>
   // Icons are bundled from the pinned npm package (no third-party CDN script).
   // Icon names come from content JSON, so the full set is included.
   import { createIcons, icons } from "lucide";
   import { initNumberTickers } from "../scripts/numberTicker";
+  import { bindWhatsAppClicks, captureAttribution } from "../scripts/tracking";
   createIcons({ icons });
   initNumberTickers();
+  captureAttribution();
+  bindWhatsAppClicks();
 
   // Previously shared hash routes now load the matching static page.
   if (location.pathname === "/" && /^#\/(?!\/)/.test(location.hash)) {

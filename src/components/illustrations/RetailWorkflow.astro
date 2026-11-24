@@ -1,0 +1,54 @@
+<figure class="retail-workflow">
+  <div class="retail-art">
+    <img class="retail-base" src="/assets/illustrations/whatsapp-retail-workflow.webp" width="1720" height="614" fetchpriority="high" alt="Customer chats on WhatsApp connect through Algorims to a product catalogue, automated order updates and offers for shoppers who opt in." />
+    <img class="retail-outcomes" src="/assets/illustrations/whatsapp-retail-outcomes-3d.webp" width="447" height="614" alt="" />
+    <img class="retail-whatsapp" src="/assets/partners/whatsapp-glyph-green-2026.svg" width="720" height="720" alt="" />
+    <svg class="retail-brand" viewBox="0 0 1020 364" aria-hidden="true">
+      <defs>
+        <clipPath id="retail-platform">
+          <rect x="340" width="340" height="364" />
+        </clipPath>
+        <linearGradient id="retail-connector" x2="0" y2="1">
+          <stop stop-color="#513370" />
+          <stop offset=".46" stop-color="#9270b8" />
+          <stop offset="1" stop-color="#392550" />
+        </linearGradient>
+        <filter id="retail-brand-violet">
+          <feFlood flood-color="#8c42ef" />
+          <feComposite in2="SourceAlpha" operator="in" />
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="1.55" />
+          </feComponentTransfer>
+        </filter>
+      </defs>
+      <rect x="338" y="185" width="344" height="7" fill="url(#retail-connector)" />
+      <g transform="translate(508 188) scale(.92) translate(-508 -188)">
+        <image href="/assets/illustrations/whatsapp-retail-workflow.webp" width="1020" height="364" clip-path="url(#retail-platform)" />
+        <path d="M397 122 503 56Q508 53 513 56L621 122 508 192Z" fill="#0c1013" fill-opacity=".52" />
+        <path d="M397 122 508 192V267L399 203Q397 202 397 198Z" fill="#15191d" fill-opacity=".35" />
+        <path d="M508 192 621 122V198Q621 202 617 204L508 267Z" fill="#080c10" fill-opacity=".44" />
+        <path d="M397 122 508 192 621 122 M508 192V267" fill="none" stroke="#8d5cf5" stroke-width="1.6" />
+        <image href="/assets/algorims-icon-transparent.webp" x="-52" y="-52" width="104" height="104" transform="matrix(.68 .42 -.68 .42 508 121)" filter="url(#retail-brand-violet)" />
+        <text transform="matrix(1 -.62 0 1 564 200)" text-anchor="middle">ALGORIMS</text>
+      </g>
+    </svg>
+  </div>
+  <figcaption aria-hidden="true"><span>Customer chats</span><strong>Algorims</strong><span>Retail workflows</span></figcaption>
+</figure>
+<style>
+  .retail-workflow {
+    margin: 0;
+    padding: 0 clamp(8px, 3vw, 36px) 18px;
+    background: radial-gradient(ellipse at 50% 50%, hsl(var(--primary) / .075), transparent 64%);
+  }
+  .retail-art, figcaption { max-width: 1020px; margin-inline: auto; }
+  .retail-art { position: relative; }
+  /* The SVG redraws the middle third at a smaller scale. */
+  .retail-base { display: block; width: 100%; height: auto; mask-image: linear-gradient(to right, #000 33.333%, transparent 33.333% 66.667%, #000 66.667% 74%, transparent 76%); }
+  .retail-outcomes { position: absolute; inset: 0 0 0 auto; width: 26%; height: 100%; mask-image: linear-gradient(to right, transparent, #000 7.7%); }
+  .retail-whatsapp { position: absolute; display: block; height: auto; aspect-ratio: 1; top: 43%; left: 14.2%; width: 4.7%; transform: translate(-50%, -50%) matrix(.86, -.48, .025, 1, 0, 0); }
+  .retail-brand { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  .retail-brand text { fill: #fff; font: 700 19px/1 system-ui, sans-serif; }
+  figcaption { display: grid; grid-template-columns: repeat(3, 1fr); align-items: center; color: hsl(var(--muted-foreground)); font-size: clamp(.75rem, 1.45vw, .9rem); text-align: center; }
+  figcaption strong { color: hsl(var(--foreground)); font-weight: 600; }
+</style>

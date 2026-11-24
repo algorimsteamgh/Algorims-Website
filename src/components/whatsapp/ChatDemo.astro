@@ -1,0 +1,42 @@
+---
+// Demo slot: plays the recorded use-case video when one is configured,
+// otherwise shows an illustrative chat in a phone frame.
+import type { LandingPageConfig } from "../../data/whatsapp";
+
+interface Props { demo: LandingPageConfig["demo"] }
+const { demo } = Astro.props;
+const transcript = demo.chat.map((m) => `${m.from === "customer" ? "Customer" : demo.business}: ${m.text}`).join(" ");
+---
+{demo.video ? (
+  <video class="wa-video" controls playsinline preload="none" poster={demo.video.poster} aria-label={demo.title}>
+    <source src={demo.video.src} type="video/mp4" />
+    {demo.video.captions && <track kind="captions" src={demo.video.captions} srclang="en" label="English" default />}
+  </video>
+) : (
+  <figure class="wa-phone">
+    <div class="wa-phone-head" aria-hidden="true">
+      <span class="wa-avatar">{demo.business.replace(/^Your /, "").slice(0, 1).toUpperCase()}</span>
+      <span><b>{demo.business}</b><small>Official business account · replies instantly</small></span>
+    </div>
+    <ol class="wa-thread" aria-hidden="true">
+      {demo.chat.map((m, i) => <li class:list={["wa-msg", m.from]} style={`--i:${i}`}>{m.text}</li>)}
+    </ol>
+    <figcaption class="sr-only">Example conversation. {transcript}</figcaption>
+  </figure>
+)}
+
+<style>
+  .wa-video { display: block; width: 100%; max-width: 360px; margin-inline: auto; aspect-ratio: 9 / 16; border: 1px solid hsl(var(--border)); border-radius: 1.75rem; background: #000; }
+  .wa-phone { width: min(100%, 360px); margin: 0 auto; overflow: hidden; border: 1px solid hsl(var(--foreground) / .9); border-radius: 1.75rem; background: hsl(var(--card)); }
+  .wa-phone-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid hsl(var(--border)); }
+  .wa-phone-head span:last-child { display: grid; gap: 2px; }
+  .wa-phone-head b { font-size: .95rem; }
+  .wa-phone-head small { color: hsl(var(--muted-foreground)); font-size: .72rem; }
+  .wa-avatar { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font-weight: 700; }
+  .wa-thread { display: flex; flex-direction: column; gap: 10px; min-height: 340px; margin: 0; padding: 20px 16px 24px; list-style: none; background: hsl(var(--muted)); }
+  .wa-msg { max-width: 82%; padding: 10px 13px; border-radius: 14px; font-size: .9rem; line-height: 1.45; animation: wa-in .4s ease both; animation-delay: calc(var(--i) * .35s); }
+  .wa-msg.customer { align-self: flex-start; border: 1px solid hsl(var(--border)); border-bottom-left-radius: 4px; background: hsl(var(--card)); }
+  .wa-msg.business { align-self: flex-end; border-bottom-right-radius: 4px; background: hsl(var(--primary) / .1); color: hsl(var(--foreground)); }
+  @keyframes wa-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .wa-msg { animation: none; } }
+</style>

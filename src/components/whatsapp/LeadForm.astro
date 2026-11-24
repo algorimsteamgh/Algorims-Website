@@ -1,0 +1,172 @@
+---
+// Short qualifying form for WhatsApp campaign pages. Sends through Web3Forms
+// (same as /contact) with the page code, UTM tags and click IDs attached so
+// each lead maps to its campaign. Fires Lead / generate_lead on success.
+import { ATTRIBUTION_KEYS } from "../../scripts/tracking";
+import { industries, chatVolumes, waLink, WHATSAPP_DISPLAY } from "../../data/whatsapp";
+
+interface Props { code: string; waMessage: string; industry?: string; id?: string }
+const { code, waMessage, industry, id = "lead-form" } = Astro.props;
+---
+<form id={id} class="wa-form" method="post" data-lead-form data-page-code={code} novalidate>
+  <noscript><p>To request an audit, <a href={waLink(waMessage, code)} data-wa-code={code} target="_blank" rel="noopener noreferrer">message us on WhatsApp</a>.</p></noscript>
+  <div data-lead-success class="wa-form-success" role="status" hidden>
+    <span class="wa-form-tick"><i data-lucide="check" aria-hidden="true"></i></span>
+    <h3>Thanks, we've got your details.</h3>
+    <p>We'll message you on WhatsApp within one business day. Want to skip the wait?</p>
+    <div class="wa-form-actions">
+      <a class="btn btn-hero btn-lg" href="/book-audit">Pick an audit time <i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i></a>
+      <a class="btn btn-outline btn-lg" href={waLink(waMessage, code)} data-wa-code={code} target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
+    </div>
+  </div>
+
+  <div data-lead-fields class="wa-form-fields">
+    <input type="hidden" name="page_code" value={code} />
+    <input type="hidden" name="page_url" value={Astro.url.pathname} />
+    <input type="hidden" name="event_id" value="" />
+    {ATTRIBUTION_KEYS.map((key) => <input type="hidden" name={key} data-attribution={key} value="" />)}
+    <input type="hidden" name="landing_page" data-attribution="landing_page" value="" />
+    <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <div class="wa-form-row">
+      <label>
+        <span>Name</span>
+        <input name="name" class="field" autocomplete="name" required maxlength="100" />
+        <small data-error="name" aria-live="polite"></small>
+      </label>
+      <label>
+        <span>Company</span>
+        <input name="company" class="field" autocomplete="organization" required maxlength="120" />
+        <small data-error="company" aria-live="polite"></small>
+      </label>
+    </div>
+    <div class="wa-form-row">
+      <label>
+        <span>WhatsApp number</span>
+        <input name="whatsapp" type="tel" class="field" autocomplete="tel" inputmode="tel" placeholder="+65 9123 4567" required maxlength="20" />
+        <small data-error="whatsapp" aria-live="polite"></small>
+      </label>
+      <label>
+        <span>Industry</span>
+        <select name="industry" class="field" required>
+          <option value="">Select…</option>
+          {industries.map((option) => <option selected={option === industry}>{option}</option>)}
+        </select>
+        <small data-error="industry" aria-live="polite"></small>
+      </label>
+    </div>
+    <fieldset class="wa-volume">
+      <legend>Customer chats per month</legend>
+      <div>
+        {chatVolumes.map((volume) => (
+          <label><input type="radio" name="monthly_chats" value={volume} required /><span>{volume}</span></label>
+        ))}
+      </div>
+      <small data-error="monthly_chats" aria-live="polite"></small>
+    </fieldset>
+    <label class="wa-consent">
+      <input type="checkbox" name="consent" value="yes" aria-describedby={`${id}-consent-error`} required />
+      <span>I agree that Algorims may contact me by WhatsApp, phone or email about this enquiry, and handle my details under its <a href="/privacy">privacy policy</a> (PDPA).
+        <small id={`${id}-consent-error`} data-error="consent" aria-live="polite"></small>
+      </span>
+    </label>
+    <p data-lead-status class="wa-form-status" role="alert" hidden></p>
+    <button type="submit" class="btn btn-hero btn-lg wa-submit">Get my free audit <i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i></button>
+    <p class="wa-form-note">Prefer to chat? Message us on WhatsApp at {WHATSAPP_DISPLAY}.</p>
+  </div>
+</form>
+
+<style>
+  .wa-form-fields { display: grid; gap: 16px; }
+  .wa-form [hidden] { display: none !important; }
+  .wa-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .wa-form label > span, .wa-volume legend { display: block; margin-bottom: 6px; font-size: .875rem; font-weight: 500; }
+  .wa-form .field { min-height: 48px; font-size: 1rem; }
+  .wa-form small[data-error] { display: block; min-height: 0; color: hsl(var(--destructive)); font-size: .75rem; }
+  .wa-form small[data-error]:not(:empty) { margin-top: 4px; }
+  .wa-volume { margin: 0; padding: 0; border: 0; }
+  .wa-volume > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .wa-volume label { position: relative; }
+  .wa-volume input { position: absolute; opacity: 0; }
+  .wa-volume label span { display: grid; place-items: center; min-height: 48px; margin: 0; padding: 8px; border: 1px solid hsl(var(--border)); border-radius: .75rem; font-size: .875rem; text-align: center; cursor: pointer; }
+  .wa-volume input:checked + span { border-color: hsl(var(--primary)); background: hsl(var(--primary) / .08); color: hsl(var(--primary)); font-weight: 600; }
+  .wa-volume input:focus-visible + span { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .wa-consent { display: flex; gap: 10px; align-items: flex-start; color: hsl(var(--muted-foreground)); font-size: .8rem; line-height: 1.5; }
+  .wa-consent input { flex: none; width: 18px; height: 18px; margin-top: 1px; accent-color: hsl(var(--primary)); }
+  .wa-consent span { display: inline !important; margin: 0 !important; font-weight: 400 !important; font-size: .8rem !important; }
+  .wa-consent a { color: hsl(var(--primary)); text-decoration: underline; }
+  .wa-form-status { color: hsl(var(--destructive)); font-size: .875rem; }
+  .wa-submit { width: 100%; min-height: 52px; }
+  .wa-form-note { color: hsl(var(--muted-foreground)); font-size: .8rem; text-align: center; }
+  .wa-form-success { padding: 24px 0; text-align: center; }
+  .wa-form-success h3 { margin-top: 16px; font-size: 1.4rem; font-weight: 600; }
+  .wa-form-success p { margin-top: 8px; color: hsl(var(--muted-foreground)); }
+  .wa-form-tick { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: hsl(var(--primary) / .1); color: hsl(var(--primary)); }
+  .wa-form-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+  @media (max-width: 640px) {
+    .wa-form-row { grid-template-columns: 1fr; }
+    .wa-volume > div { grid-template-columns: 1fr; }
+    .wa-form-actions .btn { width: 100%; }
+  }
+</style>
+
+<script>
+  import { sendForm, setButtonLoading } from "../../scripts/formSubmission";
+  import { fillAttributionFields, newEventId, toE164, trackLead } from "../../scripts/tracking";
+
+  const key = import.meta.env.PUBLIC_WEB3FORMS_LEAD_KEY || import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+
+  document.querySelectorAll<HTMLFormElement>("form[data-lead-form]").forEach((form) => {
+    const code = form.dataset.pageCode!;
+    const fields = form.querySelector<HTMLElement>("[data-lead-fields]")!;
+    const success = form.querySelector<HTMLElement>("[data-lead-success]")!;
+    const status = form.querySelector<HTMLElement>("[data-lead-status]")!;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    fillAttributionFields(form);
+
+    const setError = (name: string, message: string) => {
+      form.querySelector<HTMLElement>(`[data-error="${name}"]`)!.textContent = message;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) ?? "").trim();
+      const phone = value("whatsapp");
+      setError("name", value("name").length < 2 ? "Please enter your name" : "");
+      setError("company", value("company").length < 2 ? "Please enter your company" : "");
+      setError("whatsapp", phone.replace(/\D/g, "").length < 8 ? "Please enter a WhatsApp number with country code" : "");
+      setError("industry", value("industry") ? "" : "Please choose an industry");
+      setError("monthly_chats", value("monthly_chats") ? "" : "Please choose one");
+      setError("consent", value("consent") ? "" : "Please agree so we can contact you");
+      const firstError = [...form.querySelectorAll<HTMLElement>("[data-error]")].find((el) => el.textContent);
+      if (firstError) {
+        firstError.closest("label, fieldset")?.querySelector<HTMLElement>("input, select")?.focus();
+        return;
+      }
+      if (data.get("botcheck")) return;
+
+      const eventId = newEventId();
+      form.querySelector<HTMLInputElement>('input[name="event_id"]')!.value = eventId;
+      status.hidden = true;
+      const subject = `WhatsApp lead [${code}] ${value("company")} — ${value("industry")}, ${value("monthly_chats")} chats/mo`;
+      const body = ["name", "company", "whatsapp", "industry", "monthly_chats", "page_code", "utm_source", "utm_campaign", "utm_content"]
+        .map((name) => `${name}: ${value(name)}`).join("\n");
+      setButtonLoading(button, true);
+      try {
+        await sendForm(form, key, subject, "contactus@algorims.com", body);
+        // Without a Web3Forms key sendForm opens a mailto draft, which is not a lead yet.
+        if (!key) return;
+        trackLead(code, eventId, toE164(phone));
+        fields.hidden = true;
+        success.hidden = false;
+        success.scrollIntoView({ block: "center", behavior: "smooth" });
+      } catch {
+        status.textContent = "Sorry, that didn't send. Please message us on WhatsApp instead.";
+        status.hidden = false;
+      } finally {
+        setButtonLoading(button, false);
+      }
+    });
+  });
+</script>

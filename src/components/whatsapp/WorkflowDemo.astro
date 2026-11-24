@@ -1,0 +1,350 @@
+---
+import type { LandingPageConfig } from "../../data/whatsapp";
+
+interface Props { demo: LandingPageConfig["demo"]; wa: string; code: string }
+const { demo, wa, code } = Astro.props;
+const scenarios = [
+  {
+    id: "sales",
+    label: "Product enquiry",
+    icon: "shopping-bag",
+    chat: demo.chat,
+    steps: [
+      { through: 1, actor: "Algorims agent", icon: "message-circle", title: "Identify the product", body: "The agent picks out the item and size from the question and uses them to look up the right variants.", record: "Linen shirt · Medium" },
+      { through: 2, actor: "Product catalogue", icon: "package-check", title: "Check available stock", body: "The connected catalogue returns the colours available in medium. The agent uses that result to answer in the same chat.", record: "In stock · White and sage" },
+      { through: 4, actor: "Algorims agent", icon: "link", title: "Send the exact product link", body: "When the shopper picks white, the agent shares the link for that variant so the shopper can go straight to the product page.", record: "Product link shared · White / M" },
+    ],
+  },
+  {
+    id: "support",
+    label: "Order support",
+    icon: "headphones",
+    chat: [
+      { from: "customer", text: "Can I change the address on order #4821?" },
+      { from: "business", text: "It’s already with the courier. I’ll pass this to our delivery team with your order details." },
+      { from: "business", text: "Hi, I’m Priya from delivery. I’ll check whether the courier can reroute it." },
+    ],
+    steps: [
+      { through: 1, actor: "Order system", icon: "search", title: "Find the order", body: "The agent uses the order number in the message to check its fulfilment status. The order has already left the warehouse.", record: "#4821 · Dispatched" },
+      { through: 2, actor: "Algorims agent", icon: "git-branch", title: "Route the address change", body: "A dispatched order needs a courier check. The agent creates a handoff with the order number, its status and the customer’s request.", record: "Assigned to Delivery · Address change" },
+      { through: 3, actor: "Shared inbox", icon: "user-round", title: "Let the delivery team take over", body: "Priya sees the conversation and order details in the shared inbox and replies in the same WhatsApp thread.", record: "Priya · Checking with courier" },
+    ],
+  },
+  {
+    id: "reminder",
+    label: "Appointment reminder",
+    icon: "calendar",
+    chat: [
+      { from: "business", text: "A reminder that your appointment is tomorrow at 10 am. Please reply to confirm." },
+      { from: "customer", text: "Confirmed, thank you." },
+      { from: "business", text: "Thanks. We’ll see you tomorrow at 10 am." },
+    ],
+    steps: [
+      { through: 1, actor: "Booking system", icon: "calendar-clock", title: "Send a scheduled reminder", body: "The upcoming appointment triggers an approved reminder template for a customer who opted in to WhatsApp updates.", record: "Tomorrow, 10 am · Reminder sent" },
+      { through: 2, actor: "Algorims agent", icon: "message-square-check", title: "Match the confirmation", body: "The agent recognises the reply as a confirmation and matches it to the appointment that triggered the reminder.", record: "Confirmation received · 10 am appointment" },
+      { through: 3, actor: "Booking system", icon: "calendar-check", title: "Update the appointment", body: "The appointment is marked confirmed for staff to see, and the customer gets an acknowledgement in the same chat.", record: "Tomorrow, 10 am · Confirmed" },
+    ],
+  },
+];
+---
+<section id="workflow" class="walkthrough" aria-labelledby="workflow-title">
+  <header class="intro">
+    <h2 id="workflow-title">{demo.title}</h2>
+    <p>{demo.body}</p>
+  </header>
+
+  <fieldset>
+    <legend class="sr-only">Choose an example workflow</legend>
+    {scenarios.map((scenario, index) => (
+      <>
+        <input class="sr-only" type="radio" id={`wa-${scenario.id}`} name="wa-workflow" checked={index === 0} aria-controls={`wa-${scenario.id}-example`} />
+        <label class="btn" for={`wa-${scenario.id}`}><i data-lucide={scenario.icon} aria-hidden="true"></i>{scenario.label}</label>
+      </>
+    ))}
+    {scenarios.map((scenario) => (
+      <div class="scenario" id={`wa-${scenario.id}-example`}>
+        <div class="controls" hidden>
+          <p class="progress" role="status"></p>
+          <button class="btn btn-outline advance" type="button">
+            <span>Next step</span>
+            <i data-lucide="chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="conversation">
+          <h3 id={`wa-${scenario.id}-chat`}><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp conversation</h3>
+          <figure class="phone" aria-labelledby={`wa-${scenario.id}-chat`}>
+            <div class="phone-status" aria-hidden="true">
+              <span>10:04</span>
+              <span><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+            </div>
+            <figcaption class="chat-header">
+              <span class="chat-avatar"><i data-lucide={scenario.icon} aria-hidden="true"></i></span>
+              <span><strong>{demo.business}</strong><small>Customer view · Example chat</small></span>
+            </figcaption>
+            <ol class="transcript" role="list">
+              {scenario.chat.map((message, messageIndex) => (
+                <li class={message.from}>
+                  <p><span class="sr-only">{message.from === "customer" ? "Customer: " : "Business: "}</span>{message.text}</p>
+                  {scenario.id === "sales" && messageIndex === scenario.chat.length - 1 && (
+                    <span class="product-link"><i data-lucide="link" aria-hidden="true"></i>White linen shirt · M</span>
+                  )}
+                  <span class="message-meta" aria-hidden="true">
+                    10:0{messageIndex + 1}
+                    {message.from === "customer" && <i data-lucide="check-check"></i>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <div class="chat-composer" aria-hidden="true">
+              <span><i data-lucide="smile"></i>Message<i data-lucide="paperclip"></i></span>
+              <span><i data-lucide="mic"></i></span>
+            </div>
+          </figure>
+        </div>
+        <div class="activity">
+          <h3><i data-lucide="workflow" aria-hidden="true"></i>Behind the scenes</h3>
+          <ol class="timeline">
+            {scenario.steps.map((step) => (
+              <li data-through={step.through}>
+                <button class="step" type="button" disabled>
+                  <span class="step-icon"><i data-lucide={step.icon} aria-hidden="true"></i></span>
+                  <span><span class="actor">{step.actor}</span><strong>{step.title}</strong></span>
+                </button>
+                <div class="detail">
+                  <p>{step.body}</p>
+                  <p class="record"><i data-lucide="corner-down-right" aria-hidden="true"></i>{step.record}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    ))}
+  </fieldset>
+
+  <a class="demo-link" href={wa} data-wa-code={code} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" aria-hidden="true"></i>Ask about your workflow on WhatsApp</a>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".walkthrough .scenario").forEach((scenario) => {
+    const messages = [...scenario.querySelectorAll<HTMLElement>(".transcript li")];
+    const steps = [...scenario.querySelectorAll<HTMLLIElement>(".timeline li")];
+    const buttons = [...scenario.querySelectorAll<HTMLButtonElement>(".step")];
+    const details = [...scenario.querySelectorAll<HTMLElement>(".detail")];
+    const controls = scenario.querySelector<HTMLElement>(".controls")!;
+    const progress = scenario.querySelector<HTMLElement>(".progress")!;
+    const advance = scenario.querySelector<HTMLButtonElement>(".advance")!;
+    const advanceLabel = advance.querySelector("span")!;
+    let current = 0;
+
+    function showStep(index: number) {
+      current = index;
+      const through = Number(steps[current].dataset.through);
+      messages.forEach((message, i) => { message.hidden = i >= through; });
+      buttons.forEach((button, i) => {
+        const active = i === current;
+        button.setAttribute("aria-current", active ? "step" : "false");
+        details[i].hidden = !active;
+      });
+      progress.textContent = `Step ${current + 1} of ${steps.length}`;
+      advanceLabel.textContent = current === steps.length - 1 ? "Start over" : "Next step";
+    }
+
+    buttons.forEach((button, index) => {
+      button.disabled = false;
+      button.addEventListener("click", () => showStep(index));
+    });
+    advance.addEventListener("click", () => showStep((current + 1) % steps.length));
+    controls.hidden = false;
+    showStep(0);
+  });
+</script>
+
+<style>
+  .walkthrough {
+    padding: var(--wa-gap) clamp(16px, 5vw, 74px);
+    border-top: 1px solid hsl(var(--border));
+    scroll-margin-top: 5.5rem;
+  }
+  .intro { max-width: 680px; margin: 0 auto clamp(24px, 4vw, 42px); text-align: center; }
+  h2 { margin-bottom: 12px; font-size: clamp(1.9rem, 4vw, 3.5rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
+  .intro p { max-width: 56ch; margin-inline: auto; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  fieldset {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: clamp(4px, 1.2vw, 12px);
+    min-width: 0;
+    border: 1px solid hsl(var(--border));
+    --selector-inset: clamp(6px, 2vw, 16px);
+  }
+  label {
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 46px;
+    margin-block: var(--selector-inset);
+    padding: 8px clamp(4px, 1vw, 12px);
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    font-size: .95rem;
+    font-weight: 650;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+  label:first-of-type { margin-inline-start: var(--selector-inset); }
+  label:last-of-type { margin-inline-end: var(--selector-inset); }
+  label:hover { border-color: hsl(var(--primary) / .55); color: hsl(var(--primary)); }
+  input:checked + label { border-color: hsl(var(--primary) / .55); background: hsl(var(--primary) / .09); color: hsl(var(--primary)); }
+  input:focus-visible + label, button:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .scenario { display: none; grid-area: 2 / 1 / 3 / -1; border-top: 1px solid hsl(var(--border)); }
+  fieldset:has(#wa-sales:checked) #wa-sales-example,
+  fieldset:has(#wa-support:checked) #wa-support-example,
+  fieldset:has(#wa-reminder:checked) #wa-reminder-example {
+    display: grid;
+    grid-template-columns: var(--workflow-columns, minmax(0, 1fr) minmax(0, 1fr));
+  }
+  .controls {
+    display: flex;
+    grid-column: 1 / -1;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px clamp(12px, 2.4vw, 28px);
+    border-bottom: 1px solid hsl(var(--border));
+    background: hsl(var(--muted) / .45);
+  }
+  .progress { color: hsl(var(--muted-foreground)); font-size: .875rem; font-variant-numeric: tabular-nums; }
+  .advance, .demo-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: .9rem; font-weight: 650; }
+  .advance { min-width: 124px; padding: 0 12px; border-color: hsl(var(--primary) / .35); background: hsl(var(--background)); color: hsl(var(--primary)); }
+  .advance:hover { background: hsl(var(--primary) / .09); }
+  .conversation, .activity { min-width: 0; padding: clamp(16px, 2.7vw, 32px); }
+  .conversation {
+    background-color: hsl(var(--muted) / .55);
+    background-image:
+      repeating-linear-gradient(30deg, transparent 0 31px, hsl(var(--foreground) / .04) 31px 32px),
+      repeating-linear-gradient(-30deg, transparent 0 31px, hsl(var(--foreground) / .04) 31px 32px);
+  }
+  h3 { display: flex; align-items: center; gap: 9px; padding-bottom: 14px; border-bottom: 1px solid hsl(var(--border)); font-size: 1rem; font-weight: 650; }
+  h3 :global(.lucide) { color: hsl(var(--primary)); }
+  :global(svg.lucide) { flex: none; width: 17px; height: 17px; }
+  ol { margin: 18px 0 0; padding: 0; list-style: none; }
+  .phone {
+    --phone-header: #edf4ef;
+    --phone-wallpaper: #f4f1e9;
+    --phone-incoming: #fff;
+    --phone-outgoing: #d9eedf;
+    --phone-ink: #202c27;
+    --phone-muted: #495e54;
+    --phone-accent: #22644a;
+    width: min(100%, 340px);
+    margin: 18px auto 0;
+    overflow: hidden;
+    border: 6px solid #28282d;
+    border-radius: 32px;
+    background: var(--phone-header);
+    color: var(--phone-ink);
+    font-family: system-ui, sans-serif;
+  }
+  :global(.dark) .phone {
+    --phone-header: #21332d;
+    --phone-wallpaper: #162421;
+    --phone-incoming: #2c3d37;
+    --phone-outgoing: #235143;
+    --phone-ink: #f1f7f3;
+    --phone-muted: #bed1c6;
+    --phone-accent: #a7e5c6;
+    border-color: #424247;
+  }
+  .phone-status, .phone-status span, .chat-header, .message-meta, .chat-composer, .chat-composer span {
+    display: flex;
+    align-items: center;
+  }
+  .phone-status { justify-content: space-between; padding: 8px 16px 0; font-size: .75rem; font-weight: 700; }
+  .phone-status span { gap: 5px; }
+  .phone-status :global(.lucide), .message-meta :global(.lucide) { width: 14px; height: 14px; }
+  .chat-header { gap: 10px; padding: 9px 12px; font-size: .9375rem; line-height: 1.3; }
+  .chat-header small { display: block; color: var(--phone-muted); font-size: .75rem; }
+  .chat-avatar {
+    display: grid;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+    background: hsl(var(--primary) / .12);
+    color: hsl(var(--primary));
+  }
+  .transcript {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-height: 22rem;
+    margin: 0;
+    padding: 12px 10px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--phone-muted) 18%, transparent) 1px, transparent 1px) 0 0 / 16px 16px var(--phone-wallpaper);
+  }
+  .transcript li {
+    display: grid;
+    align-self: flex-start;
+    gap: 2px;
+    max-width: 91%;
+    padding: 7px 10px 5px;
+    border-radius: 3px 12px 12px;
+    background: var(--phone-incoming);
+    overflow-wrap: anywhere;
+    font-size: .875rem;
+    line-height: 1.35;
+  }
+  .transcript .customer {
+    align-self: flex-end;
+    border-radius: 12px 3px 12px 12px;
+    background: var(--phone-outgoing);
+  }
+  .message-meta { justify-self: end; gap: 3px; color: var(--phone-muted); font-size: .6875rem; }
+  .message-meta :global(.lucide) { color: var(--phone-accent); }
+  .product-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    padding-top: 7px;
+    border-top: 1px solid color-mix(in srgb, var(--phone-muted) 24%, transparent);
+    color: var(--phone-accent);
+    font-size: .875rem;
+    font-weight: 650;
+  }
+  .chat-composer { gap: 7px; padding: 9px 10px 12px; background: var(--phone-wallpaper); }
+  .chat-composer span { min-height: 34px; gap: 7px; padding: 0 9px; border-radius: 12px; }
+  .chat-composer span:first-child { flex: 1; background: var(--phone-incoming); color: var(--phone-muted); font-size: .8125rem; }
+  .chat-composer span:first-child :last-child { margin-inline-start: auto; }
+  .chat-composer span:last-child { background: var(--phone-accent); color: var(--phone-wallpaper); }
+  .activity { border-left: 1px solid hsl(var(--border)); background: hsl(var(--background)); }
+  .timeline { position: relative; display: grid; gap: 9px; }
+  .timeline::before { position: absolute; inset: 22px auto 38px 20px; width: 1px; background: hsl(var(--border)); content: ""; }
+  .timeline li { position: relative; min-width: 0; }
+  .step { display: grid; grid-template-columns: 41px minmax(0, 1fr); align-items: center; gap: 12px; width: 100%; min-height: 54px; border-radius: 9999px; text-align: left; cursor: pointer; }
+  .step:disabled { cursor: default; }
+  .step-icon { display: grid; height: 41px; place-items: center; border: 1px solid hsl(var(--border)); border-radius: 50%; background: hsl(var(--background)); color: hsl(var(--muted-foreground)); }
+  .step:hover:not(:disabled) .step-icon, .step[aria-current="step"] .step-icon { border-color: hsl(var(--primary) / .7); color: hsl(var(--primary)); }
+  .step[aria-current="step"] .step-icon { background: color-mix(in srgb, hsl(var(--primary)) 9%, hsl(var(--background))); }
+  .step strong { display: block; line-height: 1.3; }
+  .actor { display: block; margin-bottom: 3px; color: hsl(var(--muted-foreground)); font-size: .8125rem; }
+  .step[aria-current="step"] .actor { color: hsl(var(--primary)); }
+  .detail { margin: 2px 0 8px 53px; color: hsl(var(--muted-foreground)); font-size: .9375rem; line-height: 1.55; }
+  .record { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 9px; border: 1px solid hsl(var(--primary) / .2); border-radius: 4px; background: hsl(var(--primary) / .055); color: hsl(var(--primary)); font-size: .875rem; font-weight: 600; }
+  .demo-link { margin-top: 12px; color: hsl(var(--primary)); }
+  .demo-link:hover { text-decoration: underline; }
+  .walkthrough [hidden] { display: none; }
+  @media (max-width: 740px) {
+    fieldset { --workflow-columns: minmax(0, 1fr); }
+    .transcript { min-height: 13rem; }
+    .activity { border-top: 1px solid hsl(var(--border)); border-left: 0; }
+  }
+  @media (max-width: 520px) {
+    label { flex-direction: column; gap: 6px; font-size: .875rem; }
+  }
+</style>

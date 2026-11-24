@@ -1,0 +1,35 @@
+---
+// Post-booking page. Fires Schedule (Meta), book_audit (GA4) and the Google
+// Ads booking conversion once per browser session. Not indexed.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { bookAuditWaLink, BOOK_AUDIT_CODE } from "../../data/whatsapp";
+---
+<BaseLayout title="Audit booked — Algorims" description="Your free WhatsApp audit with Algorims is booked." robots="noindex, follow" campaign>
+<section class="thanks container-x" aria-labelledby="thanks-title">
+  <span class="thanks-tick"><i data-lucide="calendar-check" aria-hidden="true"></i></span>
+  <h1 id="thanks-title">You're booked.</h1>
+  <p>Check your inbox for the calendar invite. To get the most from the call, have a rough idea of your monthly chat volume and the tools you use today.</p>
+  <div class="thanks-actions">
+    <a class="btn btn-hero btn-lg" href={bookAuditWaLink} data-wa-code={BOOK_AUDIT_CODE} target="_blank" rel="noopener noreferrer">Message us on WhatsApp</a>
+    <a class="btn btn-outline btn-lg" href="/customer-stories/smac-tech-labs">Read a customer story</a>
+  </div>
+</section>
+</BaseLayout>
+
+<style>
+  .thanks { max-width: 680px; padding-top: clamp(64px, 10vw, 120px); padding-bottom: clamp(64px, 10vw, 120px); text-align: center; }
+  .thanks-tick { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: hsl(var(--primary) / .1); color: hsl(var(--primary)); }
+  .thanks-tick :global(svg) { width: 28px; height: 28px; }
+  .thanks h1 { margin-top: 24px; font-size: clamp(2.3rem, 5vw, 3.6rem); font-weight: 600; letter-spacing: -.05em; }
+  .thanks p { margin-top: 16px; color: hsl(var(--muted-foreground)); line-height: 1.65; }
+  .thanks-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
+</style>
+
+<script>
+  import { trackAuditBooked } from "../../scripts/tracking";
+  const FLAG = "algorims-audit-booked-v1";
+  let seen = false;
+  try { seen = sessionStorage.getItem(FLAG) === "1"; sessionStorage.setItem(FLAG, "1"); } catch {}
+  // Give the Pixel and gtag a moment to load before sending.
+  if (!seen) window.addEventListener("load", () => trackAuditBooked(), { once: true });
+</script>

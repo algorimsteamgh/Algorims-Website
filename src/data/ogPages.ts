@@ -19,6 +19,7 @@ export const staticOgCards: Record<string, OgCard> = {
   "case-studies": { kicker: "Case studies", title: "Systems we have built and shipped" },
   products: { kicker: "Products", title: "Products from Algorims" },
   solutions: { kicker: "Solutions", title: "Solutions by industry and problem" },
+  "book-audit": { kicker: "WhatsApp audit", title: "Book a free 15-minute WhatsApp audit", description: "With a verified Meta Tech Provider in Singapore." },
   privacy: { kicker: "Legal", title: "Privacy" },
   terms: { kicker: "Legal", title: "Terms" },
   security: { kicker: "Trust", title: "Security" },

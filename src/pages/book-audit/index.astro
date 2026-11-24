@@ -1,0 +1,58 @@
+---
+// Audit booking. PUBLIC_BOOKING_URL is the embeddable scheduling page
+// (Calendly, Cal.com, Zoho Bookings, Microsoft Bookings…). Set that tool's
+// post-booking redirect to https://www.algorims.com/book-audit/thanks so the
+// Schedule / book_audit conversions fire. Without a URL, the page falls back
+// to the lead form and WhatsApp.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LeadForm from "../../components/whatsapp/LeadForm.astro";
+import { BOOK_AUDIT_CODE, bookAuditWaLink, WHATSAPP_DISPLAY } from "../../data/whatsapp";
+
+const bookingUrl = import.meta.env.PUBLIC_BOOKING_URL as string | undefined;
+const waMessage = "Hi, I'd like to book a free WhatsApp audit";
+---
+<BaseLayout title="Book a Free WhatsApp Audit — Algorims" description="Book a free 15-minute WhatsApp Business API audit with Algorims, a verified Meta Tech Provider in Singapore. We review your chat volume, setup and the first workflow to automate." campaign>
+<section class="ba container-x" aria-labelledby="ba-title">
+  <header>
+    <p class="ba-kicker">Free 15-minute audit</p>
+    <h1 id="ba-title">Book your <span>WhatsApp audit</span></h1>
+    <p>We'll look at your chat volume, your current setup and the one workflow worth automating first. You leave with a package recommendation and a go-live date.</p>
+  </header>
+  {bookingUrl ? (
+    <div class="ba-embed">
+      <iframe src={bookingUrl} title="Choose a time for your WhatsApp audit" loading="lazy"></iframe>
+    </div>
+  ) : (
+    <div class="ba-form"><LeadForm code={BOOK_AUDIT_CODE} waMessage={waMessage} /></div>
+  )}
+  <p class="ba-alt">Prefer chat? <a href={bookAuditWaLink} data-wa-code={BOOK_AUDIT_CODE} target="_blank" rel="noopener noreferrer">Message us on WhatsApp at {WHATSAPP_DISPLAY}</a></p>
+  <p class="ba-legal">We use your details only to arrange and run your audit, in line with Singapore's PDPA. See our <a href="/privacy">privacy policy</a>.</p>
+</section>
+</BaseLayout>
+
+<style>
+  .ba { padding-top: clamp(44px, 6vw, 80px); padding-bottom: clamp(56px, 8vw, 96px); }
+  .ba header { max-width: 720px; margin: 0 auto 40px; text-align: center; }
+  .ba-kicker { margin: 0 0 14px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .ba h1 { font-size: clamp(2.3rem, 5vw, 4rem); font-weight: 600; line-height: 1.05; letter-spacing: -.055em; text-wrap: balance; }
+  .ba h1 span { color: hsl(var(--primary)); }
+  .ba header > p:last-child { margin-top: 18px; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .ba-embed { overflow: hidden; max-width: 1000px; margin: 0 auto; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
+  .ba-embed iframe { display: block; width: 100%; height: 760px; border: 0; }
+  .ba-form { max-width: 720px; margin: 0 auto; padding: clamp(24px, 3vw, 40px); border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--muted) / .5); }
+  .ba-alt { margin-top: 24px; text-align: center; }
+  .ba-alt a { color: hsl(var(--primary)); font-weight: 600; }
+  .ba-legal { margin-top: 12px; color: hsl(var(--muted-foreground)); font-size: .78rem; text-align: center; }
+  .ba-legal a { text-decoration: underline; }
+  @media (max-width: 640px) { .ba-embed iframe { height: 900px; } }
+</style>
+
+<script>
+  // Calendly announces a booking via postMessage; send the visitor to the
+  // thank-you page so the conversion fires there (other tools use a redirect).
+  window.addEventListener("message", (event) => {
+    if (event.origin === "https://calendly.com" && event.data?.event === "calendly.event_scheduled") {
+      location.assign("/book-audit/thanks");
+    }
+  });
+</script>

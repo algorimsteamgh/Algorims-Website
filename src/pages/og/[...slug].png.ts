@@ -2,6 +2,7 @@ import type { APIRoute, GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import { staticOgCards, type OgCard } from "../../data/ogPages";
 import { renderOgCard } from "../../lib/og";
+import { landingPages } from "../../data/whatsapp";
 
 const clip = (text: string, max = 130) => (text.length > max ? `${text.slice(0, max - 1).trimEnd()}…` : text);
 
@@ -16,6 +17,7 @@ export const getStaticPaths = (async () => {
       cards[`${collection}/${entry.id}`] = { kicker, title: data.title, description: data.subtitle && clip(data.subtitle) };
     }
   }
+  for (const page of Object.values(landingPages)) cards[page.slug] = page.og;
   return Object.entries(cards).map(([slug, card]) => ({ params: { slug }, props: { card } }));
 }) satisfies GetStaticPaths;
 

@@ -1,0 +1,12 @@
+---
+import LandingPage from "../components/whatsapp/LandingPage.astro";
+import RetailWorkflow from "../components/illustrations/RetailWorkflow.astro";
+import WorkflowDemo from "../components/whatsapp/WorkflowDemo.astro";
+import { landingPages, waLink } from "../data/whatsapp";
+
+const page = landingPages.api;
+---
+<LandingPage page={page}>
+  <RetailWorkflow slot="hero-illustration" />
+  <WorkflowDemo slot="demo" demo={page.demo} wa={waLink(page.waMessage, page.code)} code={page.code} />
+</LandingPage>
