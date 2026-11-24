@@ -71,18 +71,35 @@ const scenarios = [
           </button>
         </div>
         <div class="conversation">
-          <h3><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp conversation</h3>
-          <ol class="transcript">
-            {scenario.chat.map((message, messageIndex) => (
-              <li class={message.from}>
-                <strong>{message.from === "customer" ? "Customer" : scenario.id === "support" && messageIndex === 2 ? "Priya · Delivery team" : "Business"}</strong>
-                <p>{message.text}</p>
-                {scenario.id === "sales" && messageIndex === scenario.chat.length - 1 && (
-                  <span class="product-link"><i data-lucide="link" aria-hidden="true"></i>White linen shirt · M</span>
-                )}
-              </li>
-            ))}
-          </ol>
+          <h3 id={`wa-${scenario.id}-chat`}><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp conversation</h3>
+          <figure class="phone" aria-labelledby={`wa-${scenario.id}-chat`}>
+            <div class="phone-status" aria-hidden="true">
+              <span>10:04</span>
+              <span><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span>
+            </div>
+            <figcaption class="chat-header">
+              <span class="chat-avatar"><i data-lucide={scenario.icon} aria-hidden="true"></i></span>
+              <span><strong>{demo.business}</strong><small>Customer view · Example chat</small></span>
+            </figcaption>
+            <ol class="transcript" role="list">
+              {scenario.chat.map((message, messageIndex) => (
+                <li class={message.from}>
+                  <p><span class="sr-only">{message.from === "customer" ? "Customer: " : "Business: "}</span>{message.text}</p>
+                  {scenario.id === "sales" && messageIndex === scenario.chat.length - 1 && (
+                    <span class="product-link"><i data-lucide="link" aria-hidden="true"></i>White linen shirt · M</span>
+                  )}
+                  <span class="message-meta" aria-hidden="true">
+                    10:0{messageIndex + 1}
+                    {message.from === "customer" && <i data-lucide="check-check"></i>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+            <div class="chat-composer" aria-hidden="true">
+              <span><i data-lucide="smile"></i>Message<i data-lucide="paperclip"></i></span>
+              <span><i data-lucide="mic"></i></span>
+            </div>
+          </figure>
         </div>
         <div class="activity">
           <h3><i data-lucide="workflow" aria-hidden="true"></i>Behind the scenes</h3>
@@ -215,38 +232,96 @@ const scenarios = [
   h3 :global(.lucide) { color: hsl(var(--primary)); }
   :global(svg.lucide) { flex: none; width: 17px; height: 17px; }
   ol { margin: 18px 0 0; padding: 0; list-style: none; }
-  .transcript { display: grid; align-content: start; gap: 12px; min-height: 22rem; }
+  .phone {
+    --phone-header: #edf4ef;
+    --phone-wallpaper: #f4f1e9;
+    --phone-incoming: #fff;
+    --phone-outgoing: #d9eedf;
+    --phone-ink: #202c27;
+    --phone-muted: #495e54;
+    --phone-accent: #22644a;
+    width: min(100%, 340px);
+    margin: 18px auto 0;
+    overflow: hidden;
+    border: 6px solid #28282d;
+    border-radius: 32px;
+    background: var(--phone-header);
+    color: var(--phone-ink);
+    font-family: system-ui, sans-serif;
+  }
+  :global(.dark) .phone {
+    --phone-header: #21332d;
+    --phone-wallpaper: #162421;
+    --phone-incoming: #2c3d37;
+    --phone-outgoing: #235143;
+    --phone-ink: #f1f7f3;
+    --phone-muted: #bed1c6;
+    --phone-accent: #a7e5c6;
+    border-color: #424247;
+  }
+  .phone-status, .phone-status span, .chat-header, .message-meta, .chat-composer, .chat-composer span {
+    display: flex;
+    align-items: center;
+  }
+  .phone-status { justify-content: space-between; padding: 8px 16px 0; font-size: .75rem; font-weight: 700; }
+  .phone-status span { gap: 5px; }
+  .phone-status :global(.lucide), .message-meta :global(.lucide) { width: 14px; height: 14px; }
+  .chat-header { gap: 10px; padding: 9px 12px; font-size: .9375rem; line-height: 1.3; }
+  .chat-header small { display: block; color: var(--phone-muted); font-size: .75rem; }
+  .chat-avatar {
+    display: grid;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+    background: hsl(var(--primary) / .12);
+    color: hsl(var(--primary));
+  }
+  .transcript {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-height: 22rem;
+    margin: 0;
+    padding: 12px 10px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--phone-muted) 18%, transparent) 1px, transparent 1px) 0 0 / 16px 16px var(--phone-wallpaper);
+  }
   .transcript li {
     display: grid;
-    gap: 3px;
-    width: fit-content;
-    max-width: min(92%, 39ch);
-    padding: 9px 13px;
-    border: 1px solid hsl(var(--border));
-    border-radius: 7px 7px 7px 1px;
-    background: hsl(var(--card));
-    font-size: .96rem;
-    line-height: 1.45;
+    align-self: flex-start;
+    gap: 2px;
+    max-width: 91%;
+    padding: 7px 10px 5px;
+    border-radius: 3px 12px 12px;
+    background: var(--phone-incoming);
+    overflow-wrap: anywhere;
+    font-size: .875rem;
+    line-height: 1.35;
   }
-  .transcript .business {
-    justify-self: end;
-    border-color: hsl(var(--primary) / .25);
-    border-radius: 7px 7px 1px 7px;
-    background: hsl(var(--background));
-    background-image: linear-gradient(hsl(var(--primary) / .085), hsl(var(--primary) / .085));
+  .transcript .customer {
+    align-self: flex-end;
+    border-radius: 12px 3px 12px 12px;
+    background: var(--phone-outgoing);
   }
-  .transcript strong { color: hsl(var(--muted-foreground)); font-size: .8125rem; }
+  .message-meta { justify-self: end; gap: 3px; color: var(--phone-muted); font-size: .6875rem; }
+  .message-meta :global(.lucide) { color: var(--phone-accent); }
   .product-link {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-top: 6px;
     padding-top: 7px;
-    border-top: 1px solid hsl(var(--primary) / .22);
-    color: hsl(var(--primary));
+    border-top: 1px solid color-mix(in srgb, var(--phone-muted) 24%, transparent);
+    color: var(--phone-accent);
     font-size: .875rem;
     font-weight: 650;
   }
+  .chat-composer { gap: 7px; padding: 9px 10px 12px; background: var(--phone-wallpaper); }
+  .chat-composer span { min-height: 34px; gap: 7px; padding: 0 9px; border-radius: 12px; }
+  .chat-composer span:first-child { flex: 1; background: var(--phone-incoming); color: var(--phone-muted); font-size: .8125rem; }
+  .chat-composer span:first-child :last-child { margin-inline-start: auto; }
+  .chat-composer span:last-child { background: var(--phone-accent); color: var(--phone-wallpaper); }
   .activity { border-left: 1px solid hsl(var(--border)); background: hsl(var(--background)); }
   .timeline { position: relative; display: grid; gap: 9px; }
   .timeline::before { position: absolute; inset: 22px auto 38px 20px; width: 1px; background: hsl(var(--border)); content: ""; }
@@ -266,7 +341,7 @@ const scenarios = [
   .walkthrough [hidden] { display: none; }
   @media (max-width: 740px) {
     fieldset { --workflow-columns: minmax(0, 1fr); }
-    .transcript { min-height: 0; }
+    .transcript { min-height: 13rem; }
     .activity { border-top: 1px solid hsl(var(--border)); border-left: 0; }
   }
   @media (max-width: 520px) {
