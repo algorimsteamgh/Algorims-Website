@@ -34,8 +34,8 @@ const schema = [
       <h1 id="wa-title">{page.headline}{page.headlineAccent && <><br /><span>{page.headlineAccent}</span></>}</h1>
       <p class="wa-sub">{page.subhead ?? SUBHEAD}</p>
       <div class="wa-ctas">
-        <a class="btn btn-hero btn-xl" href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" class="!w-5 !h-5" aria-hidden="true"></i>Chat with us on WhatsApp</a>
-        <a class="btn btn-outline btn-xl" href="#audit">Book a free audit</a>
+        <a class="btn btn-hero btn-lg" href={wa} data-wa-code={page.code} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" class="!w-4 !h-4" aria-hidden="true"></i>Chat with us on WhatsApp</a>
+        <a class="btn btn-outline btn-lg" href="#audit">Book a free audit</a>
       </div>
     </div>
     <slot name="hero-illustration" />
@@ -214,7 +214,7 @@ const schema = [
   .wa-hero h1 span, .wa-page h2 span { color: hsl(var(--primary)); }
   .wa-sub { max-width: 640px; margin: 22px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.6; text-wrap: balance; }
   .wa-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
-  .wa-ctas .btn { min-height: 52px; font-weight: 600; }
+  .wa-ctas .btn { font-weight: 600; }
   .wa-trust { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; margin: 0; padding: 15px 20px; border-top: 1px solid hsl(var(--border)); list-style: none; color: hsl(var(--muted-foreground)); font-size: .85rem; }
   .wa-trust li { display: inline-flex; align-items: center; gap: 6px; }
   .wa-trust :global(svg) { width: 16px; height: 16px; color: hsl(var(--primary)); }
@@ -312,8 +312,7 @@ const schema = [
     .wa-outcomes article + article { border-left: 0; border-top: 1px solid hsl(var(--border)); }
     .wa-outcomes p { grid-column: 2; margin-top: 4px; }
     .wa-icon { grid-row: span 2; margin-bottom: 0; }
-    .wa-ctas { flex-direction: column; }
-    .wa-ctas .btn { width: 100%; }
+    .wa-ctas { flex-direction: column; align-items: center; }
     /* Thumb-reach WhatsApp button on phones. */
     .wa-sticky { position: fixed; z-index: 40; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); left: 12px; display: flex; min-height: 52px; font-weight: 600; box-shadow: var(--shadow-md); }
     :global(html:has(.wa-sticky)) { scroll-padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
