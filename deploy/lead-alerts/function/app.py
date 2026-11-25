@@ -25,7 +25,12 @@ RECIPIENTS = {
 DELIVERY_KEY = re.compile("|".join(
     rf"algorims-lead:{source}:{EVENT_ID}:(?:{'|'.join(roles)})" for source, roles in RECIPIENTS.items()
 ))
-CONTACT_SERVICES = {"Cloud", "DevOps", "Development", "AI", "Data and ML"}
+CONTACT_SERVICES = {
+    "Cloud", "DevOps", "Development", "AI", "Data and ML",  # Accept submissions from older forms.
+    "Never Miss a Sales Lead Again – Set Up Your WhatsApp AI Agent",
+    "Get a Complimentary AI Assessment for Your Business",
+    "Meet IRAS GST Compliant with InvoiceNOW",
+}
 MONTHLY_SEND_LIMIT = 300
 
 
@@ -56,7 +61,7 @@ def lead_details(body):
         return None
     if page == "/contact":
         contact = field("email", 255)
-        service = field("service", 40)
+        service = field("service", 80)
         if service in CONTACT_SERVICES and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", contact):
             return "contact", event_id, [service, name, company or "Not provided", contact]
         return None
