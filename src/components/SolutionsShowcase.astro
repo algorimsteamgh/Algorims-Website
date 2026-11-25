@@ -2,8 +2,8 @@
 import { getCollection } from "astro:content";
 import ScrollShowcase from "./ScrollShowcase.astro";
 
-interface Props { heading?: "h2" | "h3" }
-const { heading: Heading = "h2" } = Astro.props;
+interface Props { heading?: "h2" | "h3"; compact?: boolean }
+const { heading: Heading = "h2", compact = false } = Astro.props;
 
 const order = ["operations-automation", "intelligent-document-processing", "autonomous-customer-operations"];
 const solutions = (await getCollection("solutions")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
@@ -38,22 +38,24 @@ const items = solutions.map(({ id }) => {
       const { alt, items: labels } = solutionDetails[solution.id as keyof typeof solutionDetails];
       return (
         <section id={solution.id} class="showcase-panel" aria-labelledby={`${solution.id}-title`}>
-          <div class="solution-grid">
+          <div class:list={["solution-grid", { compact }]}>
             <div class="solution-copy" data-showcase-copy>
-              <p class="solution-kicker">{solution.data.tag}</p>
-              <Heading id={`${solution.id}-title`} tabindex="-1">{solution.data.title}</Heading>
-              <p class="solution-summary">{solution.data.subtitle}</p>
-              {highlights.length > 0 && (
+              {!compact && <p class="solution-kicker">{solution.data.tag}</p>}
+              <Heading id={`${solution.id}-title`} tabindex="-1">{compact ? <a class="solution-title-link" href={`/solutions/${solution.id}`}>{solution.data.title}</a> : solution.data.title}</Heading>
+              {!compact && <p class="solution-summary">{solution.data.subtitle}</p>}
+              {!compact && highlights.length > 0 && (
                 <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>
               )}
-              <a class="solution-link" href={`/solutions/${solution.id}`}>
-                Explore solution <i data-lucide="arrow-right" class="solution-arrow !h-4 !w-4" aria-hidden="true" />
-              </a>
+              {!compact && (
+                <a class="solution-link" href={`/solutions/${solution.id}`}>
+                  Explore solution <i data-lucide="arrow-right" class="solution-arrow !h-4 !w-4" aria-hidden="true" />
+                </a>
+              )}
             </div>
             <figure class="solution-art" data-showcase-art>
               <img src={`/assets/illustrations/solution-${solution.id}.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
               <img class="solution-art-dark" src={`/assets/illustrations/solution-${solution.id}-dark.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
-              <figcaption>{labels.map(([label, value]) => <span class="solution-image-label"><b>{label}</b>{value}</span>)}</figcaption>
+              {!compact && <figcaption>{labels.map(([label, value]) => <span class="solution-image-label"><b>{label}</b>{value}</span>)}</figcaption>}
             </figure>
           </div>
         </section>
@@ -65,6 +67,12 @@ const items = solutions.map(({ id }) => {
   .solution-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
   .solution-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: clamp(20px, 3vw, 40px); }
   .solution-art { width: min(100%, 330px); margin: 0 auto; }
+  .solution-grid.compact { align-items: center; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+  .compact .solution-art { width: min(100%, 520px); }
+  .compact .solution-copy :is(h2, h3) { font-size: clamp(1.3rem, 2vw, 1.75rem); line-height: 1.15; letter-spacing: -.03em; }
+  .solution-title-link { color: inherit; text-decoration: none; }
+  .solution-title-link:hover { color: hsl(var(--primary)); }
+  .solution-title-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
   .solution-art img { display: block; width: 100%; height: auto; }
   .solution-art figcaption { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-top: 16px; }
   .solution-image-label { display: block; min-width: 0; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--muted-foreground)); font-size: .68rem; line-height: 1.35; }
@@ -84,7 +92,7 @@ const items = solutions.map(({ id }) => {
   .solution-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
   @keyframes solution-arrow-nudge { 60% { transform: translateX(7px); } 100% { transform: translateX(4px); } }
   @media (max-width: 700px) {
-    .solution-grid { grid-template-columns: minmax(0, 1fr); }
+    .solution-grid, .solution-grid.compact { grid-template-columns: minmax(0, 1fr); }
     .solution-art figcaption { grid-template-columns: 1fr; }
     .solution-image-label { font-size: .75rem; }
   }
