@@ -4145,7 +4145,8 @@ function pageContact() {
         <aside class="md:col-span-4 space-y-4">
           ${[
             {icon:"mail",   title:"Email",       value:"contactus@algorims.com", href:"mailto:contactus@algorims.com"},
-            {icon:"phone",  title:"Phone",       value:"+65 8345 9599",         href:"tel:+6583459599"},
+            {icon:"phone", title:"Phone", value:"+65 8149 2575", href:"tel:+6581492575"},
+            {icon:"message-circle", title:"WhatsApp", value:"+65 8149 2575", href:"https://wa.me/6581492575"},
           ].map(c => `
             <a href="${c.href}" class="block rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/30 hover:shadow-md">
               <div class="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary">${icon(c.icon,"!w-5 !h-5")}</div>
@@ -4224,7 +4225,6 @@ function pageContact() {
               <div class="space-y-2">
                 <label for="message" class="text-sm font-medium">How can we help?</label>
                 <textarea id="message" name="message" rows="9" maxlength="1000" class="field" placeholder="Tell us about your goals, timelines, and stack."></textarea>
-                <p data-error="message" class="text-xs text-destructive hidden"></p>
               </div>
               <button type="submit" class="btn btn-hero btn-lg w-full md:w-auto">Send message ${icon("send")}</button>
             </div>
@@ -5155,7 +5155,6 @@ function bindContactForm() {
     let ok = true;
     if (!data.name || data.name.trim().length < 2) { setError("name", "Please enter your name"); ok = false; } else setError("name", "");
     if (!data.email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(data.email)) { setError("email", "Please enter a valid email"); ok = false; } else setError("email", "");
-    if (!data.message || data.message.trim().length < 10) { setError("message", "Please share a few more details"); ok = false; } else setError("message", "");
     if (!data.service) { setError("service", "Please select a service"); ok = false; } else setError("service", "");
     if (!ok) return;
     statusEl.classList.add("hidden");

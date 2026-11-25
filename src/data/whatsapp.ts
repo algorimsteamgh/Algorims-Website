@@ -9,13 +9,14 @@
 
 export const WHATSAPP_NUMBER = "6581492575";
 export const WHATSAPP_DISPLAY = "+65 8149 2575";
+export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 /** Matches the encoding in the playbook (apostrophe as %27). */
 const encode = (text: string) => encodeURIComponent(text).replaceAll("'", "%27");
 
 /** wa.me link with a prefilled message ending in the page code, e.g. [CLN-01]. */
 export const waLink = (message: string, code: string) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encode(`${message} [${code}]`)}`;
+  `${WHATSAPP_URL}?text=${encode(`${message} [${code}]`)}`;
 
 export interface Message { from: "customer" | "business"; text: string }
 

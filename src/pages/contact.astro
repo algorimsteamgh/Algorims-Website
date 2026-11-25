@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BranchGlobe from "../components/illustrations/BranchGlobe.astro";
 import { offices } from "../data/offices";
+import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsapp";
 ---
 
 <BaseLayout title="Contact — Algorims" description="Get in touch with Algorims to scope your AI, cloud, or DevOps initiative. Most engagements start with a 30-minute conversation.">
@@ -26,9 +27,14 @@ import { offices } from "../data/offices";
           <span><span class="contact-link-label">Email us</span><span class="contact-link-value">contactus@algorims.com</span></span>
           <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
         </a>
-        <a href="tel:+6583459599" class="contact-link">
+        <a href={`tel:+${WHATSAPP_NUMBER}`} class="contact-link">
           <span class="contact-icon"><i data-lucide="phone" aria-hidden="true"></i></span>
-          <span><span class="contact-link-label">Call our Singapore team</span><span class="contact-link-value">+65 8345 9599</span></span>
+          <span><span class="contact-link-label">Call our Singapore team</span><span class="contact-link-value">{WHATSAPP_DISPLAY}</span></span>
+          <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
+        </a>
+        <a href={WHATSAPP_URL} class="contact-link" target="_blank" rel="noopener noreferrer">
+          <span class="contact-icon"><i data-lucide="message-circle" aria-hidden="true"></i></span>
+          <span><span class="contact-link-label">Message our Singapore team on WhatsApp</span><span class="contact-link-value">{WHATSAPP_DISPLAY}</span></span>
           <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
         </a>
       </div>
@@ -89,8 +95,7 @@ import { offices } from "../data/offices";
               </div>
               <div class="space-y-2">
                 <label for="message" class="text-sm font-medium">How can we help?</label>
-                <textarea id="message" name="message" rows="5" required aria-describedby="message-error" maxlength="1000" class="field" placeholder="Tell us about your goals, timelines, and stack."></textarea>
-                <p id="message-error" aria-live="polite" data-error="message" class="text-xs text-destructive hidden"></p>
+                <textarea id="message" name="message" rows="5" maxlength="1000" class="field" placeholder="Tell us about your goals, timelines, and stack."></textarea>
               </div>
               <p id="contact-status" class="hidden text-sm text-destructive" role="alert"></p>
               <p id="contact-email-draft" class="hidden text-sm text-muted-foreground" role="status">Send the draft from your email app to complete your enquiry.</p>
@@ -251,7 +256,6 @@ import { offices } from "../data/offices";
       const message = value("message");
       setError("name", name.trim().length < 2 ? "Please enter your name" : "");
       setError("email", !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? "Please enter a valid email" : "");
-      setError("message", message.trim().length < 10 ? "Please share a few more details" : "");
       setError("service", !service ? "Please select a service" : "");
       if (form.querySelector('[data-error]:not(.hidden)')) return;
       status.classList.add("hidden");

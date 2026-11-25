@@ -4,6 +4,7 @@ import Faqs from "../components/content/Faqs.astro";
 import LeadForm from "../components/invoicenow/LeadForm.astro";
 import Workflow from "../components/invoicenow/Workflow.astro";
 import WorkflowDemo from "../components/invoicenow/WorkflowDemo.astro";
+import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsapp";
 import { breadcrumbSchema } from "../lib/schema";
 
 const imda = "https://www.imda.gov.sg/how-we-can-help/nationwide-e-invoicing-framework";
@@ -167,7 +168,8 @@ const schema = breadcrumbSchema([{ name: "Home", path: "/" }, { name: "InvoiceNo
         </ul>
         <div class="enquiry-contact">
           <a class="invoice-link" href="mailto:contactus@algorims.com?subject=InvoiceNow%20enquiry"><i data-lucide="mail" aria-hidden="true"></i>contactus@algorims.com</a>
-          <a class="invoice-link" href="tel:+6583459599"><i data-lucide="phone" aria-hidden="true"></i>+65 8345 9599</a>
+          <a class="invoice-link" href={`tel:+${WHATSAPP_NUMBER}`}><i data-lucide="phone" aria-hidden="true"></i>Call {WHATSAPP_DISPLAY}</a>
+          <a class="invoice-link" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer"><i data-lucide="message-circle" aria-hidden="true"></i>WhatsApp {WHATSAPP_DISPLAY}</a>
         </div>
       </div>
       <LeadForm />
