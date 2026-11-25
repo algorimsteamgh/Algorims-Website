@@ -30,6 +30,7 @@ CONTACT_SERVICES = {
     "Never Miss a Sales Lead Again – Set Up Your WhatsApp AI Agent",
     "Get a Complimentary AI Assessment for Your Business",
     "Meet IRAS GST Compliant with InvoiceNOW",
+    "Transform Your SME with AI – Get Up to 50% IMDA Grant",
 }
 MONTHLY_SEND_LIMIT = 300
 
