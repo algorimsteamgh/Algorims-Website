@@ -3,12 +3,12 @@
 // (same as /contact) with the page code, UTM tags and click IDs attached so
 // each lead maps to its campaign. Fires Lead / generate_lead on success.
 import { ATTRIBUTION_KEYS } from "../../scripts/tracking";
-import { industries, chatVolumes, waLink, WHATSAPP_DISPLAY } from "../../data/whatsapp";
+import { industries, chatVolumes, landingPages, waLink, WHATSAPP_DISPLAY } from "../../data/whatsapp";
 
 interface Props { code: string; waMessage: string; industry?: string; id?: string }
 const { code, waMessage, industry, id = "lead-form" } = Astro.props;
 ---
-<form id={id} class="wa-form" method="post" data-lead-form data-page-code={code} novalidate>
+<form id={id} class="wa-form" method="post" data-lead-form data-page-code={code} data-whatsapp-alert={code === landingPages.api.code ? "" : undefined} novalidate>
   <noscript><p>To request an audit, <a href={waLink(waMessage, code)} data-wa-code={code} target="_blank" rel="noopener noreferrer">message us on WhatsApp</a>.</p></noscript>
   <div data-lead-success class="wa-form-success" role="status" hidden>
     <span class="wa-form-tick"><i data-lucide="check" aria-hidden="true"></i></span>
@@ -114,10 +114,14 @@ const { code, waMessage, industry, id = "lead-form" } = Astro.props;
   import { sendForm, setButtonLoading } from "../../scripts/formSubmission";
   import { fillAttributionFields, newEventId, toE164, trackLead } from "../../scripts/tracking";
 
-  const key = import.meta.env.PUBLIC_WEB3FORMS_LEAD_KEY || import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+  const configuredKey = import.meta.env.PUBLIC_WEB3FORMS_LEAD_KEY || import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+  const key = configuredKey?.startsWith("YOUR-") ? undefined : configuredKey;
 
   document.querySelectorAll<HTMLFormElement>("form[data-lead-form]").forEach((form) => {
     const code = form.dataset.pageCode!;
+    const staffAlerts = form.hasAttribute("data-whatsapp-alert");
+    const alertUrl = staffAlerts ? import.meta.env.PUBLIC_LEAD_ALERT_URL : undefined;
+    const email = staffAlerts ? "support@algorims.com" : "contactus@algorims.com";
     const fields = form.querySelector<HTMLElement>("[data-lead-fields]")!;
     const success = form.querySelector<HTMLElement>("[data-lead-success]")!;
     const status = form.querySelector<HTMLElement>("[data-lead-status]")!;
@@ -154,7 +158,7 @@ const { code, waMessage, industry, id = "lead-form" } = Astro.props;
         .map((name) => `${name}: ${value(name)}`).join("\n");
       setButtonLoading(button, true);
       try {
-        await sendForm(form, key, subject, "contactus@algorims.com", body);
+        await sendForm(form, key, subject, email, body, alertUrl);
         // Without a Web3Forms key sendForm opens a mailto draft, which is not a lead yet.
         if (!key) return;
         trackLead(code, eventId, toE164(phone));

@@ -12,6 +12,7 @@ const optionalSelects = [
   </div>
   <div id="invoice-fields" class="space-y-4">
     <input type="hidden" name="page_url" value={Astro.url.pathname} />
+    <input type="hidden" name="event_id" value="" />
     <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
     <div class="form-grid">
       <label>Name <input class="field" name="name" autocomplete="name" maxlength="100" required /></label>
@@ -47,7 +48,7 @@ const optionalSelects = [
     </details>
     <p id="invoice-feedback" class="text-sm text-muted-foreground" role="status"></p>
     <button class="btn btn-hero btn-lg w-full sm:w-auto" type="submit" disabled>Send request</button>
-    <noscript><p>Please email <a class="underline" href="mailto:contactus@algorims.com?subject=InvoiceNow%20enquiry">contactus@algorims.com</a> to enquire.</p></noscript>
+    <noscript><p>Please email <a class="underline" href="mailto:support@algorims.com?subject=InvoiceNow%20enquiry">support@algorims.com</a> to enquire.</p></noscript>
   </div>
 </form>
 
@@ -73,6 +74,7 @@ const optionalSelects = [
 
 <script>
   import { sendForm, setButtonLoading } from "../../scripts/formSubmission";
+  import { newEventId } from "../../scripts/tracking";
 
   const form = document.querySelector<HTMLFormElement>("#invoice-form")!;
   const fields = document.querySelector<HTMLElement>("#invoice-fields")!;
@@ -81,7 +83,8 @@ const optionalSelects = [
   const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
   const configuredKey = import.meta.env.PUBLIC_WEB3FORMS_LEAD_KEY || import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
   const key = configuredKey?.startsWith("YOUR-") ? undefined : configuredKey;
-  const email = "contactus@algorims.com";
+  const alertUrl = import.meta.env.PUBLIC_LEAD_ALERT_URL;
+  const email = "support@algorims.com";
 
   if (!key) button.textContent = "Continue to email";
   button.disabled = false;
@@ -90,6 +93,7 @@ const optionalSelects = [
     event.preventDefault();
     const data = new FormData(form);
     if (data.get("botcheck")) return;
+    if (key && alertUrl) form.querySelector<HTMLInputElement>('[name="event_id"]')!.value = newEventId();
 
     const body = [...data]
       .filter(([name, value]) => name !== "botcheck" && value)
@@ -99,7 +103,7 @@ const optionalSelects = [
     status.textContent = "";
     setButtonLoading(button, true);
     try {
-      await sendForm(form, key, "InvoiceNow enquiry", email, body);
+      await sendForm(form, key, "InvoiceNow enquiry", email, body, alertUrl);
       if (!key) {
         status.textContent = `Send the draft from your email app to complete your enquiry. You can also reach us at ${email}.`;
         return;

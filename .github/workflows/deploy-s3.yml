@@ -25,10 +25,12 @@ jobs:
           cache: npm
 
       - run: npm ci
+      - run: python3 -B -m unittest discover -s tools -p test_lead_alerts.py
       - run: npm run verify
         env:
           PUBLIC_WEB3FORMS_CONTACT_KEY: ${{ secrets.WEB3FORMS_CONTACT_KEY }}
           PUBLIC_WEB3FORMS_SUPPORT_KEY: ${{ secrets.WEB3FORMS_SUPPORT_KEY }}
+          PUBLIC_LEAD_ALERT_URL: ${{ vars.LEAD_ALERT_URL }}
           PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ secrets.GOOGLE_SITE_VERIFICATION }}
 
       - uses: aws-actions/configure-aws-credentials@v6

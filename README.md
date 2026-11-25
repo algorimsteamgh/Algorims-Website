@@ -15,3 +15,5 @@ Edit pages and shared components in `src/`, editorial content in `src/content/`,
 The root HTML folders, `assets/`, `footer.html`, and `tools/sync-html-shell.mjs` are legacy rollback material, not production sources. `npm run check:legacy` checks that snapshot; don't run the shell sync when editing Astro pages.
 
 See [REDESIGN_READINESS.md](REDESIGN_READINESS.md) for the redesign scope and release gate.
+
+See the [lead alert rollout](deploy/lead-alerts/README.md) for the InvoiceNow and WhatsApp Business API notifications.

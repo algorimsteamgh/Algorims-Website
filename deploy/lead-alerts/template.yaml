@@ -1,0 +1,100 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: WhatsApp staff alerts for the Algorims InvoiceNow and WhatsApp Business API forms
+
+Parameters:
+  AlertsSecretArn:
+    Type: String
+    Description: ARN of the configuration secret in the same AWS Region
+  SiteOrigin:
+    Type: String
+    Default: https://www.algorims.com
+    AllowedPattern: 'https://[a-z0-9.-]+'
+    Description: Exact website origin allowed to submit lead alerts
+
+Resources:
+  AlertsApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      CorsConfiguration:
+        AllowOrigins: [!Ref SiteOrigin]
+        AllowMethods: [POST]
+        AllowHeaders: [Content-Type]
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 25
+        ThrottlingRateLimit: 10
+      DefinitionBody:
+        openapi: '3.0.1'
+        info:
+          title: Algorims lead alerts
+          version: '1'
+        paths: {}
+  Deliveries:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+  AlertFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: function/
+      Handler: app.lambda_handler
+      Runtime: python3.13
+      Timeout: 24
+      Environment:
+        Variables:
+          ALERTS_SECRET_ARN: !Ref AlertsSecretArn
+          DELIVERIES_TABLE: !Ref Deliveries
+          SITE_ORIGIN: !Ref SiteOrigin
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action: secretsmanager:GetSecretValue
+              Resource: !Ref AlertsSecretArn
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:UpdateItem
+              Resource: !GetAtt Deliveries.Arn
+      Events:
+        Lead:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref AlertsApi
+            Method: POST
+            Path: /lead-alert
+            TimeoutInMillis: 25000
+        StatusSetup:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref AlertsApi
+            Method: GET
+            Path: /whatsapp-status
+        StatusUpdate:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref AlertsApi
+            Method: POST
+            Path: /whatsapp-status
+            TimeoutInMillis: 25000
+  AlertLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AlertFunction}'
+      RetentionInDays: 30
+
+Outputs:
+  LeadAlertUrl:
+    Value: !Sub 'https://${AlertsApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/lead-alert'
+  MetaCallback:
+    Value: !Sub 'https://${AlertsApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/whatsapp-status'
+  DeliveriesTable:
+    Value: !Ref Deliveries
