@@ -1,0 +1,46 @@
+---
+import VisualShowcase from "./VisualShowcase.astro";
+
+const practices = [
+  {
+    name: "Development",
+    title: "Build AI-ready software.",
+    href: "/services#dev",
+    linkLabel: "Explore Development",
+    image: "development",
+    description: "Build applications, APIs, and integrations that work with your existing systems and are ready to run in production.",
+    outcome: "Production software",
+    alt: "Requirements and APIs connect through application engineering to production software.",
+  },
+  {
+    name: "Cloud",
+    title: "Run it on AWS.",
+    href: "/services#cloud",
+    linkLabel: "Explore Cloud Engineering",
+    image: "cloud-engineering",
+    description: "Set up AWS landing zones, migrate workloads, and modernise infrastructure to improve performance and control costs.",
+    outcome: "Resilient AWS infrastructure",
+    alt: "Data and workloads connect through cloud engineering to resilient infrastructure.",
+  },
+  {
+    name: "DevOps",
+    title: "Ship changes reliably.",
+    href: "/services#devops",
+    linkLabel: "Explore DevOps & Platform",
+    image: "devops-platform",
+    description: "Use CI/CD, developer platforms, automated testing, and observability to build a safer path from code to production.",
+    outcome: "Reliable releases",
+    alt: "Code changes flow through automated delivery to reliable releases.",
+  },
+];
+---
+<VisualShowcase
+  id="services"
+  label="What we do"
+  items={practices.map(({ image, ...practice }) => ({
+    ...practice,
+    lightImage: `/assets/illustrations/service-${image}.webp`,
+    darkImage: `/assets/illustrations/service-${image}-3d-dark.webp`,
+  }))}
+  imageSize={{ light: [724, 724], dark: [1254, 1254] }}
+/>

@@ -1,5 +1,57 @@
 ---
+import ScrollShowcase from "../components/ScrollShowcase.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+const practices = [
+  {
+    id: "cloud",
+    name: "Cloud Engineering",
+    icon: "cloud",
+    description: "Your cloud should work harder. We build AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic business asset.",
+    services: ["AWS landing zones & foundations", "Cloud migration & modernisation", "Well-Architected reviews", "FinOps & cost optimisation"],
+    href: "/case-studies",
+    linkText: "View cloud engineering case studies",
+    image: "service-cloud-engineering.webp",
+    darkImage: "service-cloud-engineering-3d-dark.webp",
+    alt: "Cloud engineering illustration",
+  },
+  {
+    id: "devops",
+    name: "DevOps & Platform",
+    icon: "git-branch",
+    description: "Ship faster. Break nothing. We engineer CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together — always.",
+    services: ["Internal developer platforms", "CI/CD pipelines & GitOps", "SRE & incident response", "Observability & SLOs"],
+    href: "/case-studies",
+    linkText: "View DevOps case studies",
+    image: "service-devops-platform.webp",
+    darkImage: "service-devops-platform-3d-dark.webp",
+    alt: "DevOps and platform engineering illustration",
+  },
+  {
+    id: "dev",
+    name: "Development",
+    icon: "code-2",
+    description: "Not just code. AI-ready applications engineered by senior developers — built to perform, scale, and integrate intelligently from day one.",
+    services: ["Web platforms & dashboards", "Cross-platform mobile apps (iOS & Android)", "APIs & system integrations", "AI-native product features"],
+    href: "/case-studies",
+    linkText: "View development case studies",
+    image: "service-development.webp",
+    darkImage: "service-development-3d-dark.webp",
+    alt: "Application development illustration",
+  },
+  {
+    id: "xero",
+    name: "Xero Solutions",
+    icon: "calculator",
+    description: "Xero is a cloud-based accounting platform that brings your essential financial processes together in one place. From invoicing and expenses to bank reconciliation, GST and reporting, Xero helps businesses reduce manual work and manage their finances more efficiently.",
+    services: ["Invoicing", "Bank Reconciliation", "Bills & Expenses", "Reports & Insights"],
+    href: "/contact",
+    linkText: "Contact Us",
+    image: "service-xero-light.webp",
+    darkImage: "service-xero-dark.webp",
+    alt: "Xero financial workflows illustration",
+  },
+];
 ---
 
 <BaseLayout title="Services — Algorims" description="AI & Generative AI, Data & Analytics, AWS cloud engineering, DevOps, application development and managed services from Algorims.">
@@ -13,7 +65,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <a class="btn btn-outline btn-lg" href="/case-studies">View case studies</a>
     </div>
     <dl class="services-stats">
-      <div><dt data-counter>40+</dt><dd>Projects Delivered</dd></div>
+      <div><dt data-counter>20+</dt><dd>Projects Delivered</dd></div>
       <div><dt data-counter>99.9%</dt><dd>System Uptime</dd></div>
       <div><dt data-counter>7+</dt><dd>Industries Served</dd></div>
       <div><dt data-counter>24/7</dt><dd>Support Coverage</dd></div>
@@ -21,231 +73,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   </div>
 </section>
 
-    <section id="cloud" class="py-10 lg:py-14 ">
-      <div class="container-x">
-        <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div class="space-y-6 lg:col-span-8">
-            <p class="services-kicker text-primary">Practice 01</p>
-            <div class="flex flex-wrap items-center gap-4">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="cloud" class="!w-6 !h-6"></i></div>
-              <h2 class="services-section-title">Cloud Engineering</h2>
-
+  <ScrollShowcase items={practices} label="Service practices" noun="practice">
+    {practices.map((practice, index) => (
+      <section id={practice.id} class="showcase-panel" aria-labelledby={`${practice.id}-title`}>
+        <div class="practice-grid">
+          <div class="space-y-4" data-showcase-copy>
+            <p class="services-kicker text-primary">Practice 0{index + 1}</p>
+            <div class="flex flex-wrap items-center gap-3">
+              <i data-lucide={practice.icon} class="text-primary" aria-hidden="true"></i>
+              <h2 id={`${practice.id}-title`} class="services-section-title" tabindex="-1">{practice.name}</h2>
+              {practice.id === "xero" && <img src="/assets/partners/xero-blue-partner-badge.svg" alt="Xero Solutions partner badge" class="h-11 w-auto" />}
             </div>
-            <div class="services-description max-w-2xl space-y-4 text-muted-foreground">
-              <p>Your cloud should work harder. We build AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic business asset.</p>
-            </div>
-
-            <ul class="grid gap-x-8 gap-y-3 pt-2 sm:grid-cols-2">
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>AWS landing zones & foundations</span>
+            <p class="services-description text-muted-foreground">{practice.description}</p>
+            <ul class="grid gap-3 sm:grid-cols-2">
+              {practice.services.map((service) => (
+                <li class="services-list-item flex items-start gap-2">
+                  <i data-lucide="check" class="mt-1 !w-4 !h-4 shrink-0 text-primary" aria-hidden="true"></i>
+                  {service}
                 </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Cloud migration & modernisation</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Well-Architected reviews</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>FinOps & cost optimisation</span>
-                </li>
-
+              ))}
             </ul>
-
-
-            <div class="pt-1">
-              <a href="/case-studies" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
-                View cloud engineering case studies <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-              </a>
-            </div>
+            <a href={practice.href} class="inline-flex items-center gap-2 font-semibold text-primary">
+              {practice.linkText} <i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i>
+            </a>
           </div>
-
-          <aside class="services-figure-wrap lg:col-span-4">
-            <figure class="services-figure">
-              <img src="/assets/illustrations/service-cloud-engineering.webp" alt="Cloud engineering illustration" width="724" height="724" loading="lazy" />
-              <img class="services-figure-dark" src="/assets/illustrations/service-cloud-engineering-3d-dark.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
-            </figure>
-          </aside>
+          <figure class="services-figure" data-showcase-art>
+            <img src={`/assets/illustrations/${practice.image}`} alt={practice.alt} width="724" height="724" loading="lazy" />
+            <img class="services-figure-dark" src={`/assets/illustrations/${practice.darkImage}`} alt={practice.alt} width="1254" height="1254" loading="lazy" />
+          </figure>
         </div>
-      </div>
-    </section>
-
-    <section id="devops" class="py-10 lg:py-14 bg-secondary/40">
-      <div class="container-x">
-        <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div class="space-y-6 lg:col-span-8">
-            <p class="services-kicker text-primary">Practice 02</p>
-            <div class="flex flex-wrap items-center gap-4">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="git-branch" class="!w-6 !h-6"></i></div>
-              <h2 class="services-section-title">DevOps & Platform</h2>
-
-            </div>
-            <div class="services-description max-w-2xl space-y-4 text-muted-foreground">
-              <p>Ship faster. Break nothing. We engineer CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together — always.</p>
-            </div>
-
-            <ul class="grid gap-x-8 gap-y-3 pt-2 sm:grid-cols-2">
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Internal developer platforms</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>CI/CD pipelines & GitOps</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>SRE & incident response</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Observability & SLOs</span>
-                </li>
-
-            </ul>
-
-
-            <div class="pt-1">
-              <a href="/case-studies" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
-                View DevOps case studies <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-              </a>
-            </div>
-          </div>
-
-          <aside class="services-figure-wrap lg:col-span-4">
-            <figure class="services-figure">
-              <img src="/assets/illustrations/service-devops-platform.webp" alt="DevOps and platform engineering illustration" width="724" height="724" loading="lazy" />
-              <img class="services-figure-dark" src="/assets/illustrations/service-devops-platform-3d-dark.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
-            </figure>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section id="dev" class="py-10 lg:py-14 ">
-      <div class="container-x">
-        <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div class="space-y-6 lg:col-span-8">
-            <p class="services-kicker text-primary">Practice 03</p>
-            <div class="flex flex-wrap items-center gap-4">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-primary text-white shadow-glow"><i data-lucide="code-2" class="!w-6 !h-6"></i></div>
-              <h2 class="services-section-title">Development</h2>
-
-            </div>
-            <div class="services-description max-w-2xl space-y-4 text-muted-foreground">
-              <p>Not just code. AI-ready applications engineered by senior developers — built to perform, scale, and integrate intelligently from day one.</p>
-            </div>
-
-            <ul class="grid gap-x-8 gap-y-3 pt-2 sm:grid-cols-2">
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Web platforms & dashboards</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Cross-platform mobile apps (iOS & Android)</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>APIs & system integrations</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>AI-native product features</span>
-                </li>
-
-            </ul>
-
-
-            <div class="pt-1">
-              <a href="/case-studies" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
-                View development case studies <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-              </a>
-            </div>
-          </div>
-
-          <aside class="services-figure-wrap lg:col-span-4">
-            <figure class="services-figure">
-              <img src="/assets/illustrations/service-development.webp" alt="Application development illustration" width="724" height="724" loading="lazy" />
-              <img class="services-figure-dark" src="/assets/illustrations/service-development-3d-dark.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
-            </figure>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section id="xero" class="py-10 lg:py-14 bg-secondary/40">
-      <div class="container-x">
-        <div class="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <div class="space-y-6 lg:col-span-8">
-            <p class="services-kicker text-primary">Practice 04</p>
-            <div class="flex flex-wrap items-center gap-4">
-              <div class="grid h-12 w-12 place-items-center rounded-2xl bg-primary/10 text-primary"><i data-lucide="calculator" class="!w-6 !h-6"></i></div>
-              <h2 class="services-section-title">Xero Solutions</h2>
-              <img src="/assets/partners/xero-blue-partner-badge.svg" alt="Xero Solutions partner badge" class="h-11 w-auto md:h-12" />
-            </div>
-            <div class="services-description max-w-2xl space-y-4 text-muted-foreground">
-              <p>Xero is a cloud-based accounting platform that brings your essential financial processes together in one place. From invoicing and expenses to bank reconciliation, GST and reporting, Xero helps businesses reduce manual work and manage their finances more efficiently.</p>
-            </div>
-
-            <ul class="grid gap-x-8 gap-y-3 pt-2 sm:grid-cols-2">
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Invoicing</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Bank Reconciliation</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Bills & Expenses</span>
-                </li>
-
-                <li class="services-list-item flex items-start gap-3 text-foreground/90">
-                  <span class="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center text-primary"><i data-lucide="check" class="!w-4 !h-4"></i></span>
-                  <span>Reports & Insights</span>
-                </li>
-
-            </ul>
-
-
-            <div class="pt-1">
-              <a href="/contact" class="inline-flex items-center gap-2 text-base font-semibold text-primary transition-all hover:gap-3">
-                Contact Us <i data-lucide="arrow-right" class="!w-4 !h-4"></i>
-              </a>
-            </div>
-          </div>
-
-          <aside class="services-figure-wrap lg:col-span-4">
-            <figure class="services-figure">
-              <img src="/assets/illustrations/service-xero-light.webp" alt="Xero financial workflows illustration" width="1254" height="1254" loading="lazy" />
-              <img class="services-figure-dark" src="/assets/illustrations/service-xero-dark.webp" alt="" aria-hidden="true" width="1254" height="1254" loading="lazy" />
-            </figure>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-
+      </section>
+    ))}
+  </ScrollShowcase>
 </BaseLayout>
 <style>
   .services-hero { padding: 46px 0 24px; text-align: center; }
@@ -257,26 +116,21 @@ import BaseLayout from "../layouts/BaseLayout.astro";
   .services-stats div + div { border-left: 1px solid hsl(var(--border)); }
   .services-stats dt { color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .services-stats dd { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .85rem; }
-  .services-figure { margin: 0; padding: 28px; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
+  .practice-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; gap: clamp(20px, 3vw, 40px); }
+  .services-figure { margin: 0; padding: clamp(8px, 1.5vw, 20px); overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; background: hsl(var(--background)); }
   .services-figure img { display: block; width: 100%; height: auto; }
   .services-figure-dark { display: none !important; }
   :global(:root.dark) .services-figure > img:not(.services-figure-dark) { display: none; }
   :global(:root.dark) .services-figure > .services-figure-dark { display: block !important; }
-  .services-flow { display: grid; gap: 0; max-width: 360px; margin-inline: auto; }
-  .services-flow span { position: relative; display: block; padding: 14px 14px 14px 36px; color: hsl(var(--muted-foreground)); font-size: .68rem; font-weight: 700; letter-spacing: .14em; line-height: 1.4; text-transform: uppercase; }
-  .services-flow span::before { position: absolute; top: 19px; left: 8px; width: 9px; height: 9px; border: 1px solid hsl(var(--foreground)); background: hsl(var(--background)); content: ""; }
-  .services-flow span + span::after { position: absolute; top: -19px; left: 12px; width: 1px; height: 32px; background: hsl(var(--border)); content: ""; }
-  .services-flow span:nth-child(2)::before { border-color: hsl(var(--primary)); background: hsl(var(--primary)); }
-  .services-flow b { display: block; margin-top: 3px; color: hsl(var(--foreground)); font-size: clamp(1rem, 1.5vw, 1.2rem); font-weight: 600; letter-spacing: -.025em; text-transform: none; }
-  section[id] { border-top: 1px solid hsl(var(--border)); }
   .services-kicker { font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
   .services-title { font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1; letter-spacing: -.06em; }
   .services-emphasis { color: hsl(var(--primary)); }
   .services-intro, .services-description { font-size: clamp(1rem, 1.4vw, 1.15rem); line-height: 1.65; }
-  .services-section-title { font-size: clamp(2.2rem, 3.7vw, 3.7rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; }
+  .services-section-title { font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 600; line-height: 1.06; letter-spacing: -.05em; }
   .services-list-item { font-size: 1rem; line-height: 1.6; }
-  @media (min-width: 1024px) {
-    #devops .services-figure-wrap, #xero .services-figure-wrap { order: -1; }
+  @media (max-width: 700px) {
+    .practice-grid { grid-template-columns: minmax(0, 1fr); }
+    .services-figure { width: min(100%, 280px); justify-self: center; }
   }
   @media (max-width: 600px) {
     .services-hero { padding-top: 44px; }

@@ -1,10 +1,10 @@
-const track = document.querySelector<HTMLElement>("[data-partner-track]");
-const showcase = track?.querySelector<HTMLElement>("[data-partner-showcase]");
-const pin = track?.querySelector<HTMLElement>(".partner-pin");
+const track = document.querySelector<HTMLElement>(".showcase-track");
+const showcase = track?.querySelector<HTMLElement>(".scroll-showcase");
+const pin = track?.querySelector<HTMLElement>(".showcase-pin");
 
 if (track && showcase && pin) {
-  const links = [...showcase.querySelectorAll<HTMLAnchorElement>(".credential-index a")];
-  const panels = [...showcase.querySelectorAll<HTMLElement>(".partner")];
+  const links = [...showcase.querySelectorAll<HTMLAnchorElement>(".showcase-index a")];
+  const panels = [...showcase.querySelectorAll<HTMLElement>(".showcase-panel")];
   const motion = window.matchMedia("(prefers-reduced-motion: no-preference)");
   const styles = getComputedStyle(track);
   const pinTop = parseFloat(styles.getPropertyValue("--pin-top"));
@@ -12,8 +12,18 @@ if (track && showcase && pin) {
   const scrollStart = () => window.scrollY + track.getBoundingClientRect().top - pinTop;
   const isPinned = () => track.hasAttribute("data-scroll");
   const hashIndex = () => links.findIndex((link) => link.hash === window.location.hash);
+  const nav = showcase.querySelector<HTMLElement>(".showcase-index");
   let active = -1;
   let frame = 0;
+
+  const placePill = () => {
+    const link = links[active];
+    if (!nav || !link) return;
+    nav.style.setProperty("--pill-x", `${link.offsetLeft}px`);
+    nav.style.setProperty("--pill-y", `${link.offsetTop}px`);
+    nav.style.setProperty("--pill-w", `${link.offsetWidth}px`);
+    nav.style.setProperty("--pill-h", `${link.offsetHeight}px`);
+  };
 
   const select = (index: number) => {
     if (index === active) return;
@@ -25,6 +35,7 @@ if (track && showcase && pin) {
       else links[i].removeAttribute("aria-current");
     });
     active = index;
+    placePill();
   };
 
   const followScroll = () => {
@@ -39,7 +50,7 @@ if (track && showcase && pin) {
     const moveFocus = panels[active].contains(focused);
     if (moveFocus && focused?.matches("a")) return;
     select(index);
-    if (moveFocus) panels[index].querySelector("h2")?.focus({ preventScroll: true });
+    if (moveFocus) panels[index].querySelector<HTMLElement>("h2, h3")?.focus({ preventScroll: true });
   };
 
   const queueScroll = () => {
@@ -63,6 +74,7 @@ if (track && showcase && pin) {
   };
 
   const measure = () => {
+    placePill();
     const wasPinned = isPinned();
     showcase.setAttribute("data-measuring", "");
     const maxHeight = showcase.offsetHeight;
@@ -70,10 +82,10 @@ if (track && showcase && pin) {
     const fits = maxHeight + pinTop + 24 <= window.innerHeight;
     track.toggleAttribute("data-scroll", motion.matches && fits);
     if (isPinned()) {
-      track.style.setProperty("--partner-max-height", `${maxHeight}px`);
+      track.style.setProperty("--showcase-max-height", `${maxHeight}px`);
       const offset = panels[active].getBoundingClientRect().top - pin.getBoundingClientRect().top;
       const stickyTop = parseFloat(getComputedStyle(pin).top);
-      track.style.setProperty("--partner-scroll-margin", `${stickyTop + offset}px`);
+      track.style.setProperty("--showcase-scroll-margin", `${stickyTop + offset}px`);
       if (wasPinned) queueScroll();
     }
   };
@@ -82,6 +94,7 @@ if (track && showcase && pin) {
   showcase.setAttribute("data-ready", "");
   measure();
   followHash();
+  requestAnimationFrame(() => showcase.setAttribute("data-pill-ready", ""));
 
   links.forEach((link, index) => {
     link.addEventListener("click", (event) => {
@@ -90,7 +103,7 @@ if (track && showcase && pin) {
       if (window.location.hash !== link.hash) history.pushState(null, "", link.hash);
       goTo(index);
       if (event.detail === 0) {
-        panels[index].querySelector("h2")?.focus({ preventScroll: true });
+        panels[index].querySelector<HTMLElement>("h2, h3")?.focus({ preventScroll: true });
       }
     });
   });

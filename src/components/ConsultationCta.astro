@@ -1,23 +1,39 @@
 ---
-const { iconClass } = Astro.props;
+const { iconClass = "h-4 w-4" } = Astro.props;
 ---
-<section class="py-10 lg:py-14">
+<section class="cta">
   <div class="container-x">
-    <div class="relative overflow-hidden rounded-3xl bg-gradient-dark p-10 text-white shadow-lg md:p-16">
-      <div class="absolute inset-0 surface-mesh opacity-60"></div>
-      <div class="absolute -right-20 -top-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary-glow) / .3)"></div>
-      <div class="absolute -bottom-20 -left-20 h-80 w-80 rounded-full blur-3xl" style="background:hsl(var(--primary) / .4)"></div>
-      <div class="relative grid gap-10 md:grid-cols-5 md:items-center">
-        <div class="md:col-span-3 space-y-5">
-          <div class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs"><span class="h-1.5 w-1.5 rounded-full" style="background:hsl(var(--primary-glow))"></span>Ready when you are</div>
-          <h2 class="text-balance text-4xl font-semibold leading-tight md:text-5xl">Let's architect your <span class="bg-clip-text text-transparent" style="background-image:linear-gradient(to right, hsl(var(--primary-glow)), white)">Agentic Enterprise</span>.</h2>
-          <p class="max-w-xl text-base leading-relaxed text-white/75">Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p>
-        </div>
-        <div class="md:col-span-2 flex flex-col gap-3 md:items-end">
-          <a href="/contact" class="btn btn-xl" style="background:white;color:hsl(var(--primary-deep))">Book a consultation <i data-lucide="arrow-right" class={iconClass}></i></a>
-          <a href="/services" class="btn btn-ghost btn-lg rounded-full" style="color:white">Explore services</a>
-        </div>
+    <div class="cta-card">
+      <div class="cta-copy">
+        <p class="cta-kicker">Ready when you are</p>
+        <h2>Let's architect your <span>Agentic Enterprise.</span></h2>
+        <p>Talk to our team about your AI, cloud, or platform engineering goals. We'll design a plan that scales with your business.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="/contact" class="btn btn-hero btn-lg rounded-full">Book a consultation <i data-lucide="arrow-right" class={iconClass}></i></a>
+        <a href="/services" class="btn btn-outline btn-lg rounded-full">Explore services</a>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .cta { padding: 48px 0; }
+  .cta-card { display: flex; align-items: center; justify-content: space-between; gap: 32px; max-width: 1112px; margin: 0 auto; padding: clamp(28px, 4vw, 44px) clamp(24px, 4vw, 48px); border: 1px solid hsl(var(--primary) / .12); border-radius: 1.5rem; background: radial-gradient(120% 140% at 100% 0%, hsl(var(--primary-glow) / .16), transparent 55%), linear-gradient(120deg, hsl(var(--primary) / .03), hsl(var(--primary) / .1)); }
+  .cta-copy { max-width: 620px; }
+  .cta-kicker { margin: 0 0 10px; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .cta h2 { margin: 0; font-size: clamp(1.6rem, 2.6vw, 2.25rem); font-weight: 600; line-height: 1.12; letter-spacing: -.04em; text-wrap: balance; }
+  .cta h2 span { color: hsl(var(--primary)); }
+  .cta-copy > p:last-child { margin: 12px 0 0; color: hsl(var(--muted-foreground)); font-size: .95rem; line-height: 1.6; }
+  .cta-actions { display: flex; flex: none; flex-wrap: wrap; gap: 10px; }
+
+  @media (max-width: 860px) {
+    .cta-card { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 600px) {
+    .cta { padding: 32px 0; }
+    .cta-card { border-radius: 1.25rem; }
+    .cta-actions { width: 100%; }
+    .cta-actions a { flex: 1 1 100%; justify-content: center; }
+  }
+</style>

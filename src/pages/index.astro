@@ -1,26 +1,17 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import TrustedTeams from "../components/TrustedTeams.astro";
+import ServiceShowcase from "../components/ServiceShowcase.astro";
+import PartnerGrid from "../components/PartnerGrid.astro";
+import SolutionsShowcase from "../components/SolutionsShowcase.astro";
+import WhyAlgorims from "../components/WhyAlgorims.astro";
+import ConsultationCta from "../components/ConsultationCta.astro";
 import SystemDiagram from "../components/illustrations/SystemDiagram.astro";
 import ApproachShowcase from "../components/illustrations/ApproachShowcase.astro";
 import { getEntry } from "astro:content";
 import CaseStudyCard from "../components/case-studies/CaseStudyCard.astro";
 
-const logos = [
-  ...Array.from({length:7},(_,i)=>`/assets/trusted/logo-${String(i+1).padStart(2,"0")}.webp`),
-  "/assets/trusted/logo-08.webp","/assets/trusted/logo-09.webp","/assets/trusted/logo-10.webp","/assets/trusted/logo-11.svg",
-  ...Array.from({length:5},(_,i)=>`/assets/trusted/logo-${String(i+12).padStart(2,"0")}.webp`),
-];
-const stats=[["20+","Enterprises transformed"],["10+","Certified AI & Cloud engineers"],["7+","Industries and growing"],["99.99%","Enterprise-grade reliability"]];
-const serviceLabels=[
-  ["Requirements & APIs","Application engineering","Production software"],
-  ["Data & workloads","Cloud engineering","Resilient infrastructure"],
-  ["Code changes","Automated delivery","Reliable operations"],
-];
-const services=[
-  ["Development","AI-ready applications engineered by senior developers—built to perform, scale, and integrate intelligently from day one. From enterprise platforms and APIs to system integrations, we deliver production-grade software designed to work alongside your AI infrastructure.","/services#dev","/assets/illustrations/service-development.webp","/assets/illustrations/service-development-3d-dark.webp","Requirements and APIs connect through application engineering to production software."],
-  ["Cloud Engineering","AWS-native foundations that eliminate waste, maximise performance, and turn infrastructure into a strategic asset—from landing zones and migrations to modernisation and cost optimisation.","/services#cloud","/assets/illustrations/service-cloud-engineering.webp","/assets/illustrations/service-cloud-engineering-3d-dark.webp","Data and workloads connect through cloud engineering to resilient infrastructure."],
-  ["DevOps & Platform","CI/CD pipelines, developer platforms, and SRE practices where speed, reliability, and security move together—from automated testing and observability to incident response.","/services#devops","/assets/illustrations/service-devops-platform.webp","/assets/illustrations/service-devops-platform-3d-dark.webp","Code changes flow through automated delivery to reliable operations."],
-];
+const stats=[["20+","Projects delivered"],["10+","Certified AI & Cloud engineers"],["7+","Industries and growing"],["99.9%","System uptime"]];
 const featuredStudies = await Promise.all([
   getEntry("case-studies", "qsr-conversational-analytics"),
   getEntry("case-studies", "ai-school-scheduler"),
@@ -35,14 +26,24 @@ const featuredStudies = await Promise.all([
     <div class="actions"><a class="action btn-hero" href="/contact">Get started →</a><a class="action" href="/agentic-ai">Explore Agentic AI</a></div>
     <SystemDiagram />
   </section>
-  <section class="trusted" aria-labelledby="trusted-title"><h2 id="trusted-title" style="margin-inline:auto;text-align:center">Trusted by teams shipping at enterprise scale</h2><div class="trusted-window"><div class="trusted-track">{logos.map(src=><img src={src} alt="Algorims client logo" loading="lazy"/>)}{logos.map(src=><img src={src} alt="" aria-hidden="true" loading="lazy"/>)}</div></div></section>
+  <TrustedTeams />
 
-  <section class="approach section" aria-labelledby="approach-title"><header><p class="kicker">How we work</p><h2 id="approach-title">Complexity in. <span>Clarity out.</span></h2><p>We are built for enterprises navigating complex transformations. Every engagement begins with deep discovery—not assumptions or templates.</p></header>
-    <ApproachShowcase />
-    <p class="approach-note">The harder the problem, the more we lean in—bringing clarity, speed, and precision to challenges that others find too difficult to solve.</p>
+  <section class="services section" aria-labelledby="services-title">
+    <header>
+      <p class="kicker">What we do</p>
+      <h2 id="services-title">From code to cloud. <span>End to end.</span></h2>
+    </header>
+    <ServiceShowcase />
   </section>
 
-  <section class="services section" aria-labelledby="services-title"><header><p class="kicker">What we do</p><h2 id="services-title">From cloud to agentic. <span>End to end.</span></h2><p>Three practices. One relentless focus: enterprise-grade systems that drive measurable business value.</p></header><div class="service-showcase"><div class="service-grid">{services.map(([title,body,href,,,_flow],i)=><article class="service-choice" data-active={i===0}><button type="button" aria-controls="service-visual" aria-pressed={i===0} data-service={i} data-flow={services[i][5]} data-input={serviceLabels[i][0]} data-core={serviceLabels[i][1]} data-outcome={serviceLabels[i][2]}><span class="service-index">0{i+1}</span><span class="service-title">{title}</span></button><div class="service-detail"><div><p>{body}</p><a href={href}>Learn more →</a></div></div></article>)}</div><figure class="service-visual" id="service-visual">{services.map(([,,,lightImg,darkImg,flow],i)=><Fragment><img class="service-art-light" src={lightImg} alt={flow} data-slide={i} class:list={[{active:i===0}]} width="724" height="724" loading={i===0?"eager":"lazy"}/><img class="service-art-dark" src={darkImg} alt="" aria-hidden="true" data-slide={i} class:list={[{active:i===0}]} width="1254" height="1254" loading={i===0?"eager":"lazy"}/></Fragment>)}<figcaption class="service-labels" aria-live="polite"><span><b>Inputs</b><span data-service-label="input">{serviceLabels[0][0]}</span></span><span><b>Core</b><span data-service-label="core">{serviceLabels[0][1]}</span></span><span><b>Outcome</b><span data-service-label="outcome">{serviceLabels[0][2]}</span></span></figcaption></figure></div></section>
+  <section class="solutions-home section" aria-labelledby="solutions-home-title">
+    <header>
+      <p class="kicker">Solutions</p>
+      <h2 id="solutions-home-title">Put the busywork <span>on autopilot.</span></h2>
+      <p>Ready-to-deploy AI systems for the operations that eat the most hours, built around your workflows and running in your AWS account.</p>
+    </header>
+    <SolutionsShowcase heading="h3" />
+  </section>
 
   <section class="work section" aria-labelledby="work-title"><header><p class="kicker">Selected work</p><h2 id="work-title">Intelligence delivered. <span>Impact measured.</span></h2><p>Built for the complexity of real operations. Measured by what changes after launch.</p><a href="/case-studies">View all case studies →</a></header>
     <div class="work-grid">
@@ -50,104 +51,44 @@ const featuredStudies = await Promise.all([
     </div>
   </section>
 
+  <section class="approach section" aria-labelledby="approach-title">
+    <header>
+      <p class="kicker">How we work</p>
+      <h2 id="approach-title">Complexity in. <span>Clarity out.</span></h2>
+    </header>
+    <ApproachShowcase />
+  </section>
+
+  <PartnerGrid />
+
+  <WhyAlgorims />
 
 
-  <section class="proof" aria-labelledby="proof-title"><h2 id="proof-title">Trusted by enterprises across Singapore, SEA and beyond</h2><div class="stats" aria-label="Algorims in numbers">{stats.map(([value,label])=><div><strong data-counter>{value}</strong><span>{label}</span></div>)}</div></section>
+
+  <section class="proof" aria-labelledby="proof-title"><h2 id="proof-title">Algorims in numbers</h2><div class="stats">{stats.map(([value,label])=><div><strong data-counter>{value}</strong><span>{label}</span></div>)}</div></section>
+
+  <ConsultationCta />
 
 </div></div>
 </BaseLayout>
 <style>
-.service-index { display: none; }
 h1,h2,h3{font-weight:600}
-@media (hover: hover) {
-  .trusted-track img:hover {
-    filter: grayscale(0);
-    opacity: 1;
-  }
-}
-.home{background:hsl(var(--background))}.frame{background:hsl(var(--background))}.hero{text-align:center;padding:46px 24px 0}.kicker{margin:0 0 14px;color:hsl(var(--primary));font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}h1{max-width:1050px;margin:auto;font-size:clamp(2.7rem,5.2vw,4.8rem);line-height:1;letter-spacing:-.06em}h1 span,h2 span{color:hsl(var(--primary))}.hero-copy{max-width:720px;margin:24px auto 0;color:hsl(var(--muted-foreground));font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.65;text-wrap:balance}.section header>p:last-child,.closing>p{margin:0;color:hsl(var(--muted-foreground));line-height:1.6}.actions{display:flex;justify-content:center;gap:14px;margin:26px 0}.action{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 25px;border-radius:9999px;font-weight:600}.action:not(.btn-hero){border:1px solid hsl(var(--foreground))}.action:not(.btn-hero):hover{border-color:hsl(var(--primary))}.trusted{overflow:hidden;padding:36px 0;border-top:1px solid hsl(var(--border));text-align:center}.trusted h2{margin:0 20px 24px;color:hsl(var(--muted-foreground));font-size:.75rem;letter-spacing:.16em;text-transform:uppercase}.trusted-window{overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}.trusted-track{display:flex;width:max-content;align-items:center;gap:50px;animation:trusted-marquee 50s linear infinite}.trusted-track img{width:auto;height:40px;max-width:125px;object-fit:contain;filter:grayscale(1);opacity:.62}.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid hsl(var(--border))}.stats div{display:grid;gap:7px;padding:34px 18px;text-align:center}.stats div+div{border-left:1px solid hsl(var(--border))}.stats strong{color:hsl(var(--primary));font-size:clamp(2rem,3.5vw,3rem)}.stats span{color:hsl(var(--muted-foreground));font-size:.82rem}.section,.closing{padding:90px clamp(24px,5vw,74px);border-top:1px solid hsl(var(--border))}.section>header{max-width:760px;margin:0 auto 48px;text-align:center}.section h2,.closing h2{margin:0;font-size:clamp(2.2rem,3.7vw,3.7rem);line-height:1.06;letter-spacing:-.05em}.section header>p:last-child{margin-top:16px}.approach-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid hsl(var(--border))}.approach-grid figure{margin:0;min-width:0}.approach-grid figure+figure{border-left:1px solid hsl(var(--border))}.approach-grid img{display:block;width:100%;height:auto;aspect-ratio:1200/760;object-fit:cover;border-bottom:1px solid hsl(var(--border))}.approach-grid figcaption{padding:28px}.approach-grid figcaption span{display:block;margin-bottom:12px;color:hsl(var(--primary));font-size:.72rem;font-weight:700;letter-spacing:.18em}.approach-grid h3{margin:0;font-size:1.35rem}.approach-grid p,.approach-note{color:hsl(var(--muted-foreground));line-height:1.6}.approach-grid p{margin:10px 0 0}.approach-note{max-width:760px;margin:30px auto 0;text-align:center}.wide-art{display:block;width:100%;height:auto;border:1px solid hsl(var(--border));padding:30px}.service-grid{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid hsl(var(--border));border-top:0}.service-grid article{padding:30px}.service-grid article+article{border-left:1px solid hsl(var(--border))}.service-grid h3{margin:0;font-size:1.45rem}.service-grid p{color:hsl(var(--muted-foreground));line-height:1.6}.service-grid a{color:hsl(var(--primary));font-weight:600}.work>header{display:flex;max-width:none;align-items:end;justify-content:space-between;text-align:left}.work>header a{white-space:nowrap}.hiring>div{display:flex;align-items:center;gap:18px}.hiring span{padding:18px;border:1px solid hsl(var(--border));text-align:center}.hiring img{width:110px;padding:24px;background:#202125}.hiring strong{margin-top:25px;color:hsl(var(--primary))}.closing{text-align:center}.closing h2,.closing>p{max-width:740px;margin:auto}.closing>p{margin-top:18px}:global(.dark) .trusted-track img{box-sizing:border-box;padding:7px;border-radius:5px;background:#fff;filter:none;opacity:1}
-@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}.approach-grid,.service-grid{grid-template-columns:1fr}.approach-grid figure+figure,.service-grid article+article{border-top:1px solid hsl(var(--border));border-left:0}.approach-grid img{aspect-ratio:16/8;object-fit:cover}}
-@media(max-width:600px){.hero{padding:44px 18px 0}h1{font-size:2.4rem}.actions{flex-direction:column}.stats{grid-template-columns:1fr}.stats div+div{border-top:1px solid hsl(var(--border));border-left:0}.section{padding:62px 20px}.work>header{display:block}.work>header a{display:inline-block;margin-top:18px}.flow,.wide-art{padding:20px}.hiring>div{flex-direction:column}}@media(prefers-reduced-motion:reduce){.trusted-track{animation:none}}
-.approach-art{width:100%;aspect-ratio:3/2;background-size:contain;background-position:center;background-repeat:no-repeat;border-bottom:1px solid hsl(var(--border))}
-.approach-art.discover{background-image:url('/assets/illustrations/approach-discover.webp')}
-.approach-art.design{background-image:url('/assets/illustrations/approach-design.webp')}
-.approach-art.deploy{background-image:url('/assets/illustrations/approach-deploy.webp')}
-:global(.dark) .approach-art.discover{background-image:url('/assets/illustrations/approach-discover-dark.webp')}
-:global(.dark) .approach-art.design{background-image:url('/assets/illustrations/approach-design-dark.webp')}
-:global(.dark) .approach-art.deploy{background-image:url('/assets/illustrations/approach-deploy-dark.webp')}
+.home{background:hsl(var(--background))}.frame{background:hsl(var(--background))}.hero{text-align:center;padding:46px 24px 0}.kicker{margin:0 0 14px;color:hsl(var(--primary));font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase}h1{max-width:1050px;margin:auto;font-size:clamp(2.7rem,5.2vw,4.8rem);line-height:1;letter-spacing:-.06em}h1 span,h2 span{color:hsl(var(--primary))}.hero-copy{max-width:720px;margin:24px auto 0;color:hsl(var(--muted-foreground));font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.65;text-wrap:balance}.section header>p:last-child,.closing>p{margin:0;color:hsl(var(--muted-foreground));line-height:1.6}.actions{display:flex;justify-content:center;gap:14px;margin:26px 0}.action{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 25px;border-radius:9999px;font-weight:600}.action:not(.btn-hero){border:1px solid hsl(var(--foreground))}.action:not(.btn-hero):hover{border-color:hsl(var(--primary))}.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid hsl(var(--border))}.stats div{display:grid;gap:7px;padding:34px 18px;text-align:center}.stats div+div{border-left:1px solid hsl(var(--border))}.stats strong{color:hsl(var(--primary));font-size:clamp(2rem,3.5vw,3rem)}.stats span{color:hsl(var(--muted-foreground));font-size:.82rem}.section,.closing{padding:90px clamp(24px,5vw,74px);border-top:1px solid hsl(var(--border))}.section>header{max-width:760px;margin:0 auto 48px;text-align:center}.section h2,.closing h2{margin:0;font-size:clamp(2.2rem,3.7vw,3.7rem);line-height:1.06;letter-spacing:-.05em}.section header>p:last-child{margin-top:16px}.wide-art{display:block;width:100%;height:auto;border:1px solid hsl(var(--border));padding:30px}.work>header{display:flex;max-width:none;align-items:end;justify-content:space-between;text-align:left}.work>header a{white-space:nowrap}.hiring>div{display:flex;align-items:center;gap:18px}.hiring span{padding:18px;border:1px solid hsl(var(--border));text-align:center}.hiring img{width:110px;padding:24px;background:#202125}.hiring strong{margin-top:25px;color:hsl(var(--primary))}.closing{text-align:center}.closing h2,.closing>p{max-width:740px;margin:auto}.closing>p{margin-top:18px}
+@media(max-width:850px){.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.hero{padding:44px 18px 0}h1{font-size:2.4rem}.actions{flex-direction:column}.stats{grid-template-columns:1fr}.stats div+div{border-top:1px solid hsl(var(--border));border-left:0}.section{padding:62px 20px}.work>header{display:block}.work>header a{display:inline-block;margin-top:18px}.flow,.wide-art{padding:20px}.hiring>div{flex-direction:column}}
+.approach > header,.services > header { margin-bottom: 32px; }
+.approach h2 span,.services h2 span { display: inline-block; }
 :global(.dark) .wide-art{filter:drop-shadow(0 0 1px hsl(220 13% 80%))}
 .work>header{display:block;max-width:760px;margin:0 auto 42px;text-align:center}.work>header>p:not(.kicker){max-width:560px;margin:17px auto 0;color:hsl(var(--muted-foreground));line-height:1.6}.work>header>a{display:inline-block;margin-top:20px;color:hsl(var(--primary));font-weight:600}
 @media(max-width:600px){.work>header{margin-bottom:34px}}
-.service-showcase{display:grid;grid-template-columns:minmax(280px,.78fr) minmax(0,1.22fr);border:1px solid hsl(var(--border))}
-.service-grid{display:block;border:0;border-right:1px solid hsl(var(--border))}
-.service-grid .service-choice{position:relative;padding:0}
-.service-grid .service-choice+.service-choice{border-top:1px solid hsl(var(--border));border-left:0}
-.service-choice button{display:block;width:100%;padding:26px 30px;border:0;background:transparent;color:hsl(var(--muted-foreground));font:inherit;text-align:left;cursor:pointer}
-.service-choice button:hover,.service-choice[data-active="true"] button{color:hsl(var(--foreground))}
-.service-index{display:block;margin-bottom:10px;color:hsl(var(--primary));font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
-.service-title{display:block;font-size:clamp(1.25rem,1.8vw,1.65rem);font-weight:600;letter-spacing:-.025em}
-.service-detail{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s ease,opacity .35s ease}
-.service-detail>*{overflow:hidden}
-.service-detail p{margin:0;padding:0 30px;color:hsl(var(--muted-foreground));line-height:1.55}
-.service-detail a{display:block;width:max-content;margin:0 30px;color:hsl(var(--primary));font-weight:600}
-.service-choice[data-active="true"] .service-detail{grid-template-rows:1fr;opacity:1}
-.service-choice[data-active="true"] .service-detail a{margin-top:16px;margin-bottom:30px}
-.service-choice[data-active="true"]::after{content:"";position:absolute;bottom:-1px;left:0;height:2px;background:hsl(var(--primary));animation:service-progress 5s linear forwards}
-.service-showcase:hover .service-choice[data-active="true"]::after,.service-showcase:focus-within .service-choice[data-active="true"]::after{animation-play-state:paused}
-.service-visual{position:relative;display:grid;place-items:center;min-width:0;min-height:520px;margin:0;overflow:hidden;background:linear-gradient(135deg,hsl(var(--background)),hsl(var(--muted) / .45))}
-.service-visual img{position:absolute;inset:0;margin:auto;width:78%;max-width:560px;height:auto;opacity:0;transform:scale(.96);transition:opacity .6s ease,transform .75s cubic-bezier(.22,1,.36,1)}.service-visual .service-art-dark{display:none}:global(.dark) .service-visual .service-art-light{display:none}:global(.dark) .service-visual .service-art-dark{display:block;width:70%;max-width:500px}
-.service-visual img.active{opacity:1;transform:scale(1)}
-.service-labels{position:absolute;right:24px;bottom:20px;left:24px;display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;margin:0}.service-labels>span{padding:10px 12px;border:1px solid hsl(var(--border));background:hsl(var(--background) / .78);color:hsl(var(--muted-foreground));font-size:.68rem;line-height:1.35;backdrop-filter:blur(8px)}.service-labels b{display:block;margin-bottom:3px;color:hsl(var(--primary));font-size:.62rem;letter-spacing:.14em;text-transform:uppercase}.service-labels [data-service-label]{display:block}
-@keyframes service-progress{from{width:0}to{width:100%}}
-@media(max-width:850px){.service-showcase{grid-template-columns:1fr}.service-grid{border-right:0;border-bottom:1px solid hsl(var(--border))}.service-visual{min-height:0;aspect-ratio:1.6}.service-choice button{padding:20px 24px}.service-detail p{padding:0 24px}.service-detail a{margin-left:24px}}
-@media(max-width:600px){.service-visual{aspect-ratio:1.25}.service-choice[data-active="true"] .service-detail a{margin-bottom:24px}}
-@media(prefers-reduced-motion:reduce){.service-detail,.service-visual img{transition:none}.service-choice[data-active="true"]::after{animation:none;width:100%}}
 .work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px 24px;max-width:1112px;margin-inline:auto}
 @media(max-width:760px){.work-grid{grid-template-columns:1fr;gap:40px}}
 </style>
 <style>
-.trusted h2,.proof h2{max-width:760px;margin:0 auto 24px;padding:0 20px;text-align:center}.proof{padding:72px clamp(24px,5vw,74px) 0}.stats strong{font-variant-numeric:tabular-nums}
-.stats,.approach-grid,.service-showcase{overflow:hidden;border-radius:1.5rem}.stats{border:1px solid hsl(var(--border))}.proof+.closing{border-top:0!important}.wide-art{border-radius:1.5rem}.service-labels>span{border-radius:.75rem}
+.proof h2{max-width:760px;margin:0 auto 24px;padding:0 20px;text-align:center}.proof{padding:72px clamp(24px,5vw,74px) 0}.stats strong{font-variant-numeric:tabular-nums}
+.stats{overflow:hidden;border-radius:1.5rem}.stats{border:1px solid hsl(var(--border))}.proof+.closing{border-top:0!important}.wide-art{border-radius:1.5rem}
 @media(max-width:600px){.proof{padding-inline:20px}}
 .proof{padding:90px clamp(24px,5vw,74px)}
 @media(max-width:600px){.proof,.closing{padding:62px 20px}}
+.solutions-home :global(.container-x){padding-inline:0}
 </style>
-<script>
-  const showcase = document.querySelector<HTMLElement>('.service-showcase');
-  if (showcase) {
-    const choices = [...showcase.querySelectorAll<HTMLButtonElement>('[data-service]')];
-    const visual = showcase.querySelector<HTMLElement>('.service-visual');
-    const images = [...(visual?.querySelectorAll<HTMLImageElement>('img[data-slide]') ?? [])];
-    const caption = visual?.querySelector('figcaption');
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-    let active = 0;
-    let visible = false;
-    let timer: number | undefined;
-    const stop = () => { clearInterval(timer); timer = undefined; };
-    const start = () => {
-      stop();
-      if (visible && !reducedMotion.matches && !showcase.matches(':hover') && !showcase.contains(document.activeElement)) timer = window.setInterval(() => select((active + 1) % choices.length), 5000);
-    };
-    const select = (index: number) => {
-      active = index;
-      choices.forEach((choice, i) => {
-        choice.setAttribute('aria-pressed', String(i === index));
-        choice.closest<HTMLElement>('.service-choice')!.dataset.active = String(i === index);
-      });
-      images.forEach((img) => img.classList.toggle('active', Number(img.dataset.slide) === index));
-      if (caption) {
-        caption.querySelector<HTMLElement>('[data-service-label="input"]')!.textContent = choices[index].dataset.input || '';
-        caption.querySelector<HTMLElement>('[data-service-label="core"]')!.textContent = choices[index].dataset.core || '';
-        caption.querySelector<HTMLElement>('[data-service-label="outcome"]')!.textContent = choices[index].dataset.outcome || '';
-      }
-      start();
-    };
-    choices.forEach((choice, i) => choice.addEventListener('click', () => select(i)));
-    showcase.addEventListener('mouseenter', stop);
-    showcase.addEventListener('mouseleave', start);
-    showcase.addEventListener('focusin', stop);
-    showcase.addEventListener('focusout', () => requestAnimationFrame(start));
-    reducedMotion.addEventListener('change', start);
-    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; visible ? start() : stop(); }, { threshold: .2 }).observe(showcase);
-  }
-</script>

@@ -1,0 +1,241 @@
+---
+interface Props {
+  id: string;
+  label: string;
+  items: {
+    name: string;
+    title: string;
+    description: string;
+    alt: string;
+    outcome: string;
+    lightImage: string;
+    darkImage: string;
+    href?: string;
+    linkLabel?: string;
+  }[];
+  imageSize: { light: [number, number]; dark: [number, number] };
+}
+
+const { id, label, items, imageSize } = Astro.props;
+---
+
+<div class="visual-showcase" data-visual-showcase>
+  <div class="phase-tabs" role="tablist" aria-label={label} hidden>
+    {items.map((step, index) => (
+      <button
+        type="button"
+        id={`${id}-tab-${index}`}
+        role="tab"
+        aria-controls={`${id}-panel-${index}`}
+        aria-selected={index === 0}
+        tabindex={index === 0 ? 0 : -1}
+      >
+        <span class="phase-number" aria-hidden="true">0{index + 1}</span>
+        {step.name}
+      </button>
+    ))}
+  </div>
+  {items.map((step, index) => (
+    <div class="phase-panel" id={`${id}-panel-${index}`}>
+      <div class="phase-visual">
+        <img class="art-light" src={step.lightImage} alt={step.alt} width={imageSize.light[0]} height={imageSize.light[1]} loading="lazy" decoding="async" />
+        <img class="art-dark" src={step.darkImage} alt={step.alt} width={imageSize.dark[0]} height={imageSize.dark[1]} loading="lazy" decoding="async" />
+      </div>
+      <div class="phase-copy">
+        <h3>{step.title}</h3>
+        <p class="description">{step.description}</p>
+        <p class="outcome"><span>What you get</span>{step.outcome}</p>
+        {step.href && <a class="showcase-link" href={step.href}>{step.linkLabel} <span aria-hidden="true">→</span></a>}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .visual-showcase {
+    --line: hsl(var(--border));
+    --accent: hsl(var(--primary));
+    overflow: clip;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: hsl(var(--background));
+  }
+  .phase-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-bottom: 1px solid var(--line);
+    background: hsl(var(--muted) / .35);
+  }
+  .phase-tabs[hidden], .phase-panel[hidden] { display: none; }
+  .phase-tabs button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 66px;
+    padding: 10px 6px;
+    border: 0;
+    background: transparent;
+    color: hsl(var(--muted-foreground));
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .phase-tabs button + button { border-inline-start: 1px solid var(--line); }
+  .phase-tabs button:hover { background: hsl(var(--primary) / .05); color: var(--accent); }
+  .phase-tabs [aria-selected="true"] {
+    background: hsl(var(--background));
+    color: var(--accent);
+    box-shadow: inset 0 -2px var(--accent);
+  }
+  .phase-tabs button:focus-visible, .phase-panel:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -4px;
+  }
+  .phase-number {
+    color: var(--accent);
+    font-size: .72rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .phase-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    min-height: 385px;
+  }
+  .phase-panel + .phase-panel { border-top: 1px solid var(--line); }
+  [data-ready] .phase-panel { border-top: 0; }
+  .phase-visual {
+    display: grid;
+    place-items: center;
+    overflow: clip;
+    min-width: 0;
+    padding: 14px clamp(16px, 3.2vw, 48px);
+    border-inline-end: 1px solid var(--line);
+    background:
+      radial-gradient(ellipse at center, hsl(var(--primary) / .1), transparent 71%),
+      radial-gradient(circle, hsl(var(--primary) / .19) 1px, transparent 1px)
+        center / 22px 22px,
+      hsl(var(--muted) / .27);
+  }
+  .phase-visual img {
+    display: block;
+    width: min(100%, 36rem);
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+  }
+  .phase-visual .art-dark, :global(.dark) .phase-visual .art-light { display: none; }
+  :global(.dark) .phase-visual .art-dark { display: block; }
+  .phase-copy {
+    display: grid;
+    align-content: center;
+    min-width: 0;
+    padding: clamp(24px, 4vw, 58px);
+  }
+  h3 {
+    max-width: 13ch;
+    margin: 0;
+    font-size: clamp(1.85rem, 3.6vw, 3.4rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -.06em;
+    text-wrap: balance;
+  }
+  .description {
+    max-width: 33ch;
+    margin: 16px 0 0;
+    color: hsl(var(--muted-foreground));
+    line-height: 1.6;
+  }
+  .outcome {
+    display: grid;
+    gap: 5px;
+    margin: 26px 0 0;
+    padding-inline-start: 14px;
+    border-inline-start: 2px solid var(--accent);
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .outcome span {
+    color: var(--accent);
+    font-size: .7rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .showcase-link {
+    justify-self: start;
+    margin-top: 10px;
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1.3;
+    text-underline-offset: 4px;
+  }
+  .showcase-link:hover { text-decoration: underline; }
+  .showcase-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (max-width: 680px) {
+    .phase-panel { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .phase-tabs button { gap: 6px; min-height: 54px; font-size: .9rem; }
+    .phase-visual { border-inline-end: 0; border-bottom: 1px solid var(--line); padding-block: 0; }
+    .phase-copy { min-height: 250px; }
+    h3 { max-width: none; }
+    .outcome { margin-top: 20px; }
+  }
+  @media (max-width: 400px) {
+    .phase-tabs button { flex-direction: column; gap: 2px; font-size: .8rem; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    [data-ready] .phase-panel:not([hidden]) img { animation: showcase-art-in .52s cubic-bezier(.2,.7,.25,1) both; }
+    [data-ready] .phase-panel:not([hidden]) .phase-copy > * { animation: showcase-copy-in .35s ease-out both; }
+    @keyframes showcase-art-in {
+      from { opacity: .3; transform: translateX(-12px) scale(.96); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes showcase-copy-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+</style>
+
+<script>
+  for (const showcase of document.querySelectorAll<HTMLElement>("[data-visual-showcase]")) {
+    const tablist = showcase.querySelector<HTMLElement>("[role=tablist]")!;
+    const tabs = [...tablist.querySelectorAll<HTMLButtonElement>("[role=tab]")];
+    const panels = [...showcase.querySelectorAll<HTMLElement>(".phase-panel")];
+
+    const select = (selected: number) => {
+      tabs.forEach((tab, index) => {
+        const active = index === selected;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        panels[index].hidden = !active;
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      const panel = panels[index];
+      panel.setAttribute("role", "tabpanel");
+      panel.setAttribute("aria-labelledby", tab.id);
+      panel.tabIndex = 0;
+      tab.addEventListener("click", () => select(index));
+      tab.addEventListener("keydown", (event) => {
+        const next = {
+          ArrowLeft: (index + tabs.length - 1) % tabs.length,
+          ArrowRight: (index + 1) % tabs.length,
+          Home: 0,
+          End: tabs.length - 1,
+        }[event.key];
+        if (next === undefined) return;
+        event.preventDefault();
+        tabs[next].focus();
+        select(next);
+      });
+    });
+
+    select(0);
+    showcase.setAttribute("data-ready", "");
+    tablist.hidden = false;
+  }
+</script>

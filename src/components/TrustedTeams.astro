@@ -1,0 +1,171 @@
+---
+const logos = [
+  ["01.webp", "qWorks"],
+  ["02.webp", "MIDAS"],
+  ["03.webp", "CHP Eng Seng Corporation"],
+  ["04.webp", "InfoBace"],
+  ["05.webp", "babyboo"],
+  ["06.webp", "Unisto"],
+  ["07.webp", "apiwiz"],
+  ["08.webp", "COMM-IT"],
+  ["09.webp", "Kakatiya Cultural Association Singapore"],
+  ["10.webp", "PPIC Technologies"],
+  ["11.svg", "Mitsubishi Heavy Industries"],
+  ["12.webp", "BreadTalk"],
+  ["13.webp", "KeePer LABO"],
+  ["14.webp", "CBM Parking"],
+];
+const smac = {
+  file: "16.webp",
+  name: "SMAC Tech Labs",
+  slug: "smac-tech-labs",
+  metric: "~1 sec",
+  result: "first-line support response",
+  quote: "The AI agent has genuinely saved us time and effort — it's taking care of more than 80% of our repetitive support tickets on its own.",
+  author: "Pawan, Project Manager",
+};
+const syslatech = {
+  file: "15.webp",
+  name: "Syslatech",
+  slug: "syslatech",
+  metric: "65 runbooks",
+  result: "power the IT helpdesk agent",
+  quote: "Our team now spends less time on repeat requests.",
+  author: "Deepika Dhar B M, Automation Lead",
+};
+const cards = [smac, ...logos.slice(0, 4), syslatech, ...logos.slice(4)];
+---
+
+<section class="trusted" aria-labelledby="trusted-title">
+  <div class="trusted-panel">
+    <h2 id="trusted-title">Trusted by teams shipping <span>at enterprise scale</span></h2>
+    <div class="card-window" role="region" aria-label="Customer stories and logos" tabindex="0">
+      <div class="card-track">
+        {[false, true].map(duplicate => (
+          <ul class="card-grid" role="list" aria-hidden={duplicate ? "true" : undefined}>
+            {cards.map(card => Array.isArray(card) ? (
+              <li class="logo-tile">
+                <img src={`/assets/trusted/logo-${card[0]}`} alt={duplicate ? "" : card[1]} loading="lazy" decoding="async" />
+              </li>
+            ) : (
+              <li class="story-tile">
+                <h3>
+                  <a href={`/customer-stories/${card.slug}`} aria-label={`Read the ${card.name} story`} tabindex={duplicate ? -1 : undefined}>
+                    <img src={`/assets/trusted/logo-${card.file}`} alt="" loading="lazy" />
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </h3>
+                <p class="story-result"><strong>{card.metric}</strong> {card.result}</p>
+                <figure>
+                  <blockquote>“{card.quote}”</blockquote>
+                  <figcaption>{card.author}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trusted {
+    padding: clamp(12px, 1.15vw, 16px) clamp(12px, 3.5vw, 48px);
+    border-top: 1px solid hsl(var(--border));
+  }
+  .trusted-panel {
+    --tile-gap: clamp(7px, 0.8vw, 12px);
+    padding: clamp(12px, 1.4vw, 20px);
+    border: 1px solid hsl(var(--primary) / .14);
+    border-radius: clamp(18px, 2.5vw, 32px);
+    background: linear-gradient(155deg, hsl(var(--primary) / .04), hsl(var(--primary) / .11));
+  }
+  h2 {
+    margin: 0 auto 16px;
+    font-size: clamp(1.25rem, 2.4vw, 2.05rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -.04em;
+    text-align: center;
+    text-wrap: balance;
+  }
+  h2 span, .story-result strong, .story-tile a { color: hsl(var(--primary)); }
+  .card-window {
+    overflow: clip;
+    mask-image: linear-gradient(90deg, #000 96%, transparent);
+  }
+  .card-window:focus-visible { outline-offset: -2px; }
+  .card-track {
+    display: flex;
+    width: max-content;
+    animation: trusted-scroll 42s linear infinite;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-rows: repeat(2, 96px);
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(106px, 11vw, 158px);
+    gap: var(--tile-gap);
+    margin: 0;
+    padding: 0 var(--tile-gap) 0 0;
+    list-style: none;
+  }
+  .card-grid li {
+    border: 1px solid hsl(var(--primary) / .12);
+    border-radius: clamp(9px, 1vw, 15px);
+  }
+  .logo-tile { display: grid; place-items: center; padding: 8px; background: #fff; }
+  .logo-tile img { width: auto; max-width: min(100%, 110px); max-height: 40px; object-fit: contain; }
+  .story-tile {
+    position: relative;
+    grid-row: span 2;
+    grid-column: span 2;
+    min-width: 0;
+    padding: clamp(10px, 1.2vw, 16px);
+    background: hsl(var(--card));
+  }
+  .story-tile h3 { margin: 0 0 8px; }
+  .story-tile a { display: flex; align-items: center; justify-content: space-between; }
+  .story-tile a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+  .story-tile:has(a:focus-visible) { outline: 2px solid hsl(var(--ring)); outline-offset: -2px; }
+  .story-tile a:focus-visible { outline: none; }
+  .story-tile img { width: 106px; height: 29px; object-fit: contain; object-position: left center; }
+  :global(.dark) .story-tile img {
+    padding: 3px 5px;
+    border-radius: 5px;
+    background: #fff;
+  }
+  .story-result {
+    margin: 0;
+    font-size: clamp(.92rem, 1.35vw, 1.12rem);
+    font-weight: 600;
+    letter-spacing: -.022em;
+    line-height: 1.2;
+  }
+  .story-tile figure { margin: 6px 0 0; }
+  .story-tile blockquote { color: hsl(var(--muted-foreground)); font-size: .79rem; line-height: 1.38; }
+  .story-tile figcaption { margin-top: 5px; font-size: .7rem; font-weight: 600; }
+  @keyframes trusted-scroll { to { transform: translateX(-50%); } }
+  @media (hover: hover) {
+    .card-window:hover .card-track { animation-play-state: paused; }
+    .story-tile:has(a:hover) { border-color: hsl(var(--primary) / .55); }
+  }
+  .card-window:has(:focus-visible), .card-window:focus-visible {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .card-window:has(:focus-visible) .card-track, .card-window:focus-visible .card-track {
+    animation: none;
+  }
+  .card-window:has(:focus-visible) .card-grid[aria-hidden="true"],
+  .card-window:focus-visible .card-grid[aria-hidden="true"] { display: none; }
+  @media (max-width: 600px) {
+    .card-grid { grid-auto-columns: clamp(104px, 30vw, 150px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card-grid[aria-hidden="true"] { display: none; }
+    .card-window { overflow-x: auto; mask-image: none; }
+    .card-track { animation: none; }
+  }
+</style>

@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import ScrollShowcase from "./ScrollShowcase.astro";
+
+interface Props { heading?: "h2" | "h3" }
+const { heading: Heading = "h2" } = Astro.props;
+
+const order = ["operations-automation", "intelligent-document-processing", "autonomous-customer-operations"];
+const solutions = (await getCollection("solutions")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+const solutionDetails = {
+  "operations-automation": {
+    name: "Operations Automation",
+    shortName: "Automation",
+    alt: "Invoices, claims, and purchase orders flow through an intelligent operations platform to validated, approved workflows.",
+    items: [["Inputs", "Invoices · claims · purchase orders"], ["Core", "Intelligent operations platform"], ["Outcome", "Validated, approved workflows"]],
+  },
+  "intelligent-document-processing": {
+    name: "Intelligent Document Processing",
+    shortName: "Documents",
+    alt: "Invoices, KYC packets, and loan applications flow through an AI document pipeline to structured, validated data.",
+    items: [["Inputs", "Invoices · KYC packets · loan applications"], ["Core", "AI document pipeline"], ["Outcome", "Structured, validated data"]],
+  },
+  "autonomous-customer-operations": {
+    name: "Autonomous Customer Operations",
+    shortName: "Customer Ops",
+    alt: "Voice, chat, and policy events flow through an autonomous contact centre to resolved customer interactions.",
+    items: [["Inputs", "Voice · chat · policy events"], ["Core", "Autonomous contact centre"], ["Outcome", "Resolved customer interactions"]],
+  },
+} as const;
+const items = solutions.map(({ id }) => {
+  const { name, shortName } = solutionDetails[id as keyof typeof solutionDetails];
+  return { id, name, shortName };
+});
+---
+  <ScrollShowcase items={items} label="Explore solutions" noun="solution">
+    {solutions.map((solution) => {
+      const highlights = solution.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
+      const { alt, items: labels } = solutionDetails[solution.id as keyof typeof solutionDetails];
+      return (
+        <section id={solution.id} class="showcase-panel" aria-labelledby={`${solution.id}-title`}>
+          <div class="solution-grid">
+            <div class="solution-copy" data-showcase-copy>
+              <p class="solution-kicker">{solution.data.tag}</p>
+              <Heading id={`${solution.id}-title`} tabindex="-1">{solution.data.title}</Heading>
+              <p class="solution-summary">{solution.data.subtitle}</p>
+              {highlights.length > 0 && (
+                <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>
+              )}
+              <a class="solution-link" href={`/solutions/${solution.id}`}>
+                Explore solution <i data-lucide="arrow-right" class="solution-arrow !h-4 !w-4" aria-hidden="true" />
+              </a>
+            </div>
+            <figure class="solution-art" data-showcase-art>
+              <img src={`/assets/illustrations/solution-${solution.id}.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
+              <img class="solution-art-dark" src={`/assets/illustrations/solution-${solution.id}-dark.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
+              <figcaption>{labels.map(([label, value]) => <span class="solution-image-label"><b>{label}</b>{value}</span>)}</figcaption>
+            </figure>
+          </div>
+        </section>
+      );
+    })}
+  </ScrollShowcase>
+
+<style>
+  .solution-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
+  .solution-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: clamp(20px, 3vw, 40px); }
+  .solution-art { width: min(100%, 330px); margin: 0 auto; }
+  .solution-art img { display: block; width: 100%; height: auto; }
+  .solution-art figcaption { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-top: 16px; }
+  .solution-image-label { display: block; min-width: 0; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--muted-foreground)); font-size: .68rem; line-height: 1.35; }
+  .solution-image-label b { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; }
+  .solution-art-dark { display: none !important; }
+  :global(:root.dark) .solution-art > img:not(.solution-art-dark) { display: none; }
+  :global(:root.dark) .solution-art > .solution-art-dark { display: block !important; }
+  .solution-copy :is(h2, h3) { margin: 14px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.75rem, 3vw, 2.65rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; }
+  .solution-summary { margin: 18px 0 0; color: hsl(var(--muted-foreground)); line-height: 1.6; }
+  .solution-copy dl { display: grid; grid-template-columns: repeat(2, 1fr); margin: 26px 0 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .75rem; }
+  .solution-copy dl div { padding: 12px; }
+  .solution-copy dl div + div { padding-left: 12px; border-left: 1px solid hsl(var(--border)); }
+  .solution-copy dt { color: hsl(var(--primary)); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
+  .solution-copy dd { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.35; }
+  .solution-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; color: hsl(var(--primary)); font-weight: 600; }
+  .solution-link:is(:hover, :focus-visible) :global(.solution-arrow) { animation: solution-arrow-nudge .35s ease-out forwards; }
+  .solution-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
+  @keyframes solution-arrow-nudge { 60% { transform: translateX(7px); } 100% { transform: translateX(4px); } }
+  @media (max-width: 700px) {
+    .solution-grid { grid-template-columns: minmax(0, 1fr); }
+    .solution-art figcaption { grid-template-columns: 1fr; }
+    .solution-image-label { font-size: .75rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .solution-link:is(:hover, :focus-visible) :global(.solution-arrow) { animation: none; }
+  }
+</style>

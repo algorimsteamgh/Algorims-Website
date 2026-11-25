@@ -1175,7 +1175,7 @@ function pageServices() {
 
           <div class="grid grid-cols-2 gap-4 pt-2 sm:grid-cols-4">
             ${[
-              {v:"40+",   l:"Projects Delivered"},
+              {v:"20+",   l:"Projects Delivered"},
               {v:"99.9%", l:"System Uptime"},
               {v:"7+",    l:"Industries Served"},
               {v:"24/7",  l:"Support Coverage"},

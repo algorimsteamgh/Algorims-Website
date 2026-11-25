@@ -1,0 +1,163 @@
+---
+interface Props {
+  items: { id: string; name: string; shortName?: string; logo?: string }[];
+  label: string;
+  noun: string;
+}
+const { items, label, noun } = Astro.props;
+const indexId = `${noun}-index`;
+---
+<div class="showcase-track" style={`--showcase-steps: ${items.length - 1}; --index-columns: ${items.length === 4 ? 2 : 3}`}>
+  <div class="container-x showcase-pin">
+    <div class="scroll-showcase">
+      <nav id={indexId} class="showcase-index" aria-label={label} tabindex="-1">
+        <span class="index-pill" aria-hidden="true"></span>
+        <p class="index-label"><span>Select a {noun}</span><span>Scroll or select a {noun}</span></p>
+        <ul>
+          {items.map((item) => (
+            <li>
+              <a href={`#${item.id}`} aria-label={item.shortName ? item.name : undefined} aria-controls={item.id}>
+                {item.logo && <span class="index-logo">
+                  <img src={item.logo} alt="" width="110" height="110" />
+                </span>}
+                <span class="index-name">{item.name}</span>
+                {item.shortName && <span class="index-short">{item.shortName}</span>}
+                <svg class="index-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="showcase-panels">
+        <slot />
+        <a class="index-return" href={`#${indexId}`}>Back to {noun} list <span aria-hidden="true">↑</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import "../scripts/scroll-showcase";
+</script>
+
+<style>
+  .showcase-track { --pin-top: 24px; --scroll-step: 96px; }
+  .showcase-track[data-scroll] {
+    --pin-inset: max(0px, calc((100dvh - var(--pin-top) - var(--showcase-max-height)) / 2));
+    min-height: calc(100dvh - var(--pin-top) + var(--showcase-steps) * var(--scroll-step));
+    margin-block-start: calc(-1 * min(64px, var(--pin-inset) / 2));
+    padding-block-start: var(--pin-inset);
+    overflow-anchor: none;
+  }
+  [data-scroll] .showcase-pin { position: sticky; top: calc(var(--pin-top) + var(--pin-inset)); }
+
+  /* Floating card: gradient rail + white notch tab that merges into the panel */
+  .scroll-showcase {
+    --panel-padding: clamp(20px, 3.25vw, 48px);
+    --surface: hsl(var(--card));
+    --rail: linear-gradient(180deg, hsl(var(--primary) / .035) 0%, hsl(var(--primary) / .085) 100%);
+    --notch: 22px;
+    padding: 10px;
+    border: 1px solid hsl(var(--border) / .7);
+    border-radius: 30px;
+    background: var(--surface);
+    box-shadow: 0 24px 60px -44px hsl(var(--foreground) / .35);
+  }
+  :global(:root.dark) .scroll-showcase { --rail: linear-gradient(180deg, hsl(var(--primary) / .06) 0%, hsl(var(--primary) / .12) 100%); }
+
+  .showcase-index { position: relative; padding: 14px; scroll-margin-top: 12px; border-radius: 22px; background: var(--rail); border: 1px solid hsl(var(--primary) / .1); }
+  .showcase-index ul { display: grid; grid-template-columns: repeat(var(--index-columns), minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
+  .showcase-index a { position: relative; z-index: 1; display: flex; align-items: center; gap: 10px; min-height: 44px; height: 100%; padding: 6px 12px; border-radius: 999px; color: hsl(var(--muted-foreground)); transition: background-color .2s, color .25s; }
+  .showcase-index a:hover { background: hsl(var(--primary) / .06); color: hsl(var(--foreground)); }
+  .showcase-index a[aria-current] { background: transparent; color: hsl(var(--primary)); font-weight: 600; }
+  .showcase-index a:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .index-return:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+
+  /* Sliding pill — position set from the active link in scroll-showcase.ts */
+  .index-pill { position: absolute; top: var(--pill-y, 0); left: var(--pill-x, 0); width: var(--pill-w, 0); height: var(--pill-h, 0); border-radius: 999px; background: var(--surface); box-shadow: 0 0 0 1px hsl(var(--primary) / .12), 0 4px 14px -8px hsl(var(--foreground) / .25); opacity: 0; pointer-events: none; }
+  [data-ready] .index-pill { opacity: 1; }
+  [data-pill-ready] .index-pill { transition: top .42s cubic-bezier(.2, .8, .2, 1), left .42s cubic-bezier(.2, .8, .2, 1), width .42s cubic-bezier(.2, .8, .2, 1), height .42s cubic-bezier(.2, .8, .2, 1); }
+
+  .index-label { margin: 0 12px 8px; color: hsl(var(--muted-foreground)); font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .index-label span:last-child, [data-scroll] .index-label span:first-child { display: none; }
+  [data-scroll] .index-label span:last-child { display: inline; }
+  .index-logo { flex-shrink: 0; display: grid; place-items: center; width: 32px; height: 32px; padding: 3px; border-radius: 8px; background: #fff; box-shadow: 0 0 0 1px hsl(var(--border)); }
+  .index-logo img { width: 100%; height: 100%; object-fit: contain; }
+  .index-name, .index-short { font-size: .9rem; font-weight: 500; line-height: 1.25; letter-spacing: -.01em; }
+  .index-short { display: none; }
+  .index-arrow { flex-shrink: 0; margin-left: auto; color: hsl(var(--primary)); opacity: 0; transform: translateX(-4px); transition: opacity .2s, transform .25s; }
+  .showcase-index a[aria-current] .index-arrow { opacity: 1; transform: none; }
+
+  .showcase-panels { min-width: 0; padding: var(--panel-padding); }
+  :global(.showcase-panel) { scroll-margin-top: 16px; min-width: 0; }
+  .scroll-showcase:not([data-ready]) :global(.showcase-panel) + :global(.showcase-panel) { margin-top: 24px; }
+  [data-scroll] :global(.showcase-panel) { scroll-margin-top: var(--showcase-scroll-margin); }
+  [data-measuring] .showcase-panels { display: grid; }
+  [data-measuring] :global(.showcase-panel) { display: block; grid-area: 1 / 1; visibility: hidden; }
+
+  /* Sparkle accent on panel title */
+  .scroll-showcase :global(.showcase-panel :is(h2, h3)[tabindex="-1"]::after) {
+    content: "\2726" / "";
+    display: inline-block;
+    margin-left: .22em;
+    font-size: .62em;
+    vertical-align: .32em;
+    color: hsl(var(--primary));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-ready] :global(.showcase-panel:not([hidden]) [data-showcase-copy]) { animation: detail-in .26s ease-out both; }
+    [data-ready] :global(.showcase-panel:not([hidden]) [data-showcase-art]) { animation: badge-shuffle .36s cubic-bezier(.2, .7, .25, 1) both; }
+    [data-ready] :global(.showcase-panel:not([hidden]) :is(h2, h3)[tabindex="-1"]::after) { animation: sparkle .9s .1s cubic-bezier(.2, .8, .2, 1) both; }
+    @keyframes detail-in {
+      from { opacity: 0; transform: translateY(calc(var(--shuffle-from, 12px) * .5)); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes badge-shuffle {
+      from { opacity: .35; transform: translate(8px, var(--shuffle-from, 12px)) rotate(-3deg); }
+      to { opacity: 1; transform: none; }
+    }
+    @keyframes sparkle {
+      from { opacity: 0; transform: scale(.4) rotate(-90deg); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+
+  .index-return { display: inline-block; margin-top: 18px; color: hsl(var(--primary)); font-size: .9rem; font-weight: 600; text-underline-offset: 4px; }
+  .index-return:hover { text-decoration: underline; }
+  .index-return { display: none; }
+  @media (min-width: 1000px) {
+    .scroll-showcase { display: grid; grid-template-columns: clamp(250px, 24vw, 330px) minmax(0, 1fr); }
+    .showcase-index { display: flex; flex-direction: column; justify-content: center; padding: var(--panel-padding) 0 var(--panel-padding) 18px; }
+    .showcase-index ul { grid-template-columns: 1fr; gap: 6px; }
+    .showcase-index a { min-height: 52px; padding: 10px 22px 10px 20px; border-radius: 999px 0 0 999px; }
+    .index-name, .index-short { font-size: 1.04rem; }
+    .index-label { margin: 0 20px 18px; }
+    /* Pill runs to the rail edge and flows into the panel; inverted corners carve the rail */
+    .index-pill { right: 0; width: auto; border-radius: 999px 0 0 999px; box-shadow: none; }
+    .showcase-index { border-right: 0; }
+    .index-pill::before, .index-pill::after { content: ""; position: absolute; right: 0; width: var(--notch); height: var(--notch); }
+    .index-pill::before { bottom: 100%; background: radial-gradient(circle at 0 0, transparent calc(var(--notch) - .5px), var(--surface) var(--notch)); }
+    .index-pill::after { top: 100%; background: radial-gradient(circle at 0 100%, transparent calc(var(--notch) - .5px), var(--surface) var(--notch)); }
+    :global(.showcase-panel) { scroll-margin-top: calc(25px + var(--panel-padding)); }
+  }
+  @media (max-width: 700px) {
+    .index-arrow { display: none; }
+    .showcase-index a:has(.index-short) .index-name { display: none; }
+    .index-short { display: inline; }
+    [data-ready] .index-return { display: inline-block; }
+  }
+  @media (max-width: 480px) {
+    .scroll-showcase { padding: 6px; border-radius: 22px; }
+    .showcase-index { padding: 10px; border-radius: 17px; }
+    .showcase-index a { flex-direction: column; justify-content: center; gap: 4px; padding: 6px 4px; border-radius: 12px; text-align: center; }
+    .index-pill { border-radius: 12px; }
+    .index-logo { width: 24px; height: 24px; padding: 1px; }
+    .index-name, .index-short { font-size: .74rem; }
+    .index-label { margin: 0 4px 6px; font-size: .66rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html:has(.showcase-track)) { scroll-behavior: auto; }
+    .showcase-index a, .index-arrow, [data-pill-ready] .index-pill { transition: none; }
+  }
+</style>

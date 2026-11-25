@@ -1,4 +1,5 @@
 ---
+import ScrollShowcase from "../components/ScrollShowcase.astro";
 import PartnerOutcomes from "../components/PartnerOutcomes.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ConsultationCta from "../components/ConsultationCta.astro";
@@ -101,141 +102,113 @@ const partnerCredentials = {
       </div>
     </section>
 
-    <div class="partner-track" data-partner-track style={`--partner-steps: ${index.length - 1}`}>
-      <div class="container-x partner-pin">
-        <div class="partner-showcase" data-partner-showcase>
-          <nav id="partner-index" class="credential-index" aria-label="Technology partners" tabindex="-1">
-            <p class="index-label"><span>Select a partner</span><span>Scroll or select a partner</span></p>
-            <ul>
-              {index.map((p) => (
-                <li>
-                  <a href={`#${p.id}`} aria-label={p.shortName ? p.name : undefined} aria-controls={p.id}>
-                    <span class="index-logo">
-                      <img src={p.logo} alt="" width="110" height="110" />
-                    </span>
-                    <span class="index-name">{p.name}</span>
-                    {p.shortName && <span class="index-short">{p.shortName}</span>}
-                    <svg class="index-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          <div class="partner-panels">
-            {index.map((p) => (
-              <section id={p.id} class="partner" aria-labelledby={`${p.id}-title`}>
-                <div class="partner-grid">
-                  {p.id === "claude" && (<>
-                    <div class="partner-copy">
-                      <p class="eyebrow">Claude Partner Network <span aria-hidden="true">·</span> Services Track</p>
-                      <h2 id="claude-title" tabindex="-1">Certified in Anthropic’s Claude Partner Network</h2>
-                      <p class="partner-lead">Our team holds Claude certifications through Anthropic’s Services Track.</p>
-                      <p>The track recognizes partners who build certified delivery teams, put Claude into production for clients, and demonstrate that work through public customer references.</p>
-                      <a class="text-link" href="https://claude.com/partners">Learn more about the Claude Partner Network <span aria-hidden="true">↗</span></a>
-                    </div>
+    <ScrollShowcase items={index} label="Technology partners" noun="partner">
+      {index.map((p) => (
+        <section id={p.id} class="showcase-panel" aria-labelledby={`${p.id}-title`}>
+          <div class="partner-grid">
+            {p.id === "claude" && (<>
+              <div class="partner-copy" data-showcase-copy>
+                <p class="eyebrow">Claude Partner Network <span aria-hidden="true">·</span> Services Track</p>
+                <h2 id="claude-title" tabindex="-1">Certified in Anthropic’s Claude Partner Network</h2>
+                <p class="partner-lead">Our team holds Claude certifications through Anthropic’s Services Track.</p>
+                <p>The track recognizes partners who build certified delivery teams, put Claude into production for clients, and demonstrate that work through public customer references.</p>
+                <a class="text-link" href="https://claude.com/partners">Learn more about the Claude Partner Network <span aria-hidden="true">↗</span></a>
+              </div>
 
-                    <div class="partner-stage">
-                      <img class="claude-badge" src={p.logo} alt="Certified Services Partner — Claude Partner Network" width="168" height="168" />
-                      <div class="tier-ladder">
-                        <p class="stage-label">Services Track tiers</p>
-                        <ol>
-                          {claudeTiers.map((t, i) => (
-                            <li class:list={{ current: i === 0 }} aria-current={i === 0 ? "step" : undefined}>
-                              <span class="tier-node" aria-hidden="true"></span>
-                              <span class="tier-name">{t}</span>
-                              {i === 0 && <span class="tier-note">Current tier</span>}
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                    </div>
-                  </>)}
-                  {p.id === "aws-ai" && (<>
-                    <div class="partner-copy">
-                      <p class="eyebrow">AWS Partner <span aria-hidden="true">·</span> AI Services Competency</p>
-                      <h2 id="aws-ai-title" tabindex="-1">AWS AI Services Competency</h2>
-                      <p class="partner-lead">We design, build and run generative and agentic AI on AWS, with the guardrails, human review and monitoring needed in production.</p>
-                      <PartnerOutcomes outcomes={aiOutcomes} />
-                      <a class="text-link" href="/contact">Talk to us about AI on AWS <span aria-hidden="true">→</span></a>
-                    </div>
-
-                    <div class="partner-stage">
-                      <div class="badge-tile">
-                        <img src={p.logo} alt="AWS Partner — AI Services Competency" width="362" height="360" loading="lazy" />
-                      </div>
-                      <div class="stage-tags">
-                        <p class="stage-label" id="ai-focus-areas">Consulting focus areas</p>
-                        <ul aria-labelledby="ai-focus-areas">
-                          <li>Agentic AI Consulting</li>
-                          <li>Generative AI Consulting</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </>)}
-                  {p.id === "meta" && (<>
-                    <div class="partner-copy">
-                      <p class="eyebrow">WhatsApp Business Platform <span aria-hidden="true">·</span> Tech Provider</p>
-                      <h2 id="meta-title" tabindex="-1">WhatsApp Business Platform</h2>
-                      <p class="partner-lead">As a Meta Tech Provider, we onboard businesses and set up WhatsApp messaging for their accounts. We deliver directly or with a Solution Partner.</p>
-                      <PartnerOutcomes outcomes={metaOutcomes} />
-                      <a class="text-link" href="/whatsapp-business-api">Explore WhatsApp Business <span aria-hidden="true">→</span></a>
-                    </div>
-
-                    <div class="partner-stage">
-                      <div class="badge-tile">
-                        <img src="/assets/partners/whatsapp-glyph-green-2026.svg" alt="WhatsApp" width="110" height="110" loading="lazy" />
-                      </div>
-                      <div class="stage-tags">
-                        <p class="stage-label">Platform &amp; focus areas</p>
-                        <ul aria-label="Platform and focus areas for Meta Tech Provider">
-                          <li>WhatsApp Business Platform</li>
-                          <li>Embedded Signup</li>
-                          <li>Messaging &amp; templates</li>
-                        </ul>
-                      </div>
-                    </div>
-                  </>)}
-                  {p.outcomes && (<>
-                    <div class="partner-copy">
-                      <p class="eyebrow">{p.name} <span aria-hidden="true">·</span> {p.tier}</p>
-                      <h2 id={`${p.id}-title`} tabindex="-1">{p.title}</h2>
-                      <p class="partner-lead">{p.body}</p>
-                      {p.id === "invoicenow" && (
-                        <p>Algorims Pte. Ltd. is an <a class="inline-link" href="https://file.go.gov.sg/invoicenowirsp.pdf#page=33">IMDA-listed IRSP reseller for Xero (PDF)</a>.</p>
-                      )}
-                      <PartnerOutcomes outcomes={p.outcomes} />
-                      {p.id === "invoicenow" && (
-                        <a class="text-link" href="/invoicenow">Explore InvoiceNow setup <span aria-hidden="true">→</span></a>
-                      )}
-                    </div>
-
-                    <div class="partner-stage">
-                      <div class="badge-tile">
-                        <img src={p.logo} alt={p.alt} width="110" height="110" loading="lazy" />
-                      </div>
-                      <div class="stage-tags">
-                        <p class="stage-label">Platforms &amp; focus areas</p>
-                        <ul aria-label={`Platforms and focus areas for ${p.title}`}>
-                          {p.tags.map((tag) => <li>{tag}</li>)}
-                        </ul>
-                      </div>
-                    </div>
-                  </>)}
+              <div class="partner-stage">
+                <img class="claude-badge" data-showcase-art src={p.logo} alt="Certified Services Partner — Claude Partner Network" width="168" height="168" />
+                <div class="tier-ladder">
+                  <p class="stage-label">Services Track tiers</p>
+                  <ol>
+                    {claudeTiers.map((t, i) => (
+                      <li class:list={{ current: i === 0 }} aria-current={i === 0 ? "step" : undefined}>
+                        <span class="tier-node" aria-hidden="true"></span>
+                        <span class="tier-name">{t}</span>
+                        {i === 0 && <span class="tier-note">Current tier</span>}
+                      </li>
+                    ))}
+                  </ol>
                 </div>
-              </section>
-            ))}
-            <a class="index-return text-link" href="#partner-index">Back to partner list <span aria-hidden="true">↑</span></a>
+              </div>
+            </>)}
+            {p.id === "aws-ai" && (<>
+              <div class="partner-copy" data-showcase-copy>
+                <p class="eyebrow">AWS Partner <span aria-hidden="true">·</span> AI Services Competency</p>
+                <h2 id="aws-ai-title" tabindex="-1">AWS AI Services Competency</h2>
+                <p class="partner-lead">We design, build and run generative and agentic AI on AWS, with the guardrails, human review and monitoring needed in production.</p>
+                <PartnerOutcomes outcomes={aiOutcomes} />
+                <a class="text-link" href="/contact">Talk to us about AI on AWS <span aria-hidden="true">→</span></a>
+              </div>
+
+              <div class="partner-stage">
+                <div class="badge-tile" data-showcase-art>
+                  <img src={p.logo} alt="AWS Partner — AI Services Competency" width="362" height="360" loading="lazy" />
+                </div>
+                <div class="stage-tags">
+                  <p class="stage-label" id="ai-focus-areas">Consulting focus areas</p>
+                  <ul aria-labelledby="ai-focus-areas">
+                    <li>Agentic AI Consulting</li>
+                    <li>Generative AI Consulting</li>
+                  </ul>
+                </div>
+              </div>
+            </>)}
+            {p.id === "meta" && (<>
+              <div class="partner-copy" data-showcase-copy>
+                <p class="eyebrow">WhatsApp Business Platform <span aria-hidden="true">·</span> Tech Provider</p>
+                <h2 id="meta-title" tabindex="-1">WhatsApp Business Platform</h2>
+                <p class="partner-lead">As a Meta Tech Provider, we onboard businesses and set up WhatsApp messaging for their accounts. We deliver directly or with a Solution Partner.</p>
+                <PartnerOutcomes outcomes={metaOutcomes} />
+                <a class="text-link" href="/whatsapp-business-api">Explore WhatsApp Business <span aria-hidden="true">→</span></a>
+              </div>
+
+              <div class="partner-stage">
+                <div class="badge-tile" data-showcase-art>
+                  <img src="/assets/partners/whatsapp-glyph-green-2026.svg" alt="WhatsApp" width="110" height="110" loading="lazy" />
+                </div>
+                <div class="stage-tags">
+                  <p class="stage-label">Platform &amp; focus areas</p>
+                  <ul aria-label="Platform and focus areas for Meta Tech Provider">
+                    <li>WhatsApp Business Platform</li>
+                    <li>Embedded Signup</li>
+                    <li>Messaging &amp; templates</li>
+                  </ul>
+                </div>
+              </div>
+            </>)}
+            {p.outcomes && (<>
+              <div class="partner-copy" data-showcase-copy>
+                <p class="eyebrow">{p.name} <span aria-hidden="true">·</span> {p.tier}</p>
+                <h2 id={`${p.id}-title`} tabindex="-1">{p.title}</h2>
+                <p class="partner-lead">{p.body}</p>
+                {p.id === "invoicenow" && (
+                  <p>Algorims Pte. Ltd. is an <a class="inline-link" href="https://file.go.gov.sg/invoicenowirsp.pdf#page=33">IMDA-listed IRSP reseller for Xero (PDF)</a>.</p>
+                )}
+                <PartnerOutcomes outcomes={p.outcomes} />
+                {p.id === "invoicenow" && (
+                  <a class="text-link" href="/invoicenow">Explore InvoiceNow setup <span aria-hidden="true">→</span></a>
+                )}
+              </div>
+
+              <div class="partner-stage">
+                <div class="badge-tile" data-showcase-art>
+                  <img src={p.logo} alt={p.alt} width="110" height="110" loading="lazy" />
+                </div>
+                <div class="stage-tags">
+                  <p class="stage-label">Platforms &amp; focus areas</p>
+                  <ul aria-label={`Platforms and focus areas for ${p.title}`}>
+                    {p.tags.map((tag) => <li>{tag}</li>)}
+                  </ul>
+                </div>
+              </div>
+            </>)}
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      ))}
+    </ScrollShowcase>
     <ConsultationCta />
   </div>
 </BaseLayout>
-
-<script>
-  import "../scripts/partner-showcase";
-</script>
 
 <style>
   .partners-page { position: relative; isolation: isolate; padding-bottom: 32px; }
@@ -257,54 +230,8 @@ const partnerCredentials = {
   h1 span { display: block; color: hsl(var(--primary)); }
   .lede { max-width: 620px; margin: 18px auto 0; color: hsl(var(--muted-foreground)); font-size: clamp(1rem, 1.25vw, 1.1rem); line-height: 1.55; text-wrap: balance; }
 
-  .partner-track { --pin-top: 24px; --scroll-step: 96px; }
-  .partner-track[data-scroll] {
-    --pin-inset: max(0px, calc((100dvh - var(--pin-top) - var(--partner-max-height)) / 2));
-    min-height: calc(100dvh - var(--pin-top) + var(--partner-steps) * var(--scroll-step));
-    margin-block-start: calc(-1 * min(64px, var(--pin-inset) / 2));
-    padding-block-start: var(--pin-inset);
-    overflow-anchor: none;
-  }
-  [data-scroll] .partner-pin { position: sticky; top: calc(var(--pin-top) + var(--pin-inset)); }
-  .partner-showcase { --panel-padding: clamp(20px, 3.25vw, 44px); border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background)); }
-
-  .credential-index { padding: 14px; scroll-margin-top: 12px; border-bottom: 1px solid hsl(var(--border)); }
-  .credential-index ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin: 0; padding: 0; list-style: none; }
-  .credential-index a { display: flex; align-items: center; gap: 10px; min-height: 44px; height: 100%; padding: 6px 10px; border-radius: .45rem; color: hsl(var(--muted-foreground)); transition: background-color .2s, color .2s; }
-  .credential-index a:hover { background: hsl(var(--muted) / .65); color: hsl(var(--foreground)); }
-  .credential-index a[aria-current] { background: hsl(var(--primary) / .08); color: hsl(var(--primary)); box-shadow: inset 2px 0 hsl(var(--primary)); }
-  .credential-index a:focus-visible, .text-link:focus-visible, .inline-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
-  .index-label { margin: 0 10px 8px; color: hsl(var(--muted-foreground)); font-size: .78rem; }
-  .index-label span:last-child, [data-scroll] .index-label span:first-child { display: none; }
-  [data-scroll] .index-label span:last-child { display: inline; }
-  .index-logo { flex-shrink: 0; display: grid; place-items: center; width: 32px; height: 32px; padding: 3px; border: 1px solid hsl(var(--border)); border-radius: 5px; background: #fff; }
-  .index-logo img { width: 100%; height: 100%; object-fit: contain; }
-  .index-name, .index-short { font-size: .875rem; font-weight: 600; line-height: 1.25; }
-  .index-short { display: none; }
-  .index-arrow { flex-shrink: 0; margin-left: auto; opacity: 0; transition: opacity .2s; }
-  .credential-index a:is(:hover, [aria-current]) .index-arrow { opacity: 1; }
-
-  .partner-panels { min-width: 0; padding: var(--panel-padding); }
-  .partner { scroll-margin-top: 16px; min-width: 0; }
-  .partner-showcase:not([data-ready]) .partner + .partner { margin-top: 24px; }
   .partner-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: clamp(24px, 3.25vw, 44px); align-items: start; }
-  [data-scroll] .partner { scroll-margin-top: var(--partner-scroll-margin); }
-  [data-measuring] .partner-panels { display: grid; }
-  [data-measuring] .partner { display: block; grid-area: 1 / 1; visibility: hidden; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    [data-ready] .partner:not([hidden]) .partner-copy { animation: detail-in .26s ease-out both; }
-    [data-ready] .partner:not([hidden]) :is(.claude-badge, .badge-tile) { animation: badge-shuffle .36s cubic-bezier(.2, .7, .25, 1) both; }
-    @keyframes detail-in {
-      from { opacity: 0; transform: translateY(calc(var(--shuffle-from, 12px) * .5)); }
-      to { opacity: 1; transform: none; }
-    }
-    @keyframes badge-shuffle {
-      from { opacity: .35; transform: translate(8px, var(--shuffle-from, 12px)) rotate(-3deg); }
-      to { opacity: 1; transform: none; }
-    }
-  }
-
+  .text-link:focus-visible, .inline-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
   .partner-copy { max-width: 62ch; }
   .partner-copy h2 { margin: 0; font-size: clamp(1.7rem, 3vw, 2.6rem); font-weight: 600; line-height: 1.06; letter-spacing: -.045em; text-wrap: balance; }
   .partner-copy p { margin: 14px 0 0; color: hsl(var(--muted-foreground)); font-size: .94rem; line-height: 1.55; }
@@ -314,7 +241,6 @@ const partnerCredentials = {
   .text-link { display: inline-block; margin-top: 18px; color: hsl(var(--primary)); font-size: .9rem; font-weight: 600; text-underline-offset: 4px; }
   .text-link:hover { text-decoration: underline; }
   .inline-link { color: hsl(var(--primary)); text-decoration: underline; text-underline-offset: 3px; }
-  .index-return { display: none; }
 
   .partner-stage { position: relative; isolation: isolate; display: grid; justify-items: center; gap: 20px; padding: 24px 18px; border: 1px solid hsl(var(--border)); border-radius: .65rem; background: hsl(var(--muted) / .35); }
   .partner-stage::before {
@@ -342,37 +268,13 @@ const partnerCredentials = {
   .stage-tags ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 12px; margin: 0; padding: 0; list-style: none; color: hsl(var(--muted-foreground)); font-size: .78rem; text-align: center; }
   .stage-tags li::before { content: ""; display: inline-block; width: 4px; height: 4px; margin: 0 6px .16em 0; background: hsl(var(--primary)); }
 
-  @media (min-width: 1000px) {
-    .partner-showcase { display: grid; grid-template-columns: clamp(214px, 19vw, 244px) minmax(0, 1fr); }
-    .credential-index { padding: var(--panel-padding) 16px; border-right: 1px solid hsl(var(--border)); border-bottom: 0; }
-    .credential-index ul { grid-template-columns: 1fr; gap: 6px; }
-    .credential-index a { padding-block: 8px; }
-    .index-label { margin-bottom: 15px; }
-    .partner { scroll-margin-top: calc(25px + var(--panel-padding)); }
-  }
-
   @media (max-width: 700px) {
     .partner-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
     .partner-stage { grid-template-columns: 64px minmax(0, 1fr); align-items: center; gap: 12px; padding: 14px; }
     .badge-tile, .claude-badge { width: 64px; }
     .badge-tile { padding: 7px; }
-    .index-arrow { display: none; }
-    .credential-index a:has(.index-short) .index-name { display: none; }
-    .index-short { display: inline; }
-    [data-ready] .index-return { display: inline-block; }
-  }
-  @media (max-width: 480px) {
-    .credential-index { padding: 10px; }
-    .credential-index a { flex-direction: column; justify-content: center; gap: 4px; padding: 5px 2px; text-align: center; }
-    .index-logo { width: 24px; height: 24px; padding: 1px; }
-    .index-name, .index-short { font-size: .74rem; }
-    .index-label { margin: 0 4px 6px; }
   }
   @media (max-width: 360px) {
     .partner-stage:has(.tier-ladder) { grid-template-columns: minmax(0, 1fr); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    :global(html:has(.partners-page)) { scroll-behavior: auto; }
-    .credential-index a, .index-arrow { transition: none; }
   }
 </style>
