@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: WhatsApp staff alerts for the Algorims InvoiceNow and WhatsApp Business API forms
+Description: WhatsApp staff alerts for the Algorims Contact Us, InvoiceNow and WhatsApp Business API forms
 
 Parameters:
   AlertsSecretArn:

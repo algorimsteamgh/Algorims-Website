@@ -23,6 +23,8 @@ CONFIG = {
     "invoice_recipient": "+12025550113",
 }
 EVENT_ID = "ae9dba81-3d3a-4741-ab9f-c39c4cf8bdf6"
+CONTACT = {"page_url": "/contact/", "event_id": EVENT_ID, "name": "Test Lead", "company": "",
+           "email": "lead@example.com", "service": "AI", "message": "Private note"}
 INVOICE = {"page_url": "/invoicenow", "event_id": EVENT_ID, "name": "Test Lead", "company": "Example",
            "email": "lead@example.com", "gst_status": "Not registered", "message": "Private note"}
 WHATSAPP = {"page_url": "/whatsapp-business-api", "page_code": "API-01", "event_id": EVENT_ID,
@@ -100,9 +102,10 @@ class LeadAlertsTest(unittest.TestCase):
                            "body": body}, CONFIG, self.table)["statusCode"]
 
     def test_each_form_uses_its_configured_recipients_and_deduplicates_replays(self):
-        for lead, product, contact, recipients in [
-            (INVOICE, "InvoiceNow", "lead@example.com", ["12025550113", "12025550111", "12025550112"]),
-            (WHATSAPP, "WhatsApp Business", "+65 9123 4567", ["12025550111", "12025550112"]),
+        for lead, product, company, contact, recipients in [
+            (INVOICE, "InvoiceNow", "Example", "lead@example.com", ["12025550113", "12025550111", "12025550112"]),
+            (WHATSAPP, "WhatsApp Business", "Example", "+65 9123 4567", ["12025550111", "12025550112"]),
+            (CONTACT, "AI", "Not provided", "lead@example.com", ["12025550111", "12025550112"]),
         ]:
             previous_sends = len(self.sends)
             self.assertEqual(self.lead(lead), 200)
@@ -111,12 +114,14 @@ class LeadAlertsTest(unittest.TestCase):
             self.assertEqual([sent["to"] for sent in alerts], recipients)
             for sent in alerts:
                 self.assertEqual([param["text"] for param in sent["template"]["components"][0]["parameters"]],
-                                 [product, "Test Lead", "Example", contact])
+                                 [product, "Test Lead", company, contact])
 
     def test_ignores_unauthorized_other_forms_and_whatsapp_without_consent(self):
         self.assertEqual(self.lead(INVOICE, "https://other.example.com"), 403)
         self.assertEqual(self.lead(dict(WHATSAPP, page_url="/book-audit")), 422)
         self.assertEqual(self.lead(dict(WHATSAPP, consent="")), 422)
+        self.assertEqual(self.lead(dict(CONTACT, email="invalid")), 422)
+        self.assertEqual(self.lead(dict(CONTACT, service="Other")), 422)
         self.graph_mock.assert_not_called()
 
     def test_replays_do_not_spend_budget_and_monthly_cap_blocks_new_sends(self):
@@ -158,6 +163,7 @@ class LeadAlertsTest(unittest.TestCase):
         self.assertEqual(self.table.items[f"algorims-lead:whatsapp:{EVENT_ID}:owner"]["send_state"], "unknown")
 
     def test_signed_callbacks_track_recipient_and_keep_newest_status(self):
+        self.assertEqual(self.lead(CONTACT), 200)
         self.assertEqual(self.lead(INVOICE), 200)
         self.assertEqual(self.lead(WHATSAPP), 200)
         key = self.sends[0]["biz_opaque_callback_data"]

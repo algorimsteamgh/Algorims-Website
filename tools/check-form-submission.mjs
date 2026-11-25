@@ -16,7 +16,7 @@ try {
     get(name) { return this.values.get(name) ?? null; }
   }
   globalThis.FormData = FakeFormData;
-  const form = { event_id: "lead-id", message: "Private note" };
+  const form = { page_url: "/contact/", event_id: "lead-id", service: "AI", message: "Private note" };
   const emailUrl = "https://api.web3forms.com/submit";
   const alertUrl = "https://alerts.example.com/lead-alert";
   const requests = [];
@@ -38,6 +38,8 @@ try {
   assert.equal(alert.keepalive, true);
   const alertBody = JSON.parse(alert.body);
   assert.equal(alertBody.event_id, email.body.get("event_id"));
+  assert.equal(alertBody.page_url, "/contact/");
+  assert.equal(alertBody.service, "AI");
   assert.equal("message" in alertBody, false);
   assert.equal("access_key" in alertBody, false);
 

@@ -42,7 +42,10 @@ import { offices } from "../data/offices";
     </aside>
 
     <div class="contact-form-wrap">
-          <form id="contact-form" novalidate>
+          <form id="contact-form" method="post" novalidate>
+            <input type="hidden" name="page_url" value={Astro.url.pathname} />
+            <input type="hidden" name="event_id" value="" />
+            <input type="checkbox" name="botcheck" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
             <div id="contact-success" class="hidden py-10 text-center" role="status">
               <div class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-primary/10 text-primary"><i data-lucide="check" class="!w-7 !h-7"></i></div>
               <h3 class="mt-5 text-2xl font-semibold">Thanks — message received</h3>
@@ -91,6 +94,7 @@ import { offices } from "../data/offices";
                 <p id="message-error" aria-live="polite" data-error="message" class="text-xs text-destructive hidden"></p>
               </div>
               <p id="contact-status" class="hidden text-sm text-destructive" role="alert"></p>
+              <p id="contact-email-draft" class="hidden text-sm text-muted-foreground" role="status">Send the draft from your email app to complete your enquiry.</p>
               <div class="contact-form-footer">
                 <button type="submit" class="btn btn-hero btn-lg">Send message <i data-lucide="arrow-right" class="!w-4 !h-4" aria-hidden="true"></i></button>
                 <p><i data-lucide="clock-3" aria-hidden="true"></i> A reply within one business day.</p>
@@ -217,14 +221,18 @@ import { offices } from "../data/offices";
 
 <script>
   import { sendForm, setButtonLoading } from "../scripts/formSubmission";
+  import { newEventId } from "../scripts/tracking";
 
   const form = document.querySelector<HTMLFormElement>("#contact-form");
   if (form) {
     const fields = form.querySelector<HTMLElement>("#contact-fields")!;
     const success = form.querySelector<HTMLElement>("#contact-success")!;
     const status = form.querySelector<HTMLElement>("#contact-status")!;
+    const emailDraft = form.querySelector<HTMLElement>("#contact-email-draft")!;
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    const key = import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+    const configuredKey = import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY;
+    const key = configuredKey?.startsWith("YOUR-") ? undefined : configuredKey;
+    const alertUrl = import.meta.env.PUBLIC_LEAD_ALERT_URL;
 
     function setError(name: string, message: string) {
       const error = form!.querySelector<HTMLElement>(`[data-error="${name}"]`)!;
@@ -235,6 +243,7 @@ import { offices } from "../data/offices";
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const data = new FormData(form);
+      if (data.get("botcheck")) return;
       const value = (name: string) => String(data.get(name) ?? "");
       const name = value("name");
       const email = value("email");
@@ -247,6 +256,8 @@ import { offices } from "../data/offices";
       setError("service", !service ? "Please select a service" : "");
       if (form.querySelector('[data-error]:not(.hidden)')) return;
       status.classList.add("hidden");
+      emailDraft.classList.add("hidden");
+      if (key && alertUrl) form.querySelector<HTMLInputElement>('[name="event_id"]')!.value = newEventId();
 
       const subject = `New enquiry from ${name}${company ? ` (${company})` : ""}${service ? ` — ${service}` : ""}`;
       const body = [
@@ -255,7 +266,11 @@ import { offices } from "../data/offices";
       ].filter(Boolean).join("\n");
       setButtonLoading(button, true);
       try {
-        await sendForm(form, key, subject, "contactus@algorims.com", body);
+        await sendForm(form, key, subject, "contactus@algorims.com", body, alertUrl);
+        if (!key) {
+          emailDraft.classList.remove("hidden");
+          return;
+        }
         fields.classList.add("hidden");
         success.classList.remove("hidden");
       } catch {

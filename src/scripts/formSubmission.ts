@@ -24,7 +24,7 @@ export async function sendForm(
 async function sendLeadAlert(data: FormData, url: string) {
   try {
     const fields = ["page_url", "page_code", "event_id", "name", "company",
-      "email", "gst_status", "whatsapp", "industry", "monthly_chats", "consent"];
+      "email", "service", "gst_status", "whatsapp", "industry", "monthly_chats", "consent"];
     const body = Object.fromEntries(fields.map((name) => [name, data.get(name)]));
     const response = await fetch(url, {
       method: "POST",

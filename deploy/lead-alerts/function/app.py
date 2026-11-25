@@ -15,9 +15,17 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 EVENT_ID = r"(?:[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}|[0-9]{13}-[a-z0-9]{1,16})"
-DELIVERY_KEY = re.compile(rf"algorims-lead:(?:invoicenow|whatsapp):{EVENT_ID}:(?:owner|ceo|invoice_recipient)")
 STATUS_RANK = {"sent": 1, "failed": 2, "delivered": 3, "read": 4}
-RECIPIENTS = {"invoicenow": ("invoice_recipient", "owner", "ceo"), "whatsapp": ("owner", "ceo")}
+SHARED_RECIPIENTS = ("owner", "ceo")
+RECIPIENTS = {
+    "contact": SHARED_RECIPIENTS,
+    "invoicenow": ("invoice_recipient", *SHARED_RECIPIENTS),
+    "whatsapp": SHARED_RECIPIENTS,
+}
+DELIVERY_KEY = re.compile("|".join(
+    rf"algorims-lead:{source}:{EVENT_ID}:(?:{'|'.join(roles)})" for source, roles in RECIPIENTS.items()
+))
+CONTACT_SERVICES = {"Cloud", "DevOps", "Development", "AI", "Data and ML"}
 MONTHLY_SEND_LIMIT = 300
 
 
@@ -44,7 +52,15 @@ def lead_details(body):
     event_id = field("event_id", 64)
     name = field("name", 100)
     company = field("company", 120)
-    if not re.fullmatch(EVENT_ID, event_id) or not name or not company:
+    if not re.fullmatch(EVENT_ID, event_id) or not name:
+        return None
+    if page == "/contact":
+        contact = field("email", 255)
+        service = field("service", 40)
+        if service in CONTACT_SERVICES and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", contact):
+            return "contact", event_id, [service, name, company or "Not provided", contact]
+        return None
+    if not company:
         return None
     if page == "/invoicenow":
         contact = field("email", 255)

@@ -16,4 +16,4 @@ The root HTML folders, `assets/`, `footer.html`, and `tools/sync-html-shell.mjs`
 
 See [REDESIGN_READINESS.md](REDESIGN_READINESS.md) for the redesign scope and release gate.
 
-See the [lead alert rollout](deploy/lead-alerts/README.md) for the InvoiceNow and WhatsApp Business API notifications.
+See the [lead alert rollout](deploy/lead-alerts/README.md) for Contact Us, InvoiceNow and WhatsApp Business API notifications.
