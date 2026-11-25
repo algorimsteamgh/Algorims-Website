@@ -8,7 +8,6 @@ import { breadcrumbSchema } from "../lib/schema";
 
 const imda = "https://www.imda.gov.sg/how-we-can-help/nationwide-e-invoicing-framework";
 const iras = "https://www.iras.gov.sg/taxes/goods-services-tax-(gst)/gst-invoicenow-requirement";
-const reseller = "https://file.go.gov.sg/invoicenowirsp.pdf#page=33";
 const title = "InvoiceNow Setup for Singapore Businesses | Algorims";
 const description = "Get ready for Singapore’s GST InvoiceNow requirement. Set up Xero or connect your existing accounting software, check grant eligibility and get support after go-live.";
 const phases = [
@@ -71,8 +70,8 @@ const schema = breadcrumbSchema([{ name: "Home", path: "/" }, { name: "InvoiceNo
       <Workflow />
       <ul class="proof-strip" aria-label="InvoiceNow credentials and benefits">
         <li><i data-lucide="badge-check" aria-hidden="true"></i>Xero partner</li>
-        <li><i data-lucide="shield-check" aria-hidden="true"></i><a class="invoice-link" href={reseller}>IMDA-listed Xero reseller (PDF)</a></li>
         <li><i data-lucide="headset" aria-hidden="true"></i>Two months of included support</li>
+        <li><i data-lucide="map-pin" aria-hidden="true"></i>Singapore team</li>
       </ul>
     </section>
 
