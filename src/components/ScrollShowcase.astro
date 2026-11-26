@@ -5,7 +5,7 @@ interface Props {
   noun: string;
 }
 const { items, label, noun } = Astro.props;
-const indexId = `${noun}-index`;
+const indexId = `${noun.toLowerCase().replace(/\s+/g, "-")}-index`;
 ---
 <div class="showcase-track" style={`--showcase-steps: ${items.length - 1}; --index-columns: ${items.length === 4 ? 2 : 3}`}>
   <div class="container-x showcase-pin">

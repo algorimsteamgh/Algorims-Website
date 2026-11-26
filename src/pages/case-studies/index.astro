@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import CaseStudyCard from "../../components/case-studies/CaseStudyCard.astro";
+import CaseStudiesShowcase from "../../components/case-studies/CaseStudiesShowcase.astro";
 
 const order = ["qsr-conversational-analytics", "ai-school-scheduler", "cicd-release-automation", "enterprise-knowledge-mining", "finance-document-automation", "syslatech-intelligent-document-processing", "smac-tech-labs-ai-support"];
 const studies = (await getCollection("case-studies")).sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
@@ -24,9 +24,9 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
     </div>
   </section>
 
-  <div id="selected-work" class="studies-grid container-x">
-    {studies.map((study, index) => <CaseStudyCard study={study} eager={index === 0} />)}
-  </div>
+  <section id="selected-work" class="studies-list" aria-label="Case studies">
+    <CaseStudiesShowcase studies={studies} />
+  </section>
 </BaseLayout>
 
 <style>
@@ -41,10 +41,7 @@ const studies = (await getCollection("case-studies")).sort((a, b) => order.index
   .studies-stats div + div { border-left: 1px solid hsl(var(--border)); }
   .studies-stats dt { color: hsl(var(--foreground)); font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
   .studies-stats dd { margin-top: 6px; color: hsl(var(--muted-foreground)); font-size: .85rem; }
-  .studies-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px 24px; max-width: 1160px; padding-block: 40px 88px; scroll-margin-top: 24px; }
-  @media (max-width: 760px) {
-    .studies-grid { grid-template-columns: 1fr; gap: 40px; padding-block: 32px 56px; }
-  }
+  .studies-list { padding-block: 32px 72px; scroll-margin-top: 24px; }
   @media (max-width: 600px) {
     .studies-hero { padding-top: 44px; }
     .studies-hero h1 { font-size: 2.4rem; }

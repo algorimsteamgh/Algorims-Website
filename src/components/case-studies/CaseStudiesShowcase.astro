@@ -1,0 +1,66 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ScrollShowcase from "../ScrollShowcase.astro";
+import caseScenes from "../../data/caseScenes.json";
+
+interface Props { studies: CollectionEntry<"case-studies">[] }
+const { studies } = Astro.props;
+
+const names: Record<string, [string, string]> = {
+  "qsr-conversational-analytics": ["QSR workforce analytics", "QSR"],
+  "ai-school-scheduler": ["AI school scheduler", "School"],
+  "cicd-release-automation": ["CI/CD release automation", "CI/CD"],
+  "enterprise-knowledge-mining": ["Enterprise knowledge mining", "Knowledge"],
+  "finance-document-automation": ["Finance document automation", "Finance"],
+  "syslatech-intelligent-document-processing": ["Syslatech document processing", "Syslatech"],
+  "smac-tech-labs-ai-support": ["SMAC Tech Labs AI support", "SMAC"],
+};
+const items = studies.map(({ id, data }) => {
+  const [name, shortName] = names[id] ?? [data.title, undefined];
+  return { id, name, shortName };
+});
+---
+<ScrollShowcase items={items} label="Explore case studies" noun="case study">
+  {studies.map((study, index) => {
+    const artwork = caseScenes[study.id as keyof typeof caseScenes];
+    return (
+      <section id={study.id} class="showcase-panel" aria-labelledby={`${study.id}-title`}>
+        <div class="study-grid">
+          <figure class="study-art" data-showcase-art>
+            <img src={artwork.src} srcset={`${artwork.src.replace(".webp", "-600.webp")} 600w, ${artwork.src} 1200w`} sizes="(min-width: 1000px) 900px, 100vw" width="1200" height="675" alt={artwork.alt} loading={index === 0 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : undefined} />
+          </figure>
+          <div class="study-copy" data-showcase-copy>
+            <div>
+              <p class="study-kicker">{study.data.tag}</p>
+              <h2 id={`${study.id}-title`} tabindex="-1">{study.data.title}</h2>
+            </div>
+            <a class="study-link" href={`/case-studies/${study.id}`}>
+              Read case study <svg class="study-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-7-7 7 7-7 7" /></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+    );
+  })}
+</ScrollShowcase>
+
+<style>
+  /* Illustration leads; cap width so art + copy fit the pinned viewport */
+  .study-grid { display: grid; gap: clamp(16px, 2vw, 24px); max-width: min(100%, calc((100dvh - 320px) * 16 / 9)); margin-inline: auto; }
+  .study-copy { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 24px; }
+  .study-copy > div { flex: 1 1 420px; min-width: 0; }
+  .study-kicker { margin: 0; color: hsl(var(--primary)); font-size: .68rem; font-weight: 700; letter-spacing: .16em; line-height: 1.4; text-transform: uppercase; }
+  .study-copy h2 { margin: 12px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.3rem, 2.2vw, 1.85rem); font-weight: 600; line-height: 1.18; letter-spacing: -.03em; }
+  .study-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; flex-shrink: 0; color: hsl(var(--primary)); font-weight: 600; }
+  .study-link:is(:hover, :focus-visible) .study-arrow { animation: study-arrow-nudge .35s ease-out forwards; }
+  .study-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
+  @keyframes study-arrow-nudge { 60% { transform: translateX(7px); } 100% { transform: translateX(4px); } }
+  .study-art { margin: 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 12px; background: hsl(var(--background)); }
+  .study-art img { display: block; width: 100%; height: auto; }
+  @media (max-width: 700px) {
+    .study-grid { max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .study-link:is(:hover, :focus-visible) .study-arrow { animation: none; }
+  }
+</style>

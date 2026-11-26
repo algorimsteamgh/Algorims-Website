@@ -12,19 +12,16 @@ const solutionDetails = {
     name: "Operations Automation",
     shortName: "Automation",
     alt: "Invoices, claims, and purchase orders flow through an intelligent operations platform to validated, approved workflows.",
-    items: [["Inputs", "Invoices · claims · purchase orders"], ["Core", "Intelligent operations platform"], ["Outcome", "Validated, approved workflows"]],
   },
   "intelligent-document-processing": {
     name: "Intelligent Document Processing",
     shortName: "Documents",
     alt: "Invoices, KYC packets, and loan applications flow through an AI document pipeline to structured, validated data.",
-    items: [["Inputs", "Invoices · KYC packets · loan applications"], ["Core", "AI document pipeline"], ["Outcome", "Structured, validated data"]],
   },
   "autonomous-customer-operations": {
     name: "Autonomous Customer Operations",
     shortName: "Customer Ops",
     alt: "Voice, chat, and policy events flow through an autonomous contact centre to resolved customer interactions.",
-    items: [["Inputs", "Voice · chat · policy events"], ["Core", "Autonomous contact centre"], ["Outcome", "Resolved customer interactions"]],
   },
 } as const;
 const items = solutions.map(({ id }) => {
@@ -34,29 +31,31 @@ const items = solutions.map(({ id }) => {
 ---
   <ScrollShowcase items={items} label="Explore solutions" noun="solution">
     {solutions.map((solution) => {
-      const highlights = solution.data.metrics.filter((metric) => metric.value !== "✓").slice(0, 2);
-      const { alt, items: labels } = solutionDetails[solution.id as keyof typeof solutionDetails];
+      const { alt } = solutionDetails[solution.id as keyof typeof solutionDetails];
+      const art = (
+        <figure class="solution-art" data-showcase-art>
+          <img src={`/assets/illustrations/solution-${solution.id}.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
+          <img class="solution-art-dark" src={`/assets/illustrations/solution-${solution.id}-dark.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
+        </figure>
+      );
       return (
         <section id={solution.id} class="showcase-panel" aria-labelledby={`${solution.id}-title`}>
-          <div class:list={["solution-grid", { compact }]}>
+          <div class:list={["solution-grid", compact ? "compact" : "hero"]}>
+            {!compact && art}
             <div class="solution-copy" data-showcase-copy>
-              {!compact && <p class="solution-kicker">{solution.data.tag}</p>}
-              <Heading id={`${solution.id}-title`} tabindex="-1">{compact ? <a class="solution-title-link" href={`/solutions/${solution.id}`}>{solution.data.title}</a> : solution.data.title}</Heading>
-              {!compact && <p class="solution-summary">{solution.data.subtitle}</p>}
-              {!compact && highlights.length > 0 && (
-                <dl>{highlights.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>
-              )}
-              {!compact && (
+              {compact ? (
+                <Heading id={`${solution.id}-title`} tabindex="-1"><a class="solution-title-link" href={`/solutions/${solution.id}`}>{solution.data.title}</a></Heading>
+              ) : (<>
+                <div>
+                  <p class="solution-kicker">{solution.data.tag}</p>
+                  <Heading id={`${solution.id}-title`} tabindex="-1">{solution.data.title}</Heading>
+                </div>
                 <a class="solution-link" href={`/solutions/${solution.id}`}>
                   Explore solution <i data-lucide="arrow-right" class="solution-arrow !h-4 !w-4" aria-hidden="true" />
                 </a>
-              )}
+              </>)}
             </div>
-            <figure class="solution-art" data-showcase-art>
-              <img src={`/assets/illustrations/solution-${solution.id}.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
-              <img class="solution-art-dark" src={`/assets/illustrations/solution-${solution.id}-dark.webp`} alt={alt} width="1254" height="1254" loading="lazy" />
-              {!compact && <figcaption>{labels.map(([label, value]) => <span class="solution-image-label"><b>{label}</b>{value}</span>)}</figcaption>}
-            </figure>
+            {compact && art}
           </div>
         </section>
       );
@@ -64,37 +63,35 @@ const items = solutions.map(({ id }) => {
   </ScrollShowcase>
 
 <style>
-  .solution-kicker { margin: 0; color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; line-height: 1.4; text-transform: uppercase; }
-  .solution-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: start; gap: clamp(20px, 3vw, 40px); }
-  .solution-art { width: min(100%, 330px); margin: 0 auto; }
-  .solution-grid.compact { align-items: center; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
-  .compact .solution-art { width: min(100%, 520px); }
-  .compact .solution-copy :is(h2, h3) { font-size: clamp(1.3rem, 2vw, 1.75rem); line-height: 1.15; letter-spacing: -.03em; }
-  .solution-title-link { color: inherit; text-decoration: none; }
-  .solution-title-link:hover { color: hsl(var(--primary)); }
-  .solution-title-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
+  .solution-kicker { margin: 0; color: hsl(var(--primary)); font-size: .68rem; font-weight: 700; letter-spacing: .16em; line-height: 1.4; text-transform: uppercase; }
+  .solution-art { margin: 0; }
   .solution-art img { display: block; width: 100%; height: auto; }
-  .solution-art figcaption { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-top: 16px; }
-  .solution-image-label { display: block; min-width: 0; padding: 10px 12px; border: 1px solid hsl(var(--border)); border-radius: .75rem; color: hsl(var(--muted-foreground)); font-size: .68rem; line-height: 1.35; }
-  .solution-image-label b { display: block; margin-bottom: 3px; color: hsl(var(--primary)); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; }
   .solution-art-dark { display: none !important; }
   :global(:root.dark) .solution-art > img:not(.solution-art-dark) { display: none; }
   :global(:root.dark) .solution-art > .solution-art-dark { display: block !important; }
-  .solution-copy :is(h2, h3) { margin: 14px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.75rem, 3vw, 2.65rem); font-weight: 600; line-height: 1.08; letter-spacing: -.045em; }
-  .solution-summary { margin: 18px 0 0; color: hsl(var(--muted-foreground)); line-height: 1.6; }
-  .solution-copy dl { display: grid; grid-template-columns: repeat(2, 1fr); margin: 26px 0 0; overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: .75rem; }
-  .solution-copy dl div { padding: 12px; }
-  .solution-copy dl div + div { padding-left: 12px; border-left: 1px solid hsl(var(--border)); }
-  .solution-copy dt { color: hsl(var(--primary)); font-size: 1.3rem; font-weight: 600; line-height: 1.1; }
-  .solution-copy dd { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.35; }
-  .solution-link { display: inline-flex; align-items: center; gap: 9px; margin-top: 24px; color: hsl(var(--primary)); font-weight: 600; }
+
+  /* Hero: illustration leads, heading below. Square art capped so art + copy fit the pinned viewport */
+  .solution-grid.hero { display: grid; gap: clamp(12px, 1.6vw, 20px); }
+  .hero .solution-art { width: min(100%, calc(100dvh - 340px), 560px); min-width: min(100%, 280px); margin-inline: auto; }
+  .hero .solution-copy { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 24px; padding-top: clamp(12px, 1.6vw, 20px); border-top: 1px solid hsl(var(--border)); }
+  .hero .solution-copy > div { flex: 1 1 420px; min-width: 0; }
+  .hero .solution-copy :is(h2, h3) { margin: 12px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.3rem, 2.2vw, 1.85rem); font-weight: 600; line-height: 1.18; letter-spacing: -.03em; }
+  .solution-link { display: inline-flex; align-items: center; gap: 9px; min-height: 44px; flex-shrink: 0; color: hsl(var(--primary)); font-weight: 600; }
   .solution-link:is(:hover, :focus-visible) :global(.solution-arrow) { animation: solution-arrow-nudge .35s ease-out forwards; }
   .solution-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
   @keyframes solution-arrow-nudge { 60% { transform: translateX(7px); } 100% { transform: translateX(4px); } }
+
+  /* Compact (homepage): heading beside larger art */
+  .solution-grid.compact { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); align-items: center; gap: clamp(20px, 3vw, 40px); }
+  .compact .solution-art { width: min(100%, 520px); margin-inline: auto; }
+  .compact .solution-copy :is(h2, h3) { margin: 14px 0 0; color: hsl(var(--foreground)); font-size: clamp(1.3rem, 2vw, 1.75rem); font-weight: 600; line-height: 1.15; letter-spacing: -.03em; }
+  .solution-title-link { color: inherit; text-decoration: none; }
+  .solution-title-link:hover { color: hsl(var(--primary)); }
+  .solution-title-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 4px; }
+
   @media (max-width: 700px) {
-    .solution-grid, .solution-grid.compact { grid-template-columns: minmax(0, 1fr); }
-    .solution-art figcaption { grid-template-columns: 1fr; }
-    .solution-image-label { font-size: .75rem; }
+    .solution-grid.compact { grid-template-columns: minmax(0, 1fr); }
+    .hero .solution-art { width: min(100%, 420px); }
   }
   @media (prefers-reduced-motion: reduce) {
     .solution-link:is(:hover, :focus-visible) :global(.solution-arrow) { animation: none; }
