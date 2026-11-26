@@ -4,7 +4,7 @@ After Web3Forms accepts a Contact Us enquiry, an InvoiceNow consultation, a What
 
 The email is the record of the lead. An interrupted browser request or AWS or Meta error can prevent an alert after the email has been accepted. The browser endpoint is public. AWS throttles requests, validates fields, deduplicates sends, and limits WhatsApp send attempts to 300 per UTC month. Requests from outside the website can imitate the browser, so a caller can still consume the alert budget. Email acceptance is unaffected by the alert budget.
 
-The alert stack is `algorims-lead-alerts` in the Algorims AWS account `561580620525`, region `ap-south-1`, the same account as the website. Its Secrets Manager entry is `algorims/website/lead-alerts`. It moved there on 2026-11-26 from account `882040517029`, which belongs to Bharat Finance; the old copy there is to be deleted once the new one is verified.
+The alert stack is `algorims-lead-alerts` in the Algorims AWS account `561580620525`, region `ap-south-1`, the same account as the website. Its Secrets Manager entry is `algorims/website/lead-alerts`. It moved there on 2026-11-26 from account `882040517029`, which belongs to Bharat Finance; the old stack there was deleted the same day.
 
 ## Prepare the accounts
 

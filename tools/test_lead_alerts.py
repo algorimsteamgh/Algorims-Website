@@ -128,6 +128,12 @@ class LeadAlertsTest(unittest.TestCase):
         self.assertEqual(self.lead(dict(CONTACT, service="Other")), 422)
         self.graph_mock.assert_not_called()
 
+    def test_contact_accepts_several_ticked_services(self):
+        services = "Get a Complimentary AI Assessment for Your Business; Meet IRAS GST Compliant with InvoiceNOW"
+        self.assertEqual(self.lead(dict(CONTACT, service=services)), 200)
+        self.assertEqual(self.sends[0]["template"]["components"][0]["parameters"][0]["text"], services)
+        self.assertEqual(self.lead(dict(CONTACT, event_id="1700000000000-other", service=services + "; Other")), 422)
+
     def test_accepts_apex_and_www_origins(self):
         self.assertEqual(self.lead(dict(CONTACT, event_id="1700000000000-apex"), "https://algorims.com"), 200)
         self.assertEqual(self.lead(CONTACT, "https://www.algorims.com"), 200)

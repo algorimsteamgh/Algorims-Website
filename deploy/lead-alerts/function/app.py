@@ -68,9 +68,12 @@ def lead_details(body):
         return None
     if page == "/contact":
         contact = field("email", 255)
-        service = field("service", 80)
-        if service in CONTACT_SERVICES and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", contact):
-            return "contact", event_id, [service, name, company or "Not provided", contact]
+        # The form joins every ticked service with "; ".
+        service = field("service", 400)
+        services = [part.strip() for part in service.split(";") if part.strip()]
+        if (services and all(part in CONTACT_SERVICES for part in services)
+                and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", contact)):
+            return "contact", event_id, ["; ".join(services), name, company or "Not provided", contact]
         return None
     if not company:
         return None
@@ -217,6 +220,7 @@ def handle(event, config, table):
 
     if route == "POST /lead-alert":
         if headers.get("origin") not in config["site_origins"]:
+            logger.warning("Lead alert rejected for origin %s", str(headers.get("origin"))[:100])
             return {"statusCode": 403}
     elif route != "POST /whatsapp-status":
         return {"statusCode": 404}
@@ -244,6 +248,9 @@ def handle(event, config, table):
 
     lead = lead_details(body)
     if lead is None:
+        # Log only field names and the page, never the visitor's details.
+        logger.warning("Lead alert rejected as invalid for page %s (fields: %s)",
+                       str(body.get("page_url"))[:80], ",".join(sorted(k for k, v in body.items() if v)))
         return {"statusCode": 422}
     source, event_id, values = lead
     roles = RECIPIENTS[source]
