@@ -2,48 +2,85 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BranchGlobe from "../components/illustrations/BranchGlobe.astro";
 import { offices } from "../data/offices";
-import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsapp";
+import { WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsapp";
+
+const customers = [
+  ["11.svg", "Mitsubishi Heavy Industries"],
+  ["12.webp", "BreadTalk"],
+  ["13.webp", "KeePer LABO"],
+  ["03.webp", "CHP Eng Seng Corporation"],
+  ["16.webp", "SMAC Tech Labs"],
+  ["15.webp", "Syslatech"],
+  ["14.webp", "CBM Parking"],
+  ["02.webp", "MIDAS"],
+  ["07.webp", "apiwiz"],
+  ["01.webp", "qWorks"],
+  ["04.webp", "InfoBace"],
+  ["05.webp", "babyboo"],
+  ["06.webp", "Unisto"],
+  ["08.webp", "COMM-IT"],
+  ["09.webp", "Kakatiya Cultural Association Singapore"],
+  ["10.webp", "PPIC Technologies"],
+];
+// Three marquee rows, alternating direction
+const logoRows = [0, 1, 2].map((r) => customers.filter((_, i) => i % 3 === r));
+const services = [
+  "Never Miss a Sales Lead Again – Set Up Your WhatsApp AI Agent",
+  "Get a Complimentary AI Assessment for Your Business",
+  "Meet IRAS GST Compliant with InvoiceNOW",
+  "Transform Your SME with AI – Get Up to 50% IMDA Grant",
+];
+const badges = [
+  { src: "/assets/aws-partner-badge.webp", alt: "AWS Partner — Advanced Tier Services" },
+  { src: "/assets/partners/aws-ai-services-competency-badge.png", alt: "AWS AI Services Competency" },
+  { src: "/assets/partners/claude-certified-services-partner.svg", alt: "Claude Certified Services Partner" },
+  { src: "/assets/partners/xero-blue-partner-badge.svg", alt: "Xero Certified Solutions Partner" },
+];
 ---
 
 <BaseLayout title="Contact — Algorims" description="Get in touch with Algorims to scope your AI, cloud, or DevOps initiative. Most engagements start with a 30-minute conversation.">
-<section class="contact-hero container-x" aria-labelledby="contact-title">
-  <p class="contact-kicker">Contact us</p>
-  <h1 id="contact-title">Let's build <span>what's next.</span></h1>
-  <p>Tell us about your goals. We'll get back within one business day with next steps and a recommended consultation.</p>
-</section>
-
-<section class="container-x pb-16 lg:pb-24" aria-label="Contact details and enquiry form">
+<section class="container-x contact-shell" aria-labelledby="contact-title">
   <div class="contact-grid">
-    <aside class="contact-details" aria-labelledby="contact-details-title">
-      <div class="contact-intro">
-        <p class="contact-label">Let’s talk possibilities</p>
-        <h2 id="contact-details-title">Your next chapter.<br/>Our shared ambition.</h2>
-        <p>Have a challenge to solve or an idea to explore? Let’s find the right way forward, together.</p>
+    <aside class="contact-details">
+      <p class="contact-kicker">Contact us</p>
+      <h1 id="contact-title">Let's build <span>what's next.</span></h1>
+      <p class="contact-sub">Tell us about your goals. A principal engineer replies within one business day with next steps and a free 30-minute consultation.</p>
+
+      <p class="trust-line">Trusted by <span>teams across Singapore, India &amp; the US</span></p>
+      <ul class="sr-only" role="list" aria-label="Clients">
+        {customers.map(([, name]) => <li>{name}</li>)}
+      </ul>
+      <div class="logo-marquee" aria-hidden="true">
+        {logoRows.map((row, r) => (
+          <div class="marquee-row">
+            <div class:list={["marquee-track", r % 2 === 1 && "reverse"]} style={`--dur: ${row.length * 5}s`}>
+              {[...row, ...row].map(([file]) => (
+                <span class="marquee-logo"><img src={`/assets/trusted/logo-${file}`} alt="" decoding="async" /></span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
+
+      <ul class="badge-row" role="list" aria-label="Partner credentials">
+        {badges.map((b) => (
+          <li><img src={b.src} alt={b.alt} loading="lazy" decoding="async" /></li>
+        ))}
+      </ul>
+
       <div class="contact-direct">
-        <h3 class="contact-label">Direct contact</h3>
         <a href="mailto:contactus@algorims.com" class="contact-link">
           <span class="contact-icon"><i data-lucide="mail" aria-hidden="true"></i></span>
-          <span><span class="contact-link-label">Email us</span><span class="contact-link-value">contactus@algorims.com</span></span>
-          <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
+          <span class="contact-link-value">Email us</span>
         </a>
         <a href={`tel:+${WHATSAPP_NUMBER}`} class="contact-link">
           <span class="contact-icon"><i data-lucide="phone" aria-hidden="true"></i></span>
-          <span><span class="contact-link-label">Call our Singapore team</span><span class="contact-link-value">{WHATSAPP_DISPLAY}</span></span>
-          <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
+          <span class="contact-link-value">Call us</span>
         </a>
         <a href={WHATSAPP_URL} class="contact-link" target="_blank" rel="noopener noreferrer">
           <span class="contact-icon"><i data-lucide="message-circle" aria-hidden="true"></i></span>
-          <span><span class="contact-link-label">Message our Singapore team on WhatsApp</span><span class="contact-link-value">{WHATSAPP_DISPLAY}</span></span>
-          <i data-lucide="arrow-up-right" class="contact-link-arrow" aria-hidden="true"></i>
+          <span class="contact-link-value">WhatsApp us</span>
         </a>
-      </div>
-      <div class="contact-consultation">
-        <span class="contact-icon"><i data-lucide="messages-square" aria-hidden="true"></i></span>
-        <div>
-          <h3>A little clarity goes a long way.</h3>
-          <p>Start with a free 30-minute conversation with a principal engineer. Bring your questions. We’ll help scope the next step.</p>
-        </div>
       </div>
     </aside>
 
@@ -60,42 +97,42 @@ import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsap
             </div>
             <div id="contact-fields" class="space-y-5">
               <div class="contact-form-heading">
-                <p class="contact-label">Start a conversation</p>
-                <h2>Tell us what you have in mind.</h2>
-                <p>A few details are all we need to get started.</p>
+                <h2>Start a conversation</h2>
+                <p>A few details are all we need. Fields marked <span class="req" aria-hidden="true">*</span> are required.</p>
               </div>
-              <div class="grid gap-5 md:grid-cols-2">
+              <div class="space-y-5">
                 <div class="space-y-2">
-                  <label for="name" class="text-sm font-medium">Name</label>
+                  <label for="name" class="text-sm font-medium">Name<span class="req" aria-hidden="true">*</span></label>
                   <input id="name" name="name" class="field" placeholder="Your full name" autocomplete="name" required aria-describedby="name-error" maxlength="100" />
                   <p id="name-error" aria-live="polite" data-error="name" class="text-xs text-destructive hidden"></p>
                 </div>
                 <div class="space-y-2">
-                  <label for="email" class="text-sm font-medium">Work email</label>
+                  <label for="email" class="text-sm font-medium">Work email<span class="req" aria-hidden="true">*</span></label>
                   <input id="email" name="email" type="email" class="field" placeholder="you@company.com" autocomplete="email" required aria-describedby="email-error" maxlength="255" />
                   <p id="email-error" aria-live="polite" data-error="email" class="text-xs text-destructive hidden"></p>
                 </div>
               </div>
-              <div class="grid gap-5 md:grid-cols-2">
-                <div class="space-y-2">
-                  <label for="company" class="text-sm font-medium">Company (optional)</label>
-                  <input id="company" name="company" class="field" placeholder="Company name" autocomplete="organization" maxlength="120" />
-                </div>
-                <div class="space-y-2">
-                  <label for="service" class="text-sm font-medium">Service you're interested in</label>
-                  <select id="service" name="service" class="field" required aria-describedby="service-error">
-                    <option value="">Select a service…</option>
-                    <option>Never Miss a Sales Lead Again – Set Up Your WhatsApp AI Agent</option>
-                    <option>Get a Complimentary AI Assessment for Your Business</option>
-                    <option>Meet IRAS GST Compliant with InvoiceNOW</option>
-                    <option>Transform Your SME with AI – Get Up to 50% IMDA Grant</option>
-                  </select>
-                  <p id="service-error" aria-live="polite" data-error="service" class="text-xs text-destructive hidden"></p>
-                </div>
+              <div class="space-y-2">
+                <label for="company" class="text-sm font-medium">Company</label>
+                <input id="company" name="company" class="field" placeholder="Company name (optional)" autocomplete="organization" maxlength="120" />
               </div>
+              <fieldset class="service-set" aria-describedby="service-error">
+                <legend class="text-sm font-medium">What can we help with?<span class="req" aria-hidden="true">*</span> <span class="service-hint">Select all that apply</span></legend>
+                <input type="hidden" name="service" value="" />
+                <div class="service-grid">
+                  {services.map((svc) => (
+                    <label class="service-option">
+                      <input type="checkbox" name="services" value={svc} />
+                      <span class="service-check" aria-hidden="true"><i data-lucide="check"></i></span>
+                      <span class="service-title">{svc}</span>
+                    </label>
+                  ))}
+                </div>
+                <p id="service-error" aria-live="polite" data-error="service" class="text-xs text-destructive hidden"></p>
+              </fieldset>
               <div class="space-y-2">
                 <label for="message" class="text-sm font-medium">How can we help?</label>
-                <textarea id="message" name="message" rows="5" maxlength="1000" class="field" placeholder="Tell us about your goals, timelines, and stack."></textarea>
+                <textarea id="message" name="message" rows="4" maxlength="1000" class="field" placeholder="Tell us about your goals, timelines, and stack."></textarea>
               </div>
               <p id="contact-status" class="hidden text-sm text-destructive" role="alert"></p>
               <p id="contact-email-draft" class="hidden text-sm text-muted-foreground" role="status">Send the draft from your email app to complete your enquiry.</p>
@@ -142,46 +179,70 @@ import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsap
 </BaseLayout>
 
 <style>
-  .contact-hero { padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(40px, 5vw, 64px); text-align: center; }
-  .contact-kicker, .contact-label { color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-  .contact-hero h1 { max-width: 1050px; margin: 16px auto 0; font-size: clamp(2.7rem, 5.2vw, 4.8rem); font-weight: 600; line-height: 1.08; letter-spacing: -.06em; text-wrap: balance; }
-  .contact-hero h1 span { color: hsl(var(--primary)); }
-  .contact-hero > p:last-child { max-width: 600px; margin: 22px auto 0; color: hsl(var(--muted-foreground)); font-size: 1.0625rem; line-height: 1.65; text-wrap: balance; }
-  .contact-grid { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.4fr); overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
-  .contact-details { display: flex; flex-direction: column; gap: 36px; min-width: 0; padding: clamp(28px, 3.5vw, 48px); }
-  .contact-label { margin: 0 0 16px; }
-  .contact-intro h2 { margin: 0; font-size: clamp(1.65rem, 2.5vw, 2.15rem); font-weight: 500; line-height: 1.2; letter-spacing: -.045em; }
-  .contact-intro > p:last-child { max-width: 340px; margin: 16px 0 0; color: hsl(var(--muted-foreground)); font-size: 1rem; line-height: 1.7; }
-  .contact-direct .contact-label { color: hsl(var(--muted-foreground)); margin-bottom: 10px; }
-  .contact-link { color: hsl(var(--foreground)); display: flex; align-items: center; gap: 14px; min-height: 78px; padding: 16px 0; border-bottom: 1px solid hsl(var(--border)); transition: color .2s; }
-  .contact-link > span:nth-child(2) { display: grid; gap: 4px; min-width: 0; }
-  .contact-icon { display: grid; flex: none; place-items: center; width: 40px; height: 40px; border: 1px solid hsl(var(--border)); border-radius: 9999px; color: hsl(var(--primary)); }
-  .contact-icon :global(svg) { width: 18px; height: 18px; }
-  .contact-link-label { color: hsl(var(--muted-foreground)); font-size: .8125rem; }
-  .contact-link-value { font-size: .9375rem; font-weight: 500; overflow-wrap: anywhere; }
-  .contact-link :global(.contact-link-arrow) { flex: none; width: 16px; height: 16px; margin-left: auto; color: hsl(var(--muted-foreground)); }
-  .contact-link:hover { color: hsl(var(--primary)); }
-  .contact-link:hover .contact-icon { border-color: hsl(var(--primary) / .5); }
-  .contact-consultation { display: flex; gap: 14px; margin-top: auto; padding-top: 8px; }
-  .contact-consultation .contact-icon { background: hsl(var(--primary) / .05); border-color: transparent; }
-  .contact-consultation h3 { margin: 0; font-size: .9375rem; font-weight: 600; }
-  .contact-consultation p { margin: 8px 0 0; color: hsl(var(--muted-foreground)); font-size: .875rem; line-height: 1.7; }
+  .contact-shell { padding-top: clamp(20px, 3vw, 36px); padding-bottom: clamp(56px, 7vw, 96px); }
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(12px, 1.4vw, 20px); padding: clamp(10px, 1.2vw, 16px); border: 1px solid hsl(var(--border)); border-radius: 2rem; background: hsl(var(--background)); }
+  .contact-details { display: flex; flex-direction: column; align-items: center; min-width: 0; padding: clamp(32px, 4.5vw, 64px) clamp(24px, 4vw, 56px); text-align: center; border-radius: 1.5rem;
+    background: radial-gradient(120% 70% at 0% 0%, hsl(var(--primary) / .09), transparent 60%), radial-gradient(90% 60% at 100% 100%, hsl(var(--primary) / .05), transparent 65%), linear-gradient(180deg, hsl(var(--primary) / .03), hsl(var(--background))); }
+  .contact-kicker { margin: 0; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+  .contact-details h1 { margin: 14px 0 0; font-size: clamp(2.6rem, 5vw, 4.4rem); font-weight: 600; line-height: 1.04; letter-spacing: -.06em; text-wrap: balance; }
+  .contact-details h1 span { color: hsl(var(--primary)); }
+  .contact-sub { max-width: 460px; margin: 18px 0 0; color: hsl(var(--muted-foreground)); font-size: 1.0625rem; line-height: 1.65; text-wrap: balance; }
+  .trust-line { margin: clamp(32px, 4vw, 48px) 0 0; font-size: .75rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .trust-line span { color: hsl(var(--primary)); }
+  .logo-marquee { display: grid; gap: 6px; width: 100%; margin: 20px 0 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .marquee-row { overflow: hidden; }
+  .marquee-track { display: flex; width: max-content; animation: marquee-left var(--dur, 30s) linear infinite; }
+  .marquee-track.reverse { animation-name: marquee-right; }
+  .logo-marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-logo { display: grid; flex: none; place-items: center; width: clamp(120px, 11vw, 150px); height: 60px; padding: 0 14px; }
+  .marquee-logo img { max-width: 100%; max-height: 36px; object-fit: contain; mix-blend-mode: multiply; }
+  @keyframes marquee-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes marquee-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+    .marquee-row { overflow-x: auto; }
+  }
+  .badge-row { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 14px 22px; margin: clamp(24px, 3vw, 36px) 0 0; padding: 0; list-style: none; }
+  .badge-row img { height: 52px; width: auto; object-fit: contain; }
+  .contact-direct { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; margin-top: auto; padding-top: clamp(28px, 3.5vw, 44px); }
+  .contact-link { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; padding: 14px 8px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--background) / .7); color: hsl(var(--foreground)); transition: border-color .2s, color .2s; }
+  .contact-icon { display: grid; flex: none; place-items: center; width: 36px; height: 36px; border-radius: 9999px; background: hsl(var(--primary) / .08); color: hsl(var(--primary)); }
+  .contact-icon :global(svg) { width: 17px; height: 17px; }
+  .contact-link-value { font-size: .875rem; font-weight: 500; }
+  .contact-link:hover { border-color: hsl(var(--primary) / .4); color: hsl(var(--primary)); }
+  .contact-label { margin: 0 0 16px; color: hsl(var(--primary)); font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
   .contact-place { margin: 0; font-weight: 600; }
   .contact-address { margin: 6px 0 0; color: hsl(var(--muted-foreground)); font-size: .875rem; line-height: 1.6; }
-  .contact-form-wrap { min-width: 0; padding: clamp(28px, 3.5vw, 48px); border-left: 1px solid hsl(var(--border)); background: hsl(var(--muted) / .5); }
-  .contact-form-heading { padding-bottom: 8px; }
-  .contact-form-heading .contact-label { margin-bottom: 10px; }
-  .contact-form-heading h2 { font-size: clamp(1.5rem, 2.2vw, 1.875rem); font-weight: 500; line-height: 1.2; letter-spacing: -.04em; }
-  .contact-form-heading > p:last-child { margin-top: 10px; color: hsl(var(--muted-foreground)); font-size: .9375rem; line-height: 1.6; }
+  .contact-form-wrap { min-width: 0; padding: clamp(28px, 4vw, 56px); border-radius: 1.5rem; background: hsl(var(--muted) / .7); }
+  .contact-form-heading { padding-bottom: 4px; }
+  .contact-form-heading h2 { font-size: clamp(1.4rem, 2vw, 1.75rem); font-weight: 600; line-height: 1.2; letter-spacing: -.04em; }
+  .contact-form-heading > p:last-child { margin-top: 8px; color: hsl(var(--muted-foreground)); font-size: .9rem; line-height: 1.6; }
+  .service-set { margin: 0; padding: 0; border: 0; min-width: 0; }
+  .service-set legend { display: block; width: 100%; margin-bottom: 10px; padding: 0; }
+  .service-hint { margin-left: 6px; color: hsl(var(--muted-foreground)); font-size: .75rem; font-weight: 400; }
+  .service-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .contact-form-wrap .service-option { position: relative; display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 10px 14px; border: 1px solid hsl(var(--border)); border-radius: .875rem; background: hsl(var(--background)); cursor: pointer; transition: border-color .2s, background-color .2s; }
+  .service-option input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; margin: 0; }
+  .service-title { min-width: 0; font-size: .875rem; font-weight: 500; line-height: 1.3; }
+  .service-check { display: grid; flex: none; place-items: center; width: 18px; height: 18px; border: 1.5px solid hsl(var(--muted-foreground) / .45); border-radius: 5px; color: transparent; transition: background-color .2s, border-color .2s, color .2s; }
+  .service-check :global(svg) { width: 12px; height: 12px; stroke-width: 3; }
+  .service-option:hover { border-color: hsl(var(--primary) / .35); }
+  .service-option:has(input:focus-visible) { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+  .service-option:has(input:checked) { border-color: hsl(var(--primary) / .55); background: hsl(var(--primary) / .04); }
+  .service-option:has(input:checked) .service-title { color: hsl(var(--primary)); }
+  .service-option:has(input:checked) .service-check { border-color: hsl(var(--primary)); background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .req { margin-left: 2px; color: hsl(var(--destructive)); }
   .contact-form-wrap label { display: inline-block; }
-  .contact-form-wrap .field { min-height: 48px; padding: .75rem .875rem; border-color: hsl(var(--input) / .7); border-radius: .75rem; font-size: 1rem; }
+  .contact-form-wrap .field { min-height: 52px; padding: .8rem 1.1rem; border-color: hsl(var(--border)); border-radius: 9999px; background: hsl(var(--background)); font-size: 1rem; }
+  .contact-form-wrap textarea.field { border-radius: 1.25rem; }
   .contact-form-wrap .field:focus { border-color: hsl(var(--primary)); }
   .contact-form-wrap .field::placeholder { color: hsl(var(--muted-foreground) / .85); }
   .contact-form-wrap textarea { display: block; resize: vertical; }
   .contact-form-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; padding-top: 4px; }
-  .contact-form-footer .btn { min-height: 48px; border-radius: 9999px; padding-inline: 24px; }
+  .contact-form-footer .btn { min-height: 52px; border-radius: 9999px; padding-inline: 28px; }
   .contact-form-footer p { display: flex; align-items: center; gap: 6px; color: hsl(var(--muted-foreground)); font-size: .75rem; }
   .contact-form-footer p :global(svg) { flex: none; width: 14px; height: 14px; }
+  :global(.dark) .marquee-logo img { mix-blend-mode: normal; }
   .presence-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); overflow: hidden; border: 1px solid hsl(var(--border)); border-radius: 1.5rem; }
   .presence-globe { display: grid; place-items: center; min-width: 0; padding: clamp(20px, 3vw, 40px); border-right: 1px solid hsl(var(--border)); }
   .presence-copy { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(28px, 4vw, 56px); }
@@ -200,12 +261,17 @@ import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsap
     .presence-grid { grid-template-columns: 1fr; }
     .presence-globe { border-right: 0; border-bottom: 1px solid hsl(var(--border)); }
     .presence-copy { padding: 24px 28px; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .contact-form-wrap { grid-row: 1; border-left: 0; border-bottom: 1px solid hsl(var(--border)); }
-    .contact-details { padding: 28px 24px; gap: 28px; }
-    .contact-form-wrap { padding: 28px 24px; }
+    .contact-grid { grid-template-columns: 1fr; border-radius: 1.5rem; }
+    .contact-details { padding: 36px 20px; }
+    .contact-form-wrap { padding: 28px 20px; }
     .contact-form-footer { flex-direction: column; align-items: stretch; gap: 14px; }
     .contact-form-footer p { justify-content: center; }
+  }
+  @media (max-width: 520px) {
+    .contact-direct { grid-template-columns: 1fr; }
+    .contact-link { flex-direction: row; text-align: left; padding: 12px 14px; }
+    .marquee-logo { width: 110px; height: 52px; }
+    .badge-row img { height: 44px; }
   }
 </style>
 
@@ -252,11 +318,12 @@ import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, WHATSAPP_URL } from "../data/whatsap
       const name = value("name");
       const email = value("email");
       const company = value("company");
-      const service = value("service");
+      const service = data.getAll("services").map(String).join("; ");
+      form.querySelector<HTMLInputElement>('input[name="service"]')!.value = service;
       const message = value("message");
       setError("name", name.trim().length < 2 ? "Please enter your name" : "");
       setError("email", !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? "Please enter a valid email" : "");
-      setError("service", !service ? "Please select a service" : "");
+      setError("service", !service ? "Please select at least one option" : "");
       if (form.querySelector('[data-error]:not(.hidden)')) return;
       status.classList.add("hidden");
       emailDraft.classList.add("hidden");
