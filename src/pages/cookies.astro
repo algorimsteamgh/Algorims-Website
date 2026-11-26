@@ -1,0 +1,114 @@
+---
+import LegalPage from "../components/legal/LegalPage.astro";
+import { hasOptionalTools, optionalTools } from "../lib/consentConfig";
+
+// Rows for optional tags appear only when the build turns that tag on, so the
+// table always matches what the site actually loads (see Analytics.astro).
+const ga4 = Boolean(import.meta.env.PUBLIC_GA4_ID);
+const googleAds = Boolean(import.meta.env.PUBLIC_GOOGLE_ADS_ID);
+const metaPixel = Boolean(import.meta.env.PUBLIC_META_PIXEL_ID);
+const bookingEmbed = Boolean(import.meta.env.PUBLIC_BOOKING_URL);
+
+interface Row { name: string; provider: string; purpose: string; type: string; duration: string }
+
+const necessary: Row[] = [
+  { name: "algorims-consent", provider: "Algorims", purpose: "Remembers your cookie choices so we don't ask on every page.", type: "Local storage", duration: "12 months" },
+  { name: "algorims-attribution-v1", provider: "Algorims", purpose: "Keeps the campaign details of the link you arrived from, so they can be sent with a form you choose to submit.", type: "Session storage", duration: "Until you close the tab" },
+  { name: "algorims-aws-ai-announce-v1", provider: "Algorims", purpose: "Remembers that you have seen the announcement pop-up.", type: "Session storage", duration: "Until you close the tab" },
+  { name: "algorims-partner-banner-v1", provider: "Algorims", purpose: "Remembers which announcement banner you have dismissed.", type: "Session storage", duration: "Until you close the tab" },
+];
+const functional: Row[] = optionalTools.functional ? [
+  { name: "chtl_*", provider: "Chatling", purpose: "Runs the chat assistant and keeps your conversation available while you browse.", type: "Cookies and local storage", duration: "Up to 12 months, or until you withdraw consent" },
+] : [];
+const analytics: Row[] = ga4 ? [
+  { name: "_ga", provider: "Google Analytics", purpose: "Distinguishes visitors so we can count visits.", type: "Cookie", duration: "2 years" },
+  { name: "_ga_<ID>", provider: "Google Analytics", purpose: "Keeps the state of your current visit.", type: "Cookie", duration: "2 years" },
+] : [];
+const marketing: Row[] = [
+  ...(googleAds ? [{ name: "_gcl_au", provider: "Google Ads", purpose: "Measures whether an ad click led to an enquiry.", type: "Cookie", duration: "90 days" }] : []),
+  ...(metaPixel ? [
+    { name: "_fbp", provider: "Meta", purpose: "Measures visits from Meta ads and helps show relevant ads.", type: "Cookie", duration: "90 days" },
+    { name: "_fbc", provider: "Meta", purpose: "Stores the ad click identifier when you arrive from a Meta ad.", type: "Cookie", duration: "90 days" },
+  ] : []),
+];
+
+const groups = [
+  { id: "necessary", title: "Strictly necessary", note: "Needed for the site to work and to remember your choices. These are always on and never used to track you across other sites.", rows: necessary },
+  { id: "functional", title: "Chat assistant", note: "Loaded only after you allow it in the cookie banner or choose to start a chat.", rows: functional },
+  { id: "analytics", title: "Analytics", note: "Loaded only if you allow analytics.", rows: analytics },
+  { id: "marketing", title: "Marketing", note: "Loaded only if you allow marketing.", rows: marketing },
+].filter((group) => group.rows.length);
+
+const sections = [
+  { id: "what-are-cookies", title: "What cookies are" },
+  { id: "how-we-use", title: "How we use them" },
+  { id: "list", title: "What we use" },
+  { id: "third-parties", title: "Third-party services" },
+  { id: "manage", title: "Managing your choices" },
+  { id: "contact", title: "Contact us" },
+];
+---
+<LegalPage
+  title="Cookie Policy — Algorims"
+  heading="Cookie Policy"
+  description="The cookies and browser storage algorims.com uses, why, for how long, and how to change your choices."
+  intro="We keep browser storage to a minimum. This page lists everything algorims.com stores on your device and how to change your choices."
+  updated="26 November 2026"
+  sections={sections}
+>
+  <section id="what-are-cookies" aria-labelledby="what-are-cookies-title">
+    <h2 id="what-are-cookies-title">What cookies are</h2>
+    <p>Cookies are small text files a website saves in your browser. Sites can also use similar technologies, such as local storage and session storage, to remember information between pages. In this policy, "cookies" covers all of them.</p>
+  </section>
+
+  <section id="how-we-use" aria-labelledby="how-we-use-title">
+    <h2 id="how-we-use-title">How we use them</h2>
+    <p>The site works without optional cookies. We only store what is needed to remember your choices and keep short-lived page state.</p>
+    {hasOptionalTools ? (
+      <p>Optional tools, such as {[optionalTools.functional && "our chat assistant", ga4 && "analytics", (googleAds || metaPixel) && "advertising measurement"].filter(Boolean).join(", ")}, load only after you agree. When you first visit, a banner asks for your choice, and until you answer, optional tools stay off.</p>
+    ) : (
+      <p>We do not currently use any optional cookies, so there is nothing to accept or reject. If we add any, we will list them here and ask for your consent first.</p>
+    )}
+  </section>
+
+  <section id="list" aria-labelledby="list-title">
+    <h2 id="list-title">What we use</h2>
+    {groups.map((group) => (
+      <>
+        <h3 id={`list-${group.id}`}>{group.title}</h3>
+        <p>{group.note}</p>
+        <div class="legal-table-wrap" role="region" aria-labelledby={`list-${group.id}`} tabindex="0">
+          <table class="legal-table">
+            <thead><tr><th scope="col">Name</th><th scope="col">Provider</th><th scope="col">Purpose</th><th scope="col">Type</th><th scope="col">Kept for</th></tr></thead>
+            <tbody>
+              {group.rows.map((row) => (
+                <tr><td><code>{row.name}</code></td><td>{row.provider}</td><td>{row.purpose}</td><td>{row.type}</td><td>{row.duration}</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    ))}
+    {!ga4 && !googleAds && !metaPixel && <p>We do not currently use analytics or advertising cookies.</p>}
+  </section>
+
+  <section id="third-parties" aria-labelledby="third-parties-title">
+    <h2 id="third-parties-title">Third-party services</h2>
+    <ul>
+      <li><strong>Google Fonts</strong> serves the typeface on this site. It sets no cookies, but Google receives your IP address when the font loads.</li>
+      {bookingEmbed && <li><strong>Our scheduling tool</strong>, embedded on the meeting booking page, may set its own cookies when you book a call. They are set by the provider under its own policy.</li>}
+      <li><strong>WhatsApp, LinkedIn and other linked sites</strong> apply their own cookie policies once you leave algorims.com.</li>
+    </ul>
+  </section>
+
+  <section id="manage" aria-labelledby="manage-title">
+    <h2 id="manage-title">Managing your choices</h2>
+    {hasOptionalTools && <p>Open <button type="button" data-cookie-settings>Cookie settings</button> to change your choice at any time. This link is also in the footer of every page. When you withdraw consent, we remove the cookies and storage those tools set on algorims.com and reload the page.</p>}
+    <p>You can also block or delete cookies in your browser settings. Blocking strictly necessary storage means we can't remember your choices, so the banner will appear again.</p>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <h2 id="contact-title">Contact us</h2>
+    <p>Questions about this policy? Email <a href="mailto:contactus@algorims.com?subject=Cookie%20policy">contactus@algorims.com</a>. Our <a href="/privacy">privacy policy</a> explains how we handle personal data more broadly.</p>
+  </section>
+</LegalPage>
