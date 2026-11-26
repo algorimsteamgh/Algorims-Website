@@ -1,23 +1,22 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: WhatsApp staff alerts for the Algorims Contact Us, InvoiceNow and WhatsApp Business API forms
+Description: WhatsApp staff alerts for the Algorims Contact Us, InvoiceNow, WhatsApp Business API and Book Audit forms
 
 Parameters:
   AlertsSecretArn:
     Type: String
     Description: ARN of the configuration secret in the same AWS Region
   SiteOrigin:
-    Type: String
-    Default: https://www.algorims.com
-    AllowedPattern: 'https://[a-z0-9.-]+'
-    Description: Exact website origin allowed to submit lead alerts
+    Type: CommaDelimitedList
+    Default: https://www.algorims.com,https://algorims.com
+    Description: Exact website origins (comma-separated) allowed to submit lead alerts
 
 Resources:
   AlertsApi:
     Type: AWS::Serverless::HttpApi
     Properties:
       CorsConfiguration:
-        AllowOrigins: [!Ref SiteOrigin]
+        AllowOrigins: !Ref SiteOrigin
         AllowMethods: [POST]
         AllowHeaders: [Content-Type]
       DefaultRouteSettings:
@@ -53,7 +52,7 @@ Resources:
         Variables:
           ALERTS_SECRET_ARN: !Ref AlertsSecretArn
           DELIVERIES_TABLE: !Ref Deliveries
-          SITE_ORIGIN: !Ref SiteOrigin
+          SITE_ORIGIN: !Join [',', !Ref SiteOrigin]
       Policies:
         - Statement:
             - Effect: Allow

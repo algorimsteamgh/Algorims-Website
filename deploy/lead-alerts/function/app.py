@@ -21,6 +21,7 @@ RECIPIENTS = {
     "contact": SHARED_RECIPIENTS,
     "invoicenow": ("invoice_recipient", *SHARED_RECIPIENTS),
     "whatsapp": SHARED_RECIPIENTS,
+    "audit": SHARED_RECIPIENTS,
 }
 DELIVERY_KEY = re.compile("|".join(
     rf"algorims-lead:{source}:{EVENT_ID}:(?:{'|'.join(roles)})" for source, roles in RECIPIENTS.items()
@@ -31,6 +32,11 @@ CONTACT_SERVICES = {
     "Get a Complimentary AI Assessment for Your Business",
     "Meet IRAS GST Compliant with InvoiceNOW",
     "Transform Your SME with AI – Get Up to 50% IMDA Grant",
+}
+# (page_url, page_code) of WhatsApp lead forms that alert staff -> (source, service label)
+WHATSAPP_FORMS = {
+    ("/whatsapp-business-api", "API-01"): ("whatsapp", "WhatsApp Business"),
+    ("/book-audit", "AUD-01"): ("audit", "WhatsApp Audit Booking"),
 }
 MONTHLY_SEND_LIMIT = 300
 
@@ -72,12 +78,14 @@ def lead_details(body):
         contact = field("email", 255)
         if re.fullmatch(r"[^@\s]+@[^@\s]+", contact) and field("gst_status", 40):
             return "invoicenow", event_id, ["InvoiceNow", name, company, contact]
-    if page == "/whatsapp-business-api" and body.get("page_code") == "API-01":
+    whatsapp_form = WHATSAPP_FORMS.get((page, body.get("page_code")))
+    if whatsapp_form:
         contact = field("whatsapp", 20)
         if (body.get("consent") == "yes" and field("industry", 80) and field("monthly_chats", 40)
                 and re.fullmatch(r"\+?[0-9(). -]+", contact)
                 and 8 <= len(re.sub(r"[^0-9]", "", contact)) <= 15):
-            return "whatsapp", event_id, ["WhatsApp Business", name, company, contact]
+            source, service = whatsapp_form
+            return source, event_id, [service, name, company, contact]
     return None
 
 
@@ -208,7 +216,7 @@ def handle(event, config, table):
         return {"statusCode": 403}
 
     if route == "POST /lead-alert":
-        if headers.get("origin") != config["site_origin"]:
+        if headers.get("origin") not in config["site_origins"]:
             return {"statusCode": 403}
     elif route != "POST /whatsapp-status":
         return {"statusCode": 404}
@@ -266,7 +274,8 @@ def lambda_handler(event, _context):
         secrets, table = aws_clients()
         secret = secrets.get_secret_value(SecretId=os.environ["ALERTS_SECRET_ARN"])
         config = json.loads(secret["SecretString"])
-        config["site_origin"] = os.environ["SITE_ORIGIN"]
+        # Comma-separated so the apex and www hosts can both submit.
+        config["site_origins"] = {origin.strip() for origin in os.environ["SITE_ORIGIN"].split(",") if origin.strip()}
         return handle(event, config, table)
     except Exception as error:
         logger.error("Lead alert webhook failed (%s)", type(error).__name__)

@@ -3,12 +3,15 @@
 // (same as /contact) with the page code, UTM tags and click IDs attached so
 // each lead maps to its campaign. Fires Lead / generate_lead on success.
 import { ATTRIBUTION_KEYS } from "../../scripts/tracking";
-import { industries, chatVolumes, landingPages, waLink, WHATSAPP_DISPLAY } from "../../data/whatsapp";
+import { industries, chatVolumes, landingPages, waLink, WHATSAPP_DISPLAY, BOOK_AUDIT_CODE } from "../../data/whatsapp";
 
 interface Props { code: string; waMessage: string; industry?: string; id?: string }
 const { code, waMessage, industry, id = "lead-form" } = Astro.props;
+// Forms the lead-alert Lambda accepts (deploy/lead-alerts/function/app.py WHATSAPP_FORMS).
+const staffAlerts = code === landingPages.api.code || code === BOOK_AUDIT_CODE;
+const fallbackEmail = code === landingPages.api.code ? "support@algorims.com" : "contactus@algorims.com";
 ---
-<form id={id} class="wa-form" method="post" data-lead-form data-page-code={code} data-whatsapp-alert={code === landingPages.api.code ? "" : undefined} novalidate>
+<form id={id} class="wa-form" method="post" data-lead-form data-page-code={code} data-whatsapp-alert={staffAlerts ? "" : undefined} data-fallback-email={fallbackEmail} novalidate>
   <noscript><p>To request an audit, <a href={waLink(waMessage, code)} data-wa-code={code} target="_blank" rel="noopener noreferrer">message us on WhatsApp</a>.</p></noscript>
   <div data-lead-success class="wa-form-success" role="status" hidden>
     <span class="wa-form-tick"><i data-lucide="check" aria-hidden="true"></i></span>
@@ -121,7 +124,7 @@ const { code, waMessage, industry, id = "lead-form" } = Astro.props;
     const code = form.dataset.pageCode!;
     const staffAlerts = form.hasAttribute("data-whatsapp-alert");
     const alertUrl = staffAlerts ? import.meta.env.PUBLIC_LEAD_ALERT_URL : undefined;
-    const email = staffAlerts ? "support@algorims.com" : "contactus@algorims.com";
+    const email = form.dataset.fallbackEmail!;
     const fields = form.querySelector<HTMLElement>("[data-lead-fields]")!;
     const success = form.querySelector<HTMLElement>("[data-lead-success]")!;
     const status = form.querySelector<HTMLElement>("[data-lead-status]")!;
