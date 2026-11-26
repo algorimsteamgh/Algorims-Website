@@ -1,0 +1,247 @@
+---
+// Cookie banner, preferences dialog and chat gate.
+//
+// Only categories the build actually uses are offered (src/lib/consentConfig.ts):
+// functional when a Chatling chatbot ID is set (chat runs on non-campaign
+// pages), analytics when a GA4 ID is set, marketing when a Google Ads or Meta
+// Pixel ID is set. Pages with nothing optional show no banner.
+//
+// Any element with [data-cookie-settings] reopens the preferences dialog.
+// Shared state and storage helpers: src/scripts/consent.ts.
+export interface Props {
+  /** Render the Chatling assistant behind functional consent. */
+  chat?: boolean;
+}
+import { chatbotId, optionalTools as uses } from "../lib/consentConfig";
+
+const chat = Boolean(Astro.props.chat && chatbotId);
+const pageNeedsConsent = chat || uses.analytics || uses.marketing;
+
+const categories = [
+  { id: "functional", title: "Chat assistant", desc: "Loads our Chatling chat assistant so you can ask questions on the site. Chatling stores small records in your browser." },
+  { id: "analytics", title: "Analytics", desc: "Google Analytics counts visits and shows which pages are useful, so we can improve the site." },
+  { id: "marketing", title: "Marketing", desc: "Google Ads and Meta measure whether our ads lead to enquiries and may use this to show you relevant ads." },
+].filter((category) => uses[category.id as keyof typeof uses]);
+const phrases = { functional: "our chat assistant", analytics: "analytics cookies", marketing: "advertising cookies" };
+const items = categories.map((category) => phrases[category.id as keyof typeof phrases]);
+const optionalList = items.length > 1 ? `${items.slice(0, -1).join(", ")} and ${items.at(-1)}` : items[0];
+---
+<div id="cookie-consent" data-uses={JSON.stringify(uses)} data-chatbot={chat ? chatbotId : undefined}>
+  {pageNeedsConsent && (
+    <section id="cookie-banner" class="cc-banner" aria-labelledby="cc-banner-title" hidden>
+      <div class="cc-banner-copy">
+        <h2 id="cc-banner-title">Your privacy choices</h2>
+        <p>
+          We use storage that the site needs to work. With your permission we'd also like to load
+          <strong>{optionalList}</strong>. You can change this at any time. <a href="/cookies">Cookie policy</a>
+        </p>
+      </div>
+      <div class="cc-actions">
+        <button type="button" class="cc-link" data-cc="manage">Manage choices</button>
+        <button type="button" class="btn btn-outline btn-default" data-cc="reject">Reject optional</button>
+        <button type="button" class="btn btn-outline btn-default cc-accept" data-cc="accept">Accept all</button>
+      </div>
+    </section>
+  )}
+
+  <dialog id="cookie-preferences" class="cc-dialog" aria-labelledby="cc-dialog-title">
+    <form method="dialog" class="cc-dialog-inner">
+      <div class="cc-dialog-head">
+        <h2 id="cc-dialog-title">Cookie and storage preferences</h2>
+        <button type="button" class="cc-close" data-cc="close" aria-label="Close preferences">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        </button>
+      </div>
+      <p class="cc-dialog-lead">Choose which optional tools we may load. Details are in our <a href="/cookies">cookie policy</a>.</p>
+      <ul class="cc-list">
+        <li>
+          <div><p class="cc-cat-title">Strictly necessary</p><p class="cc-cat-desc">Remembers this choice and keeps short-lived page state, such as dismissed announcements and how you reached a form.</p></div>
+          <span class="cc-always">Always on</span>
+        </li>
+        {categories.map((category) => (
+          <li>
+            <label for={`cc-${category.id}`}>
+              <span class="cc-cat-title">{category.title}</span>
+              <span class="cc-cat-desc">{category.desc}</span>
+            </label>
+            <input type="checkbox" role="switch" class="cc-switch" id={`cc-${category.id}`} name={category.id} />
+          </li>
+        ))}
+      </ul>
+      <div class="cc-actions cc-dialog-actions">
+        <button type="button" class="btn btn-outline btn-default" data-cc="reject">Reject optional</button>
+        <button type="button" class="btn btn-outline btn-default" data-cc="save">Save choices</button>
+        <button type="button" class="btn btn-outline btn-default cc-accept" data-cc="accept">Accept all</button>
+      </div>
+    </form>
+  </dialog>
+
+  {chat && (
+    <div id="chat-gate" class="cc-chat" hidden>
+      <div id="chat-gate-panel" class="cc-chat-panel" hidden>
+        <p>Our chat assistant is provided by Chatling, which stores small records (cookies and local storage) in your browser.</p>
+        <button type="button" class="btn btn-outline btn-default cc-accept" data-cc="start-chat">Start chat</button>
+      </div>
+      <button type="button" class="cc-chat-button" aria-expanded="false" aria-controls="chat-gate-panel" aria-label="Chat with us">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" /></svg>
+      </button>
+    </div>
+  )}
+</div>
+
+<style is:global>
+  .cc-banner { position: fixed; z-index: 70; left: 50%; bottom: 16px; display: flex; align-items: center; gap: 24px; width: min(960px, calc(100vw - 32px)); padding: 18px 20px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: var(--shadow-lg); transform: translateX(-50%); }
+  .cc-banner[hidden] { display: none; }
+  .cc-banner-copy { flex: 1; min-width: 0; }
+  .cc-banner h2 { font-size: .95rem; font-weight: 600; }
+  .cc-banner p { margin-top: 4px; color: hsl(var(--muted-foreground)); font-size: .85rem; line-height: 1.5; }
+  .cc-banner strong { color: hsl(var(--foreground)); font-weight: 500; }
+  .cc-banner a, .cc-dialog a { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 3px; }
+  .cc-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+  .cc-accept { background: hsl(var(--foreground)); border-color: hsl(var(--foreground)); color: hsl(var(--background)); }
+  .cc-accept:hover { background: hsl(var(--primary)); border-color: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
+  .cc-link { padding: .55rem .5rem; border: 0; background: none; color: hsl(var(--foreground)); font-size: .875rem; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+  .cc-banner :focus-visible, .cc-dialog :focus-visible, .cc-chat :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+
+  .cc-dialog { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 1px solid hsl(var(--border)); border-radius: 1.25rem; background: hsl(var(--card)); color: hsl(var(--foreground)); box-shadow: var(--shadow-lg); }
+  .cc-dialog::backdrop { background: hsl(225 10% 9% / .45); }
+  .cc-dialog-inner { padding: 24px; }
+  .cc-dialog-head { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+  .cc-dialog h2 { font-size: 1.25rem; font-weight: 600; letter-spacing: -.02em; }
+  .cc-close { display: grid; place-items: center; flex: none; width: 32px; height: 32px; border: 1px solid hsl(var(--border)); border-radius: 50%; background: none; color: inherit; cursor: pointer; }
+  .cc-dialog-lead { margin-top: 8px; color: hsl(var(--muted-foreground)); font-size: .9rem; }
+  .cc-list { margin: 20px 0 0; padding: 0; list-style: none; border-top: 1px solid hsl(var(--border)); }
+  .cc-list li { display: flex; align-items: start; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid hsl(var(--border)); }
+  .cc-list label { display: block; cursor: pointer; }
+  .cc-cat-title { display: block; font-size: .95rem; font-weight: 600; }
+  .cc-cat-desc { display: block; margin-top: 4px; color: hsl(var(--muted-foreground)); font-size: .83rem; line-height: 1.5; }
+  .cc-always { flex: none; color: hsl(var(--muted-foreground)); font-size: .8rem; font-weight: 500; white-space: nowrap; }
+  .cc-switch { flex: none; appearance: none; position: relative; width: 42px; height: 24px; margin-top: 2px; border: 1px solid hsl(var(--border)); border-radius: 999px; background: hsl(var(--muted)); cursor: pointer; transition: background-color .2s, border-color .2s; }
+  .cc-switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: hsl(var(--muted-foreground)); transition: transform .2s, background-color .2s; }
+  .cc-switch:checked { border-color: hsl(var(--primary)); background: hsl(var(--primary)); }
+  .cc-switch:checked::after { background: hsl(var(--primary-foreground)); transform: translateX(18px); }
+  .cc-dialog-actions { margin-top: 20px; }
+
+  .cc-chat { position: fixed; z-index: 55; right: 20px; bottom: 20px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .cc-chat[hidden], .cc-chat-panel[hidden] { display: none; }
+  .cc-chat-button { display: grid; place-items: center; width: 56px; height: 56px; border: 0; border-radius: 50%; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); box-shadow: var(--shadow-md); cursor: pointer; }
+  .cc-chat-button:hover { background: hsl(var(--primary-deep)); }
+  .cc-chat-panel { width: min(280px, calc(100vw - 40px)); padding: 16px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--card)); box-shadow: var(--shadow-lg); }
+  .cc-chat-panel p { margin-bottom: 12px; color: hsl(var(--muted-foreground)); font-size: .85rem; line-height: 1.5; }
+  .cc-chat-panel .btn { width: 100%; }
+
+  @media (max-width: 760px) {
+    .cc-banner { flex-direction: column; align-items: stretch; gap: 14px; bottom: 12px; padding: 16px; }
+    .cc-banner .cc-actions { justify-content: stretch; }
+    .cc-banner .cc-actions .btn { flex: 1; }
+    .cc-banner .cc-link { order: 3; width: 100%; }
+    .cc-dialog-inner { padding: 20px; }
+    .cc-dialog-actions .btn { flex: 1 1 100%; }
+  }
+</style>
+
+<script>
+  import { CATEGORIES, CONSENT_KEY, clearCategoryStorage, readConsent, saveConsent, type ConsentChoices, type ConsentState } from "../scripts/consent";
+
+  const root = document.getElementById("cookie-consent");
+  if (root) {
+    const uses = JSON.parse(root.dataset.uses ?? "{}") as ConsentChoices;
+    const chatbotId = root.dataset.chatbot;
+    const banner = document.getElementById("cookie-banner");
+    const dialog = document.getElementById("cookie-preferences") as HTMLDialogElement;
+    const gate = document.getElementById("chat-gate");
+    const gatePanel = document.getElementById("chat-gate-panel");
+    const gateButton = gate?.querySelector<HTMLButtonElement>(".cc-chat-button");
+    const switches = CATEGORIES.map((id) => dialog.querySelector<HTMLInputElement>(`#cc-${id}`)).filter(Boolean) as HTMLInputElement[];
+
+    const loadChat = () => {
+      if (!chatbotId || document.getElementById("chtl-script")) return;
+      window.chtlConfig = { chatbotId };
+      const script = document.createElement("script");
+      script.async = true;
+      script.id = "chtl-script";
+      script.dataset.id = chatbotId;
+      script.src = "https://chatling.ai/js/embed.js";
+      document.body.append(script);
+    };
+
+    const apply = (state: ConsentState | null) => {
+      const granted = (id: keyof ConsentChoices) => Boolean(state?.[id]);
+      const marketing = granted("marketing") ? "granted" : "denied";
+      window.gtag?.("consent", "update", {
+        analytics_storage: granted("analytics") ? "granted" : "denied",
+        ad_storage: marketing,
+        ad_user_data: marketing,
+        ad_personalization: marketing,
+      });
+      if (granted("marketing")) window.algorimsLoadPixel?.();
+      if (chatbotId) {
+        if (granted("functional")) loadChat();
+        if (gate) gate.hidden = granted("functional") || !state;
+      }
+    };
+
+    const showBanner = (show: boolean) => {
+      if (banner) banner.hidden = !show;
+    };
+
+    const decide = (choices: ConsentChoices) => {
+      const previous = readConsent();
+      const state = saveConsent(choices);
+      showBanner(false);
+      if (dialog.open) dialog.close();
+      // Tell running tags first so they stop writing cookies.
+      apply(state);
+      const revoked = CATEGORIES.filter((id) => previous?.[id] && !state[id]);
+      if (revoked.length) {
+        // Scripts already running can't be unloaded: clear their storage and reload.
+        if (!state.marketing) window.fbq?.("consent", "revoke");
+        revoked.forEach(clearCategoryStorage);
+        location.reload();
+      }
+    };
+
+    const all = (value: boolean): ConsentChoices => ({ functional: value && uses.functional, analytics: value && uses.analytics, marketing: value && uses.marketing });
+    const fromSwitches = (): ConsentChoices => {
+      const choices = all(false);
+      switches.forEach((input) => { choices[input.name as keyof ConsentChoices] = input.checked; });
+      return choices;
+    };
+
+    const openPreferences = () => {
+      const state = readConsent();
+      switches.forEach((input) => { input.checked = Boolean(state?.[input.name as keyof ConsentChoices]); });
+      dialog.showModal();
+    };
+
+    root.addEventListener("click", (event) => {
+      const action = (event.target as Element).closest<HTMLElement>("[data-cc]")?.dataset.cc;
+      if (action === "accept") decide(all(true));
+      else if (action === "reject") decide(all(false));
+      else if (action === "save") decide(fromSwitches());
+      else if (action === "manage") openPreferences();
+      else if (action === "close") dialog.close();
+      else if (action === "start-chat") decide({ ...(readConsent() ?? all(false)), functional: true });
+    });
+
+    document.addEventListener("click", (event) => {
+      if ((event.target as Element).closest("[data-cookie-settings]")) {
+        event.preventDefault();
+        openPreferences();
+      }
+    });
+
+    gateButton?.addEventListener("click", () => {
+      const open = gatePanel!.hidden;
+      gatePanel!.hidden = !open;
+      gateButton.setAttribute("aria-expanded", String(open));
+    });
+
+    const state = readConsent();
+    showBanner(!state);
+    apply(state);
+
+    // Another tab changed the choice.
+    window.addEventListener("storage", (event) => { if (event.key === CONSENT_KEY) location.reload(); });
+  }
+</script>

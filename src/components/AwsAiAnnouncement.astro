@@ -58,11 +58,15 @@
     const run = () => { startedAt = Date.now(); hideTimer = window.setTimeout(close, remaining); el.classList.remove("is-paused"); };
     const pause = () => { window.clearTimeout(hideTimer); remaining -= Date.now() - startedAt; el.classList.add("is-paused"); };
 
-    window.setTimeout(() => {
+    const show = () => window.setTimeout(() => {
       el.hidden = false;
       requestAnimationFrame(() => { el.classList.add("is-open"); run(); });
       mark();
     }, SHOW_AFTER);
+    // Wait until the cookie banner is answered so the two don't overlap.
+    const banner = document.getElementById("cookie-banner");
+    if (banner && !window.algorimsConsent) window.addEventListener("algorims:consent", show, { once: true });
+    else show();
 
     el.addEventListener("mouseenter", pause);
     el.addEventListener("mouseleave", () => { if (!el.matches(":focus-within")) run(); });

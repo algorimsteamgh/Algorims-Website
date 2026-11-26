@@ -1,0 +1,88 @@
+---
+// Shared shell for /privacy, /terms and /cookies: centered heading, a short
+// contents list, and a narrow reading column. Sections are <section> elements
+// with an id and an <h2>; the contents list is built from the `sections` prop.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  intro: string;
+  updated: string;
+  sections: { id: string; title: string }[];
+}
+const { title, heading, description, intro, updated, sections } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <article class="legal container-x" aria-labelledby="legal-title">
+    <header class="legal-head">
+      <p class="legal-kicker">Legal</p>
+      <h1 id="legal-title">{heading}</h1>
+      <p class="legal-intro">{intro}</p>
+      <p class="legal-updated">Last updated <time>{updated}</time></p>
+    </header>
+
+    <div class="legal-grid">
+      <nav class="legal-toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          {sections.map((section) => <li><a href={`#${section.id}`}>{section.title}</a></li>)}
+        </ol>
+      </nav>
+      <div class="legal-body">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style is:global>
+  .legal { padding-top: clamp(44px, 6vw, 80px); padding-bottom: clamp(56px, 8vw, 104px); }
+  .legal-head { max-width: 760px; margin: 0 auto; text-align: center; }
+  .legal-kicker { color: hsl(var(--primary)); font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+  .legal-head h1 { margin-top: 16px; font-size: clamp(2.4rem, 5.5vw, 4rem); font-weight: 600; line-height: 1.05; letter-spacing: -.045em; text-wrap: balance; }
+  .legal-intro { margin-top: 20px; color: hsl(var(--muted-foreground)); font-size: 1.08rem; line-height: 1.65; text-wrap: pretty; }
+  .legal-updated { margin-top: 14px; color: hsl(var(--muted-foreground)); font-size: .82rem; }
+
+  .legal-grid { display: grid; grid-template-columns: 220px minmax(0, 720px); justify-content: center; gap: clamp(32px, 5vw, 72px); margin-top: clamp(44px, 6vw, 72px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid hsl(var(--border)); }
+  .legal-toc { position: sticky; top: 104px; align-self: start; }
+  .legal-toc p { color: hsl(var(--muted-foreground)); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+  .legal-toc ol { margin: 14px 0 0; padding: 0; list-style: none; counter-reset: toc; }
+  .legal-toc li { counter-increment: toc; }
+  .legal-toc a { display: flex; gap: 10px; padding: 6px 0; color: hsl(var(--muted-foreground)); font-size: .86rem; line-height: 1.4; }
+  .legal-toc a::before { content: counter(toc, decimal-leading-zero); color: hsl(var(--border)); font-variant-numeric: tabular-nums; }
+  .legal-toc a:hover { color: hsl(var(--foreground)); }
+
+  .legal-body { color: hsl(var(--foreground)); font-size: 1rem; line-height: 1.75; }
+  .legal-body section { scroll-margin-top: 110px; }
+  .legal-body section + section { margin-top: 44px; }
+  .legal-body h2 { font-size: 1.4rem; font-weight: 600; line-height: 1.25; letter-spacing: -.02em; }
+  .legal-body h3 { margin-top: 22px; font-size: 1.02rem; font-weight: 600; }
+  .legal-body p, .legal-body ul, .legal-body .legal-table-wrap { margin-top: 14px; }
+  .legal-body p, .legal-body li { color: hsl(var(--muted-foreground)); }
+  .legal-body strong { color: hsl(var(--foreground)); font-weight: 600; }
+  .legal-body ul { padding-left: 1.2rem; list-style: disc; }
+  .legal-body li + li { margin-top: 6px; }
+  .legal-body a { color: hsl(var(--foreground)); text-decoration: underline; text-decoration-color: hsl(var(--border)); text-underline-offset: 4px; }
+  .legal-body a:hover { text-decoration-color: hsl(var(--primary)); }
+  .legal-body button[data-cookie-settings] { color: hsl(var(--primary)); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+
+  .legal-table-wrap { overflow-x: auto; border: 1px solid hsl(var(--border)); border-radius: 1rem; }
+  .legal-table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .86rem; line-height: 1.5; }
+  .legal-table th, .legal-table td { padding: 12px 14px; border-bottom: 1px solid hsl(var(--border)); text-align: left; vertical-align: top; }
+  .legal-table th { background: hsl(var(--muted)); font-weight: 600; }
+  .legal-table td { color: hsl(var(--muted-foreground)); }
+  .legal-table tr:last-child td { border-bottom: 0; }
+  .legal-table td:first-child { min-width: 11rem; }
+  .legal-table code { color: hsl(var(--foreground)); font-size: .82rem; overflow-wrap: anywhere; }
+
+  .legal-contact { margin-top: 18px; padding: 18px 20px; border: 1px solid hsl(var(--border)); border-radius: 1rem; background: hsl(var(--muted) / .6); }
+  .legal-contact p { margin-top: 0; }
+  .legal-contact p + p { margin-top: 6px; }
+
+  @media (max-width: 900px) {
+    .legal-grid { grid-template-columns: minmax(0, 1fr); }
+    .legal-toc { position: static; padding-bottom: 24px; border-bottom: 1px solid hsl(var(--border)); }
+  }
+</style>

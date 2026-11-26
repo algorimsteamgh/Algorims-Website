@@ -4,6 +4,8 @@
 // Meta events carry an eventID so a later Conversions API (server) feed can
 // send the same event and Meta will deduplicate the pair.
 
+import { hasConsent } from "./consent";
+
 type Fbq = (...args: unknown[]) => void;
 type Gtag = (...args: unknown[]) => void;
 declare global {
@@ -29,7 +31,8 @@ export function trackWhatsAppClick(pageCode: string) {
 }
 
 export function trackLead(pageCode: string, eventId: string, phoneE164?: string) {
-  if (phoneE164) gtag("set", "user_data", { phone_number: phoneE164 });
+  // Enhanced conversions share a (Google-hashed) phone number: marketing consent only.
+  if (phoneE164 && hasConsent("marketing")) gtag("set", "user_data", { phone_number: phoneE164 });
   fbq("track", "Lead", { content_name: pageCode }, { eventID: eventId });
   gtag("event", "generate_lead", { page_code: pageCode });
   adsConversion(LEAD_LABEL, eventId);
