@@ -12,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "deploy" / "lead-al
 import app
 
 CONFIG = {
-    "site_origin": "https://www.algorims.com",
+    "site_origins": {"https://www.algorims.com", "https://algorims.com"},
     "meta_verify_token": "test-verify-token",
     "meta_app_secret": "test-app-secret",
     "graph_version": "v25.0",
@@ -30,6 +30,7 @@ INVOICE = {"page_url": "/invoicenow", "event_id": EVENT_ID, "name": "Test Lead",
 WHATSAPP = {"page_url": "/whatsapp-business-api", "page_code": "API-01", "event_id": EVENT_ID,
             "name": "Test Lead", "company": "Example", "whatsapp": "+65 9123 4567",
             "industry": "Other", "monthly_chats": "Under 500", "consent": "yes"}
+AUDIT = dict(WHATSAPP, page_url="/book-audit", page_code="AUD-01")
 TEMPLATE = {"name": "algorims_staff_lead_v1", "language": "en", "status": "APPROVED", "category": "UTILITY"}
 
 
@@ -84,7 +85,7 @@ class LeadAlertsTest(unittest.TestCase):
         self.sends.append(payload)
         return {"messages": [{"id": f"wamid.{len(self.sends)}"}]}
 
-    def lead(self, body, origin=CONFIG["site_origin"]):
+    def lead(self, body, origin="https://www.algorims.com"):
         return app.handle({"routeKey": "POST /lead-alert", "body": json.dumps(body),
                            "headers": {"origin": origin}}, CONFIG, self.table)["statusCode"]
 
@@ -106,6 +107,7 @@ class LeadAlertsTest(unittest.TestCase):
             (INVOICE, "InvoiceNow", "Example", "lead@example.com", ["12025550113", "12025550111", "12025550112"]),
             (WHATSAPP, "WhatsApp Business", "Example", "+65 9123 4567", ["12025550111", "12025550112"]),
             (CONTACT, "AI", "Not provided", "lead@example.com", ["12025550111", "12025550112"]),
+            (AUDIT, "WhatsApp Audit Booking", "Example", "+65 9123 4567", ["12025550111", "12025550112"]),
         ]:
             previous_sends = len(self.sends)
             self.assertEqual(self.lead(lead), 200)
@@ -119,10 +121,17 @@ class LeadAlertsTest(unittest.TestCase):
     def test_ignores_unauthorized_other_forms_and_whatsapp_without_consent(self):
         self.assertEqual(self.lead(INVOICE, "https://other.example.com"), 403)
         self.assertEqual(self.lead(dict(WHATSAPP, page_url="/book-audit")), 422)
+        self.assertEqual(self.lead(dict(AUDIT, page_code="API-01")), 422)
+        self.assertEqual(self.lead(dict(AUDIT, consent="")), 422)
         self.assertEqual(self.lead(dict(WHATSAPP, consent="")), 422)
         self.assertEqual(self.lead(dict(CONTACT, email="invalid")), 422)
         self.assertEqual(self.lead(dict(CONTACT, service="Other")), 422)
         self.graph_mock.assert_not_called()
+
+    def test_accepts_apex_and_www_origins(self):
+        self.assertEqual(self.lead(dict(CONTACT, event_id="1700000000000-apex"), "https://algorims.com"), 200)
+        self.assertEqual(self.lead(CONTACT, "https://www.algorims.com"), 200)
+        self.assertEqual(self.lead(CONTACT, "http://algorims.com"), 403)
 
     def test_replays_do_not_spend_budget_and_monthly_cap_blocks_new_sends(self):
         with patch.object(app, "MONTHLY_SEND_LIMIT", 4):

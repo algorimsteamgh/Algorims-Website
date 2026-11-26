@@ -1,10 +1,10 @@
 # Algorims lead alerts
 
-After Web3Forms accepts a Contact Us enquiry, an InvoiceNow consultation or a WhatsApp Business API audit, the browser asks AWS to alert the assigned staff via Meta. Contact Us and WhatsApp Business API alert the owner and CEO. InvoiceNow also alerts its additional recipient. The shared WhatsApp landing-page form sends staff alerts only on `/whatsapp-business-api`.
+After Web3Forms accepts a Contact Us enquiry, an InvoiceNow consultation, a WhatsApp Business API audit or a Book Audit request, the browser asks AWS to alert the assigned staff via Meta. Contact Us, WhatsApp Business API and Book Audit alert the owner and CEO. InvoiceNow also alerts its additional recipient. The shared WhatsApp landing-page form sends staff alerts only on `/whatsapp-business-api` and `/book-audit`.
 
 The email is the record of the lead. An interrupted browser request or AWS or Meta error can prevent an alert after the email has been accepted. The browser endpoint is public. AWS throttles requests, validates fields, deduplicates sends, and limits WhatsApp send attempts to 300 per UTC month. Requests from outside the website can imitate the browser, so a caller can still consume the alert budget. Email acceptance is unaffected by the alert budget.
 
-The alert stack is `algorims-lead-alerts` in AWS account `882040517029`, region `ap-south-1`. Its Secrets Manager entry is `algorims/website/lead-alerts`. The website deployment runs in account `561580620525`.
+The alert stack is `algorims-lead-alerts` in the Algorims AWS account `561580620525`, region `ap-south-1`, the same account as the website. Its Secrets Manager entry is `algorims/website/lead-alerts`. It moved there on 2026-11-26 from account `882040517029`, which belongs to Bharat Finance; the old copy there is to be deleted once the new one is verified.
 
 ## Prepare the accounts
 
@@ -43,11 +43,11 @@ The alert stack is `algorims-lead-alerts` in AWS account `882040517029`, region 
    ```
 
 2. Use the stack output `MetaCallback` and `meta_verify_token` on the Meta app subscribed to the Algorims account's `messages` webhook. If an app is already receiving Meta events, use a separate subscription or forward signed callbacks from the existing handler. Confirm the existing subscription's routing before making changes.
-3. For a staging stack, set `SiteOrigin` to the exact HTTPS staging origin. Build the staging website with `PUBLIC_LEAD_ALERT_URL` set to the staging `LeadAlertUrl` stack output. Submit a synthetic enquiry from each page and check all three emails and the seven alert deliveries. Confirm `/book-audit` still emails through Web3Forms. Verify that a rejected AWS alert leaves the email submission successful.
+3. For a staging stack, set `SiteOrigin` to the exact HTTPS staging origin. Build the staging website with `PUBLIC_LEAD_ALERT_URL` set to the staging `LeadAlertUrl` stack output. Submit a synthetic enquiry from each page and check all three emails and the seven alert deliveries. Confirm `/book-audit` emails through Web3Forms and alerts staff. Verify that a rejected AWS alert leaves the email submission successful.
 4. Set the GitHub Actions repository variable `LEAD_ALERT_URL` to the production stack output. Verify the production recipients for each form, then deploy the website. To disable browser alerts, remove the variable and redeploy. Email submission continues through Web3Forms.
 
 ## Troubleshooting
 
-DynamoDB stores status and Meta message IDs per submission and recipient for 30 days. Find a lead by its `event_id` from the email copy. The key is `algorims-lead:<source>:<event_id>:<recipient role>`, where the source is `contact`, `invoicenow` or `whatsapp`. Check CloudWatch for template, send or delivery failures. Requests with the same submission ID skip previously attempted recipients, except those Meta explicitly rate-limited. The browser makes one alert request per accepted email. For a missed, capped, rejected or unconfirmed alert, use the email to follow up. A timeout can occur after Meta accepted the message.
+DynamoDB stores status and Meta message IDs per submission and recipient for 30 days. Find a lead by its `event_id` from the email copy. The key is `algorims-lead:<source>:<event_id>:<recipient role>`, where the source is `contact`, `invoicenow`, `whatsapp` or `audit`. Check CloudWatch for template, send or delivery failures. Requests with the same submission ID skip previously attempted recipients, except those Meta explicitly rate-limited. The browser makes one alert request per accepted email. For a missed, capped, rejected or unconfirmed alert, use the email to follow up. A timeout can occur after Meta accepted the message.
 
 Run the local webhook checks with `python3 -B -m unittest discover -s tools -p test_lead_alerts.py`.

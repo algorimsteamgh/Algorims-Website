@@ -17,9 +17,39 @@
 // Attach as: DefaultCacheBehavior (and any other behaviors serving HTML)
 //            -> Function associations -> Viewer request
 
+// Canonical host: the bare domain redirects to www. Forms post to the lead
+// alert API, which only accepts the site's own origin, and serving both hosts
+// splits search ranking between duplicate copies of every page.
+var APEX_HOST = "algorims.com";
+var CANONICAL_ORIGIN = "https://www.algorims.com";
+
+function queryString(querystring) {
+  var parts = [];
+  for (var key in querystring) {
+    var entry = querystring[key];
+    var values = entry.multiValue ? entry.multiValue : [entry];
+    for (var i = 0; i < values.length; i++) {
+      parts.push(values[i].value === "" ? key : key + "=" + values[i].value);
+    }
+  }
+  return parts.length ? "?" + parts.join("&") : "";
+}
+
 function handler(event) {
   var request = event.request;
   var uri = request.uri;
+  var host = request.headers.host ? request.headers.host.value.toLowerCase() : "";
+
+  if (host === APEX_HOST) {
+    return {
+      statusCode: 301,
+      statusDescription: "Moved Permanently",
+      headers: {
+        location: { value: CANONICAL_ORIGIN + uri + queryString(request.querystring) },
+        "cache-control": { value: "max-age=3600" },
+      },
+    };
+  }
 
   if (uri.endsWith("/")) {
     // "/case-studies/foo/" -> "/case-studies/foo/index.html"
