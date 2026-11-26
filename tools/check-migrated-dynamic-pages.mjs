@@ -41,13 +41,14 @@ for (const [slug, required] of Object.entries({
 console.log('All collection routes and listing links are present.');
 
 const homeCards = read('dist/index.html').match(/<article class="study-card\b[\s\S]*?<\/article>/g) ?? [];
-const listingCards = read('dist/case-studies/index.html').match(/<article class="study-card\b[\s\S]*?<\/article>/g) ?? [];
+const listingPanels = read('dist/case-studies/index.html').match(/<section\b[^>]*class="showcase-panel\b[\s\S]*?<\/section>/g) ?? [];
+const studyLink = /\bhref="(\/case-studies\/[^"/]+)"/;
 assert.equal(homeCards.length, 2, 'Homepage should feature two case studies');
 for (const [index, card] of homeCards.entries()) {
-  // Ignore heading levels and image priority; the homepage previews sit below its section heading.
-  const normalize = html => html.replace(/h[23]\b/g, 'heading').replace(/ loading="[^"]*"| fetchpriority="[^"]*"/g, '');
-  assert.equal(normalize(card), normalize(listingCards[index]), 'Featured cards should match the case studies listing');
+  const href = card.match(studyLink)?.[1];
+  assert.ok(href, `Homepage case study ${index + 1} should link to its detail page`);
+  assert.equal(listingPanels[index]?.match(studyLink)?.[1], href, `Case studies showcase should feature ${href} at position ${index + 1}`);
   assert.match(card, /<h3\b/, 'Homepage cards must follow the section h2');
   assert.match(card, /loading="lazy"/, 'Below-the-fold previews should be lazy loaded');
 }
-console.log('Homepage case studies match the listing cards.');
+console.log('Homepage case study links match the first two showcase entries.');
